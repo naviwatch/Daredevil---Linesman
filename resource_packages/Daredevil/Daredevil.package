@@ -1,0 +1,12 @@
+mod = [
+	"Daredevil"
+]
+
+package = [
+	"resource_packages/Daredevil/Daredevil"
+]
+
+lua = [
+	"scripts/mods/Daredevil/*"
+]
+
