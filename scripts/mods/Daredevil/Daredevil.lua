@@ -26766,6 +26766,15 @@ mutator_plus.stop = function()
 	mod:dofile("scripts/managers/conflict_director/pacing")
 	mod:dofile("scripts/managers/conflict_director/specials_pacing")
 
+	-- Revert HP
+	Breeds.chaos_corruptor_sorcerer.max_health = BreedTweaks.max_health.chaos_corruptor_sorcerer
+	Breeds.chaos_vortex_sorcerer.max_health = BreedTweaks.max_health.chaos_vortex_sorcerer
+	Breeds.skaven_warpfire_thrower.max_health = BreedTweaks.max_health.skaven_warpfire_thrower
+	Breeds.skaven_poison_wind_globadier.max_health = BreedTweaks.max_health.skaven_poison_wind_globadier
+	Breeds.skaven_gutter_runner.max_health = BreedTweaks.max_health.skaven_gutter_runner
+	Breeds.skaven_pack_master.max_health = BreedTweaks.max_health.skaven_pack_master
+	Breeds.skaven_ratling_gunner.max_health = BreedTweaks.max_health.skaven_ratling_gunner
+
 	---------------------
 
 	create_weights()
@@ -26807,9 +26816,9 @@ mutator_plus.toggle = function()
 			mod:chat_broadcast("L猛已启动")
 		end
 		if mod:get("beta") then
-			mod:chat_broadcast("Running Linesman BETA v1.3.6")
+			mod:chat_broadcast("Running Linesman BETA v1.3.6.1")
 		else 
-			mod:chat_broadcast("Version 1.3.6")
+			mod:chat_broadcast("Version 1.3.6.1")
 		end 
 	else
 		mutator_plus.stop()

@@ -2,14 +2,6 @@ local mod = get_mod("Daredevil")
 local mutator_plus = mod:persistent_table("Daredevil+")
 local lb = get_mod("LinesmanBalance")
 
-local function count_event_breed(breed_name)
-	return Managers.state.conflict:count_units_by_breed_during_event(breed_name)
-end
-
-local function count_breed(breed_name)
-	return Managers.state.conflict:count_units_by_breed(breed_name)
-end
-
 local enhancement_list = {
 	["regenerating"] = true,
 	["unstaggerable"] = true
@@ -261,6 +253,11 @@ end
 	Breeds.skaven_dummy_clan_rat.boss = true -- No WHC/Shade cheese fight this big man fair and square
 	GrudgeMarkedNames.skaven = { "Bob the Builder" }
 
+	-- Specials HP
+	if mod:get("beta") then
+		mod:dofile("scripts/mods/Daredevil/linesman/mutator/actual_beta/beta_specials_stuff")
+	end
+
 	-- Stop spawner from spawning one extra enemy in horde
 	local spawn_list_a = {}
 	local spawn_list_b = {}
@@ -374,7 +371,7 @@ end
 	mod:hook(SpawnZoneBaker, "spawn_amount_rats", function(func, self, spawns, pack_sizes, pack_rotations, pack_members, zone_data_list, nodes, num_wanted_rats, ...)	
 
 		if mod:get("lonk") then
-			num_wanted_rats = math.round(num_wanted_rats * 175/100)
+			num_wanted_rats = math.round(num_wanted_rats * 250/100)
 		else
 			num_wanted_rats = math.round(num_wanted_rats *125/100) 
 		end
@@ -645,7 +642,7 @@ local range = 0.01
 			main_path_dist_from_players = 30,
 			max_hidden_spawner_dist = 30,
 			max_horde_spawner_dist = 20,
-			max_spawners = 8,
+			max_spawners = 12,
 			min_hidden_spawner_dist = 0,
 			min_horde_spawner_dist = 0,
 			raw_dist_from_players = 13,
@@ -816,6 +813,55 @@ local range = 0.01
 
 	if mod:get("lonk") then
 		co = 0.134
+
+		HordeSettings.default.chance_of_vector = 0.1
+		HordeSettings.default.chance_of_vector_blob = 0.65
+	
+		HordeSettings.chaos.chance_of_vector = 0.1
+		HordeSettings.chaos.chance_of_vector_blob = 0.65
+
+		HordeWaveCompositions = {
+			skaven_huge = {"huge",},
+			skaven_huge_shields = {"huge", "huge_shields",},
+			skaven_huge_armor = {"huge", "huge_armor",},
+			skaven_huge_berzerker = {"huge", "huge_berzerker",},
+			chaos_huge = {"chaos_huge",},
+			chaos_huge_shields = {"chaos_huge", "chaos_huge_shields",},
+			chaos_huge_armor = {"chaos_huge", "chaos_huge_armor",},
+			chaos_huge_berzerker = {"chaos_huge", "chaos_huge_berzerker",},
+		}
+	
+		HordeSettingsBasics = {
+			ambush = {
+				max_spawners = math.huge,
+				max_size,
+				max_hidden_spawner_dist = 40,
+				max_horde_spawner_dist = 35,
+				min_hidden_spawner_dist = 5,
+				min_horde_spawner_dist = 1,
+				min_spawners = math.huge,
+				start_delay = 3.45,
+			},
+			vector = {
+				max_size,
+				main_path_chance_spawning_ahead = 0.67,
+				main_path_dist_from_players = 30,
+				max_hidden_spawner_dist = 30,
+				max_horde_spawner_dist = 20,
+				max_spawners = math.huge,
+				min_hidden_spawner_dist = 0,
+				min_horde_spawner_dist = 0,
+				raw_dist_from_players = 13,
+				start_delay = 4,
+			},
+			vector_blob = {
+				max_size,
+				main_path_chance_spawning_ahead = 0.67,
+				main_path_dist_from_players = 60,
+				raw_dist_from_players = 13,
+				start_delay = 1,
+			},
+		}
 	end
 
 	PackSpawningSettings.default.area_density_coefficient = co

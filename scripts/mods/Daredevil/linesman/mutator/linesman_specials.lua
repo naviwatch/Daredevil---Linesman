@@ -122,15 +122,16 @@ SpecialsSettings.chaos_beastmen.difficulty_overrides = nil
 local special_slots 
 local min_special_timer
 local max_special_timer
-if mod:get("giga_specials") then
+if mod:get("giga_specials") or mod:get("beta") then
 	special_slots = 6
 	min_special_timer = 0
-	max_special_timer = 10
+	max_special_timer = 7
 else
 	special_slots = 7
 	min_special_timer = 30
 	max_special_timer = 43
 end
+
 -- n/120*(max+min) ~ specials per min
 
 SpecialsSettings.default.max_specials = special_slots
@@ -150,6 +151,10 @@ SpecialsSettings.default.methods.specials_by_slots = {
 		max_special_timer -- 60
 	}
 }
+
+if mod:get("beta") then
+	SpecialsSettings.default.methods.specials_by_slots.chance_of_coordinated_attack = 0
+end
 
 SpecialsSettings.default.breeds = {
 	"skaven_gutter_runner",
@@ -255,3 +260,44 @@ SpecialsSettings.beastmen.breeds = {
 
 SpecialsSettings.skaven_beastmen = SpecialsSettings.beastmen
 SpecialsSettings.chaos_beastmen = SpecialsSettings.beastmen
+
+-- Beta exclusive stuff
+--[[
+if mod:get("beta") then
+	mod:hook_origin(SpecialsPacing.select_breed_functions, "get_random_breed", function (slots, specials_settings, method_data, state_data)
+		if state_data.override_breed_name then
+			return state_data.override_breed_name
+		end
+
+		local breeds = specials_settings.breeds
+		local num_breeds = #breeds
+
+		if num_breeds <= 0 then
+			return nil
+		end
+
+		local count = FrameTable.alloc_table()
+
+		for i = 1, #slots do
+			local slot = slots[i]
+
+			count[slot.breed] = (count[slot.breed] or 0) + 1
+		end
+
+		local max_tries = 20
+		local breed
+		local health_modifier = 0.6
+		local i = 0
+
+		repeat
+			local pick_index = Math.random(1, num_breeds)
+
+			breed = breeds[pick_index]
+			i = i + 1
+		until not count[breed] or count[breed] < method_data.max_of_same or max_tries <= i
+
+		return breed, health_modifier
+	end)
+	mod:echo("Test")
+end
+]]
