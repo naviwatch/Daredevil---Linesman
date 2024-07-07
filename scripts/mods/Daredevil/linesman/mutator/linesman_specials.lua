@@ -122,7 +122,7 @@ SpecialsSettings.chaos_beastmen.difficulty_overrides = nil
 local special_slots 
 local min_special_timer
 local max_special_timer
-if mod:get("giga_specials") or mod:get("beta") then
+if mod:get("giga_specials") then
 	special_slots = 6
 	min_special_timer = 0
 	max_special_timer = 7
@@ -261,42 +261,88 @@ SpecialsSettings.beastmen.breeds = {
 SpecialsSettings.skaven_beastmen = SpecialsSettings.beastmen
 SpecialsSettings.chaos_beastmen = SpecialsSettings.beastmen
 
+--[[
+mod:hook(SpecialsPacing, "specials_by_slots", function(func, self, t, specials_settings, method_data, ...)
+	local new_method_data
+	local spawn_cooldown_min = mod:get(mod.SETTING_NAMES.SPAWN_COOLDOWN_MIN)
+	local spawn_cooldown_max = mod:get(mod.SETTING_NAMES.SPAWN_COOLDOWN_MAX)
+	if spawn_cooldown_min ~= mod.setting_defaults[mod.SETTING_NAMES.SPAWN_COOLDOWN_MIN]
+	or spawn_cooldown_max ~= mod.setting_defaults[mod.SETTING_NAMES.SPAWN_COOLDOWN_MAX]
+	then
+		spawn_cooldown_max = math.max(spawn_cooldown_min, spawn_cooldown_max)
+		new_method_data = mod.deepcopy(method_data)
+		new_method_data.spawn_cooldown = {
+			spawn_cooldown_min,
+			spawn_cooldown_max
+		}
+	end
+
+	if not new_method_data then
+		new_method_data = method_data
+	end
+	func(self, t, specials_settings, new_method_data, ...)
+end)
+]]
+
 -- Beta exclusive stuff
 --[[
 if mod:get("beta") then
-	mod:hook_origin(SpecialsPacing.select_breed_functions, "get_random_breed", function (slots, specials_settings, method_data, state_data)
-		if state_data.override_breed_name then
-			return state_data.override_breed_name
+
+	local plague_monk_spawn = function (context, data)
+		local base_amount = 5
+		local num_to_spawn = base_amount 
+		local spawn_list = {}
+
+		for i = 1, num_to_spawn do
+			spawn_list[i] = "skaven_plague_monk"
 		end
 
-		local breeds = specials_settings.breeds
-		local num_breeds = #breeds
+		local side = Managers.state.side:get_side_from_name("dark_pact")
 
-		if num_breeds <= 0 then
-			return nil
-		end
+		data.side_id = side.side_id
+	end
 
-		local count = FrameTable.alloc_table()
-
-		for i = 1, #slots do
+	mod:hook_origin(SpecialsPacing, "specials_by_slots", function (self, t, specials_settings, method_data, slots, spawn_queue)
+		local num_slots = #slots
+		local waiting = 0
+		local about_to_respawn = false
+	
+		for i = 1, num_slots do
 			local slot = slots[i]
+	
+			if slot.state == "alive" and not HEALTH_ALIVE[slot.unit] then
+				local breed_name, health_modifier = SpecialsPacing.select_breed_functions[method_data.select_next_breed](slots, specials_settings, method_data, self._state_data)
+				local breed = Breeds[breed_name]
+				local time = t + ConflictUtils.random_interval(method_data.spawn_cooldown)
+	
+				if breed.special_spawn_stinger then
+					slot.special_spawn_stinger = breed.special_spawn_stinger
+					slot.special_spawn_stinger_at_t = time - (breed.special_spawn_stinger_time or 6)
+				else
+					slot.special_spawn_stinger = nil
+					slot.special_spawn_stinger_at_t = nil
+				end
+	
+				slot.time = time
+				slot.breed = breed_name
+				slot.unit = nil
+				slot.state = "waiting"
+				slot.desc = ""
+				slot.health_modifier = health_modifier
+				about_to_respawn = true
+				waiting = waiting + 1
 
-			count[slot.breed] = (count[slot.breed] or 0) + 1
+				plague_monk_spawn()
+
+				local horde_spawner = Managers.state.conflict.horde_spawner
+				local only_ahead = false
+				local side_id = data.side_id
+	
+				horde_spawner:execute_custom_horde(spawn_list, only_ahead, side_id)
+			end
 		end
-
-		local max_tries = 20
-		local breed
-		local health_modifier = 0.6
-		local i = 0
-
-		repeat
-			local pick_index = Math.random(1, num_breeds)
-
-			breed = breeds[pick_index]
-			i = i + 1
-		until not count[breed] or count[breed] < method_data.max_of_same or max_tries <= i
-
-		return breed, health_modifier
+	
+		return func(self, t, specials_settings, method_data, slots, spawn_queue)
 	end)
 	mod:echo("Test")
 end

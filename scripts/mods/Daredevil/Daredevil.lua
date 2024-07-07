@@ -26816,9 +26816,9 @@ mutator_plus.toggle = function()
 			mod:chat_broadcast("L猛已启动")
 		end
 		if mod:get("beta") then
-			mod:chat_broadcast("Running Linesman BETA v1.3.6.1")
+			mod:chat_broadcast("Running Linesman BETA v1.2.7")
 		else 
-			mod:chat_broadcast("Version 1.3.6.1")
+			mod:chat_broadcast("Version 1.2.7")
 		end 
 	else
 		mutator_plus.stop()

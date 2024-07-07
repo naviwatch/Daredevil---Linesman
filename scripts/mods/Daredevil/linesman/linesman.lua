@@ -42,7 +42,7 @@ local enhancement_list = {
 local shield_shatter = TerrorEventUtils.generate_enhanced_breed_from_set(enhancement_list)
 local enhancement_list = {
 	["crushing"] = true,
-	["intangible"] = true,
+--	["intangible"] = true,
 	["unstaggerable"] = true
 }
 local bob = TerrorEventUtils.generate_enhanced_breed_from_set(enhancement_list)
@@ -254,9 +254,11 @@ end
 	GrudgeMarkedNames.skaven = { "Bob the Builder" }
 
 	-- Specials HP
+	--[[
 	if mod:get("beta") then
 		mod:dofile("scripts/mods/Daredevil/linesman/mutator/actual_beta/beta_specials_stuff")
 	end
+	]]
 
 	-- Stop spawner from spawning one extra enemy in horde
 	local spawn_list_a = {}

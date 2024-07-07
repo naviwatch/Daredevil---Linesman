@@ -33,7 +33,7 @@ local enhancement_list = {
 }
 local enhancement_4 = TerrorEventUtils.generate_enhanced_breed_from_set(enhancement_list)
 local enhancement_list = {
-	["commander"] = true
+	["commander"] = true,
 }
 local enhancement_5 = TerrorEventUtils.generate_enhanced_breed_from_set(enhancement_list)
 
@@ -52,11 +52,15 @@ local enhancement_list = {
 local shield_shatter = TerrorEventUtils.generate_enhanced_breed_from_set(enhancement_list)
 local enhancement_list = {
 	["crushing"] = true,
-	["intangible"] = true,
+--	["intangible"] = true,
 	["unstaggerable"] = true
 }
 local bob = TerrorEventUtils.generate_enhanced_breed_from_set(enhancement_list)
-
+local enhancement_list = {
+	["commander"] = true,
+	["unstaggerable"] = true
+}
+local warchief = TerrorEventUtils.generate_enhanced_breed_from_set(enhancement_list)
 
 local function create_weights()
 	local crash = nil
@@ -6648,12 +6652,21 @@ end
 			spawner_id = "farmlands_rat_ogre",
 			breed_name = "skaven_rat_ogre",
 			optional_data = {
-				enhancements = enhancement_1
+				enhancements = warchief
 			}
 		},
 		{
 			"delay",
 			duration = 1
+		},
+		{
+			"spawn_at_raw",
+			spawner_id = "farmlands_rat_ogre",
+			breed_name = "skaven_dummy_clan_rat",
+			optional_data = {
+				enhancements = bob,
+				max_health_modifier = 4
+			}
 		},
 		{
 			"continue_when",
@@ -6672,18 +6685,6 @@ end
 		{
 			"delay",
 			duration = 1
-		},
-		{
-			"spawn_at_raw",
-			spawner_id = "onslaught_farmlands_extra_boss",
-			breed_name = {
-				"skaven_rat_ogre",
-				"beastmen_minotaur",
-				"chaos_troll"
-			},
-			optional_data = {
-				enhancements = relentless
-			}
 		},
 		{
 			"delay",
@@ -6711,12 +6712,21 @@ end
 			spawner_id = "farmlands_rat_ogre",
 			breed_name = "skaven_rat_ogre",
 			optional_data = {
-				enhancements = enhancement_1
+				enhancements = warchief
 			}
 		},
 		{
 			"delay",
 			duration = 1
+		},
+		{
+			"spawn_at_raw",
+			spawner_id = "farmlands_rat_ogre",
+			breed_name = "skaven_dummy_clan_rat",
+			optional_data = {
+				enhancements = bob,
+				max_health_modifier = 4
+			}
 		},
 		{
 			"continue_when",
@@ -6735,18 +6745,6 @@ end
 		{
 			"delay",
 			duration = 1
-		},
-		{
-			"spawn_at_raw",
-			spawner_id = "onslaught_farmlands_extra_boss",
-			breed_name = {
-				"skaven_rat_ogre",
-				"beastmen_minotaur",
-				"chaos_troll"
-			},
-			optional_data = {
-				enhancements = relentless
-			}
 		},
 		{
 			"delay",
@@ -6774,12 +6772,21 @@ end
 			spawner_id = "farmlands_rat_ogre",
 			breed_name = "chaos_troll",
 			optional_data = {
-				enhancements = enhancement_1
+				enhancements = warchief
 			}
 		},
 		{
 			"delay",
 			duration = 1
+		},
+		{
+			"spawn_at_raw",
+			spawner_id = "farmlands_rat_ogre",
+			breed_name = "skaven_dummy_clan_rat",
+			optional_data = {
+				enhancements = bob,
+				max_health_modifier = 4
+			}
 		},
 		{
 			"continue_when",
@@ -6798,18 +6805,6 @@ end
 		{
 			"delay",
 			duration = 1
-		},
-		{
-			"spawn_at_raw",
-			spawner_id = "onslaught_farmlands_extra_boss",
-			breed_name = {
-				"skaven_rat_ogre",
-				"beastmen_minotaur",
-				"chaos_troll"
-			},
-			optional_data = {
-				enhancements = relentless
-			}
 		},
 		{
 			"delay",
@@ -6845,9 +6840,18 @@ end
 			duration = 1
 		},
 		{
+			"spawn_at_raw",
+			spawner_id = "farmlands_rat_ogre",
+			breed_name = "skaven_dummy_clan_rat",
+			optional_data = {
+				enhancements = shield_shatter,
+				max_health_modifier = 4
+			}
+		},
+		{
 			"continue_when",
 			condition = function (t)
-				return count_event_breed("chaos_spawn") == 1
+				return count_event_breed("beastmen_minotaur") == 1
 			end
 		},
 		{
@@ -6862,18 +6866,7 @@ end
 			"delay",
 			duration = 1
 		},
-		{
-			"spawn_at_raw",
-			spawner_id = "onslaught_farmlands_extra_boss",
-			breed_name = {
-				"skaven_rat_ogre",
-				"beastmen_minotaur",
-				"chaos_troll"
-			},
-			optional_data = {
-				enhancements = relentless
-			}
-		},
+
 		{
 			"delay",
 			duration = 1
@@ -6959,28 +6952,6 @@ end
 			composition_type = "event_large"
 		},
 		{
-			"spawn_at_raw",
-			spawner_id = "Against_the_Grain_1st_event",
-			breed_name = "skaven_storm_vermin",
-			optional_data = {
-				spawned_func = slaanesh_buff_spawn_function,
-				size_variation_range = {
-				    1.4,
-				    1.45
-				}
-			}
-		},
-		{
-			"event_horde",
-			spawner_id = "square_front",
-			composition_type = "skaven_shields"
-		},
-		{
-			"event_horde",
-			spawner_id = "square_front",
-			composition_type = "skaven_shields"
-		},
-		{
 			"event_horde",
 			spawner_id = "square_front",
 			composition_type = "skaven_shields"
@@ -6992,37 +6963,12 @@ end
 		{
 			"event_horde",
 			spawner_id = "hay_barn_bridge_invis",
-			composition_type = "event_large_chaos"
-		},
-		{
-			"event_horde",
-			spawner_id = "hay_barn_bridge_invis",
 			composition_type = "onslaught_chaos_berzerkers_medium"
 		},
 		{
 			"event_horde",
 			spawner_id = "hay_barn_bridge_invis",
 			composition_type = "onslaught_chaos_berzerkers_medium"
-		},
-		{
-			"event_horde",
-			spawner_id = "hay_barn_bridge_invis",
-			composition_type = "onslaught_chaos_berzerkers_medium"
-		},
-		{
-			"event_horde",
-			spawner_id = "hay_barn_bridge_invis",
-			composition_type = "onslaught_chaos_berzerkers_medium"
-		},
-		{
-			"event_horde",
-			spawner_id = "hay_barn_bridge_invis",
-			composition_type = "onslaught_chaos_berzerkers_medium"
-		},
-		{
-			"event_horde",
-			limit_spawners = 2,
-			composition_type = "onslaught_custom_specials_heavy_disabler"
 		},
 		{
 			"delay",
@@ -7031,31 +6977,11 @@ end
 		{
 			"event_horde",
 			spawner_id = "square_center",
-			composition_type = "event_medium"
-		},
-		{
-			"event_horde",
-			spawner_id = "square_center",
-			composition_type = "skaven_shields"
+			composition_type = "event_small"
 		},
 		{
 			"delay",
 			duration = 10
-		},
-		{
-			"event_horde",
-			limit_spawners = 2,
-			composition_type = "onslaught_custom_special_skaven"
-		},
-		{
-			"event_horde",
-			limit_spawners = 2,
-			composition_type = "onslaught_custom_special_skaven"
-		},
-		{
-			"event_horde",
-			limit_spawners = 2,
-			composition_type = "onslaught_custom_special_skaven"
 		},
 		{
 			"continue_when",
@@ -7067,48 +6993,11 @@ end
 		{
 			"event_horde",
 			spawner_id = "sawmill_yard_invis",
-			composition_type = "event_medium_chaos"
-		},
-		{
-			"event_horde",
-			spawner_id = "sawmill_yard_invis",
-			composition_type = "event_maulers_medium"
-		},
-		{
-			"event_horde",
-			spawner_id = "sawmill_yard_invis",
-			composition_type = "event_maulers_medium"
-		},
-		{
-			"event_horde",
-			spawner_id = "sawmill_yard_invis",
-			composition_type = "event_maulers_medium"
-		},
-		{
-			"spawn_at_raw",
-			spawner_id = "Against_the_Grain_1st_event",
-			breed_name = "chaos_warrior",
-			optional_data = {
-				spawned_func = slaanesh_buff_spawn_function,
-				size_variation_range = {
-				    1.2,
-				    1.25
-				}
-			}
+			composition_type = "event_small_chaos"
 		},
 		{
 			"delay",
 			duration = 5
-		},
-		{
-			"event_horde",
-			limit_spawners = 2,
-			composition_type = "onslaught_custom_special_skaven"
-		},
-		{
-			"event_horde",
-			limit_spawners = 2,
-			composition_type = "onslaught_custom_special_skaven"
 		},
 		{
 			"event_horde",
@@ -7125,22 +7014,12 @@ end
 		{
 			"event_horde",
 			spawner_id = "hay_barn_back",
-			composition_type = "event_medium"
+			composition_type = "event_small"
 		},
 		{
 			"event_horde",
 			spawner_id = "hay_barn_back",
 			composition_type = "skaven_shields"
-		},
-		{
-			"event_horde",
-			spawner_id = "sawmill_yard_invis",
-			composition_type = "onslaught_storm_vermin_medium"
-		},
-		{
-			"event_horde",
-			spawner_id = "sawmill_yard_invis",
-			composition_type = "onslaught_storm_vermin_medium"
 		},
 		{
 			"event_horde",
@@ -7169,23 +7048,8 @@ end
 			composition_type = "skaven_shields"
 		},
 		{
-			"event_horde",
-			spawner_id = "square_front",
-			composition_type = "skaven_shields"
-		},
-		{
-			"event_horde",
-			spawner_id = "square_front",
-			composition_type = "skaven_shields"
-		},
-		{
 			"delay",
 			duration = 5
-		},
-		{
-			"event_horde",
-			limit_spawners = 2,
-			composition_type = "onslaught_custom_special_skaven"
 		},
 		{
 			"event_horde",
@@ -7208,38 +7072,6 @@ end
 			composition_type = "onslaught_chaos_berzerkers_medium"
 		},
 		{
-			"event_horde",
-			spawner_id = "hay_barn_bridge_invis",
-			composition_type = "onslaught_chaos_berzerkers_medium"
-		},
-		{
-			"event_horde",
-			spawner_id = "hay_barn_bridge_invis",
-			composition_type = "onslaught_chaos_berzerkers_medium"
-		},
-		{
-			"event_horde",
-			spawner_id = "hay_barn_bridge_invis",
-			composition_type = "onslaught_chaos_berzerkers_medium"
-		},
-		{
-			"spawn_at_raw",
-			spawner_id = "Against_the_Grain_1st_event",
-			breed_name = "chaos_warrior",
-			optional_data = {
-				spawned_func = khorne_buff_spawn_function,
-				size_variation_range = {
-				    1.2,
-				    1.25
-				}
-			}
-		},
-		{
-			"event_horde",
-			limit_spawners = 2,
-			composition_type = "onslaught_custom_specials_heavy_disabler"
-		},
-		{
 			"continue_when",
 			duration = 25,
 			condition = function (t)
@@ -7252,38 +7084,8 @@ end
 			composition_type = "event_medium_chaos"
 		},
 		{
-			"event_horde",
-			spawner_id = "sawmill_yard_invis",
-			composition_type = "event_maulers_medium"
-		},
-		{
-			"event_horde",
-			spawner_id = "sawmill_yard_invis",
-			composition_type = "event_maulers_medium"
-		},
-		{
-			"event_horde",
-			spawner_id = "sawmill_yard_invis",
-			composition_type = "event_maulers_medium"
-		},
-		{
 			"delay",
 			duration = 5
-		},
-		{
-			"event_horde",
-			limit_spawners = 2,
-			composition_type = "onslaught_custom_special_skaven"
-		},
-		{
-			"event_horde",
-			limit_spawners = 2,
-			composition_type = "onslaught_custom_special_skaven"
-		},
-		{
-			"event_horde",
-			limit_spawners = 2,
-			composition_type = "onslaught_custom_special_skaven"
 		},
 		{
 			"continue_when",
@@ -7308,69 +7110,22 @@ end
 		{
 			"spawn_at_raw",
 			spawner_id = "onslaught_hay_barn_bridge_guards_extra_2",
-			breed_name = "chaos_warrior",
-			optional_data = {
-				spawned_func = khorne_buff_spawn_function,
-				size_variation_range = {
-				    1.2,
-				    1.25
-				}
-			}
+			breed_name = "chaos_warrior"
 		},
 		{
 			"spawn_at_raw",
 			spawner_id = "onslaught_hay_barn_bridge_guards_extra_3",
-			breed_name = "chaos_berzerker"
+			breed_name = "chaos_bulwark"
 		},
 		{
 			"spawn_at_raw",
 			spawner_id = "onslaught_hay_barn_bridge_guards_extra_4",
-			breed_name = "chaos_berzerker"
+			breed_name = "chaos_bulwark"
 		},
 		{
 			"spawn_at_raw",
 			spawner_id = "onslaught_hay_barn_bridge_guards_extra_5",
-			breed_name = "chaos_berzerker"
-		},
-		{
-			"event_horde",
-			limit_spawners = 2,
-			composition_type = "onslaught_custom_special_skaven"
-		},
-		{
-			"event_horde",
-			limit_spawners = 2,
-			composition_type = "onslaught_custom_special_skaven"
-		},
-		{
-			"event_horde",
-			limit_spawners = 2,
-			composition_type = "onslaught_custom_special_skaven"
-		},
-		{
-			"event_horde",
-			limit_spawners = 2,
-			composition_type = "onslaught_custom_special_skaven"
-		},
-		{
-			"event_horde",
-			limit_spawners = 2,
-			composition_type = "onslaught_custom_special_skaven"
-		},
-		{
-			"event_horde",
-			limit_spawners = 2,
-			composition_type = "onslaught_custom_special_skaven"
-		},
-		{
-			"event_horde",
-			limit_spawners = 2,
-			composition_type = "onslaught_custom_special_skaven"
-		},
-		{
-			"event_horde",
-			limit_spawners = 2,
-			composition_type = "onslaught_custom_special_skaven"
+			breed_name = "chaos_bulwark"
 		},
 		{
 			"set_time_challenge",
@@ -7420,34 +7175,12 @@ end
 		{
 			"event_horde",
 			spawner_id = "hay_barn_cellar_invis",
-			composition_type = "event_maulers_medium"
-		},
-		{
-			"event_horde",
-			spawner_id = "hay_barn_cellar_invis",
 			composition_type = "onslaught_chaos_berzerkers_medium"
 		},
 		{
 			"event_horde",
 			spawner_id = "hay_barn_cellar_invis",
 			composition_type = "onslaught_chaos_berzerkers_medium"
-		},
-		{
-			"event_horde",
-			spawner_id = "hay_barn_cellar_invis",
-			composition_type = "onslaught_chaos_berzerkers_medium"
-		},
-		{
-			"spawn_at_raw",
-			spawner_id = "Against_the_Grain_2nd_event",
-			breed_name = "chaos_warrior",
-			optional_data = {
-				spawned_func = khorne_buff_spawn_function,
-				size_variation_range = {
-				    1.2,
-				    1.25
-				}
-			}
 		},
 		{
 			"delay",
@@ -7457,21 +7190,6 @@ end
 			"event_horde",
 			spawner_id = "hay_barn_front_invis",
 			composition_type = "event_small_chaos"
-		},
-		{
-			"event_horde",
-			spawner_id = "hay_barn_front_invis",
-			composition_type = "onslaught_chaos_warriors"
-		},
-		{
-			"event_horde",
-			spawner_id = "hay_barn_front_invis",
-			composition_type = "onslaught_chaos_warriors"
-		},
-		{
-			"event_horde",
-			spawner_id = "hay_barn_front_invis",
-			composition_type = "onslaught_chaos_warriors"
 		},
 		{
 			"delay",
@@ -7485,29 +7203,6 @@ end
 		{
 			"delay",
 			duration = 5
-		},
-		{
-			"spawn_special",
-			amount = 1,
-			breed_name = "skaven_poison_wind_globadier"
-		},
-		{
-			"delay",
-			duration = 1
-		},
-		{
-			"spawn_special",
-			amount = 1,
-			breed_name = "skaven_poison_wind_globadier"
-		},
-		{
-			"delay",
-			duration = 1
-		},
-		{
-			"spawn_special",
-			amount = 1,
-			breed_name = "skaven_poison_wind_globadier"
 		},
 		{
 			"delay",
@@ -7536,34 +7231,14 @@ end
 			composition_type = "onslaught_storm_vermin_medium"
 		},
 		{
-			"event_horde",
-			limit_spawners = 2,
-			composition_type = "onslaught_storm_vermin_medium"
-		},
-		{
-			"event_horde",
-			limit_spawners = 2,
-			composition_type = "onslaught_storm_vermin_medium"
-		},
-		{
-			"event_horde",
-			limit_spawners = 2,
-			composition_type = "onslaught_storm_vermin_medium"
-		},
-		{
-			"event_horde",
-			limit_spawners = 2,
-			composition_type = "onslaught_storm_vermin_medium"
-		},
-		{
 			"spawn_at_raw",
 			spawner_id = "Against_the_Grain_2nd_event",
-			breed_name = "skaven_storm_vermin",
+			breed_name = "skaven_ratling_gunner",
 			optional_data = {
 				spawned_func = slaanesh_buff_spawn_function,
 				size_variation_range = {
-				    1.4,
-				    1.45
+				    3,
+				    3
 				}
 			}
 		},
@@ -7589,30 +7264,6 @@ end
 			composition_type = "onslaught_storm_vermin_medium"
 		},
 		{
-			"event_horde",
-			limit_spawners = 2,
-			composition_type = "onslaught_storm_vermin_medium"
-		},
-		{
-			"event_horde",
-			limit_spawners = 2,
-			composition_type = "onslaught_storm_vermin_medium"
-		},
-		{
-			"event_horde",
-			limit_spawners = 2,
-			composition_type = "event_stormvermin_shielders"
-		},
-		{
-			"event_horde",
-			limit_spawners = 2,
-			composition_type = "event_stormvermin_shielders"
-		},
-		{
-			"event_horde",
-			limit_spawners = 2,
-			composition_type = "event_stormvermin_shielders"
-		},		{
 			"event_horde",
 			limit_spawners = 2,
 			composition_type = "event_stormvermin_shielders"
@@ -7646,21 +7297,6 @@ end
 			composition_type = "event_small"
 		},
 		{
-			"event_horde",
-			limit_spawners = 2,
-			composition_type = "onslaught_storm_vermin_medium"
-		},
-		{
-			"event_horde",
-			limit_spawners = 2,
-			composition_type = "onslaught_storm_vermin_medium"
-		},
-		{
-			"event_horde",
-			limit_spawners = 2,
-			composition_type = "onslaught_storm_vermin_medium"
-		},
-		{
 			"delay",
 			duration = 5
 		},
@@ -7674,22 +7310,7 @@ end
 		{
 			"event_horde",
 			limit_spawners = 2,
-			composition_type = "event_small"
-		},
-		{
-			"event_horde",
-			limit_spawners = 2,
-			composition_type = "onslaught_storm_vermin_medium"
-		},
-		{
-			"event_horde",
-			limit_spawners = 2,
-			composition_type = "event_stormvermin_shielders"
-		},
-		{
-			"event_horde",
-			limit_spawners = 2,
-			composition_type = "event_stormvermin_shielders"
+			composition_type = "event_large"
 		},
 		{
 			"delay",
@@ -7731,34 +7352,7 @@ end
 		{
 			"event_horde",
 			spawner_id = "square_center",
-			composition_type = "event_medium"
-		},
-		{
-			"event_horde",
-			spawner_id = "square_center",
 			composition_type = "skaven_shields"
-		},
-		{
-			"event_horde",
-			spawner_id = "square_center",
-			composition_type = "skaven_shields"
-		},
-		{
-			"event_horde",
-			spawner_id = "square_center",
-			composition_type = "skaven_shields"
-		},
-		{
-			"spawn_at_raw",
-			spawner_id = "Against_the_Grain_2nd_event",
-			breed_name = "chaos_warrior",
-			optional_data = {
-				spawned_func = khorne_buff_spawn_function,
-				size_variation_range = {
-				    1.4,
-				    1.45
-				}
-			}
 		},
 		{
 			"delay",
@@ -7773,16 +7367,6 @@ end
 			"event_horde",
 			spawner_id = "sawmill_yard_invis",
 			composition_type = "event_small_chaos"
-		},
-		{
-			"event_horde",
-			spawner_id = "sawmill_yard_invis",
-			composition_type = "onslaught_chaos_berzerkers_medium"
-		},
-		{
-			"event_horde",
-			spawner_id = "sawmill_yard_invis",
-			composition_type = "onslaught_chaos_berzerkers_medium"
 		},
 		{
 			"event_horde",
@@ -7806,21 +7390,6 @@ end
 		{
 			"event_horde",
 			spawner_id = "sawmill_yard",
-			composition_type = "skaven_shields"
-		},
-		{
-			"event_horde",
-			spawner_id = "sawmill_yard",
-			composition_type = "onslaught_storm_vermin_medium"
-		},
-		{
-			"event_horde",
-			spawner_id = "sawmill_yard",
-			composition_type = "onslaught_storm_vermin_medium"
-		},
-		{
-			"event_horde",
-			spawner_id = "sawmill_yard",
 			composition_type = "onslaught_storm_vermin_medium"
 		},
 		{
@@ -7838,26 +7407,6 @@ end
 			"event_horde",
 			spawner_id = "sawmill_yard_invis",
 			composition_type = "event_small_chaos"
-		},
-		{
-			"event_horde",
-			spawner_id = "sawmill_yard_invis",
-			composition_type = "event_small_chaos"
-		},
-		{
-			"event_horde",
-			spawner_id = "sawmill_yard_invis",
-			composition_type = "onslaught_chaos_berzerkers_medium"
-		},
-		{
-			"event_horde",
-			spawner_id = "sawmill_yard_invis",
-			composition_type = "onslaught_chaos_berzerkers_medium"
-		},
-		{
-			"event_horde",
-			spawner_id = "sawmill_yard_invis",
-			composition_type = "onslaught_chaos_berzerkers_medium"
 		},
 		{
 			"delay",
@@ -7879,16 +7428,6 @@ end
 			"event_horde",
 			spawner_id = "sawmill_creek",
 			composition_type = "skaven_shields"
-		},
-		{
-			"event_horde",
-			spawner_id = "sawmill_creek",
-			composition_type = "skaven_shields"
-		},
-		{
-			"event_horde",
-			spawner_id = "sawmill_creek",
-			composition_type = "event_stormvermin_shielders"
 		},
 		{
 			"event_horde",
@@ -7945,36 +7484,6 @@ end
 			composition_type = "onslaught_storm_vermin_medium"
 		},
 		{
-			"event_horde",
-			spawner_id = "sawmill_interior",
-			composition_type = "onslaught_storm_vermin_medium"
-		},
-		{
-			"event_horde",
-			spawner_id = "sawmill_interior",
-			composition_type = "onslaught_storm_vermin_medium"
-		},
-		{
-			"event_horde",
-			spawner_id = "sawmill_interior",
-			composition_type = "onslaught_storm_vermin_medium"
-		},
-		{
-			"event_horde",
-			spawner_id = "sawmill_interior",
-			composition_type = "onslaught_storm_vermin_medium"
-		},
-		{
-			"event_horde",
-			spawner_id = "sawmill_interior",
-			composition_type = "onslaught_event_military_courtyard_plague_monks"
-		},
-		{
-			"event_horde",
-			spawner_id = "sawmill_interior",
-			composition_type = "onslaught_event_military_courtyard_plague_monks"
-		},
-		{
 			"continue_when",
 			duration = 80,
 			condition = function (t)
@@ -8007,7 +7516,7 @@ end
 		{
 			"event_horde",
 			spawner_id = "sawmill_interior",
-			composition_type = "event_large"
+			composition_type = "event_small"
 		},
 		{
 			"delay",
@@ -8026,27 +7535,7 @@ end
 		{
 			"event_horde",
 			spawner_id = "sawmill_interior_invis",
-			composition_type = "event_maulers_medium"
-		},
-		{
-			"event_horde",
-			spawner_id = "sawmill_interior_invis",
-			composition_type = "onslaught_chaos_berzerkers_medium"
-		},
-		{
-			"event_horde",
-			spawner_id = "sawmill_interior_invis",
-			composition_type = "onslaught_chaos_berzerkers_medium"
-		},
-		{
-			"event_horde",
-			spawner_id = "sawmill_interior_invis",
-			composition_type = "onslaught_chaos_warriors"
-		},
-		{
-			"event_horde",
-			spawner_id = "sawmill_interior_invis",
-			composition_type = "onslaught_chaos_warriors"
+			composition_type = "onslaught_skaven_double_wave"
 		},
 		{
 			"delay",
@@ -8061,7 +7550,7 @@ end
 		},
 		{
 			"event_horde",
-			composition_type = "event_large"
+			composition_type = "event_medium"
 		},
 		{
 			"delay",
@@ -8090,22 +7579,6 @@ end
 		},
 		{
 			"event_horde",
-			limit_spawners = 2,
-			composition_type = "onslaught_storm_vermin_medium"
-		},
-		{
-			"event_horde",
-			limit_spawners = 2,
-			composition_type = "onslaught_storm_vermin_medium"
-		},
-		{
-			"event_horde",
-			limit_spawners = 3,
-			spawner_id = "elven_ruins_toptier",
-			composition_type = "onslaught_plague_monks_medium"
-		},
-		{
-			"event_horde",
 			limit_spawners = 3,
 			spawner_id = "elven_ruins_toptier",
 			composition_type = "onslaught_plague_monks_medium"
@@ -8117,7 +7590,7 @@ end
 		{
 			"event_horde",
 			spawner_id = "sawmill_yard",
-			composition_type = "event_medium"
+			composition_type = "event_small"
 		},
 		{
 			"event_horde",
@@ -8138,7 +7611,7 @@ end
 		{
 			"event_horde",
 			limit_spawners = 2,
-			composition_type = "event_medium"
+			composition_type = "event_small"
 		},
 		{
 			"event_horde",
@@ -8159,7 +7632,7 @@ end
 		{
 			"event_horde",
 			limit_spawners = 2,
-			composition_type = "event_medium"
+			composition_type = "event_small"
 		},
 		{
 			"event_horde",
@@ -8214,7 +7687,7 @@ end
 		{
 			"event_horde",
 			spawner_id = "sawmill_yard",
-			composition_type = "onslaught_event_military_courtyard_plague_monks"
+			composition_type = "onslaught_skaven_double_wave"
 		},
 		{
 			"delay",
