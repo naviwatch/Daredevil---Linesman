@@ -126,6 +126,10 @@ if mod:get("giga_specials") then
 	special_slots = 6
 	min_special_timer = 0
 	max_special_timer = 7
+elseif mod:get("beta") then
+	special_slots = 4
+	min_special_timer = 0
+	max_special_timer = 0
 else
 	special_slots = 7
 	min_special_timer = 30
@@ -152,10 +156,6 @@ SpecialsSettings.default.methods.specials_by_slots = {
 	}
 }
 
-if mod:get("beta") then
-	SpecialsSettings.default.methods.specials_by_slots.chance_of_coordinated_attack = 0
-end
-
 SpecialsSettings.default.breeds = {
 	"skaven_gutter_runner",
 	"skaven_pack_master",
@@ -177,6 +177,54 @@ SpecialsSettings.default.breeds = {
 	"chaos_vortex_sorcerer",
 --	"chaos_corruptor_sorcerer",
 }
+
+if mod:get("beta") then
+	SpecialsSettings.default.methods.specials_by_slots.chance_of_coordinated_attack = 0
+
+	SpecialsSettings.default.breeds = {
+		"skaven_gutter_runner",
+		"skaven_pack_master",
+		"skaven_ratling_gunner",
+		"skaven_poison_wind_globadier",
+		"skaven_warpfire_thrower",
+		"chaos_vortex_sorcerer",
+		"chaos_corruptor_sorcerer",
+	--	"skaven_gutter_runner",
+	--	"skaven_pack_master",
+		"skaven_ratling_gunner",
+		"skaven_warpfire_thrower",
+	--	"chaos_corruptor_sorcerer",
+	--	"skaven_gutter_runner",
+	--	"skaven_pack_master",
+		"skaven_ratling_gunner",
+		"skaven_poison_wind_globadier",
+		"skaven_warpfire_thrower",
+	--	"chaos_vortex_sorcerer",
+	--	"chaos_corruptor_sorcerer",
+	}
+
+	SpecialsSettings.chaos.breeds = {
+		"skaven_gutter_runner",
+		"skaven_pack_master",
+		"skaven_ratling_gunner",
+		"skaven_poison_wind_globadier",
+		"skaven_warpfire_thrower",
+		"chaos_vortex_sorcerer",
+		"chaos_corruptor_sorcerer",
+	--	"skaven_gutter_runner",
+	--	"skaven_pack_master",
+		"skaven_ratling_gunner",
+		"skaven_warpfire_thrower",
+	--	"chaos_corruptor_sorcerer",
+	--	"skaven_gutter_runner",
+	--	"skaven_pack_master",
+		"skaven_ratling_gunner",
+		"skaven_poison_wind_globadier",
+		"skaven_warpfire_thrower",
+		"chaos_vortex_sorcerer",
+	--	"chaos_corruptor_sorcerer",
+	}
+end
 
 local default_override = table.clone(SpecialsSettings.default)
 SpecialsSettings.default.difficulty_overrides.hard = default_override

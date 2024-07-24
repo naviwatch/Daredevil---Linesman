@@ -627,6 +627,15 @@ local range = 0.01
 	HordeSettings.chaos.chance_of_vector = 0.9
 	HordeSettings.chaos.chance_of_vector_blob = 0.5
 
+	-- Override if the chinese are playing
+	if mod:get("lb") then
+		HordeSettings.default.chance_of_vector = 0.6
+		HordeSettings.default.chance_of_vector_blob = 0.65
+	
+		HordeSettings.chaos.chance_of_vector = 0.65
+		HordeSettings.chaos.chance_of_vector_blob = 0.9
+	end
+
 	HordeSettingsBasics = {
 		ambush = {
 			max_spawners = math.huge,
@@ -644,7 +653,7 @@ local range = 0.01
 			main_path_dist_from_players = 30,
 			max_hidden_spawner_dist = 30,
 			max_horde_spawner_dist = 20,
-			max_spawners = 12,
+			max_spawners = 14,
 			min_hidden_spawner_dist = 0,
 			min_horde_spawner_dist = 0,
 			raw_dist_from_players = 13,
@@ -660,7 +669,7 @@ local range = 0.01
 	}
 
 	if mod:get("beta") then
-		HordeSettingsBasics.vector.max_spawners = math.huge
+		-- HordeSettingsBasics.vector.max_spawners = math.huge
 	end
 
 	-- THREAT SETTINGS
@@ -689,11 +698,11 @@ local range = 0.01
 		skaven_huge = {"huge",},
 		skaven_huge_shields = {"huge", "huge_shields",},
 		skaven_huge_armor = {"huge_armor",},
-		skaven_huge_berzerker = {"huge_berzerker",},
+		skaven_huge_berzerker = {"huge", "huge_berzerker",},
 		chaos_huge = {"chaos_huge",},
 		chaos_huge_shields = {"chaos_huge", "chaos_huge_shields",},
 		chaos_huge_armor = {"chaos_huge_armor",},
-		chaos_huge_berzerker = {"chaos_huge_berzerker",},
+		chaos_huge_berzerker = {"chaos_huge", "chaos_huge_berzerker",},
 	}
 
 	mod:dofile("scripts/mods/Daredevil/linesman/mutator/linesman_skaven_horde")
