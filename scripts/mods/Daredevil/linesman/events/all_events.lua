@@ -6660,6 +6660,12 @@ end
 			duration = 1
 		},
 		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_rat_ogre") == 1 or count_event_breed("skaven_stormfiend") == 1 or count_event_breed("chaos_troll") == 1 or count_event_breed("chaos_spawn") == 1
+			end,
+		},
+		{
 			"spawn_at_raw",
 			spawner_id = "farmlands_rat_ogre",
 			breed_name = "skaven_dummy_clan_rat",
@@ -6681,14 +6687,6 @@ end
 		{
 			"flow_event",
 			flow_event_name = "farmlands_barn_boss_spawned"
-		},
-		{
-			"delay",
-			duration = 1
-		},
-		{
-			"delay",
-			duration = 1
 		},
 		{
 			"continue_when",
@@ -6720,6 +6718,12 @@ end
 			duration = 1
 		},
 		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_rat_ogre") == 1 or count_event_breed("skaven_stormfiend") == 1 or count_event_breed("chaos_troll") == 1 or count_event_breed("chaos_spawn") == 1
+			end,
+		},
+		{
 			"spawn_at_raw",
 			spawner_id = "farmlands_rat_ogre",
 			breed_name = "skaven_dummy_clan_rat",
@@ -6727,12 +6731,6 @@ end
 				enhancements = bob,
 				max_health_modifier = 4
 			}
-		},
-		{
-			"continue_when",
-			condition = function (t)
-				return count_event_breed("skaven_stormfiend") == 1
-			end
 		},
 		{
 			"delay",
@@ -6780,6 +6778,12 @@ end
 			duration = 1
 		},
 		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_rat_ogre") == 1 or count_event_breed("skaven_stormfiend") == 1 or count_event_breed("chaos_troll") == 1 or count_event_breed("chaos_spawn") == 1
+			end,
+		},
+		{
 			"spawn_at_raw",
 			spawner_id = "farmlands_rat_ogre",
 			breed_name = "skaven_dummy_clan_rat",
@@ -6787,12 +6791,6 @@ end
 				enhancements = bob,
 				max_health_modifier = 4
 			}
-		},
-		{
-			"continue_when",
-			condition = function (t)
-				return count_event_breed("chaos_troll") == 1
-			end
 		},
 		{
 			"delay",
@@ -6840,6 +6838,12 @@ end
 			duration = 1
 		},
 		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_rat_ogre") == 1 or count_event_breed("skaven_stormfiend") == 1 or count_event_breed("chaos_troll") == 1 or count_event_breed("chaos_spawn") == 1
+			end,
+		},
+		{
 			"spawn_at_raw",
 			spawner_id = "farmlands_rat_ogre",
 			breed_name = "skaven_dummy_clan_rat",
@@ -6847,12 +6851,6 @@ end
 				enhancements = shield_shatter,
 				max_health_modifier = 4
 			}
-		},
-		{
-			"continue_when",
-			condition = function (t)
-				return count_event_breed("beastmen_minotaur") == 1
-			end
 		},
 		{
 			"delay",

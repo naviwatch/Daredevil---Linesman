@@ -38,7 +38,7 @@ local faction = "huge"
         breeds = berzerker_entities,
     },
     {
-        scale_factor = super_armor_scale * mod.scale,
+        scale_factor = super_armor_scale * mod.gain,
         breeds = super_armor_entities,
     },
 }

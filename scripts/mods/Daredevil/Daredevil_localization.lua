@@ -1,6 +1,6 @@
 return {
 	mod_description = {
-		en = "Version 1.3.8.1",
+		en = "Version 1.3.8.2",
 	},
 	giga_specials = {
 		en = "Unrelenting Specials"
@@ -66,6 +66,6 @@ return {
 	},
 	lonk_tooltip = {
 		en = "Increases ambience by a hefty amount, don't blame me for any memory crashes"
-	}
+	},
 }
 
