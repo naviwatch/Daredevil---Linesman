@@ -350,7 +350,32 @@ end
 	BreedActions.beastmen_bestigor.charge_attack.player_push_speed_blocked = 7   -- 10
 
 	-- Suicide rat
-	BreedActions.skaven_explosive_loot_rat.explosion_attack.radius = 1
+	BreedActions.skaven_explosive_loot_rat.explosion_attack.radius = 0.45
+	
+	mod:hook(DeathReactions.templates.explosive_loot_rat.unit, "start", function(func, self, unit, context, t, killng_blow, is_server)
+		local chance_to_spawn_ammmo = 0
+
+		if chance_to_spawn_ammmo >= math.random() then
+			local pickup_name = "all_ammo_small"
+			local pickup_settings = AllPickups[pickup_name]
+			local extension_init_data = {
+				pickup_system = {
+					has_physics = false,
+					spawn_type = "loot",
+					pickup_name = pickup_name,
+				},
+			}
+			local unit_name = pickup_settings.unit_name
+			local unit_template_name = pickup_settings.unit_template_name or "pickup_unit"
+			local position = POSITION_LOOKUP[unit]
+			local rotation = Quaternion.identity()
+
+			Managers.state.unit_spawner:spawn_network_unit(unit_name, unit_template_name, extension_init_data, position, rotation)
+		end
+
+		return func(self, unit, context, t, killing_blow, is_server)
+	end)
+
 
 	--Non-event settings and compositions
 	RecycleSettings = {
@@ -870,54 +895,37 @@ local range = 0.01
 		}
 	end
 
-	GenericTerrorEvents.custom_wave_warning = {
+	GenericTerrorEvents.special_coordinated = {
 		{
 			"play_stinger",
-			stinger_name = "menu_wind_countdown_warning"
+			stinger_name = "Play_curse_egg_of_tzeentch_alert_high"
+		},
+	}
+
+	GenericTerrorEvents.split_wave = {
+		{
+			"play_stinger",
+			stinger_name = "Play_enemy_beastmen_standar_chanting_loop"
 		},
 		{
 			"delay",
-			duration = 1
+			duration = 4.5
 		},
 		{
 			"play_stinger",
-			stinger_name = "menu_wind_countdown_warning"
-		},
-		{
-			"delay",
-			duration = 1
-		},
-		{
-			"play_stinger",
-			stinger_name = "menu_wind_countdown_warning"
-		},
-		{
-			"delay",
-			duration = 1
-		},
-		{
-			"play_stinger",
-			stinger_name = "menu_wind_countdown_warning"
-		},
-		{
-			"delay",
-			duration = 1
-		},
-		{
-			"play_stinger",
-			stinger_name = "menu_wind_countdown_warning"
+			stinger_name = "Stop_enemy_beastmen_standar_chanting_loop"
 		},
 	}
 	
 	GenericTerrorEvents.skaven_denial = {
 		{
 			"spawn_special",
-			amount = 1,
+			amount = 2,
 			breed_name = "skaven_poison_wind_globadier"
 		},
 		{
 			"spawn_special",
-			amount = 2,
+			amount = 1,
 			breed_name = "skaven_ratling_gunner"
 		},
 		{
@@ -946,7 +954,7 @@ local range = 0.01
 			"spawn_special",
 			amount = 1,
 			breed_name = "skaven_pack_master"
-		}
+		},
 	}
 	GenericTerrorEvents.chaos_denial = {
 		{
@@ -969,29 +977,56 @@ local range = 0.01
 	-- Special wave 1: Skaven denial-focused (gas/ratling/fire)
 	-- Special wave 2: Skaven mix (gas/ratling/assassin or hook)
 	-- Special wave 3: Chaos denial-focused (blight/ratling)
-	local special_attack = function()
-		local rnd = math.random(100)
-		local percent = math.random(3)
 
-		if rnd <= 5 then -- 10% chance of coordinated attack per horde
-			Managers.state.conflict:start_terror_event("custom_wave_warning")
+	--[[ Code explained for those who don't know how to read it
+	  The first coin flip simulates a 20% chance.
+	  a/ If the first event (PRD_special_attack) occurs, it triggers the coordinated strike:
+		- Starts the SFX for warning
+		- Broadcasts "Coordinated Attack!"
+		- Then, based on another 50% coin flip (PRD_mix), it spawns different comps (three atm)
+			a/ If PRD_mix is true, it starts a terror event named "skaven_mix".
+			b/ If PRD_mix is false, it further flips a 50% coin for PRD_denial.
+				a/ If PRD_denial is true, it starts a terror event named "skaven_denial".
+				b/ If PRD_denial is false, it starts a terror event named "chaos_denial".
+	  b/ If the first event doesn't occur, simply end the function. (or 4.5% to troll you)
+
+	All of this is to make sure that all three waves are evenly distributed and spawned, fuck me
+	]]
+
+	local special_attack = function()
+		PRD_special_attack, state = PseudoRandomDistribution.flip_coin(state, 0.2) -- Flip 20%
+		if PRD_special_attack then                                               
+			Managers.state.conflict:start_terror_event("special_coordinated")
 			mod:chat_broadcast("Coordinated Attack!")
-			if percent == 1 then 
-				Managers.state.conflict:start_terror_event("skaven_denial")
-			elseif percent == 2 then
-				Managers.state.conflict:start_terror_event("skaven_mix")
+			PRD_mix, state = PseudoRandomDistribution.flip_coin(state, 0.5) -- Flip 50%
+			if PRD_mix then
+				Managers.state.confllict:start_terror_event("skaven_mix")
 			else
-				Managers.state.conflict:start_terror_event("chaos_denial")
+				PRD_denial, state = PseudoRandomDistribution.flip_coin(state, 0.5) -- Flip 50%
+				if PRD_denial then
+					Managers.state.conflict:start_terror_event("skaven_denial")
+				else
+					Managers.state.conflict:start_terror_event("chaos_denial")
+				end
 			end
-		else end
+		else
+			if lb then 
+				EXPLOSION, state = PseudoRandomDistribution.flip_coin(state, 0.045) -- Flip 4.5%
+				if EXPLOSION then
+					Managers.state.conflict:spawn_one(Breeds.skaven_explosive_loot_rat, nil, nil)
+				else
+				end
+			end
+		end
 	end
 
 	if mod:get("beta") then
 		-- Both directions, from Spawn Tweaks
 		mod:hook(HordeSpawner, "find_good_vector_horde_pos", function(func, self, main_target_pos, distance, check_reachable)
-			local rnd = math.random(5)
-			if rnd == 1 then -- 20% chance
-			--	mod:echo("Success")
+			local prd_direction = 0.2
+			PRD_sandwich, state  = PseudoRandomDistribution.flip_coin(state, prd_direction) -- Flip 20%
+			if PRD_sandwich then -- 20% chance
+				Managers.state.conflict:start_terror_event("split_wave")
 				local success, horde_spawners, found_cover_points, epicenter_pos = func(self, main_target_pos, distance, check_reachable)
 
 				local o_horde_spawners = nil
@@ -1015,7 +1050,7 @@ local range = 0.01
 						end
 					end
 				end
-			else
+			elseif not PRD_sandwich then
 				return func(self, main_target_pos, distance, check_reachable)
 			end
 
