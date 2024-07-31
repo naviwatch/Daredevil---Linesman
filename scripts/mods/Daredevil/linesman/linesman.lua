@@ -964,14 +964,9 @@ local range = 0.01
 		},
 		{
 			"spawn_special",
-			amount = 2,
+			amount = 3,
 			breed_name = "skaven_ratling_gunner"
 		},
-		{
-			"spawn_special",
-			amount = 1,
-			breed_name = "skaven_poison_wind_globadier"
-		}
 	}
 
 	-- Special wave 1: Skaven denial-focused (gas/ratling/fire)
@@ -979,7 +974,7 @@ local range = 0.01
 	-- Special wave 3: Chaos denial-focused (blight/ratling)
 
 	--[[ Code explained for those who don't know how to read it
-	  The first coin flip simulates a 20% chance.
+	  The first coin flip simulates a 15% chance.
 	  a/ If the first event (PRD_special_attack) occurs, it triggers the coordinated strike:
 		- Starts the SFX for warning
 		- Broadcasts "Coordinated Attack!"
@@ -993,87 +988,96 @@ local range = 0.01
 	All of this is to make sure that all three waves are evenly distributed and spawned, fuck me
 	]]
 
+	local conflict_director = Managers.state.conflict
+	local sa_chances
+
+	if lb then -- If host is using linesman balance (which im presuming clients are too)
+		sa_chances = 0.15
+	else
+		sa_chances = 0.1
+	end
+
 	local special_attack = function()
-		PRD_special_attack, state = PseudoRandomDistribution.flip_coin(state, 0.2) -- Flip 20%
-		if PRD_special_attack then                                               
-			Managers.state.conflict:start_terror_event("special_coordinated")
-			mod:chat_broadcast("Coordinated Attack!")
-			PRD_mix, state = PseudoRandomDistribution.flip_coin(state, 0.5) -- Flip 50%
+		PRD_special_attack, state = PseudoRandomDistribution.flip_coin(state, sa_chances) -- Flip 10%, every 4th horde or 10th wave
+		if PRD_special_attack then
+			conflict_director:start_terror_event("special_coordinated")
+		--	mod:chat_broadcast("Coordinated Attack!")
+			PRD_mix, mix = PseudoRandomDistribution.flip_coin(mix, 0.5) -- Flip 50%
 			if PRD_mix then
-				Managers.state.confllict:start_terror_event("skaven_mix")
+				conflict_director:start_terror_event("skaven_mix")
 			else
-				PRD_denial, state = PseudoRandomDistribution.flip_coin(state, 0.5) -- Flip 50%
+				PRD_denial, denial = PseudoRandomDistribution.flip_coin(denial, 0.5) -- Flip 50%
 				if PRD_denial then
-					Managers.state.conflict:start_terror_event("skaven_denial")
+					conflict_director:start_terror_event("skaven_denial")
 				else
-					Managers.state.conflict:start_terror_event("chaos_denial")
+					conflict_director:start_terror_event("chaos_denial")
 				end
 			end
 		else
-			if lb then 
-				EXPLOSION, state = PseudoRandomDistribution.flip_coin(state, 0.045) -- Flip 4.5%
+			if lb then
+				EXPLOSION, die = PseudoRandomDistribution.flip_coin(die, 0.05) -- Flip 5%
 				if EXPLOSION then
-					Managers.state.conflict:spawn_one(Breeds.skaven_explosive_loot_rat, nil, nil)
+					conflict_director:spawn_one(Breeds.skaven_explosive_loot_rat, nil, nil)
 				else
 				end
 			end
 		end
 	end
 
-	if mod:get("beta") then
-		-- Both directions, from Spawn Tweaks
-		mod:hook(HordeSpawner, "find_good_vector_horde_pos", function(func, self, main_target_pos, distance, check_reachable)
-			local prd_direction = 0.2
-			PRD_sandwich, state  = PseudoRandomDistribution.flip_coin(state, prd_direction) -- Flip 20%
-			if PRD_sandwich then -- 20% chance
-				Managers.state.conflict:start_terror_event("split_wave")
-				local success, horde_spawners, found_cover_points, epicenter_pos = func(self, main_target_pos, distance, check_reachable)
+	-- Both directions, from Spawn Tweaks
+	mod:hook(HordeSpawner, "find_good_vector_horde_pos", function(func, self, main_target_pos, distance, check_reachable)
+		local prd_direction = 0.1
+		PRD_sandwich, sandwhich = PseudoRandomDistribution.flip_coin(sandwhich, prd_direction) -- Flip 10%, every 4th horde or 10th wave
+		if PRD_sandwich then
+			conflict_director:start_terror_event("split_wave")
+			local success, horde_spawners, found_cover_points, epicenter_pos = func(self, main_target_pos, distance,
+				check_reachable)
 
-				local o_horde_spawners = nil
-				local o_found_cover_points = nil
+			local o_horde_spawners = nil
+			local o_found_cover_points = nil
 
-				if success then
-					o_horde_spawners = table.clone(horde_spawners)
-					o_found_cover_points = table.clone(found_cover_points)
+			if success then
+				o_horde_spawners = table.clone(horde_spawners)
+				o_found_cover_points = table.clone(found_cover_points)
 
-					local new_epicenter_pos = self:get_point_on_main_path(main_target_pos, -distance, check_reachable)
-					if new_epicenter_pos then
-						local new_success, new_horde_spawners, new_found_cover_points = self:find_vector_horde_spawners(new_epicenter_pos, main_target_pos)
+				local new_epicenter_pos = self:get_point_on_main_path(main_target_pos, -distance, check_reachable)
+				if new_epicenter_pos then
+					local new_success, new_horde_spawners, new_found_cover_points = self:find_vector_horde_spawners(
+					new_epicenter_pos, main_target_pos)
 
-						if new_success then
-							for _,horde_spawner in ipairs(new_horde_spawners) do
-								table.insert(o_horde_spawners, horde_spawner)
-							end
-							for _,cover_point in ipairs(new_found_cover_points) do
-								table.insert(o_found_cover_points, cover_point)
-							end
+					if new_success then
+						for _, horde_spawner in ipairs(new_horde_spawners) do
+							table.insert(o_horde_spawners, horde_spawner)
+						end
+						for _, cover_point in ipairs(new_found_cover_points) do
+							table.insert(o_found_cover_points, cover_point)
 						end
 					end
 				end
-			elseif not PRD_sandwich then
-				return func(self, main_target_pos, distance, check_reachable)
 			end
+		elseif not PRD_sandwich then
+			return func(self, main_target_pos, distance, check_reachable)
+		end
 
-			return success, o_horde_spawners, o_found_cover_points, epicenter_pos
-		end)
+		return success, o_horde_spawners, o_found_cover_points, epicenter_pos
+	end)
 
-		-- Spooky special wave
-		-- This shit is ran every wave i only realized after i did this 
-		mod:hook(HordeSpawner, "horde", function(func, self, horde_type, extra_data, side_id, no_fallback)
-			print("horde requested: ", horde_type)
-		
-			if horde_type == "vector" then
-				self:execute_vector_horde(extra_data, side_id, no_fallback)
-				special_attack()
-			elseif horde_type == "vector_blob" then
-				self:execute_vector_blob_horde(extra_data, side_id, no_fallback)
-				special_attack()
-			else
-				self:execute_ambush_horde(extra_data, side_id, no_fallback)
-				special_attack()
-			end
-		end)
-	end
+	-- Spooky special wave
+	-- This shit is ran every wave i only realized after i did this
+	mod:hook(HordeSpawner, "horde", function(func, self, horde_type, extra_data, side_id, no_fallback)
+		print("horde requested: ", horde_type)
+
+		if horde_type == "vector" then
+			self:execute_vector_horde(extra_data, side_id, no_fallback)
+			special_attack()
+		elseif horde_type == "vector_blob" then
+			self:execute_vector_blob_horde(extra_data, side_id, no_fallback)
+			special_attack()
+		else
+			self:execute_ambush_horde(extra_data, side_id, no_fallback)
+			special_attack()
+		end
+	end)
 
 	PackSpawningSettings.default.area_density_coefficient = co
 	PackSpawningSettings.skaven.area_density_coefficient = co
@@ -1096,20 +1100,20 @@ local range = 0.01
 		local level_name = Managers.level_transition_handler:get_current_level_key()
 		if mutator_plus.active == true then
 			if level_name == "dlc_dwarf_beacons" then
-				Managers.state.conflict:spawn_one(Breeds.skaven_gutter_runner, nil, nil)
-				Managers.state.conflict:spawn_one(Breeds.skaven_pack_master, nil, nil)
-				Managers.state.conflict:spawn_one(Breeds.chaos_corruptor_sorcerer, nil, nil)
-				Managers.state.conflict:spawn_one(Breeds.skaven_dummy_clan_rat, nil, nil, {
+				conflict_director:spawn_one(Breeds.skaven_gutter_runner, nil, nil)
+				conflict_director:spawn_one(Breeds.skaven_pack_master, nil, nil)
+				conflict_director:spawn_one(Breeds.chaos_corruptor_sorcerer, nil, nil)
+				conflict_director:spawn_one(Breeds.skaven_dummy_clan_rat, nil, nil, {
 					enhancements = bob,
 					max_health_modifier = 3.5,
 				})
-				Managers.state.conflict:spawn_one(Breeds.skaven_poison_wind_globadier, nil, nil)
-				Managers.state.conflict:spawn_one(Breeds.skaven_ratling_gunner, nil, nil)
-				Managers.state.conflict:spawn_one(Breeds.skaven_poison_wind_globadier, nil, nil)
-				Managers.state.conflict:spawn_one(Breeds.skaven_ratling_gunner, nil, nil)
-				Managers.state.conflict:spawn_one(Breeds.skaven_ratling_gunner, nil, nil)
-				Managers.state.conflict:spawn_one(Breeds.skaven_loot_rat, nil, nil)
-				Managers.state.conflict:spawn_one(Breeds.skaven_loot_rat, nil, nil)
+				conflict_director:spawn_one(Breeds.skaven_poison_wind_globadier, nil, nil)
+				conflict_director:spawn_one(Breeds.skaven_ratling_gunner, nil, nil)
+				conflict_director:spawn_one(Breeds.skaven_poison_wind_globadier, nil, nil)
+				conflict_director:spawn_one(Breeds.skaven_ratling_gunner, nil, nil)
+				conflict_director:spawn_one(Breeds.skaven_ratling_gunner, nil, nil)
+				conflict_director:spawn_one(Breeds.skaven_loot_rat, nil, nil)
+				conflict_director:spawn_one(Breeds.skaven_loot_rat, nil, nil)
 				mod:chat_broadcast("Specials be upon thee")
 				return true
 			end
@@ -1118,10 +1122,37 @@ local range = 0.01
 		return func(...)
 	end)
 
-	-- Do a final override for events if beta is enabled
-	if mod:get("beta") then
-	--	mod:dofile("scripts/mods/Daredevil/linesman/mutator/actual_beta/beta_items")
-	end
+	GenericTerrorEvents.fuck_you = {
+		{
+			"spawn_special",
+			amount = 1,
+			breed_name = "skaven_gutter_runner"
+		},
+		{
+			"spawn_special",
+			amount = 3,
+			breed_name = "skaven_ratling_gunner"
+		},
+		{
+			"spawn_special",
+			amount = 1,
+			breed_name = "skaven_pack_master"
+		},
+		{
+			"spawn_special",
+			amount = 2,
+			breed_name = "skaven_poison_wind_globadier"
+		},
+		{
+			"delay",
+			duration = 5,
+		},
+		{
+			"spawn_special",
+			amount = 4,
+			breed_name = "skaven_explosive_loot_rat"
+		},
+	}
 
 	-- Custom Director
 	--mod:dofile("scripts/mods/Daredevil/Custom-Director")
