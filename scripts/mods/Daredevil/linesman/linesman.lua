@@ -458,8 +458,6 @@ local range = 0.01
 
 	-- Dense's breedpacks 
 	mod:dofile("scripts/mods/Daredevil/linesman/mutator/breed_pack_linesman")
-	-- Loading in packages
-	mod:dofile("scripts/mods/Daredevil/linesman/mutator/breed_data")
 
 	--[[
 	mod.difficulty_level = mod:get("difficulty_level")
