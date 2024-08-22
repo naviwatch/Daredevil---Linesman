@@ -386,34 +386,37 @@ end
 		0,
 		0.5,                                                                     -- 4
 	}
-	BreedActions.beastmen_bestigor.charge_attack.player_push_speed = 5.5         -- 9.5
-	BreedActions.beastmen_bestigor.charge_attack.player_push_speed_blocked = 7   -- 10
+	BreedActions.beastmen_bestigor.charge_attack.player_push_speed = 7         -- 9.5
+	BreedActions.beastmen_bestigor.charge_attack.player_push_speed_blocked = 5.5   -- 10
 
 	-- Suicide rat
 	BreedActions.skaven_explosive_loot_rat.explosion_attack.radius = 0.45
 	
 	mod:hook(DeathReactions.templates.explosive_loot_rat.unit, "start", function(func, self, unit, context, t, killng_blow, is_server)
-		local chance_to_spawn_ammmo = 0
+		if mutator_plus.active then
+			local chance_to_spawn_ammmo = 0
 
-		if chance_to_spawn_ammmo >= math.random() then
-			local pickup_name = "all_ammo_small"
-			local pickup_settings = AllPickups[pickup_name]
-			local extension_init_data = {
-				pickup_system = {
-					has_physics = false,
-					spawn_type = "loot",
-					pickup_name = pickup_name,
-				},
-			}
-			local unit_name = pickup_settings.unit_name
-			local unit_template_name = pickup_settings.unit_template_name or "pickup_unit"
-			local position = POSITION_LOOKUP[unit]
-			local rotation = Quaternion.identity()
+			if chance_to_spawn_ammmo >= math.random() then
+				local pickup_name = "all_ammo_small"
+				local pickup_settings = AllPickups[pickup_name]
+				local extension_init_data = {
+					pickup_system = {
+						has_physics = false,
+						spawn_type = "loot",
+						pickup_name = pickup_name,
+					},
+				}
+				local unit_name = pickup_settings.unit_name
+				local unit_template_name = pickup_settings.unit_template_name or "pickup_unit"
+				local position = POSITION_LOOKUP[unit]
+				local rotation = Quaternion.identity()
 
-			Managers.state.unit_spawner:spawn_network_unit(unit_name, unit_template_name, extension_init_data, position, rotation)
+				Managers.state.unit_spawner:spawn_network_unit(unit_name, unit_template_name, extension_init_data, position, rotation)
+			end
+			return func(self, unit, context, t, killing_blow, is_server)
+		else
+			return func(self, unit, context, t, killing_blow, is_server)
 		end
-
-		return func(self, unit, context, t, killing_blow, is_server)
 	end)
 
 

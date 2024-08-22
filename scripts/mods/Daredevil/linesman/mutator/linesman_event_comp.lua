@@ -2164,3 +2164,52 @@ HordeCompositions.athel_wdnmd = {
 		}
 	}
 }
+
+HordeCompositions.linesman_mixed_horde = {
+	{
+		name = "mixed",
+		weight = 7,
+		breeds = {
+			"chaos_marauder",
+			{
+				9,
+				9,
+			},
+			"chaos_fanatic",
+			{
+				10,
+				12,
+			},
+			"skaven_clan_rat",
+			{
+				10,
+				12,
+			},
+			"skaven_slave",
+			{
+				17,
+				18,
+			},
+			"skaven_plague_monk",
+			{
+				2,
+				2,
+			},
+			"chaos_berzerker",
+			{
+				2,
+				2,
+			},
+			"chaos_raider",
+			{
+				2,
+				2,
+			},
+			"skaven_storm_vermin_commander",
+			{
+				2,
+				3,
+			},
+		},
+	}
+}

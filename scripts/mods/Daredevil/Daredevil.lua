@@ -1054,6 +1054,98 @@ mod:hook_origin(TerrorEventUtils, "generate_enhanced_breed_from_set", function(e
 end)
 ]]
 
+-- Load Breeds
+-- This will override beastmen loader but i dont care since we need the explosive loot rats
+EnemyPackageLoaderSettings.categories = {
+	{
+		id = "bosses",
+		dynamic_loading = false,
+		limit = math.huge,
+		breeds = {
+			"chaos_spawn",
+			"chaos_troll",
+			"skaven_rat_ogre",
+			"skaven_stormfiend",
+			"beastmen_minotaur"
+		}
+	},
+	{
+		id = "specials",
+		dynamic_loading = false,
+		limit = math.huge,
+		breeds = {
+			"chaos_plague_sorcerer",
+			"chaos_corruptor_sorcerer",
+			"skaven_gutter_runner",
+			"skaven_pack_master",
+			"skaven_poison_wind_globadier",
+			"skaven_ratling_gunner",
+			"skaven_warpfire_thrower",
+			"chaos_vortex_sorcerer",
+			"beastmen_standard_bearer"
+		}
+	},
+	{
+		id = "level_specific",
+		dynamic_loading = true,
+		limit = math.huge,
+		breeds = {
+			"chaos_dummy_sorcerer",
+			"chaos_exalted_champion_warcamp",
+			"chaos_exalted_sorcerer",
+			"skaven_storm_vermin_warlord",
+			"skaven_storm_vermin_champion",
+			"chaos_plague_wave_spawner",
+			"skaven_stormfiend_boss",
+			"skaven_grey_seer"
+		}
+	},
+	{
+		id = "debug",
+		dynamic_loading = true,
+		forbidden_in_build = "release",
+		limit = math.huge,
+		breeds = {
+			"chaos_zombie",
+			"chaos_tentacle",
+			"chaos_tentacle_sorcerer",
+			"skaven_stormfiend_demo"
+		}
+	},
+	{
+		id = "always_loaded",
+		dynamic_loading = false,
+		breeds = {
+			"chaos_vortex",
+			"critter_rat",
+			"critter_pig",
+			"critter_nurgling",
+			"beastmen_gor",
+			"beastmen_bestigor",
+			"beastmen_ungor",
+			"chaos_warrior",
+			"chaos_raider",
+			"skaven_clan_rat",
+			"skaven_clan_rat_with_shield",
+			"skaven_plague_monk",
+			"skaven_slave",
+			"chaos_marauder",
+			"chaos_marauder_with_shield",
+			"chaos_berzerker",
+			"skaven_storm_vermin",
+			"skaven_storm_vermin_with_shield",
+			"chaos_fanatic",
+			"skaven_storm_vermin_warlord",
+			"chaos_exalted_sorcerer_drachenfels",
+			"chaos_exalted_sorcerer",
+			"skaven_storm_vermin_champion",
+			"chaos_bulwark",
+			"skaven_explosive_loot_rat"
+		}
+	}
+}
+
+EnemyPackageLoaderSettings.max_loaded_breed_cap = 50
 -- Daredevii
 mod:dofile("scripts/mods/Daredevil/dd_mutator")
 
@@ -1176,9 +1268,9 @@ mutator_plus.toggle = function()
 			mod:chat_broadcast("L猛已启动")
 		end
 		if mod:get("beta") then
-			mod:chat_broadcast("Running Linesman BETA v1.4.1")
+			mod:chat_broadcast("Running Linesman BETA v1.4.2")
 		else 
-			mod:chat_broadcast("Version 1.4.1")
+			mod:chat_broadcast("Version 1.4.2")
 		end 
 	else
 		mutator_plus.stop()
