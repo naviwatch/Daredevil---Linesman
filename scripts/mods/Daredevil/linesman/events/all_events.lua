@@ -1,4 +1,5 @@
 local mod = get_mod("Daredevil")
+local conflict_director = Managers.state.conflict
 
 local function count_event_breed(breed_name)
 	return Managers.state.conflict:count_units_by_breed_during_event(breed_name)
@@ -10,6 +11,18 @@ end
 
 local function spawned_during_event()
 	return Managers.state.conflict:enemies_spawned_during_event()
+end
+
+local function respawn_check()
+	for i, player in pairs(Managers.player:players()) do
+		if player.player_unit then
+			local status_extension = ScriptUnit.has_extension(player.player_unit, "status_system")
+			if status_extension and not status_extension.is_ready_for_assisted_respawn(status_extension) then
+				return true
+			end
+		end
+	end
+	return false
 end
 
 local enhancement_list = {
@@ -56,6 +69,12 @@ local enhancement_list = {
 	["unstaggerable"] = true
 }
 local bob = TerrorEventUtils.generate_enhanced_breed_from_set(enhancement_list)
+local enhancement_list = {
+	["crushing"] = true,
+	["intangible"] = true,
+	["unstaggerable"] = true
+}
+local better_bob = TerrorEventUtils.generate_enhanced_breed_from_set(enhancement_list)
 local enhancement_list = {
 	["commander"] = true,
 	["unstaggerable"] = true
@@ -2536,6 +2555,10 @@ end
 				"skaven_rat_ogre",
 				"skaven_stormfiend"
 			}
+		},
+		{
+			"control_hordes",
+			enable = true
 		}
 	}
 
@@ -6648,6 +6671,10 @@ end
 			name = "farmlands_boss_barn"
 		},
 		{
+			"play_stinger",
+			stinger_name = "Play_curse_egg_of_tzeentch_alert_low"
+		},
+		{
 			"spawn_at_raw",
 			spawner_id = "farmlands_rat_ogre",
 			breed_name = "skaven_rat_ogre",
@@ -6665,15 +6692,25 @@ end
 				return count_event_breed("skaven_rat_ogre") == 1 or count_event_breed("skaven_stormfiend") == 1 or count_event_breed("chaos_troll") == 1 or count_event_breed("chaos_spawn") == 1
 			end,
 		},
-		{
+{
 			"spawn_at_raw",
 			spawner_id = "farmlands_rat_ogre",
 			breed_name = "skaven_dummy_clan_rat",
 			optional_data = {
-				enhancements = bob,
-				max_health_modifier = 4
+				enhancements = better_bob,
+				max_health_modifier = 2000/213
 			}
 		},
+		--[[
+		{
+			"delay",
+			duration = 20
+		},
+		{
+			"play_stinger",
+			stinger_name = "Play_curse_egg_of_tzeentch_alert_egg_destroyed"
+		},
+		]]
 		{
 			"continue_when",
 			condition = function (t)
@@ -6706,6 +6743,10 @@ end
 			name = "farmlands_boss_barn"
 		},
 		{
+			"play_stinger",
+			stinger_name = "Play_curse_egg_of_tzeentch_alert_low"
+		},
+		{
 			"spawn_at_raw",
 			spawner_id = "farmlands_rat_ogre",
 			breed_name = "skaven_rat_ogre",
@@ -6718,28 +6759,34 @@ end
 			duration = 1
 		},
 		{
+			"spawn_at_raw",
+			spawner_id = "farmlands_rat_ogre",
+			breed_name = "skaven_dummy_clan_rat",
+			optional_data = {
+				enhancements = better_bob,
+				max_health_modifier = 2000/213
+			}
+		},
+		{
 			"continue_when",
 			condition = function (t)
 				return count_event_breed("skaven_rat_ogre") == 1 or count_event_breed("skaven_stormfiend") == 1 or count_event_breed("chaos_troll") == 1 or count_event_breed("chaos_spawn") == 1
 			end,
 		},
-		{
-			"spawn_at_raw",
-			spawner_id = "farmlands_rat_ogre",
-			breed_name = "skaven_dummy_clan_rat",
-			optional_data = {
-				enhancements = bob,
-				max_health_modifier = 4
-			}
-		},
+		--[[
 		{
 			"delay",
-			duration = 1
+			duration = 20
+		},
+		{
+			"play_stinger",
+			stinger_name = "Play_curse_egg_of_tzeentch_alert_egg_destroyed"
 		},
 		{
 			"flow_event",
 			flow_event_name = "farmlands_barn_boss_spawned"
 		},
+		]]
 		{
 			"delay",
 			duration = 1
@@ -6766,6 +6813,10 @@ end
 			name = "farmlands_boss_barn"
 		},
 		{
+			"play_stinger",
+			stinger_name = "Play_curse_egg_of_tzeentch_alert_low"
+		},
+		{
 			"spawn_at_raw",
 			spawner_id = "farmlands_rat_ogre",
 			breed_name = "chaos_troll",
@@ -6778,24 +6829,30 @@ end
 			duration = 1
 		},
 		{
+			"spawn_at_raw",
+			spawner_id = "farmlands_rat_ogre",
+			breed_name = "skaven_dummy_clan_rat",
+			optional_data = {
+				enhancements = better_bob,
+				max_health_modifier = 2000/213
+			}
+		},
+		{
 			"continue_when",
 			condition = function (t)
 				return count_event_breed("skaven_rat_ogre") == 1 or count_event_breed("skaven_stormfiend") == 1 or count_event_breed("chaos_troll") == 1 or count_event_breed("chaos_spawn") == 1
 			end,
 		},
-		{
-			"spawn_at_raw",
-			spawner_id = "farmlands_rat_ogre",
-			breed_name = "skaven_dummy_clan_rat",
-			optional_data = {
-				enhancements = bob,
-				max_health_modifier = 4
-			}
-		},
+		--[[
 		{
 			"delay",
-			duration = 1
+			duration = 20
 		},
+		{
+			"play_stinger",
+			stinger_name = "Play_curse_egg_of_tzeentch_alert_egg_destroyed"
+		},
+		]]
 		{
 			"flow_event",
 			flow_event_name = "farmlands_barn_boss_spawned"
@@ -6826,9 +6883,13 @@ end
 			name = "farmlands_boss_barn"
 		},
 		{
+			"play_stinger",
+			stinger_name = "Play_curse_egg_of_tzeentch_alert_low"
+		},
+		{
 			"spawn_at_raw",
 			spawner_id = "farmlands_rat_ogre",
-			breed_name = "beastmen_minotaur",
+			breed_name = "chaos_spawn",
 			optional_data = {
 				enhancements = enhancement_1
 			}
@@ -6838,24 +6899,30 @@ end
 			duration = 1
 		},
 		{
+			"spawn_at_raw",
+			spawner_id = "farmlands_rat_ogre",
+			breed_name = "skaven_dummy_clan_rat",
+			optional_data = {
+				enhancements = better_bob,
+				max_health_modifier = 2000/213
+			}
+		},
+		{
 			"continue_when",
 			condition = function (t)
 				return count_event_breed("skaven_rat_ogre") == 1 or count_event_breed("skaven_stormfiend") == 1 or count_event_breed("chaos_troll") == 1 or count_event_breed("chaos_spawn") == 1
 			end,
 		},
-		{
-			"spawn_at_raw",
-			spawner_id = "farmlands_rat_ogre",
-			breed_name = "skaven_dummy_clan_rat",
-			optional_data = {
-				enhancements = shield_shatter,
-				max_health_modifier = 4
-			}
-		},
+		--[[
 		{
 			"delay",
-			duration = 1
+			duration = 20
 		},
+		{
+			"play_stinger",
+			stinger_name = "Play_curse_egg_of_tzeentch_alert_egg_destroyed"
+		},
+		]]
 		{
 			"flow_event",
 			flow_event_name = "farmlands_barn_boss_spawned"
@@ -6864,7 +6931,6 @@ end
 			"delay",
 			duration = 1
 		},
-
 		{
 			"delay",
 			duration = 1

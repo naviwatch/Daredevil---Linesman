@@ -1,6 +1,7 @@
 local mod = get_mod("Daredevil")
 local mutator_plus = mod:persistent_table("Daredevil+")
 local lb = get_mod("LinesmanBalance")
+local conflict_director = Managers.state.conflict
 
 local enhancement_list = {
 	["regenerating"] = true,
@@ -46,6 +47,42 @@ local enhancement_list = {
 	["unstaggerable"] = true
 }
 local bob = TerrorEventUtils.generate_enhanced_breed_from_set(enhancement_list)
+
+local function respawn_check()
+	for i, player in pairs(Managers.player:players()) do
+		if player.player_unit then
+			local status_extension = ScriptUnit.has_extension(player.player_unit, "status_system")
+			if status_extension and not status_extension.is_ready_for_assisted_respawn(status_extension) then
+				return true
+			end
+		end
+	end
+	return false
+end
+
+local function stop_progress_event()
+	return true
+end
+
+local function progress_event(required_progress, terror_event_name)
+	local level_analysis = conflict_director.level_analysis
+	local main_path_data = level_analysis.main_path_data
+	local ahead_travel_dist = conflict_director.main_path_info.ahead_travel_dist
+	local total_travel_dist = main_path_data.total_dist
+	local travel_percentage = ahead_travel_dist / total_travel_dist * 100
+
+	while true do
+		if required_progress <= travel_percentage then
+			conflict_director:start_terror_event(terror_event_name)
+			mod:echo("STARTING EVENT STARTING EVENT STARTING EVENT")
+			break
+		end
+
+		if stop_progress_event() then
+			break
+		end
+	end
+end
 
 local function create_weights()
 	local crash = nil
@@ -244,6 +281,9 @@ end
 	Breeds.skaven_dummy_clan_rat.run_speed = 12
 	Breeds.skaven_dummy_clan_rat.boss = true -- No WHC/Shade cheese fight this big man fair and square
 	GrudgeMarkedNames.skaven = { "Bob the Builder" }
+
+	-- OST
+--	Wwise.load_bank("backstab")
 
 	-- Specials HP
 	--[[
@@ -941,7 +981,7 @@ local range = 0.01
 		{
 			"spawn_special",
 			amount = 1,
-			breed_name = "skaven_ratling_gunner"
+			breed_name = "skaven_explosive_loot_rat"
 		},
 		{
 			"spawn_special",
@@ -986,17 +1026,16 @@ local range = 0.01
 	All of this is to make sure that all three waves are evenly distributed and spawned, fuck me
 	]]
 
-	local conflict_director = Managers.state.conflict
 	local sa_chances
 
 	if lb then -- If host is using linesman balance (which im presuming clients are too)
-		sa_chances = 0.15
+		sa_chances = 0.15 -- Flip 15%, every 3rd horde or 7th wave
 	else
-		sa_chances = 0.1
+		sa_chances = 0.1 -- Flip 10%, every 4th horde or 10th wave
 	end
 
 	local special_attack = function()
-		PRD_special_attack, state = PseudoRandomDistribution.flip_coin(state, sa_chances) -- Flip 10%, every 4th horde or 10th wave
+		PRD_special_attack, state = PseudoRandomDistribution.flip_coin(state, sa_chances) 
 		if PRD_special_attack then
 			conflict_director:start_terror_event("special_coordinated")
 		--	mod:chat_broadcast("Coordinated Attack!")
@@ -1013,7 +1052,7 @@ local range = 0.01
 			end
 		else
 			if lb then
-				EXPLOSION, die = PseudoRandomDistribution.flip_coin(die, 0.05) -- Flip 5%
+				EXPLOSION, die = PseudoRandomDistribution.flip_coin(die, 0.07) -- Flip 7%
 				if EXPLOSION then
 					conflict_director:spawn_one(Breeds.skaven_explosive_loot_rat, nil, nil)
 				else
@@ -1086,12 +1125,46 @@ local range = 0.01
 	mod:hook_safe(StateLoadingRunning, "on_enter", function(self, params)
 		local level_name = Managers.level_transition_handler:get_current_level_key()
 		if mutator_plus.active == true then
-			if level_name == "dlc_dwarf_beacons" then
+			-- Reapply all stuff
+			if level_name == "dlc_dwarf_beacons" then 
 				mod:dofile("scripts/mods/Daredevil/linesman/map_modifiers/dwarf_beacons")
 			end
+
 			mod:dofile("scripts/mods/Daredevil/linesman/mutator/linesman_triggers")
 		end
 	end)
+
+	--[[
+	mod:hook(MissionSystem, "_update_level_progress", function(func, self, dt)
+		local level_name = Managers.level_transition_handler:get_current_level_key()
+		if level_name == "catacombs" then
+			-- Break then reapply 
+			stop_progress_event()
+			local conflict_director = Managers.state.conflict
+			local level_analysis = conflict_director.level_analysis
+			local main_path_data = level_analysis.main_path_data
+			while true do	
+				local ahead_travel_dist = conflict_director.main_path_info.ahead_travel_dist
+				local total_travel_dist = main_path_data.total_dist
+				local travel_percentage = ahead_travel_dist / total_travel_dist * 100
+				if 58 <= travel_percentage then
+					conflict_director:start_terror_event("convo_mid_event_pacing")
+					mod:echo("STARTING EVENT STARTING EVENT STARTING EVENT")
+					break
+				end 
+			end
+		end
+
+		return func(self, dt)
+	end)
+	
+	mod.on_game_state_changed = function(status, state_name)
+		local level_name = Managers.level_transition_handler:get_current_level_key()
+		if status == "enter" and state_name == "StateLoading" then -- if loading into level
+			stop_progress_event()      -- just break for safety
+		end
+	end
+	]]
 
 	--- Disable patrols.
 	mod:hook(TerrorEventMixer.run_functions, "spawn_patrol", function (func, ...)
@@ -1158,10 +1231,10 @@ local range = 0.01
 	-- Sync up stuff
 	mod:network_send("rpc_enable_white_sv", "all", true)
 	mod:network_send("bob_name_enable", "all", true)
+--	mod:network_send("linesman_ost", "all", true)
 
 	create_weights()
 
 	mod:enable_all_hooks()
 
 	mutator_plus.active = true
-
