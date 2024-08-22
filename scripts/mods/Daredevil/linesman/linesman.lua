@@ -600,6 +600,7 @@ local range = 0.01
 			}
 		}
 	}
+	
 
 	-- Make light variations disappear
 	PackSpawningSettings.default_light = PackSpawningSettings.default
@@ -725,10 +726,6 @@ local range = 0.01
 			start_delay = 1,
 		},
 	}
-
-	if mod:get("beta") then
-		-- HordeSettingsBasics.vector.max_spawners = math.huge
-	end
 
 	-- THREAT SETTINGS
 	PacingSettings.beastmen.delay_horde_threat_value = {
@@ -981,7 +978,7 @@ local range = 0.01
 		{
 			"spawn_special",
 			amount = 1,
-			breed_name = "skaven_explosive_loot_rat"
+			breed_name = "skaven_ratling_gunner"
 		},
 		{
 			"spawn_special",
@@ -1026,13 +1023,7 @@ local range = 0.01
 	All of this is to make sure that all three waves are evenly distributed and spawned, fuck me
 	]]
 
-	local sa_chances
-
-	if lb then -- If host is using linesman balance (which im presuming clients are too)
-		sa_chances = 0.15 -- Flip 15%, every 3rd horde or 7th wave
-	else
-		sa_chances = 0.1 -- Flip 10%, every 4th horde or 10th wave
-	end
+	local sa_chances = 0.1
 
 	local special_attack = function()
 		PRD_special_attack, state = PseudoRandomDistribution.flip_coin(state, sa_chances) 

@@ -10,6 +10,3 @@ lua = [
 	"scripts/mods/Daredevil/*"
 ]
 
-wwise_dep = [
-	"wwise/*"
-]

@@ -13368,9 +13368,6 @@ end
 	-------------------
 	--Horn of Magnus
 
-	--Horn of Magnus
-	-- Ons+
-
 	HordeCompositions.onslaught_gutter_assistants = {
 		{
 			name = "monk",
@@ -13461,12 +13458,12 @@ end
 		{
 			"event_horde",
 			spawner_id = "magnus_door_event_specials",
-			composition_type = "event_stormvermin_shielders"
+			composition_type = "onslaught_custom_specials_heavy_denial"
 		},
 		{
 			"event_horde",
 			spawner_id = "magnus_door_event_specials",
-			composition_type = "event_stormvermin_shielders"
+			composition_type = "onslaught_custom_special_denial"
 		},
 		{
 			"delay",
@@ -13480,22 +13477,6 @@ end
 		{
 			"delay",
 			duration = 12
-		},
-		{
-			"event_horde",
-			spawner_id = "magnus_door_event_specials",
-			composition_type = "onslaught_custom_boss_ogre"
-		},
-		{
-			"delay",
-			duration = 12
-		},
-		{
-			"continue_when",
-			duration = 10,
-			condition = function (t)
-				return count_breed("skaven_rat_ogre") < 1
-			end
 		},
 		{
 			"delay",
@@ -13566,7 +13547,7 @@ end
 		{
 			"event_horde",
 			spawner_id = "magnus_door_event_c",
-			composition_type = "event_extra_spice_small"
+			composition_type = "onslaught_custom_specials_heavy_denial"
 		},
 		{
 			"event_horde",
@@ -13598,7 +13579,7 @@ end
 		{
 			"event_horde",
 			spawner_id = "magnus_door_event_a",
-			composition_type = "event_small"
+			composition_type = "athel_wdnmd"
 		},
 		{
 			"event_horde",
@@ -13638,23 +13619,19 @@ end
 			composition_type = "onslaught_plague_monks_medium"
 		},
 		{
-			"delay",
-			duration = 2
-		},
-		{
 			"event_horde",
-			spawner_id = "magnus_door_event_chaos",
-			composition_type = "event_small_chaos"
-		},
-		{
-			"event_horde",
-			spawner_id = "magnus_door_event_chaos",
-			composition_type = "event_small_chaos"
-		},
-		{
-			"spawn_special",
 			spawner_id = "magnus_door_event_specials",
-			breed_name = "skaven_poison_wind_globadier"
+			composition_type = "onslaught_plague_monks_medium"
+		},
+		{
+			"event_horde",
+			spawner_id = "magnus_door_event_specials",
+			composition_type = "onslaught_plague_monks_medium"
+		},
+		{
+			"event_horde",
+			spawner_id = "magnus_door_event_specials",
+			composition_type = "onslaught_custom_specials_heavy_denial"
 		},
 		{
 			"spawn_special",
@@ -13669,7 +13646,7 @@ end
 			"continue_when",
 			duration = 12,
 			condition = function (t)
-				return (count_breed("chaos_marauder") + count_breed("chaos_marauder_with_shield")) < 8 and count_breed("chaos_fanatic") < 13 and count_breed("chaos_raider") < 4 and count_breed("chaos_berzerker") < 4
+				return (count_breed("skaven_plague_monk") < 7)
 			end
 		},
 		{
@@ -14099,22 +14076,6 @@ end
 			duration = 10
 		},
 		{
-			"event_horde",
-			spawner_id = "magnus_door_event_specials",
-			composition_type = "onslaught_custom_boss_troll"
-		},
-		{
-			"delay",
-			duration = 12
-		},
-		{
-			"continue_when",
-			duration = 15,
-			condition = function (t)
-				return count_breed("chaos_troll") < 1
-			end
-		},
-		{
 			"delay",
 			duration = 5
 		},
@@ -14415,7 +14376,7 @@ end
 		{
 			"event_horde",
 			spawner_id = "magnus_door_event_chaos",
-			composition_type = "onslaught_chaos_shields"
+			composition_type = "onslaught_event_small_fanatics"
 		},
 		{
 			"continue_when",
@@ -14521,7 +14482,7 @@ end
 		{
 			"event_horde",
 			spawner_id = "magnus_door_event_chaos",
-			composition_type = "onslaught_chaos_shields"
+			composition_type = "onslaught_event_small_fanatics"
 		},
 		{
 			"continue_when",
@@ -14549,7 +14510,7 @@ end
 		{
 			"event_horde",
 			spawner_id = "magnus_door_event_chaos",
-			composition_type = "onslaught_chaos_shields"
+			composition_type = "onslaught_event_small_fanatics"
 		},
 		{
 			"continue_when",
@@ -14577,7 +14538,7 @@ end
 		{
 			"event_horde",
 			spawner_id = "magnus_door_event_chaos",
-			composition_type = "onslaught_chaos_shields"
+			composition_type = "onslaught_event_small_fanatics"
 		},
 		{
 			"continue_when",
@@ -14605,7 +14566,7 @@ end
 		{
 			"event_horde",
 			spawner_id = "magnus_door_event_chaos",
-			composition_type = "onslaught_chaos_shields"
+			composition_type = "onslaught_event_small_fanatics"
 		},
 		{
 			"continue_when",
@@ -14633,7 +14594,7 @@ end
 		{
 			"event_horde",
 			spawner_id = "magnus_door_event_chaos",
-			composition_type = "onslaught_chaos_shields"
+			composition_type = "onslaught_event_small_fanatics"
 		},
 		{
 			"continue_when",
@@ -14657,7 +14618,7 @@ end
 			"control_specials",
 			enable = true
 		}
-	}
+	}	
 	
 	TerrorEventBlueprints.magnus.magnus_end_event = {
 		{
@@ -14666,7 +14627,7 @@ end
 		},
 		{
 			"control_specials",
-			enable = false
+			enable = true
 		},
 		{
 			"set_master_event_running",
@@ -14702,13 +14663,13 @@ end
 			"event_horde",
 			limit_spawners = 2,
 			spawner_id = "magnus_tower_horn",
-			composition_type = "onslaught_storm_vermin_medium"
+			composition_type = "onslaught_storm_vermin_white_medium"
 		},
 		{
 			"event_horde",
 			limit_spawners = 2,
 			spawner_id = "magnus_tower_horn",
-			composition_type = "onslaught_storm_vermin_medium"
+			composition_type = "onslaught_storm_vermin_white_medium"
 		},
 		{
 			"event_horde",
@@ -14748,7 +14709,15 @@ end
 			"event_horde",
 			limit_spawners = 4,
 			spawner_id = "magnus_tower_horn",
-			composition_type = "event_small"
+			composition_type = "event_medium"
+		},
+		{
+			"spawn_special",
+			breed_name = "skaven_dummy_clan_rat",
+			amount = {
+				2,
+				3
+			}
 		},
 		{
 			"event_horde",
@@ -14766,7 +14735,13 @@ end
 			"event_horde",
 			limit_spawners = 2,
 			spawner_id = "magnus_tower_horn",
-			composition_type = "onslaught_storm_vermin_medium"
+			composition_type = "onslaught_storm_vermin_white_medium"
+		},
+		{
+			"event_horde",
+			limit_spawners = 2,
+			spawner_id = "magnus_tower_horn",
+			composition_type = "onslaught_storm_vermin_white_medium"
 		},
 		{
 			"event_horde",
@@ -14787,64 +14762,6 @@ end
 		},
 		{
 			"play_stinger",
-			stinger_name = "enemy_horde_beastmen_stinger"
-		},
-		{
-			"event_horde",
-			spawner_id = "onslaught_magnus_entrance",
-			composition_type = "event_medium_chaos"
-		},
-		{
-			"spawn_at_raw",
-			spawner_id = "onslaught_magnus_top_left",
-			breed_name = "beastmen_minotaur",
-			optional_data = {
-				max_health_modifier = 0.25
-			}
-		},
-		{
-			"event_horde",
-			--spawner_id = "onslaught_magnus_top_window",
-			composition_type = "onslaught_beastmen_bestigors"
-		},
-		{
-			"spawn_special",
-			breed_name = "beastmen_standard_bearer"
-		},	
-		{
-			"delay",
-			duration = 5,
-		},
-		{
-			"event_horde",
-			spawner_id = "onslaught_magnus_horn",
-			composition_type = "beastmen_elite"
-		},
-		{
-			"spawn_at_raw",
-			spawner_id = "onslaught_magnus_boss_entrance",
-			breed_name = "beastmen_minotaur",
-			optional_data = {
-				max_health_modifier = 0.25
-			}
-		},
-		{
-			"spawn_special",
-			breed_name = "beastmen_standard_bearer"
-		},
-		{
-			"delay",
-			duration = 10
-		},	
-		{
-			"continue_when",
-			duration = 65,
-			condition = function (t)
-				return (count_event_breed("beastmen_gor") + count_event_breed("beastmen_ungor")) < 8 and count_event_breed("beastmen_bestigor") < 2 and count_breed("beastmen_minotaur") < 1
-			end
-		},
-		{
-			"play_stinger",
 			stinger_name = "enemy_horde_chaos_stinger"
 		},
 		{
@@ -14860,7 +14777,7 @@ end
 			"event_horde",
 			limit_spawners = 1,
 			spawner_id = "magnus_tower_chaos",
-			composition_type = "onslaught_chaos_shields"
+			composition_type = "onslaught_event_small_fanatics"
 		},
 		{
 			"event_horde",
@@ -14881,6 +14798,12 @@ end
 			composition_type = "onslaught_chaos_berzerkers_medium"
 		},
 		{
+			"event_horde",
+			limit_spawners = 2,
+			spawner_id = "magnus_tower_chaos",
+			composition_type = "onslaught_chaos_berzerkers_medium"
+		},
+		{
 			"delay",
 			duration = 1
 		},
@@ -14888,7 +14811,13 @@ end
 			"event_horde",
 			limit_spawners = 1,
 			spawner_id = "magnus_tower_chaos",
-			composition_type = "onslaught_chaos_shields"
+			composition_type = "onslaught_event_small_fanatics"
+		},
+		{
+			"event_horde",
+			limit_spawners = 2,
+			spawner_id = "magnus_tower_chaos",
+			composition_type = "onslaught_chaos_warriors"
 		},
 		{
 			"event_horde",
@@ -14912,16 +14841,6 @@ end
 			duration = 4
 		},
 		{
-			"spawn_special",
-			amount = 4,
-			breed_name = "skaven_poison_wind_globadier"
-		},
-		{
-			"spawn_special",
-			amount = 2,
-			breed_name = "skaven_ratling_gunner"
-		},
-		{
 			"play_stinger",
 			stinger_name = "enemy_horde_stinger"
 		},
@@ -14939,7 +14858,13 @@ end
 			"event_horde",
 			limit_spawners = 4,
 			spawner_id = "magnus_tower_horn",
-			composition_type = "event_small"
+			composition_type = "event_medium"
+		},
+		{
+			"event_horde",
+			limit_spawners = 4,
+			spawner_id = "magnus_tower_horn",
+			composition_type = "event_stormvermin_shielders"
 		},
 		{
 			"event_horde",
@@ -14950,6 +14875,12 @@ end
 		{
 			"delay",
 			duration = 5
+		},
+		{
+			"event_horde",
+			limit_spawners = 1,
+			spawner_id = "magnus_tower_horn",
+			composition_type = "onslaught_plague_monks_medium"
 		},
 		{
 			"event_horde",
@@ -15005,6 +14936,18 @@ end
 			composition_type = "onslaught_storm_vermin_medium"
 		},
 		{
+			"event_horde",
+			limit_spawners = 2,
+			spawner_id = "magnus_tower_horn",
+			composition_type = "onslaught_storm_vermin_medium"
+		},
+		{
+			"event_horde",
+			limit_spawners = 2,
+			spawner_id = "magnus_tower_horn",
+			composition_type = "onslaught_storm_vermin_white_medium"
+		},
+		{
 			"delay",
 			duration = 10
 		},
@@ -15016,72 +14959,18 @@ end
 			end
 		},
 		{
-			"play_stinger",
-			stinger_name = "enemy_horde_beastmen_stinger"
-		},
-		{
-			"event_horde",
-			limit_spawners = 3,
-			composition_type = "onslaught_event_beastmen_large"
-		},
-		{
-			"event_horde",
-			limit_spawners = 3,
-			spawner_id = "onslaught_magnus_horn",
-			composition_type = "beastmen_elite"
-		},
-		{
-			"delay",
-			duration = 10
-		},
-		{
-			"spawn_special",
-			breed_name = "beastmen_standard_bearer"
-		},	
-		{
-			"event_horde",
-			limit_spawners = 3,
-			spawner_id = "onslaught_magnus_entrance",
-			composition_type = "onslaught_event_beastmen_medium"
-		},
-		{
-			"event_horde",
-			limit_spawners = 3,
-			--spawner_id = "onslaught_magnus_top_window",
-			composition_type = "onslaught_beastmen_bestigors"
-		},
-		{
-			"event_horde",
-			limit_spawners = 3,
-			spawner_id = "onslaught_magnus_horn",
-			composition_type = "onslaught_beastmen_bestigors"
-		},
-		{
-			"event_horde",
-			limit_spawners = 3,
-			spawner_id = "onslaught_magnus_horn",
-			composition_type = "onslaught_beastmen_bestigors"
-		},
-		{
-			"continue_when",
-			duration = 65,
-			condition = function (t)
-				return (count_event_breed("beastmen_gor") + count_event_breed("beastmen_ungor")) < 8 and count_event_breed("beastmen_bestigor") < 2 and count_breed("beastmen_minotaur") < 1
-			end
-		},
-		{
-			"spawn_special",
-			amount = 2,
-			breed_name = "chaos_corruptor_sorcerer"
-		},
-		{
-			"spawn_special",
-			amount = 3,
-			breed_name = "chaos_vortex_sorcerer"
-		},
-		{
 			"delay",
 			duration = 3
+		},
+		{
+			"event_horde",
+			spawner_id = "magnus_tower_chaos",
+			composition_type = "onslaught_chaos_berzerkers_medium"
+		},
+		{
+			"event_horde",
+			spawner_id = "magnus_tower_chaos",
+			composition_type = "onslaught_chaos_berzerkers_medium"
 		},
 		{
 			"event_horde",
@@ -15125,15 +15014,6 @@ end
 			end
 		},
 		{
-			"spawn_special",
-			breed_name = "skaven_poison_wind_globadier"
-		},
-		{
-			"spawn_special",
-			amount = 2,
-			breed_name = "skaven_warpfire_thrower"
-		},
-		{
 			"event_horde",
 			limit_spawners = 4,
 			spawner_id = "magnus_tower_horn",
@@ -15160,8 +15040,16 @@ end
 			composition_type = "onslaught_plague_monks_medium"
 		},
 		{
-			"delay",
-			duration = 10
+			"event_horde",
+			limit_spawners = 2,
+			spawner_id = "magnus_tower_horn",
+			composition_type = "onslaught_plague_monks_medium"
+		},
+		{
+			"event_horde",
+			limit_spawners = 2,
+			spawner_id = "magnus_tower_horn",
+			composition_type = "onslaught_storm_vermin_white_medium"
 		},
 		{
 			"continue_when",
@@ -15169,16 +15057,6 @@ end
 			condition = function (t)
 				return (count_event_breed("skaven_clan_rat") + count_event_breed("skaven_clan_rat_with_shield")) < 18 and count_event_breed("skaven_slave") < 25 and count_event_breed("skaven_storm_vermin_commander") < 6 and count_event_breed("skaven_plague_monk") < 5
 			end
-		},
-		{
-			"spawn_special",
-			amount = 2,
-			breed_name = "skaven_warpfire_thrower"
-		},
-		{
-			"spawn_special",
-			amount = 2,
-			breed_name = "skaven_ratling_gunner"
 		},
 		{
 			"delay",
@@ -15200,6 +15078,18 @@ end
 			limit_spawners = 4,
 			spawner_id = "magnus_tower_horn",
 			composition_type = "onslaught_storm_vermin_small"
+		},
+		{
+			"event_horde",
+			limit_spawners = 2,
+			spawner_id = "magnus_tower_horn",
+			composition_type = "onslaught_storm_vermin_white_medium"
+		},
+		{
+			"event_horde",
+			limit_spawners = 2,
+			spawner_id = "magnus_tower_horn",
+			composition_type = "onslaught_storm_vermin_white_medium"
 		},
 		{
 			"delay",
@@ -15225,7 +15115,6 @@ end
 			enable = true
 		}
 	}
-
 	---------------------
 	--Garden of Morr
 
@@ -17834,7 +17723,7 @@ end
 					9,
 					10
 				},
-				"beastmen_standard_bearer",
+				"skaven_explosive_loot_rat",
 				2
 			}
 		}

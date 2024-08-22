@@ -1082,7 +1082,7 @@ end)
 
 mod:network_register("bob_name_enable", function (sender, enable)
 	Breeds.skaven_dummy_clan_rat = mod.deepcopy(Breeds.skaven_ratling_gunner)
-	Breeds.skaven_dummy_clan_rat.size_variation_range = { 4, 4.5}
+	Breeds.skaven_dummy_clan_rat.size_variation_range = { 3, 3 }
 	Breeds.skaven_dummy_clan_rat.boss = true -- No WHC/Shade cheese fight this big man fair and square
 	GrudgeMarkedNames.skaven = { "Bob the Builder" }
 end)
@@ -1176,9 +1176,9 @@ mutator_plus.toggle = function()
 			mod:chat_broadcast("L猛已启动")
 		end
 		if mod:get("beta") then
-			mod:chat_broadcast("Running Linesman BETA v1.3.10")
+			mod:chat_broadcast("Running Linesman BETA v1.4.1")
 		else 
-			mod:chat_broadcast("Version 1.3.10")
+			mod:chat_broadcast("Version 1.4.1")
 		end 
 	else
 		mutator_plus.stop()

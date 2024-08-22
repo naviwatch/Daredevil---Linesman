@@ -47,6 +47,130 @@ local enhancement_list = {
 }
 local shield_shatter = TerrorEventUtils.generate_enhanced_breed_from_set(enhancement_list)
 
+local function create_weights()
+	local crash = nil
+
+	for id, setting in pairs(PackSpawningSettings) do
+		setting.name = id
+
+		if not setting.disabled then
+			roaming_set = setting.roaming_set
+			roaming_set.name = id
+			local weights = {}
+			local breed_packs_override = roaming_set.breed_packs_override
+
+			if breed_packs_override then
+				for i = 1, #breed_packs_override, 1 do
+					weights[i] = breed_packs_override[i][2]
+				end
+
+				roaming_set.breed_packs_override_loaded_dice = {
+					LoadedDice.create(weights)
+				}
+			end
+		end
+	end
+
+	-- Adjustment for the new difficulty system of horde compositions from 1.4 - I am not copypasting each composition 3 times. Or 4, doesn't matter.
+	for event, composition in pairs(HordeCompositions) do
+		if not composition[1][1] then
+			local temp_table = table.clone(composition)
+			table.clear_array(composition, #composition)
+			composition[1] = temp_table
+			composition[2] = temp_table
+			composition[3] = temp_table
+			composition[4] = temp_table
+			composition[5] = temp_table
+			composition[6] = temp_table
+			composition[7] = temp_table	
+		elseif not composition[6] then
+			composition[6] = composition[5]
+			composition[7] = composition[5]
+		end
+	end
+
+	local weights = {}
+	local crash = nil
+
+	for key, setting in pairs(HordeSettings) do
+		setting.name = key
+
+		if setting.compositions then
+			for name, composition in pairs(setting.compositions) do
+				for i = 1, #composition, 1 do
+					table.clear_array(weights, #weights)
+
+					local compositions = composition[i]
+
+					for j, variant in ipairs(compositions) do
+						weights[j] = variant.weight
+						local breeds = variant.breeds
+
+						for k = 1, #breeds, 2 do
+							local breed_name = breeds[k]
+							local breed = Breeds[breed_name]
+
+							if not breed then
+								print(string.format("Bad or non-existing breed in HordeCompositions table %s : '%s' defined in HordeCompositions.", name, tostring(breed_name)))
+
+								crash = true
+							elseif not breed.can_use_horde_spawners then
+								variant.must_use_hidden_spawners = true
+							end
+						end
+					end
+
+					compositions.loaded_probs = {
+						LoadedDice.create(weights)
+					}
+
+					fassert(not crash, "Found errors in HordeComposition table %s - see above. ", name)
+					fassert(compositions.loaded_probs, "Could not create horde composition probablitity table, make sure the table '%s' in HordeCompositions is correctly structured and has an entry for each difficulty.", name)
+				end
+			end
+		end
+
+		if setting.compositions_pacing then
+			for name, composition in pairs(setting.compositions_pacing) do
+				table.clear_array(weights, #weights)
+
+				for i, variant in ipairs(composition) do
+					weights[i] = variant.weight
+					local breeds = variant.breeds
+
+					for j = 1, #breeds, 2 do
+						local breed_name = breeds[j]
+						local breed = Breeds[breed_name]
+
+						if not breed then
+							print(string.format("Bad or non-existing breed in HordeCompositionsPacing table %s : '%s' defined in HordeCompositionsPacing.", name, tostring(breed_name)))
+
+							crash = true
+						elseif not breed.can_use_horde_spawners then
+							variant.must_use_hidden_spawners = true
+						end
+					end
+				end
+
+				composition.loaded_probs = {
+					LoadedDice.create(weights)
+				}
+
+				fassert(not crash, "Found errors in HordeCompositionsPacing table %s - see above. ", name)
+				fassert(composition.loaded_probs, "Could not create horde composition probablitity table, make sure the table '%s' in HordeCompositionsPacing is correctly structured.", name)
+			end
+		end
+	end
+end
+
+local function count_event_breed(breed_name)
+	return Managers.state.conflict:count_units_by_breed_during_event(breed_name)
+end
+
+local function count_breed(breed_name)
+	return Managers.state.conflict:count_units_by_breed(breed_name)
+end
+
 
 mutator.start = function()
 
@@ -152,6 +276,8 @@ mutator.start = function()
 		
 		return func(self, breed, boxed_spawn_pos, boxed_spawn_rot, spawn_category, spawn_animation, spawn_type, ...)
 	end)
+
+
 
 	--[[ 
 	-- Change intensity	
@@ -4994,648 +5120,648 @@ local co = 0.135
 		}
 	}
 
-			-- Dense Skaven Compositions
+	-- Dense Skaven Compositions
 
-	HordeCompositions.dn_skaven_slave_trash = {
-		{
-			name = "plain",
-			weight = 5,
-			breeds = {
-				"skaven_slave",
-				{
-					15,
-					20
-				},
-				"skaven_clan_rat",
-				{
-					20,
-					25
-				}
+HordeCompositions.dn_skaven_slave_trash = {
+	{
+		name = "plain",
+		weight = 5,
+		breeds = {
+			"skaven_slave",
+			{
+				15,
+				20
+			},
+			"skaven_clan_rat",
+			{
+				20,
+				25
+			}
+		}
+	}
+}
+
+HordeCompositions.dn_skaven_shielded_trash = {
+	{
+		name = "plain",
+		weight = 10,
+		breeds = {
+			"skaven_clan_rat",
+			{
+				17,
+				19
+			},
+			"skaven_clan_rat_with_shield",
+			{
+				20,
+				24
+			}
+		}
+	}
+}
+
+HordeCompositions.dn_skaven_trash = {
+	{
+		name = "plain",
+		weight = 10,
+		breeds = {
+			"skaven_clan_rat",
+			{
+				17,
+				19
+			},
+			"skaven_clan_rat_with_shield",
+			{
+				20,
+				24
+			}
+		}
+	},
+	{
+		name = "shielders",
+		weight = 10,
+		breeds = {
+			"skaven_clan_rat",
+			{
+				17,
+				19
+			},
+			"skaven_clan_rat_with_shield",
+			{
+				20,
+				24
 			}
 		}
 	}
 
-	HordeCompositions.dn_skaven_shielded_trash = {
-		{
-			name = "plain",
-			weight = 10,
-			breeds = {
-				"skaven_clan_rat",
-				{
-					17,
-					19
-				},
-				"skaven_clan_rat_with_shield",
-				{
-					20,
-					24
-				}
+}
+
+HordeCompositions.dn_skaven_elites = {
+	{
+		name = "plain",
+		weight = 10,
+		breeds = {
+			"skaven_storm_vermin_commander",
+			{
+				3,
+				4
+			}
+		}
+	},
+	{
+		name = "zerker",
+		weight = 10,
+		breeds = {
+			"skaven_plague_monk",
+			{
+				4,
+				5
+			}
+		}
+	},
+	{
+		name = "armored",
+		weight = 10,
+		breeds = {
+			"skaven_storm_vermin",
+			{
+				2,
+				3
 			}
 		}
 	}
+}
 
-	HordeCompositions.dn_skaven_trash = {
-		{
-			name = "plain",
-			weight = 10,
-			breeds = {
-				"skaven_clan_rat",
-				{
-					17,
-					19
-				},
-				"skaven_clan_rat_with_shield",
-				{
-					20,
-					24
-				}
-			}
-		},
-		{
-			name = "shielders",
-			weight = 10,
-			breeds = {
-				"skaven_clan_rat",
-				{
-					17,
-					19
-				},
-				"skaven_clan_rat_with_shield",
-				{
-					20,
-					24
-				}
-			}
-		}
-
-	}
-
-	HordeCompositions.dn_skaven_elites = {
-		{
-			name = "plain",
-			weight = 10,
-			breeds = {
-				"skaven_storm_vermin_commander",
-				{
-					3,
-					4
-				}
-			}
-		},
-		{
-			name = "zerker",
-			weight = 10,
-			breeds = {
-				"skaven_plague_monk",
-				{
-					4,
-					5
-				}
-			}
-		},
-		{
-			name = "armored",
-			weight = 10,
-			breeds = {
-				"skaven_storm_vermin",
-				{
-					2,
-					3
-				}
+HordeCompositions.dn_white_stormvermin = {
+	{
+		name = "plain",
+		weight = 10,
+		breeds = {
+			"skaven_storm_vermin",
+			{
+				3,
+				4
 			}
 		}
 	}
+}
 
-	HordeCompositions.dn_white_stormvermin = {
-		{
-			name = "plain",
-			weight = 10,
-			breeds = {
-				"skaven_storm_vermin",
-				{
-					3,
-					4
-				}
+HordeCompositions.dn_stormvermin = {
+	{
+		name = "plain",
+		weight = 10,
+		breeds = {
+			"skaven_storm_vermin_commander",
+			{
+				3,
+				4
 			}
 		}
 	}
+}
 
-	HordeCompositions.dn_stormvermin = {
-		{
-			name = "plain",
-			weight = 10,
-			breeds = {
-				"skaven_storm_vermin_commander",
-				{
-					3,
-					4
-				}
+HordeCompositions.dn_plague_monks = {
+	{
+		name = "plain",
+		weight = 10,
+		breeds = {
+			"skaven_plague_monk",
+			{
+				3,
+				4
 			}
 		}
 	}
+}
 
-	HordeCompositions.dn_plague_monks = {
-		{
-			name = "plain",
-			weight = 10,
-			breeds = {
-				"skaven_plague_monk",
-				{
-					3,
-					4
-				}
+HordeCompositions.dn_skaven_pursuit = {
+	{
+		name = "mixed",
+		weight = 5,
+		breeds = {
+			"skaven_slave",
+			{
+				14,
+				17
+			},
+			"skaven_clan_rat",
+			{
+				30,
+				35
+			},
+			"skaven_clan_rat_with_shield",
+			{
+				8,
+				13
+			}
+		}
+	},
+	{
+		name = "leader",
+		weight = 5,
+		breeds = {
+			"skaven_slave",
+			{
+				12,
+				14
+			},
+			"skaven_clan_rat",
+			{
+				20,
+				22
+			},
+			"skaven_clan_rat_with_shield",
+			{
+				7,
+				11
+			},
+			"skaven_storm_vermin_commander",
+			{
+				3,
+				4
+			}
+		}
+	},
+	{
+		name = "shielders",
+		weight = 5,
+		breeds = {
+			"skaven_slave",
+			{
+				14,
+				16
+			},
+			"skaven_clan_rat",
+			{
+				20,
+				21
+			},
+			"skaven_clan_rat_with_shield",
+			{
+				10,
+				14
+			},
+			"skaven_storm_vermin",
+			{
+				1,
+				1
+			},
+			"skaven_storm_vermin_with_shield",
+			{
+				2,
+				2
 			}
 		}
 	}
+}
 
-	HordeCompositions.dn_skaven_pursuit = {
-		{
-			name = "mixed",
-			weight = 5,
-			breeds = {
-				"skaven_slave",
-				{
-					14,
-					17
-				},
-				"skaven_clan_rat",
-				{
-					30,
-					35
-				},
-				"skaven_clan_rat_with_shield",
-				{
-					8,
-					13
-				}
+
+
+-- Dense Chaos Horde Comps
+
+HordeCompositions.dn_chaos_trash = {
+	{
+		name = "plain",
+		weight = 10,
+		breeds = {
+			"chaos_fanatic",
+			{
+				22,
+				26
+			},
+			"chaos_marauder",
+			{
+				12,
+				16
+			},
+			"chaos_marauder_with_shield",
+			{
+				3,
+				9
 			}
-		},
-		{
-			name = "leader",
-			weight = 5,
-			breeds = {
-				"skaven_slave",
-				{
-					12,
-					14
-				},
-				"skaven_clan_rat",
-				{
-					20,
-					22
-				},
-				"skaven_clan_rat_with_shield",
-				{
-					7,
-					11
-				},
-				"skaven_storm_vermin_commander",
-				{
-					3,
-					4
-				}
-			}
-		},
-		{
-			name = "shielders",
-			weight = 5,
-			breeds = {
-				"skaven_slave",
-				{
-					14,
-					16
-				},
-				"skaven_clan_rat",
-				{
-					20,
-					21
-				},
-				"skaven_clan_rat_with_shield",
-				{
-					10,
-					14
-				},
-				"skaven_storm_vermin",
-				{
-					1,
-					1
-				},
-				"skaven_storm_vermin_with_shield",
-				{
-					2,
-					2
-				}
+		}
+	},
+	{
+		name = "shielders",
+		weight = 10,
+		breeds = {
+			"chaos_fanatic",
+			{
+				18,
+				24
+			},
+			"chaos_marauder",
+			{
+				12,
+				16
+			},
+			"chaos_marauder_with_shield",
+			{
+				12,
+				16
 			}
 		}
 	}
+}
 
-
-
-	-- Dense Chaos Horde Comps
-
-	HordeCompositions.dn_chaos_trash = {
-		{
-			name = "plain",
-			weight = 10,
-			breeds = {
-				"chaos_fanatic",
-				{
-					22,
-					26
-				},
-				"chaos_marauder",
-				{
-					12,
-					16
-				},
-				"chaos_marauder_with_shield",
-				{
-					3,
-					9
-				}
-			}
-		},
-		{
-			name = "shielders",
-			weight = 10,
-			breeds = {
-				"chaos_fanatic",
-				{
-					18,
-					24
-				},
-				"chaos_marauder",
-				{
-					12,
-					16
-				},
-				"chaos_marauder_with_shield",
-				{
-					12,
-					16
-				}
-			}
+HordeCompositions.dn_chaos_shielded_trash = {
+	{
+		name = "plain",
+		weight = 10,
+		breeds = {
+			"chaos_fanatic",
+			{
+				18,
+				24
+			},
+			"chaos_marauder",
+			{
+				12,
+				16
+			},
+			"chaos_marauder_with_shield",
+			{
+				12,
+				16
+			},
 		}
 	}
+}
 
-	HordeCompositions.dn_chaos_shielded_trash = {
-		{
-			name = "plain",
-			weight = 10,
-			breeds = {
-				"chaos_fanatic",
-				{
-					18,
-					24
-				},
-				"chaos_marauder",
-				{
-					12,
-					16
-				},
-				"chaos_marauder_with_shield",
-				{
-					12,
-					16
-				},
+HordeCompositions.dn_chaos_elites = {
+	{
+		name = "plain",
+		weight = 10,
+		breeds = {
+		"chaos_raider",
+			{
+				3,
+				4
 			}
 		}
-	}
-
-	HordeCompositions.dn_chaos_elites = {
-		{
-			name = "plain",
-			weight = 10,
-			breeds = {
-			"chaos_raider",
-				{
-					3,
-					4
-				}
+	},
+	{
+		name = "zerker",
+		weight = 10,
+		breeds = {
+		"chaos_berzerker",
+			{
+				4,
+				5
 			}
-		},
-		{
-			name = "zerker",
-			weight = 10,
-			breeds = {
+		}
+	},
+}
+
+HordeCompositions.dn_chaos_zerkers_light = {
+	{
+		name = "plain",
+		weight = 10,
+		breeds = {
 			"chaos_berzerker",
-				{
-					4,
-					5
-				}
-			}
-		},
-	}
-
-	HordeCompositions.dn_chaos_zerkers_light = {
-		{
-			name = "plain",
-			weight = 10,
-			breeds = {
-				"chaos_berzerker",
-				{
-					3,
-					5
-				}
+			{
+				3,
+				5
 			}
 		}
 	}
+}
 
-	HordeCompositions.dn_chaos_zerkers = {
-		{
-			name = "plain",
-			weight = 10,
-			breeds = {
-				"chaos_berzerker",
-				{
-					5,
-					7
-				}
+HordeCompositions.dn_chaos_zerkers = {
+	{
+		name = "plain",
+		weight = 10,
+		breeds = {
+			"chaos_berzerker",
+			{
+				5,
+				7
 			}
 		}
 	}
+}
 
-	HordeCompositions.dn_chaos_maulers = {
-		{
-			name = "plain",
-			weight = 10,
-			breeds = {
-				"chaos_raider",
-				{
-					4,
-					7
-				}
+HordeCompositions.dn_chaos_maulers = {
+	{
+		name = "plain",
+		weight = 10,
+		breeds = {
+			"chaos_raider",
+			{
+				4,
+				7
 			}
 		}
 	}
+}
 
-	HordeCompositions.dn_chaos_zerkers_heavy = {
-		{
-			name = "plain",
-			weight = 10,
-			breeds = {
-				"chaos_berzerker",
-				{
-					7,
-					10
-				}
+HordeCompositions.dn_chaos_zerkers_heavy = {
+	{
+		name = "plain",
+		weight = 10,
+		breeds = {
+			"chaos_berzerker",
+			{
+				7,
+				10
 			}
 		}
 	}
+}
 
-	HordeCompositions.dn_chaos_warriors_light = {
-		{
-			name = "plain",
-			weight = 10,
-			breeds = {
-				"chaos_warrior",
-				{
-					1,
-					2
-				}
+HordeCompositions.dn_chaos_warriors_light = {
+	{
+		name = "plain",
+		weight = 10,
+		breeds = {
+			"chaos_warrior",
+			{
+				1,
+				2
 			}
 		}
 	}
+}
 
-	HordeCompositions.dn_chaos_warriors = {
-		{
-			name = "plain",
-			weight = 10,
-			breeds = {
-				"chaos_warrior",
-				{
-					2,
-					3
-				}
+HordeCompositions.dn_chaos_warriors = {
+	{
+		name = "plain",
+		weight = 10,
+		breeds = {
+			"chaos_warrior",
+			{
+				2,
+				3
 			}
 		}
 	}
+}
 
-	HordeCompositions.dn_chaos_warriors_heavy = {
-		{
-			name = "plain",
-			weight = 10,
-			breeds = {
-				"chaos_warrior",
-				{
-					3,
-					4
-				}
+HordeCompositions.dn_chaos_warriors_heavy = {
+	{
+		name = "plain",
+		weight = 10,
+		breeds = {
+			"chaos_warrior",
+			{
+				3,
+				4
 			}
 		}
 	}
+}
 
-	-- Dense Mixed Horde Comps
+-- Dense Mixed Horde Comps
 
-	HordeCompositions.dn_mixed_super_armor = {
-		{
-			name = "plain",
-			weight = 10,
-			breeds = {
-				"chaos_warrior",
-				{
-					8,
-					8
-				},
-				"skaven_storm_vermin",
-				{
-					4,
-					4
-				}
-				
+HordeCompositions.dn_mixed_super_armor = {
+	{
+		name = "plain",
+		weight = 10,
+		breeds = {
+			"chaos_warrior",
+			{
+				8,
+				8
+			},
+			"skaven_storm_vermin",
+			{
+				4,
+				4
 			}
-		}	
-	}
+			
+		}
+	}	
+}
 
-	-- Dense Beastmen
+-- Dense Beastmen
 
-	-- Dense Specials
+-- Dense Specials
 
-	HordeCompositions.dn_specials_heavy_disabler = {
-		{
-			name = "assassin",
-			weight = 10,
-			breeds = {
-				"skaven_gutter_runner",
-				{
-					2,
-					2
-				},
-				"skaven_pack_master",
-				{
-					1,
-					1
-				}
+HordeCompositions.dn_specials_heavy_disabler = {
+	{
+		name = "assassin",
+		weight = 10,
+		breeds = {
+			"skaven_gutter_runner",
+			{
+				2,
+				2
+			},
+			"skaven_pack_master",
+			{
+				1,
+				1
 			}
-		},
-		{
-			name = "packmaster",
-			weight = 10,
-			breeds = {
-				"skaven_pack_master",
-				{
-					2,
-					2
-				},
-				"chaos_corruptor_sorcerer",
-				{
-					1,
-					1
-				}
+		}
+	},
+	{
+		name = "packmaster",
+		weight = 10,
+		breeds = {
+			"skaven_pack_master",
+			{
+				2,
+				2
+			},
+			"chaos_corruptor_sorcerer",
+			{
+				1,
+				1
 			}
-		},
-		{
-			name = "leech",
-			weight = 10,
-			breeds = {
-				"chaos_corruptor_sorcerer",
-				{
-					2,
-					2
-				},
-				"skaven_gutter_runner",
-				{
-					1,
-					1
-				}
+		}
+	},
+	{
+		name = "leech",
+		weight = 10,
+		breeds = {
+			"chaos_corruptor_sorcerer",
+			{
+				2,
+				2
+			},
+			"skaven_gutter_runner",
+			{
+				1,
+				1
 			}
-		},
-		{
-			name = "mixed",
-			weight = 10,
-			breeds = {
-				"skaven_gutter_runner",
-				{
-					1,
-					1
-				},
-				"skaven_pack_master",
-				{
-					1,
-					1
-				},
-				"chaos_corruptor_sorcerer",
-				{
-					1,
-					1
-				}
+		}
+	},
+	{
+		name = "mixed",
+		weight = 10,
+		breeds = {
+			"skaven_gutter_runner",
+			{
+				1,
+				1
+			},
+			"skaven_pack_master",
+			{
+				1,
+				1
+			},
+			"chaos_corruptor_sorcerer",
+			{
+				1,
+				1
 			}
 		}
 	}
+}
 
-	HordeCompositions.dn_ratling_spam = {
-		{
-			name = "ratling_guns",
-			weight = 10,
-			breeds = {
-				"skaven_ratling_gunner",
-				{
-					5,
-					5
-				}
+HordeCompositions.dn_ratling_spam = {
+	{
+		name = "ratling_guns",
+		weight = 10,
+		breeds = {
+			"skaven_ratling_gunner",
+			{
+				5,
+				5
 			}
 		}
 	}
+}
 
-	HordeCompositions.dn_packmaster_spam = {
-		{
-			name = "packmasterz",
-			weight = 10,
-			breeds = {
-				"skaven_pack_master",
-				{
-					5,
-					5
-				}
+HordeCompositions.dn_packmaster_spam = {
+	{
+		name = "packmasterz",
+		weight = 10,
+		breeds = {
+			"skaven_pack_master",
+			{
+				5,
+				5
 			}
 		}
 	}
+}
 
-	HordeCompositions.athel_assassin_fire_combo = {
-		{
-			name = "assassin",
-			weight = 10,
-			breeds = {
-				"skaven_gutter_runner",
-				{
-					1,
-					1
-				},
-				"skaven_warpfire_thrower",
-				{
-					1,
-					1
-				}
+HordeCompositions.athel_assassin_fire_combo = {
+	{
+		name = "assassin",
+		weight = 10,
+		breeds = {
+			"skaven_gutter_runner",
+			{
+				1,
+				1
+			},
+			"skaven_warpfire_thrower",
+			{
+				1,
+				1
 			}
-		},
-	}
+		}
+	},
+}
 
-	HordeCompositions.athel_wdnmd = {
-		{
-			name = "assassin", -- this sounds bad
-			weight = 10,
-			breeds = {
-				"skaven_gutter_runner",
-				{
-					1,
-					1
-				},
-				"skaven_warpfire_thrower",
-				{
-					1,
-					1
-				}
+HordeCompositions.athel_wdnmd = {
+	{
+		name = "assassin", -- this sounds bad
+		weight = 10,
+		breeds = {
+			"skaven_gutter_runner",
+			{
+				1,
+				1
+			},
+			"skaven_warpfire_thrower",
+			{
+				1,
+				1
 			}
-		},
-		{
-			name = "packmaster",
-			weight = 10,
-			breeds = {
-				"skaven_pack_master",
-				{
-					1,
-					1
-				},
-				"skaven_warpfire_thrower",
-				{
-					1,
-					1
-				}
+		}
+	},
+	{
+		name = "packmaster",
+		weight = 10,
+		breeds = {
+			"skaven_pack_master",
+			{
+				1,
+				1
+			},
+			"skaven_warpfire_thrower",
+			{
+				1,
+				1
 			}
-		},
-		{
-			name = "gunner",
-			weight = 10,
-			breeds = {
-				"skaven_pack_master",
-				{
-					1,
-					1
-				},
-				"skaven_ratling_gunner",
-				{
-					1,
-					1
-				}
+		}
+	},
+	{
+		name = "gunner",
+		weight = 10,
+		breeds = {
+			"skaven_pack_master",
+			{
+				1,
+				1
+			},
+			"skaven_ratling_gunner",
+			{
+				1,
+				1
 			}
-		},
-		{
-			name = "gas",
-			weight = 5,
-			breeds = {
-				"skaven_gutter_runner",
-				{
-					1,
-					1
-				},
-				"skaven_poison_wind_globadier",
-				{
-					1,
-					1
-				}
+		}
+	},
+	{
+		name = "gas",
+		weight = 5,
+		breeds = {
+			"skaven_gutter_runner",
+			{
+				1,
+				1
+			},
+			"skaven_poison_wind_globadier",
+			{
+				1,
+				1
 			}
 		}
 	}
+}
 	---------------------
 	--Righteous Stand
 
@@ -25619,7 +25745,7 @@ mutator.toggle = function()
 			return
 		end
 		mutator.start()
-		mod:chat_broadcast("Daredevil ENABLED. Note that this is NOT Linesman Onslaught and instead is the deprecated and harder version.")
+		mod:chat_broadcast("Daredevil ENABLED. Note that this is NOT Linesman Onslaught and instead is the deprecated and (presumably) harder version.")
 	else
 		mutator.stop()
 		mod:chat_broadcast("Loser")
