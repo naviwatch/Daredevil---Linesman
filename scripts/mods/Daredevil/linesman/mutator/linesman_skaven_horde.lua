@@ -2,45 +2,45 @@ local mod = get_mod("Daredevil")
 
 local faction = "huge"
 
-	local trash_scale = 1
-	local shield_trash_scale = 1
-	local elite_scale = 1
-	local shield_elite_scale = 1
-	local berzerker_scale = 1
-	local super_armor_scale = 1
+local trash_scale = 1
+local shield_trash_scale = 1
+local elite_scale = 1
+local shield_elite_scale = 1
+local berzerker_scale = 1
+local super_armor_scale = 1
 
-	local trash_entities = {"skaven_slave","skaven_clan_rat"}
-	local shield_trash_entities = {"skaven_clan_rat_with_shield"}
-	local elite_entities = {"skaven_storm_vermin_commander"}
-	local shield_elite_entities = {"skaven_storm_vermin_with_shield"}
-	local berzerker_entities = {"skaven_plague_monk"}
-	local super_armor_entities = {"skaven_storm_vermin"}
+local trash_entities = { "skaven_slave", "skaven_clan_rat", "chaos_fanatic", "chaos_marauder" }
+local shield_trash_entities = { "skaven_clan_rat_with_shield", "chaos_marauder_with_shield" }
+local elite_entities = { "skaven_storm_vermin_commander", "chaos_raider", "beastmen_bestigor" }
+local shield_elite_entities = { "skaven_storm_vermin_with_shield" }
+local berzerker_entities = { "skaven_plague_monk", "chaos_berzerker" }
+local super_armor_entities = { "skaven_storm_vermin", "chaos_warrior" }
 
-	local scaling_data = {
-    {
-        scale_factor = trash_scale,
-        breeds = trash_entities,
-    },
-    {
-        scale_factor = shield_trash_scale,
-        breeds = shield_trash_entities,
-    },
-    {
-        scale_factor = elite_scale * mod.gain,
-        breeds = elite_entities,
-    },
-    {
-        scale_factor = shield_elite_scale * mod.gain,
-        breeds = shield_elite_entities,
-    },
-    {
-        scale_factor = berzerker_scale * mod.gain,
-        breeds = berzerker_entities,
-    },
-    {
-        scale_factor = super_armor_scale * mod.gain,
-        breeds = super_armor_entities,
-    },
+local scaling_data = {
+	{
+		scale_factor = trash_scale,
+		breeds = trash_entities,
+	},
+	{
+		scale_factor = shield_trash_scale,
+		breeds = shield_trash_entities,
+	},
+	{
+		scale_factor = elite_scale * mod.gain,
+		breeds = elite_entities,
+	},
+	{
+		scale_factor = shield_elite_scale * mod.gain,
+		breeds = shield_elite_entities,
+	},
+	{
+		scale_factor = berzerker_scale * mod.gain,
+		breeds = berzerker_entities,
+	},
+	{
+		scale_factor = super_armor_scale * mod.gain,
+		breeds = super_armor_entities,
+	},
 }
 	
 mini_patrol = {

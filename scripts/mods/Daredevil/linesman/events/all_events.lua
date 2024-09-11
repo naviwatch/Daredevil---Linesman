@@ -4302,10 +4302,32 @@ end
 		{
 			"event_horde",
 			spawner_id = "elven_ruins_toptier",
-			composition_type = "onslaught_custom_specials_heavy_denial"
+			composition_type = "onslaught_custom_special_denial"
 		},
 		{
 			"event_horde",
+			spawner_id = "elven_ruins_toptier",
+			composition_type = "event_extra_spice_medium"
+		},
+		{
+			"delay",
+			duration = {
+				4,
+				5
+			}
+		},
+		{
+			"event_horde",
+			spawner_id = "elven_ruins_toptier",
+			composition_type = "onslaught_custom_special_disabler"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"event_horde",
+			limit_spawners = 3,
 			spawner_id = "elven_ruins_toptier",
 			composition_type = "event_medium"
 		},
@@ -4316,45 +4338,6 @@ end
 			composition_type = "onslaught_plague_monks_medium"
 		},
 		{
-			"event_horde",
-			limit_spawners = 2,
-			spawner_id = "end_event_chaos",
-			composition_type = "onslaught_plague_monks_medium"
-		},
-		{
-			"delay",
-			duration = {
-				3,
-				4
-			}
-		},
-		{
-			"event_horde",
-			spawner_id = "elven_ruins_toptier",
-			composition_type = "onslaught_custom_specials_heavy_denial"
-		},
-		{
-			"delay",
-			duration = 1
-		},
-		{
-			"event_horde",
-			limit_spawners = 3,
-			spawner_id = "elven_ruins_toptier",
-			composition_type = "event_extra_spice_medium"
-		},
-		{
-			"event_horde",
-			limit_spawners = 2,
-			spawner_id = "end_event_chaos",
-			composition_type = "onslaught_plague_monks_medium"
-		},
-		{
-			"spawn_special",
-			amount = 1,
-			breed_name = "skaven_warpfire_thrower"
-		},
-		{
 			"delay",
 			duration = {
 				5,
@@ -4364,63 +4347,55 @@ end
 		{
 			"event_horde",
 			spawner_id = "elven_ruins_bottomtier",
-			composition_type = "event_small"
+			composition_type = "event_medium"
 		},
 		{
 			"continue_when",
-			duration = 10,
+			duration = 20, -- 10
 			condition = function (t)
 				return count_event_breed("skaven_clan_rat") < 30 and count_event_breed("skaven_slave") < 40 and count_event_breed("skaven_clan_rat_with_shield") < 20 and count_event_breed("skaven_storm_vermin_commander") < 9 and count_event_breed("skaven_storm_vermin_with_shield") < 9
 			end
 		},
 		{
-			"delay",
-			duration = {
-				3,
-				4
-			}
-		},
-		{
 			"event_horde",
 			limit_spawners = 3,
 			spawner_id = "elven_ruins_toptier",
-			composition_type = "onslaught_plague_monks_medium"
+			composition_type = "onslaught_plague_monks_small" 
 		},
 		{
 			"event_horde",
 			limit_spawners = 2,
 			spawner_id = "onslaught_mines_horde_front",
-			composition_type = "onslaught_storm_vermin_medium"
-		},
-		{
-			"event_horde",
-			limit_spawners = 3,
-			spawner_id = "elven_ruins_toptier",
-			composition_type = "onslaught_plague_monks_medium"
+			composition_type = "event_extra_spice_medium"
 		},
 		{
 			"event_horde",
 			limit_spawners = 2,
 			spawner_id = "onslaught_mines_horde_front",
-			composition_type = "onslaught_storm_vermin_medium"
-		},
-		{
-			"delay",
-			duration = {
-				3,
-				4
-			}
-		},
-		{
-			"event_horde",
-			spawner_id = "elven_ruins_bottomtier",
-			composition_type = "onslaught_custom_specials_heavy_denial"
+			composition_type = "athel_assassin_fire_combo"
 		},
 		{
 			"delay",
 			duration = {
 				5,
 				7
+			}
+		},
+		{
+			"event_horde",
+			spawner_id = "elven_ruins_bottomtier",
+			composition_type = "onslaught_custom_special_disabler"
+		},
+		{
+			"event_horde",
+			spawner_id = "elven_ruins_bottomtier",
+			composition_type = "onslaught_plague_monks_medium"
+		},
+		{
+			"delay",
+			duration = {
+				18,
+				20
 			}
 		},
 		{
@@ -4430,13 +4405,7 @@ end
 		{
 			"event_horde",
 			spawner_id = "elven_ruins_toptier",
-			composition_type = "event_medium"
-		},
-		{
-			"event_horde",
-			limit_spawners = 3,
-			spawner_id = "elven_ruins_toptier",
-			composition_type = "onslaught_plague_monks_medium"
+			composition_type = "athel_wdnmd"
 		},
 		{
 			"event_horde",
@@ -4451,13 +4420,13 @@ end
 		{
 			"event_horde",
 			spawner_id = "elven_ruins_bottomtier",
-			composition_type = "onslaught_custom_specials_heavy_denial"
+			composition_type = "dn_skaven_pursuit"
 		},
 		{
 			"continue_when",
-			duration = 45,
+			duration = 25,
 			condition = function (t)
-				return count_event_breed("skaven_clan_rat") < 30 and count_event_breed("skaven_slave") < 40 and count_event_breed("skaven_clan_rat_with_shield") < 20 and count_event_breed("skaven_storm_vermin_commander") < 9 and count_event_breed("skaven_storm_vermin_with_shield") < 9
+				return count_event_breed("skaven_clan_rat") < 30 and count_event_breed("skaven_slave") < 40 and count_event_breed("skaven_clan_rat_with_shield") < 20 and count_event_breed("skaven_storm_vermin_commander") < 2 and count_event_breed("skaven_storm_vermin_with_shield") < 2
 			end
 		},
 		{
@@ -4479,13 +4448,7 @@ end
 			"event_horde",
 			limit_spawners = 3,
 			spawner_id = "elven_ruins_toptier",
-			composition_type = "onslaught_plague_monks_medium"
-		},
-		{
-			"event_horde",
-			limit_spawners = 2,
-			spawner_id = "onslaught_mines_horde_front",
-			composition_type = "onslaught_storm_vermin_medium"
+			composition_type = "onslaught_plague_monks_small"
 		},
 		{
 			"delay",
@@ -4505,7 +4468,19 @@ end
 			"event_horde",
 			limit_spawners = 3,
 			spawner_id = "elven_ruins_toptier",
-			composition_type = "event_extra_spice_large"
+			composition_type = "athel_wdnmd"
+		},
+		{
+			"event_horde",
+			limit_spawners = 3,
+			spawner_id = "elven_ruins_toptier",
+			composition_type = "athel_wdnmd"
+		},
+		{
+			"event_horde",
+			limit_spawners = 3,
+			spawner_id = "elven_ruins_toptier",
+			composition_type = "onslaught_custom_specials_heavy_denial"
 		},
 		{
 			"delay",
@@ -4516,7 +4491,7 @@ end
 		},
 		{
 			"continue_when",
-			duration = 30,
+			duration = 10,
 			condition = function (t)
 				return count_event_breed("skaven_clan_rat") < 30 and count_event_breed("skaven_slave") < 40 and count_event_breed("skaven_clan_rat_with_shield") < 20 and count_event_breed("skaven_storm_vermin_commander") < 9 and count_event_breed("skaven_storm_vermin_with_shield") < 9
 			end
@@ -4525,19 +4500,25 @@ end
 			"event_horde",
 			limit_spawners = 3,
 			spawner_id = "elven_ruins_bottomtier",
-			composition_type = "event_extra_spice_large"
+			composition_type = "dn_skaven_pursuit"
 		},
 		{
 			"event_horde",
 			limit_spawners = 3,
 			spawner_id = "elven_ruins_toptier",
-			composition_type = "onslaught_plague_monks_medium"
+			composition_type = "onslaught_storm_vermin_small"
 		},
 		{
 			"event_horde",
 			limit_spawners = 2,
 			spawner_id = "onslaught_mines_horde_front",
-			composition_type = "onslaught_storm_vermin_medium"
+			composition_type = "onslaught_plague_monks_medium"
+		},
+		{
+			"event_horde",
+			limit_spawners = 2,
+			spawner_id = "elven_ruins_bottomtier",
+			composition_type = "athel_wdnmd"
 		},
 		{
 			"delay",
@@ -4548,7 +4529,7 @@ end
 		},
 		{
 			"continue_when",
-			duration = 45,
+			duration = 25,
 			condition = function (t)
 				return count_event_breed("skaven_clan_rat") < 30 and count_event_breed("skaven_slave") < 40 and count_event_breed("skaven_clan_rat_with_shield") < 20 and count_event_breed("skaven_storm_vermin_commander") < 9 and count_event_breed("skaven_storm_vermin_with_shield") < 9
 			end
@@ -4561,12 +4542,12 @@ end
 			"event_horde",
 			limit_spawners = 3,
 			spawner_id = "elven_ruins_toptier",
-			composition_type = "onslaught_plague_monks_medium"
+			composition_type = "athel_wdnmd"
 		},
 		{
 			"event_horde",
 			spawner_id = "elven_ruins_bottomtier",
-			composition_type = "onslaught_custom_specials_heavy_denial"
+			composition_type = "onslaught_custom_special_denial"
 		},
 		{
 			"delay",
@@ -4602,20 +4583,8 @@ end
 		},
 		{
 			"event_horde",
-			limit_spawners = 3,
-			spawner_id = "elven_ruins_toptier",
-			composition_type = "onslaught_plague_monks_medium"
-		},
-		{
-			"event_horde",
-			limit_spawners = 2,
-			spawner_id = "onslaught_mines_horde_front",
-			composition_type = "onslaught_storm_vermin_medium"
-		},
-		{
-			"event_horde",
 			spawner_id = "elven_ruins_bottomtier",
-			composition_type = "onslaught_custom_specials_heavy_denial"
+			composition_type = "onslaught_custom_special_denial"
 		},
 		{
 			"delay",
@@ -4632,23 +4601,80 @@ end
 			end
 		},
 		{
+			"event_horde",
+			spawner_id = "elven_ruins_bottomtier",
+			composition_type = "event_large"
+		},
+		{
+			"event_horde",
+			limit_spawners = 3,
+			spawner_id = "elven_ruins_toptier",
+			composition_type = "athel_wdnmd"
+		},
+		{
+			"event_horde",
+			limit_spawners = 3,
+			spawner_id = "elven_ruins_toptier",
+			composition_type = "athel_wdnmd"
+		},
+		{
+			"continue_when",
+			duration = 25,
+			condition = function (t)
+				return count_event_breed("skaven_clan_rat") < 30 and count_event_breed("skaven_slave") < 40 and count_event_breed("skaven_clan_rat_with_shield") < 20 and count_event_breed("skaven_storm_vermin_commander") < 2 and count_event_breed("skaven_storm_vermin_with_shield") < 2
+			end
+		},
+		{
+			"spawn_special",
+			amount = 1,
+			breed_name = "skaven_warpfire_thrower"
+		},
+		{
 			"delay",
 			duration = 4
 		},
 		{
-			"play_stinger",
-			stinger_name = "enemy_horde_stinger"
+			"event_horde",
+			limit_spawners = 3,
+			spawner_id = "elven_ruins_toptier",
+			composition_type = "dn_skaven_pursuit"
+		},
+		{
+			"event_horde",
+			limit_spawners = 3,
+			spawner_id = "elven_ruins_toptier",
+			composition_type = "onslaught_plague_monks_medium"
+		},
+		{
+			"event_horde",
+			limit_spawners = 3,
+			spawner_id = "elven_ruins_toptier",
+			composition_type = "onslaught_custom_special_denial"
+		},
+		{
+			"continue_when",
+			duration = 30,
+			condition = function (t)
+				return count_event_breed("skaven_clan_rat") < 30 and count_event_breed("skaven_slave") < 40 and count_event_breed("skaven_clan_rat_with_shield") < 20 and count_event_breed("skaven_storm_vermin_commander") < 9 and count_event_breed("skaven_storm_vermin_with_shield") < 9
+			end
 		},
 		{
 			"event_horde",
 			limit_spawners = 3,
 			spawner_id = "elven_ruins_bottomtier",
-			composition_type = "onslaught_plague_monks_medium"
+			composition_type = "event_medium"
 		},
 		{
 			"event_horde",
+			limit_spawners = 3,
 			spawner_id = "elven_ruins_toptier",
-			composition_type = "onslaught_custom_specials_heavy_denial"
+			composition_type = "onslaught_storm_vermin_small"
+		},
+		{
+			"event_horde",
+			limit_spawners = 2,
+			spawner_id = "onslaught_mines_horde_front",
+			composition_type = "onslaught_plague_monks_small"
 		},
 		{
 			"delay",
@@ -4665,20 +4691,19 @@ end
 			end
 		},
 		{
-			"delay",
-			duration = 4
-		},
-		{
-			"event_horde",
-			limit_spawners = 3,
-			spawner_id = "elven_ruins_bottomtier",
-			composition_type = "event_extra_spice_medium"
+			"play_stinger",
+			stinger_name = "enemy_horde_stinger"
 		},
 		{
 			"event_horde",
 			limit_spawners = 3,
 			spawner_id = "elven_ruins_toptier",
-			composition_type = "onslaught_plague_monks_medium"
+			composition_type = "athel_wdnmd"
+		},
+		{
+			"event_horde",
+			spawner_id = "elven_ruins_bottomtier",
+			composition_type = "onslaught_custom_special_denial"
 		},
 		{
 			"delay",
@@ -4695,33 +4720,16 @@ end
 			end
 		},
 		{
-			"play_stinger",
-			stinger_name = "enemy_horde_stinger"
-		},
-		{
-			"event_horde",
-			limit_spawners = 3,
-			spawner_id = "elven_ruins_toptier",
-			composition_type = "event_extra_spice_large"
-		},
-		{
-			"event_horde",
-			spawner_id = "elven_ruins_bottomtier",
-			composition_type = "onslaught_custom_specials_heavy_denial"
+			"spawn_special",
+			amount = 1,
+			breed_name = "skaven_warpfire_thrower"
 		},
 		{
 			"delay",
 			duration = {
-				5,
-				7
+				2,
+				3
 			}
-		},
-		{
-			"continue_when",
-			duration = 45,
-			condition = function (t)
-				return count_event_breed("skaven_clan_rat") < 30 and count_event_breed("skaven_slave") < 40 and count_event_breed("skaven_clan_rat_with_shield") < 20 and count_event_breed("skaven_storm_vermin_commander") < 9 and count_event_breed("skaven_storm_vermin_with_shield") < 9
-			end
 		},
 		{
 			"event_horde",
@@ -4732,7 +4740,72 @@ end
 		{
 			"event_horde",
 			spawner_id = "elven_ruins_bottomtier",
-			composition_type = "onslaught_custom_specials_heavy_denial"
+			composition_type = "onslaught_custom_special_denial"
+		},
+		{
+			"delay",
+			duration = {
+				5,
+				7
+			}
+		},
+		{
+			"continue_when",
+			duration = 30,
+			condition = function (t)
+				return count_event_breed("skaven_clan_rat") < 30 and count_event_breed("skaven_slave") < 40 and count_event_breed("skaven_clan_rat_with_shield") < 20 and count_event_breed("skaven_storm_vermin_commander") < 9 and count_event_breed("skaven_storm_vermin_with_shield") < 9
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "elven_ruins_bottomtier",
+			composition_type = "event_large"
+		},
+		{
+			"event_horde",
+			limit_spawners = 3,
+			spawner_id = "elven_ruins_toptier",
+			composition_type = "athel_wdnmd"
+		},
+		{
+			"event_horde",
+			limit_spawners = 3,
+			spawner_id = "elven_ruins_toptier",
+			composition_type = "athel_wdnmd"
+		},
+		{
+			"continue_when",
+			duration = 25,
+			condition = function (t)
+				return count_event_breed("skaven_clan_rat") < 30 and count_event_breed("skaven_slave") < 40 and count_event_breed("skaven_clan_rat_with_shield") < 20 and count_event_breed("skaven_storm_vermin_commander") < 2 and count_event_breed("skaven_storm_vermin_with_shield") < 2
+			end
+		},
+		{
+			"spawn_special",
+			amount = 1,
+			breed_name = "skaven_warpfire_thrower"
+		},
+		{
+			"delay",
+			duration = 4
+		},
+		{
+			"event_horde",
+			limit_spawners = 3,
+			spawner_id = "elven_ruins_toptier",
+			composition_type = "event_extra_spice_medium"
+		},
+		{
+			"event_horde",
+			limit_spawners = 3,
+			spawner_id = "elven_ruins_toptier",
+			composition_type = "athel_wdnmd"
+		},
+		{
+			"event_horde",
+			limit_spawners = 3,
+			spawner_id = "elven_ruins_toptier",
+			composition_type = "onslaught_custom_special_denial"
 		},
 		{
 			"delay",
@@ -4751,30 +4824,180 @@ end
 		{
 			"spawn_special",
 			amount = 1,
-			breed_name = "chaos_vortex_sorcerer"
+			breed_name = "skaven_warpfire_thrower"
+		},
+		{
+			"delay",
+			duration = 4
+		},
+		{
+			"event_horde",
+			limit_spawners = 3,
+			spawner_id = "elven_ruins_toptier",
+			composition_type = "event_extra_spice_medium"
+		},
+		{
+			"event_horde",
+			limit_spawners = 3,
+			spawner_id = "elven_ruins_toptier",
+			composition_type = "onslaught_plague_monks_small"
+		},
+		{
+			"event_horde",
+			limit_spawners = 3,
+			spawner_id = "elven_ruins_toptier",
+			composition_type = "athel_wdnmd"
+		},
+		{
+			"continue_when",
+			duration = 30,
+			condition = function (t)
+				return count_event_breed("skaven_clan_rat") < 30 and count_event_breed("skaven_slave") < 40 and count_event_breed("skaven_clan_rat_with_shield") < 20 and count_event_breed("skaven_storm_vermin_commander") < 9 and count_event_breed("skaven_storm_vermin_with_shield") < 9
+			end
+		},
+		{
+			"event_horde",
+			limit_spawners = 3,
+			spawner_id = "elven_ruins_bottomtier",
+			composition_type = "event_medium"
+		},
+		{
+			"event_horde",
+			limit_spawners = 3,
+			spawner_id = "elven_ruins_toptier",
+			composition_type = "dn_ratling_spam"
+		},
+		{
+			"event_horde",
+			limit_spawners = 2,
+			spawner_id = "onslaught_mines_horde_front",
+			composition_type = "onslaught_plague_monks_small"
+		},
+		{
+			"delay",
+			duration = {
+				5,
+				7
+			}
+		},
+		{
+			"continue_when",
+			duration = 25,
+			condition = function (t)
+				return count_event_breed("skaven_clan_rat") < 30 and count_event_breed("skaven_slave") < 40 and count_event_breed("skaven_clan_rat_with_shield") < 20 and count_event_breed("skaven_storm_vermin_commander") < 9 and count_event_breed("skaven_storm_vermin_with_shield") < 9
+			end
+		},
+		{
+			"play_stinger",
+			stinger_name = "enemy_horde_stinger"
+		},
+		{
+			"event_horde",
+			limit_spawners = 3,
+			spawner_id = "elven_ruins_toptier",
+			composition_type = "athel_wdnmd"
+		},
+		{
+			"event_horde",
+			spawner_id = "elven_ruins_bottomtier",
+			composition_type = "onslaught_custom_special_denial"
+		},
+		{
+			"delay",
+			duration = {
+				5,
+				7
+			}
+		},
+		{
+			"continue_when",
+			duration = 30,
+			condition = function (t)
+				return count_event_breed("skaven_clan_rat") < 30 and count_event_breed("skaven_slave") < 40 and count_event_breed("skaven_clan_rat_with_shield") < 20 and count_event_breed("skaven_storm_vermin_commander") < 9 and count_event_breed("skaven_storm_vermin_with_shield") < 9
+			end
+		},
+		{
+			"continue_when",
+			duration = 30,
+			condition = function (t)
+				return count_event_breed("skaven_clan_rat") < 30 and count_event_breed("skaven_slave") < 40 and count_event_breed("skaven_clan_rat_with_shield") < 20 and count_event_breed("skaven_storm_vermin_commander") < 9 and count_event_breed("skaven_storm_vermin_with_shield") < 9
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "elven_ruins_bottomtier",
+			composition_type = "event_large"
+		},
+		{
+			"event_horde",
+			limit_spawners = 3,
+			spawner_id = "elven_ruins_toptier",
+			composition_type = "athel_wdnmd"
+		},
+		{
+			"event_horde",
+			limit_spawners = 3,
+			spawner_id = "elven_ruins_toptier",
+			composition_type = "athel_wdnmd"
+		},
+		{
+			"continue_when",
+			duration = 25,
+			condition = function (t)
+				return count_event_breed("skaven_clan_rat") < 30 and count_event_breed("skaven_slave") < 40 and count_event_breed("skaven_clan_rat_with_shield") < 20 and count_event_breed("skaven_storm_vermin_commander") < 2 and count_event_breed("skaven_storm_vermin_with_shield") < 2
+			end
 		},
 		{
 			"spawn_special",
 			amount = 1,
-			breed_name = "skaven_poison_wind_globadier"
+			breed_name = "skaven_warpfire_thrower"
+		},
+		{
+			"delay",
+			duration = 4
+		},
+		{
+			"event_horde",
+			limit_spawners = 3,
+			spawner_id = "elven_ruins_toptier",
+			composition_type = "dn_skaven_pursuit"
+		},
+		{
+			"event_horde",
+			limit_spawners = 3,
+			spawner_id = "elven_ruins_toptier",
+			composition_type = "onslaught_plague_monks_medium"
+		},
+		{
+			"event_horde",
+			limit_spawners = 3,
+			spawner_id = "elven_ruins_toptier",
+			composition_type = "onslaught_custom_special_denial"
+		},
+		{
+			"continue_when",
+			duration = 30,
+			condition = function (t)
+				return count_event_breed("skaven_clan_rat") < 30 and count_event_breed("skaven_slave") < 40 and count_event_breed("skaven_clan_rat_with_shield") < 20 and count_event_breed("skaven_storm_vermin_commander") < 9 and count_event_breed("skaven_storm_vermin_with_shield") < 9
+			end
 		},
 		{
 			"event_horde",
 			limit_spawners = 3,
 			spawner_id = "elven_ruins_bottomtier",
-			composition_type = "event_extra_spice_large"
+			composition_type = "event_medium"
 		},
 		{
 			"event_horde",
 			limit_spawners = 3,
 			spawner_id = "elven_ruins_toptier",
-			composition_type = "onslaught_plague_monks_medium"
+			composition_type = "onslaught_storm_vermin_small"
 		},
 		{
 			"event_horde",
-			limit_spawners = 3,
-			spawner_id = "elven_ruins_toptier",
-			composition_type = "onslaught_plague_monks_medium"
+			limit_spawners = 2,
+			spawner_id = "onslaught_mines_horde_front",
+			composition_type = "onslaught_plague_monks_small"
 		},
 		{
 			"delay",
@@ -4785,7 +5008,7 @@ end
 		},
 		{
 			"continue_when",
-			duration = 45,
+			duration = 25,
 			condition = function (t)
 				return count_event_breed("skaven_clan_rat") < 30 and count_event_breed("skaven_slave") < 40 and count_event_breed("skaven_clan_rat_with_shield") < 20 and count_event_breed("skaven_storm_vermin_commander") < 9 and count_event_breed("skaven_storm_vermin_with_shield") < 9
 			end
@@ -4798,7 +5021,49 @@ end
 			"event_horde",
 			limit_spawners = 3,
 			spawner_id = "elven_ruins_toptier",
-			composition_type = "onslaught_plague_monks_medium"
+			composition_type = "athel_wdnmd"
+		},
+		{
+			"event_horde",
+			spawner_id = "elven_ruins_bottomtier",
+			composition_type = "onslaught_custom_special_denial"
+		},
+		{
+			"delay",
+			duration = {
+				5,
+				7
+			}
+		},
+		{
+			"continue_when",
+			duration = 30,
+			condition = function (t)
+				return count_event_breed("skaven_clan_rat") < 30 and count_event_breed("skaven_slave") < 40 and count_event_breed("skaven_clan_rat_with_shield") < 20 and count_event_breed("skaven_storm_vermin_commander") < 9 and count_event_breed("skaven_storm_vermin_with_shield") < 9
+			end
+		},
+		{
+			"spawn_special",
+			amount = 1,
+			breed_name = "skaven_warpfire_thrower"
+		},
+		{
+			"delay",
+			duration = {
+				2,
+				3
+			}
+		},
+		{
+			"event_horde",
+			limit_spawners = 3,
+			spawner_id = "elven_ruins_toptier",
+			composition_type = "event_extra_spice_medium"
+		},
+		{
+			"event_horde",
+			spawner_id = "elven_ruins_bottomtier",
+			composition_type = "onslaught_custom_special_denial"
 		},
 		{
 			"delay",
@@ -4816,20 +5081,54 @@ end
 		},
 		{
 			"event_horde",
-			limit_spawners = 3,
 			spawner_id = "elven_ruins_bottomtier",
+			composition_type = "event_large"
+		},
+		{
+			"event_horde",
+			limit_spawners = 3,
+			spawner_id = "elven_ruins_toptier",
+			composition_type = "athel_wdnmd"
+		},
+		{
+			"event_horde",
+			limit_spawners = 3,
+			spawner_id = "elven_ruins_toptier",
+			composition_type = "athel_wdnmd"
+		},
+		{
+			"continue_when",
+			duration = 25,
+			condition = function (t)
+				return count_event_breed("skaven_clan_rat") < 30 and count_event_breed("skaven_slave") < 40 and count_event_breed("skaven_clan_rat_with_shield") < 20 and count_event_breed("skaven_storm_vermin_commander") < 2 and count_event_breed("skaven_storm_vermin_with_shield") < 2
+			end
+		},
+		{
+			"spawn_special",
+			amount = 1,
+			breed_name = "skaven_warpfire_thrower"
+		},
+		{
+			"delay",
+			duration = 4
+		},
+		{
+			"event_horde",
+			limit_spawners = 3,
+			spawner_id = "elven_ruins_toptier",
 			composition_type = "event_extra_spice_medium"
 		},
 		{
 			"event_horde",
+			limit_spawners = 3,
 			spawner_id = "elven_ruins_toptier",
-			composition_type = "onslaught_custom_special_denial"
+			composition_type = "athel_wdnmd"
 		},
 		{
 			"event_horde",
 			limit_spawners = 3,
 			spawner_id = "elven_ruins_toptier",
-			composition_type = "onslaught_plague_monks_medium"
+			composition_type = "onslaught_custom_special_denial"
 		},
 		{
 			"delay",
@@ -4837,6 +5136,40 @@ end
 				5,
 				7
 			}
+		},
+		{
+			"continue_when",
+			duration = 25,
+			condition = function (t)
+				return count_event_breed("skaven_clan_rat") < 30 and count_event_breed("skaven_slave") < 40 and count_event_breed("skaven_clan_rat_with_shield") < 20 and count_event_breed("skaven_storm_vermin_commander") < 9 and count_event_breed("skaven_storm_vermin_with_shield") < 9
+			end
+		},
+		{
+			"spawn_special",
+			amount = 1,
+			breed_name = "skaven_warpfire_thrower"
+		},
+		{
+			"delay",
+			duration = 4
+		},
+		{
+			"event_horde",
+			limit_spawners = 3,
+			spawner_id = "elven_ruins_toptier",
+			composition_type = "event_extra_spice_medium"
+		},
+		{
+			"event_horde",
+			limit_spawners = 3,
+			spawner_id = "elven_ruins_toptier",
+			composition_type = "onslaught_plague_monks_small"
+		},
+		{
+			"event_horde",
+			limit_spawners = 3,
+			spawner_id = "elven_ruins_toptier",
+			composition_type = "athel_wdnmd"
 		},
 		{
 			"continue_when",
@@ -4848,19 +5181,20 @@ end
 		{
 			"event_horde",
 			limit_spawners = 3,
-			spawner_id = "elven_ruins_toptier",
-			composition_type = "event_extra_spice_medium"
+			spawner_id = "elven_ruins_bottomtier",
+			composition_type = "event_medium"
 		},
 		{
 			"event_horde",
 			limit_spawners = 3,
 			spawner_id = "elven_ruins_toptier",
-			composition_type = "onslaught_plague_monks_medium"
+			composition_type = "dn_ratling_spam"
 		},
 		{
 			"event_horde",
-			spawner_id = "elven_ruins_bottomtier",
-			composition_type = "onslaught_custom_special_denial"
+			limit_spawners = 2,
+			spawner_id = "onslaught_mines_horde_front",
+			composition_type = "onslaught_plague_monks_small"
 		},
 		{
 			"delay",
@@ -4871,7 +5205,7 @@ end
 		},
 		{
 			"continue_when",
-			duration = 30,
+			duration = 25,
 			condition = function (t)
 				return count_event_breed("skaven_clan_rat") < 30 and count_event_breed("skaven_slave") < 40 and count_event_breed("skaven_clan_rat_with_shield") < 20 and count_event_breed("skaven_storm_vermin_commander") < 9 and count_event_breed("skaven_storm_vermin_with_shield") < 9
 			end
@@ -4883,13 +5217,73 @@ end
 		{
 			"event_horde",
 			limit_spawners = 3,
-			spawner_id = "elven_ruins_bottomtier",
-			composition_type = "event_extra_spice_medium"
+			spawner_id = "elven_ruins_toptier",
+			composition_type = "athel_wdnmd"
 		},
 		{
 			"event_horde",
-			spawner_id = "elven_ruins_toptier",
+			spawner_id = "elven_ruins_bottomtier",
 			composition_type = "onslaught_custom_special_denial"
+		},
+		{
+			"delay",
+			duration = {
+				5,
+				7
+			}
+		},
+		{
+			"continue_when",
+			duration = 30,
+			condition = function (t)
+				return count_event_breed("skaven_clan_rat") < 30 and count_event_breed("skaven_slave") < 40 and count_event_breed("skaven_clan_rat_with_shield") < 20 and count_event_breed("skaven_storm_vermin_commander") < 9 and count_event_breed("skaven_storm_vermin_with_shield") < 9
+			end
+		},
+		{
+			"continue_when",
+			duration = 30,
+			condition = function (t)
+				return count_event_breed("skaven_clan_rat") < 30 and count_event_breed("skaven_slave") < 40 and count_event_breed("skaven_clan_rat_with_shield") < 20 and count_event_breed("skaven_storm_vermin_commander") < 9 and count_event_breed("skaven_storm_vermin_with_shield") < 9
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "elven_ruins_bottomtier",
+			composition_type = "event_large"
+		},
+		{
+			"event_horde",
+			limit_spawners = 3,
+			spawner_id = "elven_ruins_toptier",
+			composition_type = "athel_wdnmd"
+		},
+		{
+			"event_horde",
+			limit_spawners = 3,
+			spawner_id = "elven_ruins_toptier",
+			composition_type = "athel_wdnmd"
+		},
+		{
+			"continue_when",
+			duration = 25,
+			condition = function (t)
+				return count_event_breed("skaven_clan_rat") < 30 and count_event_breed("skaven_slave") < 40 and count_event_breed("skaven_clan_rat_with_shield") < 20 and count_event_breed("skaven_storm_vermin_commander") < 2 and count_event_breed("skaven_storm_vermin_with_shield") < 2
+			end
+		},
+		{
+			"spawn_special",
+			amount = 1,
+			breed_name = "skaven_warpfire_thrower"
+		},
+		{
+			"delay",
+			duration = 4
+		},
+		{
+			"event_horde",
+			limit_spawners = 3,
+			spawner_id = "elven_ruins_toptier",
+			composition_type = "dn_skaven_pursuit"
 		},
 		{
 			"event_horde",
@@ -4899,9 +5293,100 @@ end
 		},
 		{
 			"event_horde",
+			limit_spawners = 3,
+			spawner_id = "elven_ruins_toptier",
+			composition_type = "onslaught_custom_special_denial"
+		},
+		{
+			"continue_when",
+			duration = 30,
+			condition = function (t)
+				return count_event_breed("skaven_clan_rat") < 30 and count_event_breed("skaven_slave") < 40 and count_event_breed("skaven_clan_rat_with_shield") < 20 and count_event_breed("skaven_storm_vermin_commander") < 9 and count_event_breed("skaven_storm_vermin_with_shield") < 9
+			end
+		},
+		{
+			"event_horde",
+			limit_spawners = 3,
+			spawner_id = "elven_ruins_bottomtier",
+			composition_type = "event_medium"
+		},
+		{
+			"event_horde",
+			limit_spawners = 3,
+			spawner_id = "elven_ruins_toptier",
+			composition_type = "onslaught_storm_vermin_small"
+		},
+		{
+			"event_horde",
 			limit_spawners = 2,
 			spawner_id = "onslaught_mines_horde_front",
-			composition_type = "onslaught_storm_vermin_medium"
+			composition_type = "onslaught_plague_monks_small"
+		},
+		{
+			"delay",
+			duration = {
+				5,
+				7
+			}
+		},
+		{
+			"continue_when",
+			duration = 25,
+			condition = function (t)
+				return count_event_breed("skaven_clan_rat") < 30 and count_event_breed("skaven_slave") < 40 and count_event_breed("skaven_clan_rat_with_shield") < 20 and count_event_breed("skaven_storm_vermin_commander") < 9 and count_event_breed("skaven_storm_vermin_with_shield") < 9
+			end
+		},
+		{
+			"play_stinger",
+			stinger_name = "enemy_horde_stinger"
+		},
+		{
+			"event_horde",
+			limit_spawners = 3,
+			spawner_id = "elven_ruins_toptier",
+			composition_type = "athel_wdnmd"
+		},
+		{
+			"event_horde",
+			spawner_id = "elven_ruins_bottomtier",
+			composition_type = "onslaught_custom_special_denial"
+		},
+		{
+			"delay",
+			duration = {
+				5,
+				7
+			}
+		},
+		{
+			"continue_when",
+			duration = 30,
+			condition = function (t)
+				return count_event_breed("skaven_clan_rat") < 30 and count_event_breed("skaven_slave") < 40 and count_event_breed("skaven_clan_rat_with_shield") < 20 and count_event_breed("skaven_storm_vermin_commander") < 9 and count_event_breed("skaven_storm_vermin_with_shield") < 9
+			end
+		},
+		{
+			"spawn_special",
+			amount = 1,
+			breed_name = "skaven_warpfire_thrower"
+		},
+		{
+			"delay",
+			duration = {
+				2,
+				3
+			}
+		},
+		{
+			"event_horde",
+			limit_spawners = 3,
+			spawner_id = "elven_ruins_toptier",
+			composition_type = "event_extra_spice_medium"
+		},
+		{
+			"event_horde",
+			spawner_id = "elven_ruins_bottomtier",
+			composition_type = "onslaught_custom_special_denial"
 		},
 		{
 			"delay",
@@ -4919,77 +5404,36 @@ end
 		},
 		{
 			"event_horde",
-			limit_spawners = 3,
-			spawner_id = "elven_ruins_toptier",
-			composition_type = "event_extra_spice_medium"
-		},
-		{
-			"event_horde",
 			spawner_id = "elven_ruins_bottomtier",
-			composition_type = "onslaught_custom_special_denial"
+			composition_type = "event_large"
 		},
 		{
 			"event_horde",
 			limit_spawners = 3,
 			spawner_id = "elven_ruins_toptier",
-			composition_type = "onslaught_plague_monks_medium"
+			composition_type = "athel_wdnmd"
 		},
 		{
 			"event_horde",
-			limit_spawners = 2,
-			spawner_id = "onslaught_mines_horde_front",
-			composition_type = "onslaught_storm_vermin_medium"
-		},
-		{
-			"delay",
-			duration = {
-				5,
-				7
-			}
+			limit_spawners = 3,
+			spawner_id = "elven_ruins_toptier",
+			composition_type = "athel_wdnmd"
 		},
 		{
 			"continue_when",
-			duration = 20,
+			duration = 25,
 			condition = function (t)
-				return count_event_breed("skaven_clan_rat") < 30 and count_event_breed("skaven_slave") < 40 and count_event_breed("skaven_clan_rat_with_shield") < 20 and count_event_breed("skaven_storm_vermin_commander") < 9 and count_event_breed("skaven_storm_vermin_with_shield") < 9
+				return count_event_breed("skaven_clan_rat") < 30 and count_event_breed("skaven_slave") < 40 and count_event_breed("skaven_clan_rat_with_shield") < 20 and count_event_breed("skaven_storm_vermin_commander") < 2 and count_event_breed("skaven_storm_vermin_with_shield") < 2
 			end
 		},
 		{
-			"event_horde",
-			limit_spawners = 3,
-			spawner_id = "elven_ruins_bottomtier",
-			composition_type = "event_extra_spice_medium"
-		},
-		{
-			"event_horde",
-			spawner_id = "elven_ruins_toptier",
-			composition_type = "onslaught_custom_special_denial"
-		},
-		{
-			"event_horde",
-			limit_spawners = 3,
-			spawner_id = "elven_ruins_toptier",
-			composition_type = "onslaught_plague_monks_medium"
-		},
-		{
-			"event_horde",
-			limit_spawners = 2,
-			spawner_id = "onslaught_mines_horde_front",
-			composition_type = "onslaught_storm_vermin_medium"
+			"spawn_special",
+			amount = 1,
+			breed_name = "skaven_warpfire_thrower"
 		},
 		{
 			"delay",
-			duration = {
-				5,
-				7
-			}
-		},
-		{
-			"continue_when",
-			duration = 20,
-			condition = function (t)
-				return count_event_breed("skaven_clan_rat") < 30 and count_event_breed("skaven_slave") < 40 and count_event_breed("skaven_clan_rat_with_shield") < 20 and count_event_breed("skaven_storm_vermin_commander") < 9 and count_event_breed("skaven_storm_vermin_with_shield") < 9
-			end
+			duration = 4
 		},
 		{
 			"event_horde",
@@ -5001,11 +5445,12 @@ end
 			"event_horde",
 			limit_spawners = 3,
 			spawner_id = "elven_ruins_toptier",
-			composition_type = "onslaught_plague_monks_medium"
+			composition_type = "athel_wdnmd"
 		},
 		{
 			"event_horde",
-			spawner_id = "elven_ruins_bottomtier",
+			limit_spawners = 3,
+			spawner_id = "elven_ruins_toptier",
 			composition_type = "onslaught_custom_special_denial"
 		},
 		{
@@ -5023,34 +5468,31 @@ end
 			end
 		},
 		{
+			"spawn_special",
+			amount = 1,
+			breed_name = "skaven_warpfire_thrower"
+		},
+		{
+			"delay",
+			duration = 4
+		},
+		{
 			"event_horde",
 			limit_spawners = 3,
-			spawner_id = "elven_ruins_bottomtier",
+			spawner_id = "elven_ruins_toptier",
 			composition_type = "event_extra_spice_medium"
 		},
 		{
 			"event_horde",
+			limit_spawners = 3,
 			spawner_id = "elven_ruins_toptier",
-			composition_type = "onslaught_custom_special_denial"
+			composition_type = "onslaught_plague_monks_small"
 		},
 		{
 			"event_horde",
 			limit_spawners = 3,
 			spawner_id = "elven_ruins_toptier",
-			composition_type = "onslaught_plague_monks_medium"
-		},
-		{
-			"event_horde",
-			limit_spawners = 2,
-			spawner_id = "onslaught_mines_horde_front",
-			composition_type = "onslaught_storm_vermin_medium"
-		},
-		{
-			"delay",
-			duration = {
-				5,
-				7
-			}
+			composition_type = "athel_wdnmd"
 		},
 		{
 			"continue_when",
@@ -5062,25 +5504,20 @@ end
 		{
 			"event_horde",
 			limit_spawners = 3,
-			spawner_id = "elven_ruins_toptier",
-			composition_type = "event_extra_spice_medium"
-		},
-		{
-			"event_horde",
 			spawner_id = "elven_ruins_bottomtier",
-			composition_type = "onslaught_custom_special_denial"
+			composition_type = "event_medium"
 		},
 		{
 			"event_horde",
 			limit_spawners = 3,
 			spawner_id = "elven_ruins_toptier",
-			composition_type = "onslaught_plague_monks_medium"
+			composition_type = "dn_ratling_spam"
 		},
 		{
 			"event_horde",
 			limit_spawners = 2,
 			spawner_id = "onslaught_mines_horde_front",
-			composition_type = "onslaught_storm_vermin_medium"
+			composition_type = "onslaught_plague_monks_small"
 		},
 		{
 			"delay",
@@ -5097,27 +5534,19 @@ end
 			end
 		},
 		{
+			"play_stinger",
+			stinger_name = "enemy_horde_stinger"
+		},
+		{
 			"event_horde",
 			limit_spawners = 3,
+			spawner_id = "elven_ruins_toptier",
+			composition_type = "athel_wdnmd"
+		},
+		{
+			"event_horde",
 			spawner_id = "elven_ruins_bottomtier",
-			composition_type = "event_extra_spice_medium"
-		},
-		{
-			"event_horde",
-			spawner_id = "elven_ruins_toptier",
 			composition_type = "onslaught_custom_special_denial"
-		},
-		{
-			"event_horde",
-			limit_spawners = 3,
-			spawner_id = "elven_ruins_toptier",
-			composition_type = "onslaught_plague_monks_medium"
-		},
-		{
-			"event_horde",
-			limit_spawners = 2,
-			spawner_id = "onslaught_mines_horde_front",
-			composition_type = "onslaught_storm_vermin_medium"
 		},
 		{
 			"delay",
@@ -5134,15 +5563,50 @@ end
 			end
 		},
 		{
-			"event_horde",
-			limit_spawners = 3,
-			spawner_id = "elven_ruins_toptier",
-			composition_type = "event_extra_spice_medium"
+			"continue_when",
+			duration = 30,
+			condition = function (t)
+				return count_event_breed("skaven_clan_rat") < 30 and count_event_breed("skaven_slave") < 40 and count_event_breed("skaven_clan_rat_with_shield") < 20 and count_event_breed("skaven_storm_vermin_commander") < 9 and count_event_breed("skaven_storm_vermin_with_shield") < 9
+			end
 		},
 		{
 			"event_horde",
 			spawner_id = "elven_ruins_bottomtier",
-			composition_type = "onslaught_custom_special_denial"
+			composition_type = "event_large"
+		},
+		{
+			"event_horde",
+			limit_spawners = 3,
+			spawner_id = "elven_ruins_toptier",
+			composition_type = "athel_wdnmd"
+		},
+		{
+			"event_horde",
+			limit_spawners = 3,
+			spawner_id = "elven_ruins_toptier",
+			composition_type = "athel_wdnmd"
+		},
+		{
+			"continue_when",
+			duration = 25,
+			condition = function (t)
+				return count_event_breed("skaven_clan_rat") < 30 and count_event_breed("skaven_slave") < 40 and count_event_breed("skaven_clan_rat_with_shield") < 20 and count_event_breed("skaven_storm_vermin_commander") < 2 and count_event_breed("skaven_storm_vermin_with_shield") < 2
+			end
+		},
+		{
+			"spawn_special",
+			amount = 1,
+			breed_name = "skaven_warpfire_thrower"
+		},
+		{
+			"delay",
+			duration = 4
+		},
+		{
+			"event_horde",
+			limit_spawners = 3,
+			spawner_id = "elven_ruins_toptier",
+			composition_type = "dn_skaven_pursuit"
 		},
 		{
 			"event_horde",
@@ -5152,9 +5616,34 @@ end
 		},
 		{
 			"event_horde",
+			limit_spawners = 3,
+			spawner_id = "elven_ruins_toptier",
+			composition_type = "onslaught_custom_special_denial"
+		},
+		{
+			"continue_when",
+			duration = 30,
+			condition = function (t)
+				return count_event_breed("skaven_clan_rat") < 30 and count_event_breed("skaven_slave") < 40 and count_event_breed("skaven_clan_rat_with_shield") < 20 and count_event_breed("skaven_storm_vermin_commander") < 9 and count_event_breed("skaven_storm_vermin_with_shield") < 9
+			end
+		},
+		{
+			"event_horde",
+			limit_spawners = 3,
+			spawner_id = "elven_ruins_bottomtier",
+			composition_type = "event_medium"
+		},
+		{
+			"event_horde",
+			limit_spawners = 3,
+			spawner_id = "elven_ruins_toptier",
+			composition_type = "onslaught_storm_vermin_small"
+		},
+		{
+			"event_horde",
 			limit_spawners = 2,
 			spawner_id = "onslaught_mines_horde_front",
-			composition_type = "onslaught_storm_vermin_medium"
+			composition_type = "onslaught_plague_monks_small"
 		},
 		{
 			"delay",
@@ -5171,27 +5660,19 @@ end
 			end
 		},
 		{
+			"play_stinger",
+			stinger_name = "enemy_horde_stinger"
+		},
+		{
 			"event_horde",
 			limit_spawners = 3,
+			spawner_id = "elven_ruins_toptier",
+			composition_type = "athel_wdnmd"
+		},
+		{
+			"event_horde",
 			spawner_id = "elven_ruins_bottomtier",
-			composition_type = "event_extra_spice_medium"
-		},
-		{
-			"event_horde",
-			spawner_id = "elven_ruins_toptier",
 			composition_type = "onslaught_custom_special_denial"
-		},
-		{
-			"event_horde",
-			limit_spawners = 3,
-			spawner_id = "elven_ruins_toptier",
-			composition_type = "onslaught_plague_monks_medium"
-		},
-		{
-			"event_horde",
-			limit_spawners = 2,
-			spawner_id = "onslaught_mines_horde_front",
-			composition_type = "onslaught_storm_vermin_medium"
 		},
 		{
 			"delay",
@@ -5202,10 +5683,22 @@ end
 		},
 		{
 			"continue_when",
-			duration = 35,
+			duration = 30,
 			condition = function (t)
 				return count_event_breed("skaven_clan_rat") < 30 and count_event_breed("skaven_slave") < 40 and count_event_breed("skaven_clan_rat_with_shield") < 20 and count_event_breed("skaven_storm_vermin_commander") < 9 and count_event_breed("skaven_storm_vermin_with_shield") < 9
 			end
+		},
+		{
+			"spawn_special",
+			amount = 1,
+			breed_name = "skaven_warpfire_thrower"
+		},
+		{
+			"delay",
+			duration = {
+				2,
+				3
+			}
 		},
 		{
 			"event_horde",
@@ -5217,18 +5710,6 @@ end
 			"event_horde",
 			spawner_id = "elven_ruins_bottomtier",
 			composition_type = "onslaught_custom_special_denial"
-		},
-		{
-			"event_horde",
-			limit_spawners = 3,
-			spawner_id = "elven_ruins_toptier",
-			composition_type = "onslaught_plague_monks_medium"
-		},
-		{
-			"event_horde",
-			limit_spawners = 2,
-			spawner_id = "onslaught_mines_horde_front",
-			composition_type = "onslaught_storm_vermin_medium"
 		},
 		{
 			"delay",
@@ -5246,100 +5727,54 @@ end
 		},
 		{
 			"event_horde",
-			limit_spawners = 3,
 			spawner_id = "elven_ruins_bottomtier",
-			composition_type = "event_extra_spice_medium"
-		},
-		{
-			"event_horde",
-			spawner_id = "elven_ruins_toptier",
-			composition_type = "onslaught_custom_special_denial"
+			composition_type = "event_large"
 		},
 		{
 			"event_horde",
 			limit_spawners = 3,
 			spawner_id = "elven_ruins_toptier",
-			composition_type = "onslaught_plague_monks_medium"
+			composition_type = "athel_wdnmd"
 		},
 		{
 			"event_horde",
-			limit_spawners = 2,
-			spawner_id = "onslaught_mines_horde_front",
-			composition_type = "onslaught_storm_vermin_medium"
-		},
-		{
-			"delay",
-			duration = {
-				5,
-				7
-			}
+			limit_spawners = 3,
+			spawner_id = "elven_ruins_toptier",
+			composition_type = "athel_wdnmd"
 		},
 		{
 			"continue_when",
-			duration = 30,
+			duration = 25,
 			condition = function (t)
-				return count_event_breed("skaven_clan_rat") < 30 and count_event_breed("skaven_slave") < 40 and count_event_breed("skaven_clan_rat_with_shield") < 20 and count_event_breed("skaven_storm_vermin_commander") < 9 and count_event_breed("skaven_storm_vermin_with_shield") < 9
+				return count_event_breed("skaven_clan_rat") < 30 and count_event_breed("skaven_slave") < 40 and count_event_breed("skaven_clan_rat_with_shield") < 20 and count_event_breed("skaven_storm_vermin_commander") < 2 and count_event_breed("skaven_storm_vermin_with_shield") < 2
 			end
 		},
 		{
-			"event_horde",
-			limit_spawners = 3,
-			spawner_id = "elven_ruins_toptier",
-			composition_type = "event_extra_spice_medium"
-		},
-		{
-			"event_horde",
-			spawner_id = "elven_ruins_bottomtier",
-			composition_type = "onslaught_custom_special_denial"
-		},
-		{
-			"event_horde",
-			limit_spawners = 3,
-			spawner_id = "elven_ruins_toptier",
-			composition_type = "onslaught_plague_monks_medium"
-		},
-		{
-			"event_horde",
-			limit_spawners = 2,
-			spawner_id = "onslaught_mines_horde_front",
-			composition_type = "onslaught_storm_vermin_medium"
+			"spawn_special",
+			amount = 1,
+			breed_name = "skaven_warpfire_thrower"
 		},
 		{
 			"delay",
-			duration = {
-				5,
-				7
-			}
-		},
-		{
-			"continue_when",
-			duration = 30,
-			condition = function (t)
-				return count_event_breed("skaven_clan_rat") < 30 and count_event_breed("skaven_slave") < 40 and count_event_breed("skaven_clan_rat_with_shield") < 20 and count_event_breed("skaven_storm_vermin_commander") < 9 and count_event_breed("skaven_storm_vermin_with_shield") < 9
-			end
+			duration = 4
 		},
 		{
 			"event_horde",
 			limit_spawners = 3,
-			spawner_id = "elven_ruins_bottomtier",
+			spawner_id = "elven_ruins_toptier",
 			composition_type = "event_extra_spice_medium"
 		},
 		{
 			"event_horde",
+			limit_spawners = 3,
 			spawner_id = "elven_ruins_toptier",
-			composition_type = "onslaught_custom_special_denial"
+			composition_type = "athel_wdnmd"
 		},
 		{
 			"event_horde",
 			limit_spawners = 3,
 			spawner_id = "elven_ruins_toptier",
-			composition_type = "onslaught_plague_monks_medium"
-		},
-		{
-			"event_horde",
-			limit_spawners = 2,
-			spawner_id = "onslaught_mines_horde_front",
-			composition_type = "onslaught_storm_vermin_medium"
+			composition_type = "onslaught_custom_special_denial"
 		},
 		{
 			"delay",
@@ -5356,6 +5791,15 @@ end
 			end
 		},
 		{
+			"spawn_special",
+			amount = 1,
+			breed_name = "skaven_warpfire_thrower"
+		},
+		{
+			"delay",
+			duration = 4
+		},
+		{
 			"event_horde",
 			limit_spawners = 3,
 			spawner_id = "elven_ruins_toptier",
@@ -5365,13 +5809,225 @@ end
 			"event_horde",
 			limit_spawners = 3,
 			spawner_id = "elven_ruins_toptier",
-			composition_type = "onslaught_plague_monks_medium"
+			composition_type = "onslaught_plague_monks_small"
+		},
+		{
+			"event_horde",
+			limit_spawners = 3,
+			spawner_id = "elven_ruins_toptier",
+			composition_type = "athel_wdnmd"
+		},
+		{
+			"continue_when",
+			duration = 30,
+			condition = function (t)
+				return count_event_breed("skaven_clan_rat") < 30 and count_event_breed("skaven_slave") < 40 and count_event_breed("skaven_clan_rat_with_shield") < 20 and count_event_breed("skaven_storm_vermin_commander") < 9 and count_event_breed("skaven_storm_vermin_with_shield") < 9
+			end
+		},
+		{
+			"event_horde",
+			limit_spawners = 3,
+			spawner_id = "elven_ruins_bottomtier",
+			composition_type = "event_medium"
+		},
+		{
+			"event_horde",
+			limit_spawners = 3,
+			spawner_id = "elven_ruins_toptier",
+			composition_type = "dn_ratling_spam"
 		},
 		{
 			"event_horde",
 			limit_spawners = 2,
 			spawner_id = "onslaught_mines_horde_front",
-			composition_type = "onslaught_storm_vermin_medium"
+			composition_type = "onslaught_plague_monks_small"
+		},
+		{
+			"delay",
+			duration = {
+				5,
+				7
+			}
+		},
+		{
+			"continue_when",
+			duration = 25,
+			condition = function (t)
+				return count_event_breed("skaven_clan_rat") < 30 and count_event_breed("skaven_slave") < 40 and count_event_breed("skaven_clan_rat_with_shield") < 20 and count_event_breed("skaven_storm_vermin_commander") < 9 and count_event_breed("skaven_storm_vermin_with_shield") < 9
+			end
+		},
+		{
+			"play_stinger",
+			stinger_name = "enemy_horde_stinger"
+		},
+		{
+			"event_horde",
+			limit_spawners = 3,
+			spawner_id = "elven_ruins_toptier",
+			composition_type = "athel_wdnmd"
+		},
+		{
+			"event_horde",
+			spawner_id = "elven_ruins_bottomtier",
+			composition_type = "onslaught_custom_special_denial"
+		},
+		{
+			"delay",
+			duration = {
+				5,
+				7
+			}
+		},
+		{
+			"continue_when",
+			duration = 30,
+			condition = function (t)
+				return count_event_breed("skaven_clan_rat") < 30 and count_event_breed("skaven_slave") < 40 and count_event_breed("skaven_clan_rat_with_shield") < 20 and count_event_breed("skaven_storm_vermin_commander") < 9 and count_event_breed("skaven_storm_vermin_with_shield") < 9
+			end
+		},
+		{
+			"continue_when",
+			duration = 30,
+			condition = function (t)
+				return count_event_breed("skaven_clan_rat") < 30 and count_event_breed("skaven_slave") < 40 and count_event_breed("skaven_clan_rat_with_shield") < 20 and count_event_breed("skaven_storm_vermin_commander") < 9 and count_event_breed("skaven_storm_vermin_with_shield") < 9
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "elven_ruins_bottomtier",
+			composition_type = "event_large"
+		},
+		{
+			"event_horde",
+			limit_spawners = 3,
+			spawner_id = "elven_ruins_toptier",
+			composition_type = "athel_wdnmd"
+		},
+		{
+			"event_horde",
+			limit_spawners = 3,
+			spawner_id = "elven_ruins_toptier",
+			composition_type = "athel_wdnmd"
+		},
+		{
+			"continue_when",
+			duration = 25,
+			condition = function (t)
+				return count_event_breed("skaven_clan_rat") < 30 and count_event_breed("skaven_slave") < 40 and count_event_breed("skaven_clan_rat_with_shield") < 20 and count_event_breed("skaven_storm_vermin_commander") < 2 and count_event_breed("skaven_storm_vermin_with_shield") < 2
+			end
+		},
+		{
+			"spawn_special",
+			amount = 1,
+			breed_name = "skaven_warpfire_thrower"
+		},
+		{
+			"delay",
+			duration = 4
+		},
+		{
+			"event_horde",
+			limit_spawners = 3,
+			spawner_id = "elven_ruins_toptier",
+			composition_type = "dn_skaven_pursuit"
+		},
+		{
+			"event_horde",
+			limit_spawners = 3,
+			spawner_id = "elven_ruins_toptier",
+			composition_type = "onslaught_plague_monks_medium"
+		},
+		{
+			"event_horde",
+			limit_spawners = 3,
+			spawner_id = "elven_ruins_toptier",
+			composition_type = "onslaught_custom_special_denial"
+		},
+		{
+			"continue_when",
+			duration = 30,
+			condition = function (t)
+				return count_event_breed("skaven_clan_rat") < 30 and count_event_breed("skaven_slave") < 40 and count_event_breed("skaven_clan_rat_with_shield") < 20 and count_event_breed("skaven_storm_vermin_commander") < 9 and count_event_breed("skaven_storm_vermin_with_shield") < 9
+			end
+		},
+		{
+			"event_horde",
+			limit_spawners = 3,
+			spawner_id = "elven_ruins_bottomtier",
+			composition_type = "event_medium"
+		},
+		{
+			"event_horde",
+			limit_spawners = 3,
+			spawner_id = "elven_ruins_toptier",
+			composition_type = "onslaught_storm_vermin_small"
+		},
+		{
+			"event_horde",
+			limit_spawners = 2,
+			spawner_id = "onslaught_mines_horde_front",
+			composition_type = "onslaught_plague_monks_small"
+		},
+		{
+			"delay",
+			duration = {
+				5,
+				7
+			}
+		},
+		{
+			"continue_when",
+			duration = 25,
+			condition = function (t)
+				return count_event_breed("skaven_clan_rat") < 30 and count_event_breed("skaven_slave") < 40 and count_event_breed("skaven_clan_rat_with_shield") < 20 and count_event_breed("skaven_storm_vermin_commander") < 9 and count_event_breed("skaven_storm_vermin_with_shield") < 9
+			end
+		},
+		{
+			"play_stinger",
+			stinger_name = "enemy_horde_stinger"
+		},
+		{
+			"event_horde",
+			limit_spawners = 3,
+			spawner_id = "elven_ruins_toptier",
+			composition_type = "athel_wdnmd"
+		},
+		{
+			"event_horde",
+			spawner_id = "elven_ruins_bottomtier",
+			composition_type = "onslaught_custom_special_denial"
+		},
+		{
+			"delay",
+			duration = {
+				5,
+				7
+			}
+		},
+		{
+			"continue_when",
+			duration = 30,
+			condition = function (t)
+				return count_event_breed("skaven_clan_rat") < 30 and count_event_breed("skaven_slave") < 40 and count_event_breed("skaven_clan_rat_with_shield") < 20 and count_event_breed("skaven_storm_vermin_commander") < 9 and count_event_breed("skaven_storm_vermin_with_shield") < 9
+			end
+		},
+		{
+			"spawn_special",
+			amount = 1,
+			breed_name = "skaven_warpfire_thrower"
+		},
+		{
+			"delay",
+			duration = {
+				2,
+				3
+			}
+		},
+		{
+			"event_horde",
+			limit_spawners = 3,
+			spawner_id = "elven_ruins_toptier",
+			composition_type = "event_extra_spice_medium"
 		},
 		{
 			"event_horde",
@@ -5394,18 +6050,52 @@ end
 		},
 		{
 			"event_horde",
-			limit_spawners = 3,
 			spawner_id = "elven_ruins_bottomtier",
+			composition_type = "event_large"
+		},
+		{
+			"event_horde",
+			limit_spawners = 3,
+			spawner_id = "elven_ruins_toptier",
+			composition_type = "athel_wdnmd"
+		},
+		{
+			"event_horde",
+			limit_spawners = 3,
+			spawner_id = "elven_ruins_toptier",
+			composition_type = "athel_wdnmd"
+		},
+		{
+			"continue_when",
+			duration = 25,
+			condition = function (t)
+				return count_event_breed("skaven_clan_rat") < 30 and count_event_breed("skaven_slave") < 40 and count_event_breed("skaven_clan_rat_with_shield") < 20 and count_event_breed("skaven_storm_vermin_commander") < 2 and count_event_breed("skaven_storm_vermin_with_shield") < 2
+			end
+		},
+		{
+			"spawn_special",
+			amount = 1,
+			breed_name = "skaven_warpfire_thrower"
+		},
+		{
+			"delay",
+			duration = 4
+		},
+		{
+			"event_horde",
+			limit_spawners = 3,
+			spawner_id = "elven_ruins_toptier",
 			composition_type = "event_extra_spice_medium"
 		},
 		{
 			"event_horde",
 			limit_spawners = 3,
 			spawner_id = "elven_ruins_toptier",
-			composition_type = "onslaught_plague_monks_medium"
+			composition_type = "athel_wdnmd"
 		},
 		{
 			"event_horde",
+			limit_spawners = 3,
 			spawner_id = "elven_ruins_toptier",
 			composition_type = "onslaught_custom_special_denial"
 		},
@@ -5418,13 +6108,108 @@ end
 		},
 		{
 			"continue_when",
-			duration = 45,
+			duration = 25,
 			condition = function (t)
 				return count_event_breed("skaven_clan_rat") < 30 and count_event_breed("skaven_slave") < 40 and count_event_breed("skaven_clan_rat_with_shield") < 20 and count_event_breed("skaven_storm_vermin_commander") < 9 and count_event_breed("skaven_storm_vermin_with_shield") < 9
 			end
-		}
+		},
+		{
+			"spawn_special",
+			amount = 1,
+			breed_name = "skaven_warpfire_thrower"
+		},
+		{
+			"delay",
+			duration = 4
+		},
+		{
+			"event_horde",
+			limit_spawners = 3,
+			spawner_id = "elven_ruins_toptier",
+			composition_type = "event_extra_spice_medium"
+		},
+		{
+			"event_horde",
+			limit_spawners = 3,
+			spawner_id = "elven_ruins_toptier",
+			composition_type = "onslaught_plague_monks_small"
+		},
+		{
+			"event_horde",
+			limit_spawners = 3,
+			spawner_id = "elven_ruins_toptier",
+			composition_type = "athel_wdnmd"
+		},
+		{
+			"continue_when",
+			duration = 30,
+			condition = function (t)
+				return count_event_breed("skaven_clan_rat") < 30 and count_event_breed("skaven_slave") < 40 and count_event_breed("skaven_clan_rat_with_shield") < 20 and count_event_breed("skaven_storm_vermin_commander") < 9 and count_event_breed("skaven_storm_vermin_with_shield") < 9
+			end
+		},
+		{
+			"event_horde",
+			limit_spawners = 3,
+			spawner_id = "elven_ruins_bottomtier",
+			composition_type = "event_medium"
+		},
+		{
+			"event_horde",
+			limit_spawners = 3,
+			spawner_id = "elven_ruins_toptier",
+			composition_type = "dn_ratling_spam"
+		},
+		{
+			"event_horde",
+			limit_spawners = 2,
+			spawner_id = "onslaught_mines_horde_front",
+			composition_type = "onslaught_plague_monks_small"
+		},
+		{
+			"delay",
+			duration = {
+				5,
+				7
+			}
+		},
+		{
+			"continue_when",
+			duration = 25,
+			condition = function (t)
+				return count_event_breed("skaven_clan_rat") < 30 and count_event_breed("skaven_slave") < 40 and count_event_breed("skaven_clan_rat_with_shield") < 20 and count_event_breed("skaven_storm_vermin_commander") < 9 and count_event_breed("skaven_storm_vermin_with_shield") < 9
+			end
+		},
+		{
+			"play_stinger",
+			stinger_name = "enemy_horde_stinger"
+		},
+		{
+			"event_horde",
+			limit_spawners = 3,
+			spawner_id = "elven_ruins_toptier",
+			composition_type = "athel_wdnmd"
+		},
+		{
+			"event_horde",
+			spawner_id = "elven_ruins_bottomtier",
+			composition_type = "onslaught_custom_special_denial"
+		},
+		{
+			"delay",
+			duration = {
+				5,
+				7
+			}
+		},
+		{
+			"continue_when",
+			duration = 30,
+			condition = function (t)
+				return count_event_breed("skaven_clan_rat") < 30 and count_event_breed("skaven_slave") < 40 and count_event_breed("skaven_clan_rat_with_shield") < 20 and count_event_breed("skaven_storm_vermin_commander") < 9 and count_event_breed("skaven_storm_vermin_with_shield") < 9
+			end
+		},
 	}
-
+	
 	TerrorEventBlueprints.elven_ruins.elven_ruins_end_event_flush = {
 		{
 			"set_freeze_condition",
@@ -5442,7 +6227,7 @@ end
 			"event_horde",
 			limit_spawners = 8,
 			spawner_id = "elven_ruins_toptier",
-			composition_type = "event_large"
+			composition_type = "event_extra_spice_medium"
 		},
 		{
 			"delay",
@@ -5462,38 +6247,9 @@ end
 		},
 		{
 			"event_horde",
-			limit_spawners = 4,
-			spawner_id = "elven_ruins_toptier",
-			composition_type = "onslaught_storm_vermin_medium"
-		},
-		{
-			"event_horde",
-			limit_spawners = 3,
-			spawner_id = "elven_ruins_toptier",
-			composition_type = "onslaught_plague_monks_medium"
-		},
-		{
-			"event_horde",
-			limit_spawners = 3,
-			spawner_id = "elven_ruins_toptier",
-			composition_type = "onslaught_plague_monks_medium"
-		},
-		{
-			"event_horde",
 			limit_spawners = 2,
-			spawner_id = "onslaught_mines_horde_front",
-			composition_type = "onslaught_storm_vermin_medium"
-		},
-		{
-			"delay",
-			duration = {
-				3,
-				4
-			}
-		},
-		{
-			"play_stinger",
-			stinger_name = "enemy_horde_stinger"
+			spawner_id = "elven_ruins_toptier",
+			composition_type = "onslaught_custom_boss_spawn"
 		},
 		{
 			"event_horde",
@@ -5501,10 +6257,21 @@ end
 			composition_type = "onslaught_custom_boss_stormfiend"
 		},
 		{
+			"delay",
+			duration = {
+				3,
+				4
+			}
+		},
+		{
+			"play_stinger",
+			stinger_name = "enemy_horde_stinger"
+		},
+		{
 			"event_horde",
 			limit_spawners = 4,
 			spawner_id = "elven_ruins_toptier",
-			composition_type = "onslaught_storm_vermin_medium"
+			composition_type = "athel_wdnmd"
 		},
 		{
 			"event_horde",
@@ -5522,32 +6289,10 @@ end
 			"event_horde",
 			limit_spawners = 2,
 			spawner_id = "onslaught_mines_horde_front",
-			composition_type = "onslaught_storm_vermin_medium"
+			composition_type = "onslaught_custom_special_denial"
 		},
-		{
-			"delay",
-			duration = {
-				3,
-				4
-			}
-		},
-		{
-			"play_stinger",
-			stinger_name = "enemy_horde_stinger"
-		},
-		{
-			"event_horde",
-			spawner_id = "elven_ruins_toptier",
-			composition_type = "onslaught_custom_boss_ogre"
-		},
-		{
-			"event_horde",
-			limit_spawners = 4,
-			spawner_id = "elven_ruins_toptier",
-			composition_type = "onslaught_storm_vermin_medium"
-		}
 	}
-
+	
 	TerrorEventBlueprints.elven_ruins.elven_ruins_end_event_device_fiddlers = {
 		{
 			"control_specials",
@@ -6642,8 +7387,6 @@ end
 	}
 
 	BreedActions.skaven_storm_vermin_warlord.spawn_allies.spawn_list = {
-		"skaven_warpfire_thrower",
-		"skaven_warpfire_thrower",
 		"skaven_storm_vermin",
 		"skaven_storm_vermin",
 		"skaven_storm_vermin",
@@ -6652,10 +7395,6 @@ end
 		"skaven_plague_monk",
 		"skaven_plague_monk",
 		"skaven_plague_monk",
-		"skaven_ratling_gunner",
-		"skaven_ratling_gunner",
-		"skaven_pack_master",
-		"skaven_ratling_gunner"
 	}
 
 	BreedActions.skaven_storm_vermin_warlord.spawn_sequence.considerations.time_since_last.max_value = 800
@@ -12017,7 +12756,7 @@ end
 		},
 		{
 			"set_freeze_condition",
-			max_active_enemies = 100
+			max_active_enemies = 130
 		},
 		{
 			"play_stinger",
@@ -12032,55 +12771,28 @@ end
 			stinger_name = "enemy_horde_stingers_plague_monk"
 		},
 		{
-			"event_horde",
-			spawner_id = "sewer_start",
-			composition_type = "onslaught_plague_monks_medium"
-		},
-		{
-			"event_horde",
-			spawner_id = "sewer_start",
-			composition_type = "onslaught_plague_monks_medium"
-		},
-		{
-			"event_horde",
-			spawner_id = "sewer_start",
-			composition_type = "onslaught_plague_monks_medium"
-		},
-		{
-			"event_horde",
-			spawner_id = "sewer_start",
-			composition_type = "onslaught_plague_monks_medium"
-		},
-		{
-			"event_horde",
-			spawner_id = "sewer_start",
-			composition_type = "onslaught_plague_monks_medium"
-		},
-		{
-			"event_horde",
-			spawner_id = "sewer_start",
-			composition_type = "onslaught_plague_monks_medium"
-		},
-		{
-			"continue_when",
-			duration = 45,
-			condition = function (t)
-				return count_event_breed("skaven_plague_monk") < 12
-			end
-		},
-		{
-			"event_horde",
-			spawner_id = "sewer_start",
-			composition_type = "crackaddicts"
-		},
-		{
-			"event_horde",
-			spawner_id = "sewer_start",
-			composition_type = "crackaddicts"
-		},
-		{
 			"delay",
-			duration = 20
+			duration = 2
+		},
+		{
+			"event_horde",
+			spawner_id = "sewer_start",
+			composition_type = "onslaught_plague_monks_medium"
+		},
+		{
+			"event_horde",
+			spawner_id = "sewer_start",
+			composition_type = "onslaught_plague_monks_medium"
+		},
+		{
+			"event_horde",
+			spawner_id = "sewer_start",
+			composition_type = "onslaught_plague_monks_medium"
+		},
+		{
+			"event_horde",
+			spawner_id = "sewer_start",
+			composition_type = "onslaught_plague_monks_medium"
 		},
 		{
 			"flow_event",
@@ -12094,26 +12806,13 @@ end
 			max_active_enemies = 100
 		},
 		{
-			"event_horde",
-			limit_spawners = 2,
-			spawner_id = "sewer_spice",
-			composition_type = "onslaught_custom_specials_heavy_denial"
-		},
-		{
-			"event_horde",
-			limit_spawners = 2,
-			spawner_id = "sewer_spice",
-			composition_type = "highasf"
-		},
-		{
-			"event_horde",
-			limit_spawners = 2,
-			spawner_id = "sewer_spice",
-			composition_type = "onslaught_custom_specials_heavy_denial"
+			"spawn_special",
+			amount = 3,
+			breed_name = "skaven_ratling_gunner"
 		},
 		{
 			"delay",
-			duration = 25
+			duration = 45
 		},
 		{
 			"flow_event",
@@ -12135,9 +12834,9 @@ end
 			stinger_name = "enemy_horde_stinger"
 		},
 		{
-			"event_horde",
-			spawner_id = "sewer_mid",
-			composition_type = "onslaught_custom_specials_heavy_denial"
+			"spawn_special",
+			amount = 2,
+			breed_name = "skaven_poison_wind_globadier"
 		},
 		{
 			"event_horde",
@@ -12147,7 +12846,7 @@ end
 		{
 			"event_horde",
 			spawner_id = "onslaught_sewer_backspawn",
-			composition_type = "mass_trash_chaos"
+			composition_type = "crackaddicts"
 		},
 		{
 			"continue_when",
@@ -12161,15 +12860,10 @@ end
 			duration = 2
 		},
 		{
-			"spawn_at_raw",
-			spawner_id = "sewer_rawspawner01",
-			breed_name = "skaven_warpfire_thrower"
-		},
-		{
 			"event_horde",
 			limit_spawners = 2,
 			spawner_id = "sewer_mid",
-			composition_type = "event_small"
+			composition_type = "dn_chaos_zerkers"
 		},
 		{
 			"event_horde",
@@ -12181,17 +12875,14 @@ end
 			"event_horde",
 			limit_spawners = 2,
 			spawner_id = "sewer_mid",
-			composition_type = "onslaught_plague_monks_medium"
+			composition_type = "dn_chaos_zerkers"
 		},
 		{
-			"event_horde",
-			limit_spawners = 2,
-			spawner_id = "sewer_mid",
-			composition_type = "onslaught_plague_monks_medium"
-		},
-		{
-			"play_stinger",
-			stinger_name = "enemy_horde_stingers_plague_monk"
+			"continue_when",
+			duration = 40,
+			condition = function (t)
+				return count_event_breed("skaven_plague_monk") < 4 and count_event_breed("chaos_berzerker") < 4 
+			end
 		},
 		{
 			"event_horde",
@@ -12199,24 +12890,11 @@ end
 			composition_type = "event_medium_chaos"
 		},
 		{
-			"delay",
-			duration = 10
-		},
-		{
-			"event_horde",
-			spawner_id = "sewer_mid",
-			composition_type = "event_small"
-		},
-		{
 			"continue_when",
 			duration = 40,
 			condition = function (t)
-				return count_event_breed("skaven_plague_monk") < 8 and count_event_breed("skaven_clan_rat") < 12 and count_event_breed("skaven_storm_vermin_commander") < 5 and count_event_breed("skaven_slave") < 15
+				return count_event_breed("chaos_marauder") < 8 and count_event_breed("chaos_fanatic") < 12 
 			end
-		},
-		{
-			"delay",
-			duration = 5
 		},
 		{
 			"flow_event",
@@ -12244,13 +12922,20 @@ end
 		},
 		{
 			"delay",
-			duration = 40
+			duration = 20
 		},
 		{
-			"event_horde",
-			limit_spawners = 2,
-			spawner_id = "sewer_end_chaos",
-			composition_type = "event_medium_chaos"
+			"control_specials",
+			enable = true
+		},
+		{
+			"control_pacing",
+			enable = true
+		},
+		{
+			"spawn_special",
+			amount = 3,
+			breed_name = "skaven_warpfire_thrower"
 		},
 		{
 			"event_horde",
@@ -12260,14 +12945,6 @@ end
 		{
 			"delay",
 			duration = 10
-		},
-		{
-			"control_specials",
-			enable = true
-		},
-		{
-			"control_pacing",
-			enable = true
 		},
 		{
 			"flow_event",
@@ -12307,10 +12984,9 @@ end
 			composition_type = "mass_trash_chaos"
 		},
 		{
-			"event_horde",
-			limit_spawners = 2,
-			spawner_id = "sewer_escape",
-			composition_type = "dn_ratling_spam"
+			"spawn_special",
+			amount = 3,
+			breed_name = "skaven_ratling_gunner"
 		},
 		{
 			"delay",
@@ -12596,13 +13272,7 @@ end
 			"event_horde",
 			limit_spawners = 2,
 			spawner_id = "temple_event_loop",
-			composition_type = "mass_trash_skaven"
-		},
-		{
-			"event_horde",
-			limit_spawners = 2,
-			spawner_id = "temple_event_loop",
-			composition_type = "mass_trash_skaven"
+			composition_type = "linesman_mixed_horde"
 		},
 		{
 			"delay",
@@ -12812,6 +13482,16 @@ end
 			breed_name = "skaven_ratling_gunner"
 		},
 		{
+			"spawn_at_raw",
+			spawner_id = "temple_rawspawner01",
+			breed_name = "skaven_ratling_gunner"
+		},
+		{
+			"spawn_at_raw",
+			spawner_id = "temple_rawspawner02",
+			breed_name = "skaven_ratling_gunner"
+		},
+		{
 			"event_horde",
 			spawner_id = "temple_event_button2",
 			composition_type = "onslaught_blightreaper_temple_easy"
@@ -12836,16 +13516,6 @@ end
 			limit_spawners = 2,
 			spawner_id = "temple_event_button2",
 			composition_type = "event_extra_spice_unshielded"
-		},
-		{
-			"event_horde",
-			spawner_id = "temple_event_button4",
-			composition_type = "onslaught_storm_vermin_white_medium"
-		},
-		{
-			"event_horde",
-			spawner_id = "temple_event_button4",
-			composition_type = "onslaught_storm_vermin_white_medium"
 		},
 		{
 			"event_horde",
@@ -12926,7 +13596,7 @@ end
 		{
 			"spawn_special",
 			amount = 5,
-			breed_name = "skaven_explosive_loot_rat"
+			breed_name = "skaven_poison_wind_globadier"
 		},
 		{
 			"delay",
@@ -13123,8 +13793,8 @@ end
 		},
 		{
 			"spawn_special",
-			amount = 5,
-			breed_name = "skaven_explosive_loot_rat"
+			amount = 2,
+			breed_name = "skaven_slave"
 		},
 		{
 			"delay",
@@ -13374,7 +14044,7 @@ end
 		},
 		{
 			"control_specials",
-			enable = false
+			enable = true
 		},
 		{
 			"event_horde",
@@ -13419,7 +14089,7 @@ end
 		{
 			"spawn_special",
 			spawner_id = "magnus_door_event_specials",
-			breed_name = "skaven_poison_wind_globadier"
+			breed_name = "skaven_poison_wind_globadier",
 		},
 		{
 			"spawn_special",
@@ -13517,6 +14187,11 @@ end
 		},
 		{
 			"event_horde",
+			spawner_id = "magnus_door_event_c",
+			composition_type = "onslaught_custom_specials_heavy_denial"
+		},
+		{
+			"event_horde",
 			spawner_id = "magnus_door_event_a",
 			composition_type = "event_extra_spice_medium"
 		},
@@ -13606,6 +14281,11 @@ end
 		},
 		{
 			"event_horde",
+			spawner_id = "magnus_door_event_c",
+			composition_type = "onslaught_custom_specials_heavy_denial"
+		},
+		{
+			"event_horde",
 			spawner_id = "magnus_door_event_b",
 			composition_type = "event_stormvermin_shielders"
 		},
@@ -13635,6 +14315,12 @@ end
 			"event_horde",
 			spawner_id = "magnus_door_event_chaos",
 			composition_type = "event_medium_chaos"
+		},
+		{
+			"spawn_special",
+			spawner_id = "magnus_door_event_specials",
+			breed_name = "skaven_poison_wind_globadier",
+			amount = 2
 		},
 		{
 			"event_horde",
@@ -13671,8 +14357,8 @@ end
 				"skaven_warpfire_thrower"
 			},
 			amount = {
-				1,
-				2
+				2,
+				3
 			}
 		},
 		{
@@ -13718,6 +14404,11 @@ end
 		},
 		{
 			"event_horde",
+			spawner_id = "magnus_door_event_c",
+			composition_type = "onslaught_custom_specials_heavy_denial"
+		},
+		{
+			"event_horde",
 			spawner_id = "magnus_door_event_b",
 			composition_type = "event_extra_spice_small"
 		},
@@ -13745,12 +14436,9 @@ end
 		},
 		{
 			"spawn_special",
-			breed_name = "skaven_poison_wind_globadier",
 			spawner_id = "magnus_door_event_specials",
-			amount = {
-				1,
-				2
-			}
+			breed_name = "skaven_poison_wind_globadier",
+			amount = 2
 		},
 		{
 			"delay",
@@ -13760,6 +14448,12 @@ end
 			"event_horde",
 			spawner_id = "magnus_door_event_chaos",
 			composition_type = "event_small_chaos"
+		},
+		{
+			"spawn_special",
+			spawner_id = "magnus_door_event_specials",
+			breed_name = "skaven_poison_wind_globadier",
+			amount = 2
 		},
 		{
 			"event_horde",
@@ -13796,6 +14490,11 @@ end
 		{
 			"event_horde",
 			spawner_id = "magnus_door_event_c",
+			composition_type = "onslaught_custom_specials_heavy_denial"
+		},
+		{
+			"event_horde",
+			spawner_id = "magnus_door_event_c",
 			composition_type = "event_extra_spice_small"
 		},
 		{
@@ -13827,31 +14526,8 @@ end
 		},
 		{
 			"event_horde",
-			spawner_id = "magnus_door_event_b",
-			composition_type = "event_extra_spice_small"
-		},
-		{
-			"continue_when",
-			duration = 12,
-			condition = function (t)
-				return (count_breed("skaven_clan_rat") + count_breed("skaven_clan_rat_with_shield")) < 10 and count_breed("skaven_slave") < 15 and (count_breed("skaven_storm_vermin_commander") + count_breed("skaven_storm_vermin_with_shield")) < 4 and count_breed("skaven_plague_monk") < 4
-			end
-		},
-		{
-			"continue_when",
-			duration = 5,
-			condition = function (t)
-				return count_breed("skaven_rat_ogre") < 1
-			end
-		},
-		{
-			"delay",
-			duration = 5
-		},
-		{
-			"event_horde",
-			spawner_id = "magnus_door_event_b",
-			composition_type = "event_small"
+			spawner_id = "magnus_door_event_c",
+			composition_type = "onslaught_custom_specials_heavy_denial"
 		},
 		{
 			"event_horde",
@@ -13883,31 +14559,8 @@ end
 		},
 		{
 			"event_horde",
-			spawner_id = "magnus_door_event_b",
-			composition_type = "event_extra_spice_small"
-		},
-		{
-			"continue_when",
-			duration = 12,
-			condition = function (t)
-				return (count_breed("skaven_clan_rat") + count_breed("skaven_clan_rat_with_shield")) < 10 and count_breed("skaven_slave") < 15 and (count_breed("skaven_storm_vermin_commander") + count_breed("skaven_storm_vermin_with_shield")) < 4 and count_breed("skaven_plague_monk") < 4
-			end
-		},
-		{
-			"continue_when",
-			duration = 5,
-			condition = function (t)
-				return count_breed("skaven_rat_ogre") < 1
-			end
-		},
-		{
-			"delay",
-			duration = 5
-		},
-		{
-			"event_horde",
-			spawner_id = "magnus_door_event_b",
-			composition_type = "event_small"
+			spawner_id = "magnus_door_event_c",
+			composition_type = "onslaught_custom_specials_heavy_denial"
 		},
 		{
 			"event_horde",
@@ -13936,6 +14589,77 @@ end
 			"event_horde",
 			spawner_id = "magnus_door_event_b",
 			composition_type = "event_small"
+		},
+		{
+			"event_horde",
+			spawner_id = "magnus_door_event_c",
+			composition_type = "onslaught_custom_specials_heavy_denial"
+		},
+		{
+			"event_horde",
+			spawner_id = "magnus_door_event_b",
+			composition_type = "event_extra_spice_small"
+		},
+		{
+			"continue_when",
+			duration = 12,
+			condition = function (t)
+				return (count_breed("skaven_clan_rat") + count_breed("skaven_clan_rat_with_shield")) < 10 and count_breed("skaven_slave") < 15 and (count_breed("skaven_storm_vermin_commander") + count_breed("skaven_storm_vermin_with_shield")) < 4 and count_breed("skaven_plague_monk") < 4
+			end
+		},
+		{
+			"continue_when",
+			duration = 5,
+			condition = function (t)
+				return count_breed("skaven_rat_ogre") < 1
+			end
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"event_horde",
+			spawner_id = "magnus_door_event_b",
+			composition_type = "event_small"
+		},
+		{
+			"event_horde",
+			spawner_id = "magnus_door_event_c",
+			composition_type = "onslaught_custom_specials_heavy_denial"
+		},
+		{
+			"event_horde",
+			spawner_id = "magnus_door_event_b",
+			composition_type = "event_extra_spice_small"
+		},
+		{
+			"continue_when",
+			duration = 12,
+			condition = function (t)
+				return (count_breed("skaven_clan_rat") + count_breed("skaven_clan_rat_with_shield")) < 10 and count_breed("skaven_slave") < 15 and (count_breed("skaven_storm_vermin_commander") + count_breed("skaven_storm_vermin_with_shield")) < 4 and count_breed("skaven_plague_monk") < 4
+			end
+		},
+		{
+			"continue_when",
+			duration = 5,
+			condition = function (t)
+				return count_breed("skaven_rat_ogre") < 1
+			end
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"event_horde",
+			spawner_id = "magnus_door_event_b",
+			composition_type = "event_small"
+		},
+		{
+			"event_horde",
+			spawner_id = "magnus_door_event_c",
+			composition_type = "onslaught_custom_specials_heavy_denial"
 		},
 		{
 			"event_horde",
@@ -13966,593 +14690,7 @@ end
 		}
 	}
 	
-	TerrorEventBlueprints.magnus.magnus_door_b = {
-		{
-			"enable_bots_in_carry_event"
-		},
-		{
-			"control_pacing",
-			enable = false
-		},
-		{
-			"control_specials",
-			enable = false
-		},
-		{
-			"event_horde",
-			spawner_id = "magnus_door_event_b",
-			composition_type = "event_medium"
-		},
-		{
-			"play_stinger",
-			stinger_name = "enemy_horde_stinger"
-		},
-		{
-			"delay",
-			duration = 3
-		},
-		{
-			"event_horde",
-			spawner_id = "magnus_door_event_specials",
-			composition_type = "onslaught_chaos_warriors"
-		},
-		{
-			"delay",
-			duration = 2
-		},
-		{
-			"event_horde",
-			spawner_id = "magnus_door_event_chaos",
-			composition_type = "event_medium_chaos"
-		},
-		{
-			"delay",
-			duration = 10
-		},
-		{
-			"delay",
-			duration = 5
-		},
-		{
-			"event_horde",
-			spawner_id = "magnus_door_event_specials",
-			composition_type = "onslaught_chaos_warriors"
-		},
-		{
-			"delay",
-			duration = 3
-		},
-		{
-			"event_horde",
-			spawner_id = "magnus_door_event_a",
-			composition_type = "event_small"
-		},
-		{
-			"event_horde",
-			spawner_id = "magnus_door_event_a",
-			composition_type = "onslaught_storm_vermin_small"
-		},
-		{
-			"delay",
-			duration = 5
-		},
-		{
-			"continue_when",
-			duration = 15,
-			condition = function (t)
-				return (count_breed("skaven_clan_rat") + count_breed("skaven_clan_rat_with_shield")) < 10 and count_breed("skaven_slave") < 15 and (count_breed("skaven_storm_vermin_commander") + count_breed("skaven_storm_vermin_with_shield")) < 4 and count_breed("skaven_plague_monk") < 4
-			end
-		},
-		{
-			"continue_when",
-			duration = 5,
-			condition = function (t)
-				return count_breed("chaos_troll") < 1
-			end
-		},
-		{
-			"delay",
-			duration = 5
-		},
-		{
-			"event_horde",
-			spawner_id = "magnus_door_event_chaos",
-			composition_type = "event_small_chaos"
-		},
-		{
-			"event_horde",
-			spawner_id = "magnus_door_event_chaos",
-			composition_type = "event_small_chaos"
-		},
-		{
-			"event_horde",
-			spawner_id = "magnus_door_event_chaos",
-			composition_type = "event_maulers_medium"
-		},
-		{
-			"delay",
-			duration = 5
-		},
-		{
-			"spawn_special",
-			spawner_id = "magnus_door_event_specials",
-			breed_name = "chaos_vortex_sorcerer"
-		},
-		{
-			"spawn_special",
-			spawner_id = "magnus_door_event_specials",
-			breed_name = "chaos_vortex_sorcerer"
-		},
-		{
-			"continue_when",
-			duration = 12,
-			condition = function (t)
-				return (count_breed("chaos_marauder") + count_breed("chaos_marauder_with_shield")) < 8 and count_breed("chaos_fanatic") < 13 and count_breed("chaos_raider") < 4 and count_breed("chaos_berzerker") < 4
-			end
-		},
-		{
-			"continue_when",
-			duration = 5,
-			condition = function (t)
-				return count_breed("chaos_troll") < 1
-			end
-		},
-		{
-			"delay",
-			duration = 5
-		},
-		{
-			"event_horde",
-			spawner_id = "magnus_door_event_c",
-			composition_type = "event_medium"
-		},
-		{
-			"delay",
-			duration = 5
-		},
-		{
-			"continue_when",
-			duration = 12,
-			condition = function (t)
-				return (count_breed("skaven_clan_rat") + count_breed("skaven_clan_rat_with_shield")) < 10 and count_breed("skaven_slave") < 15 and (count_breed("skaven_storm_vermin_commander") + count_breed("skaven_storm_vermin_with_shield")) < 4 and count_breed("skaven_plague_monk") < 4
-			end
-		},
-		{
-			"continue_when",
-			duration = 5,
-			condition = function (t)
-				return count_breed("chaos_troll") < 1
-			end
-		},
-		{
-			"delay",
-			duration = 5
-		},
-		{
-			"spawn_special",
-			"skaven_warpfire_thrower",
-			breed_name = "skaven_ratling_gunner",
-			spawner_id = "magnus_door_event_specials",
-			amount = {
-				1,
-				2
-			}
-		},
-		{
-			"delay",
-			duration = 3
-		},
-		{
-			"event_horde",
-			spawner_id = "magnus_door_event_chaos",
-			composition_type = "event_small_chaos"
-		},
-		{
-			"event_horde",
-			spawner_id = "magnus_door_event_chaos",
-			composition_type = "event_maulers_small"
-		},
-		{
-			"delay",
-			duration = 5
-		},
-		{
-			"continue_when",
-			duration = 12,
-			condition = function (t)
-				return (count_breed("skaven_clan_rat") + count_breed("skaven_clan_rat_with_shield")) < 10 and count_breed("skaven_slave") < 15 and (count_breed("skaven_storm_vermin_commander") + count_breed("skaven_storm_vermin_with_shield")) < 4 and count_breed("skaven_plague_monk") < 4
-			end
-		},
-		{
-			"continue_when",
-			duration = 5,
-			condition = function (t)
-				return count_breed("chaos_troll") < 1
-			end
-		},
-		{
-			"delay",
-			duration = 5
-		},
-		{
-			"event_horde",
-			spawner_id = "magnus_door_event_chaos",
-			composition_type = "event_medium_chaos"
-		},
-		{
-			"event_horde",
-			spawner_id = "magnus_door_event_chaos",
-			composition_type = "onslaught_chaos_berzerkers_medium"
-		},
-		{
-			"delay",
-			duration = 5
-		},
-		{
-			"continue_when",
-			duration = 12,
-			condition = function (t)
-				return (count_breed("chaos_marauder") + count_breed("chaos_marauder_with_shield")) < 8 and count_breed("chaos_fanatic") < 13 and count_breed("chaos_raider") < 4 and count_breed("chaos_berzerker") < 4
-			end
-		},
-		{
-			"continue_when",
-			duration = 5,
-			condition = function (t)
-				return count_breed("chaos_troll") < 1
-			end
-		},
-		{
-			"delay",
-			duration = 5
-		},
-		{
-			"event_horde",
-			spawner_id = "magnus_door_event_a",
-			composition_type = "event_small"
-		},
-		{
-			"event_horde",
-			spawner_id = "magnus_door_event_a",
-			composition_type = "onslaught_storm_vermin_medium"
-		},
-		{
-			"delay",
-			duration = 5
-		},
-		{
-			"continue_when",
-			duration = 12,
-			condition = function (t)
-				return (count_breed("skaven_clan_rat") + count_breed("skaven_clan_rat_with_shield")) < 10 and count_breed("skaven_slave") < 15 and (count_breed("skaven_storm_vermin_commander") + count_breed("skaven_storm_vermin_with_shield")) < 4 and count_breed("skaven_plague_monk") < 4
-			end
-		},
-		{
-			"continue_when",
-			duration = 5,
-			condition = function (t)
-				return count_breed("chaos_troll") < 1
-			end
-		},
-		{
-			"delay",
-			duration = 5
-		},
-		{
-			"spawn_special",
-			breed_name = "skaven_poison_wind_globadier",
-			spawner_id = "magnus_door_event_specials",
-			amount = {
-				1,
-				2
-			}
-		},
-		{
-			"spawn_special",
-			breed_name = "chaos_corruptor_sorcerer",
-			spawner_id = "magnus_door_event_specials",
-		},
-		{
-			"delay",
-			duration = 3
-		},
-		{
-			"event_horde",
-			spawner_id = "magnus_door_event_chaos",
-			composition_type = "event_medium_chaos"
-		},
-		{
-			"event_horde",
-			spawner_id = "magnus_door_event_chaos",
-			composition_type = "event_maulers_medium"
-		},
-		{
-			"delay",
-			duration = 5
-		},
-		{
-			"continue_when",
-			duration = 12,
-			condition = function (t)
-				return (count_breed("chaos_marauder") + count_breed("chaos_marauder_with_shield")) < 8 and count_breed("chaos_fanatic") < 13 and count_breed("chaos_raider") < 4 and count_breed("chaos_berzerker") < 4
-			end
-		},
-		{
-			"continue_when",
-			duration = 5,
-			condition = function (t)
-				return count_breed("chaos_troll") < 1
-			end
-		},
-		{
-			"delay",
-			duration = 5
-		},
-		{
-			"event_horde",
-			spawner_id = "magnus_door_event_c",
-			composition_type = "event_small"
-		},
-		{
-			"delay",
-			duration = 10
-		},
-		{
-			"event_horde",
-			spawner_id = "magnus_door_event_chaos",
-			composition_type = "event_small_chaos"
-		},
-		{
-			"event_horde",
-			spawner_id = "magnus_door_event_chaos",
-			composition_type = "onslaught_chaos_berzerkers_small"
-		},
-		{
-			"event_horde",
-			spawner_id = "magnus_door_event_chaos",
-			composition_type = "onslaught_event_small_fanatics"
-		},
-		{
-			"continue_when",
-			duration = 12,
-			condition = function (t)
-				return (count_breed("chaos_marauder") + count_breed("chaos_marauder_with_shield")) < 8 and count_breed("chaos_fanatic") < 13 and count_breed("chaos_raider") < 4 and count_breed("chaos_berzerker") < 4
-			end
-		},
-		{
-			"continue_when",
-			duration = 5,
-			condition = function (t)
-				return count_breed("chaos_troll") < 1
-			end
-		},
-		{
-			"delay",
-			duration = 5
-		},
-		{
-			"spawn",
-			{
-				1,
-				2
-			},
-			spawner_id = "magnus_door_event_specials",
-			breed_name = "chaos_warrior"
-		},
-		{
-			"delay",
-			duration = 3
-		},
-		{
-			"event_horde",
-			spawner_id = "magnus_door_event_chaos",
-			composition_type = "event_small_chaos"
-		},
-		{
-			"event_horde",
-			spawner_id = "magnus_door_event_chaos",
-			composition_type = "event_small_chaos"
-		},
-		{
-			"delay",
-			duration = 5
-		},
-		{
-			"continue_when",
-			duration = 12,
-			condition = function (t)
-				return (count_breed("chaos_marauder") + count_breed("chaos_marauder_with_shield")) < 8 and count_breed("chaos_fanatic") < 13 and count_breed("chaos_raider") < 4 and count_breed("chaos_berzerker") < 4
-			end
-		},
-		{
-			"continue_when",
-			duration = 5,
-			condition = function (t)
-				return count_breed("chaos_troll") < 1
-			end
-		},
-		{
-			"delay",
-			duration = 5
-		},
-		{
-			"event_horde",
-			spawner_id = "magnus_door_event_a",
-			composition_type = "event_small"
-		},
-		{
-			"event_horde",
-			spawner_id = "magnus_door_event_a",
-			composition_type = "event_extra_spice_small"
-		},
-		{
-			"event_horde",
-			spawner_id = "magnus_door_event_a",
-			composition_type = "onslaught_storm_vermin_small"
-		},
-		{
-			"continue_when",
-			duration = 12,
-			condition = function (t)
-				return (count_breed("skaven_clan_rat") + count_breed("skaven_clan_rat_with_shield")) < 10 and count_breed("skaven_slave") < 15 and (count_breed("skaven_storm_vermin_commander") + count_breed("skaven_storm_vermin_with_shield")) < 4 and count_breed("skaven_plague_monk") < 4
-			end
-		},
-		{
-			"continue_when",
-			duration = 5,
-			condition = function (t)
-				return count_breed("chaos_troll") < 1
-			end
-		},
-		{
-			"delay",
-			duration = 5
-		},
-		{
-			"event_horde",
-			spawner_id = "magnus_door_event_chaos",
-			composition_type = "event_small_chaos"
-		},
-		{
-			"event_horde",
-			spawner_id = "magnus_door_event_chaos",
-			composition_type = "onslaught_event_small_fanatics"
-		},
-		{
-			"continue_when",
-			duration = 12,
-			condition = function (t)
-				return (count_breed("chaos_marauder") + count_breed("chaos_marauder_with_shield")) < 8 and count_breed("chaos_fanatic") < 13 and count_breed("chaos_raider") < 4 and count_breed("chaos_berzerker") < 4
-			end
-		},
-		{
-			"continue_when",
-			duration = 5,
-			condition = function (t)
-				return count_breed("chaos_troll") < 1
-			end
-		},
-		{
-			"delay",
-			duration = 5
-		},
-		{
-			"event_horde",
-			spawner_id = "magnus_door_event_chaos",
-			composition_type = "event_small_chaos"
-		},
-		{
-			"event_horde",
-			spawner_id = "magnus_door_event_chaos",
-			composition_type = "onslaught_event_small_fanatics"
-		},
-		{
-			"continue_when",
-			duration = 12,
-			condition = function (t)
-				return (count_breed("chaos_marauder") + count_breed("chaos_marauder_with_shield")) < 8 and count_breed("chaos_fanatic") < 13 and count_breed("chaos_raider") < 4 and count_breed("chaos_berzerker") < 4
-			end
-		},
-		{
-			"continue_when",
-			duration = 5,
-			condition = function (t)
-				return count_breed("chaos_troll") < 1
-			end
-		},
-		{
-			"delay",
-			duration = 5
-		},
-		{
-			"event_horde",
-			spawner_id = "magnus_door_event_chaos",
-			composition_type = "event_small_chaos"
-		},
-		{
-			"event_horde",
-			spawner_id = "magnus_door_event_chaos",
-			composition_type = "onslaught_event_small_fanatics"
-		},
-		{
-			"continue_when",
-			duration = 12,
-			condition = function (t)
-				return (count_breed("chaos_marauder") + count_breed("chaos_marauder_with_shield")) < 8 and count_breed("chaos_fanatic") < 13 and count_breed("chaos_raider") < 4 and count_breed("chaos_berzerker") < 4
-			end
-		},
-		{
-			"continue_when",
-			duration = 5,
-			condition = function (t)
-				return count_breed("chaos_troll") < 1
-			end
-		},
-		{
-			"delay",
-			duration = 5
-		},
-		{
-			"event_horde",
-			spawner_id = "magnus_door_event_chaos",
-			composition_type = "event_small_chaos"
-		},
-		{
-			"event_horde",
-			spawner_id = "magnus_door_event_chaos",
-			composition_type = "onslaught_event_small_fanatics"
-		},
-		{
-			"continue_when",
-			duration = 12,
-			condition = function (t)
-				return (count_breed("chaos_marauder") + count_breed("chaos_marauder_with_shield")) < 8 and count_breed("chaos_fanatic") < 13 and count_breed("chaos_raider") < 4 and count_breed("chaos_berzerker") < 4
-			end
-		},
-		{
-			"continue_when",
-			duration = 5,
-			condition = function (t)
-				return count_breed("chaos_troll") < 1
-			end
-		},
-		{
-			"delay",
-			duration = 5
-		},
-		{
-			"event_horde",
-			spawner_id = "magnus_door_event_chaos",
-			composition_type = "event_small_chaos"
-		},
-		{
-			"event_horde",
-			spawner_id = "magnus_door_event_chaos",
-			composition_type = "onslaught_event_small_fanatics"
-		},
-		{
-			"continue_when",
-			duration = 12,
-			condition = function (t)
-				return (count_breed("chaos_marauder") + count_breed("chaos_marauder_with_shield")) < 8 and count_breed("chaos_fanatic") < 13 and count_breed("chaos_raider") < 4 and count_breed("chaos_berzerker") < 4
-			end
-		},
-		{
-			"continue_when",
-			duration = 5,
-			condition = function (t)
-				return count_breed("chaos_troll") < 1
-			end
-		},
-		{
-			"control_pacing",
-			enable = true
-		},
-		{
-			"control_specials",
-			enable = true
-		}
-	}	
+	TerrorEventBlueprints.magnus.magnus_door_b = TerrorEventBlueprints.magnus.magnus_door_a
 	
 	TerrorEventBlueprints.magnus.magnus_end_event = {
 		{
@@ -16965,34 +17103,6 @@ end
 		return #alive_standards
 	end
 
-	HordeCompositions.crackaddicts = {
-		{
-			name = "drugs",
-			weight = 10,
-			breeds = {
-				"beastmen_ungor_archer",
-				{
-					30,
-					30
-				}
-			}
-		},
-	} 
-
-	HordeCompositions.highasf = {
-		{
-			name = "drugs",
-			weight = 10,
-			breeds = {
-				"beastmen_bestigor",
-				{
-					10,
-					13
-				}
-			}
-		},
-	} 
-
 	TerrorEventBlueprints.crater.crater_mid_event = {
 		{
 			"enable_bots_in_carry_event"
@@ -17657,8 +17767,6 @@ end
 					9,
 					10
 				},
-				"skaven_explosive_loot_rat",
-				2
 			}
 		}
 	}

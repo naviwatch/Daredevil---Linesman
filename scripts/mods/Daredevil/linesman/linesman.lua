@@ -233,6 +233,7 @@ end
 	mutator_plus.OriginalBossSettings = table.clone(BossSettings)
 	mutator_plus.OriginalPatrolFormationSettings = table.clone(PatrolFormationSettings)
 	mutator_plus.OriginalBob = table.clone(Breeds.skaven_dummy_clan_rat)
+	mutator_plus.OriginalGiant = table.clone(Breeds.skaven_dummy_slave)
 
 	mutator_plus.OriginalThreatValue = {}
 	for name, breed in pairs(Breeds) do
@@ -241,46 +242,8 @@ end
 		end
 	end
 
-
-	-- White SV
-	Breeds.skaven_storm_vermin.bloodlust_health = BreedTweaks.bloodlust_health.beastmen_elite
-	Breeds.skaven_storm_vermin.primary_armor_category = 6
-	Breeds.skaven_storm_vermin.size_variation_range = { 1.2, 1.2 }
-	Breeds.skaven_storm_vermin.max_health = BreedTweaks.max_health.bestigor
-	Breeds.skaven_storm_vermin.hit_mass_counts = BreedTweaks.hit_mass_counts.bestigor
-	UnitVariationSettings.skaven_storm_vermin.material_variations.cloth_tint.min = 30
-	UnitVariationSettings.skaven_storm_vermin.material_variations.cloth_tint.max = 31
-	UnitVariationSettings.skaven_storm_vermin.material_variations.skin_tint.min = 1
-	UnitVariationSettings.skaven_storm_vermin.material_variations.skin_tint.max = 1
-
-	-- Big Ratling
-	mod.deepcopy = function(orig, copies)
-		copies = copies or {}
-		local orig_type = type(orig)
-		local copy
-		if orig_type == 'table' then
-			if copies[orig] then
-				copy = copies[orig]
-			else
-				copy = {}
-				copies[orig] = copy
-				for orig_key, orig_value in next, orig, nil do
-					copy[mod.deepcopy(orig_key, copies)] = mod.deepcopy(orig_value, copies)
-				end
-				setmetatable(copy, mod.deepcopy(getmetatable(orig), copies))
-			end
-		else -- number, string, boolean, etc
-			copy = orig
-		end
-		return copy
-	end
-
-	Breeds.skaven_dummy_clan_rat = mod.deepcopy(Breeds.skaven_ratling_gunner)
-	Breeds.skaven_dummy_clan_rat.size_variation_range = { 3, 3 }
-	Breeds.skaven_dummy_clan_rat.walk_speed = 12
-	Breeds.skaven_dummy_clan_rat.run_speed = 12
-	Breeds.skaven_dummy_clan_rat.boss = true -- No WHC/Shade cheese fight this big man fair and square
-	GrudgeMarkedNames.skaven = { "Bob the Builder" }
+	-- Load custom breeds
+	mod:dofile("scripts/mods/Daredevil/linesman/mutator/linesman_breeds")
 
 	-- OST
 --	Wwise.load_bank("backstab")
@@ -1012,7 +975,7 @@ local range = 0.01
 	-- Special wave 3: Chaos denial-focused (blight/ratling)
 
 	--[[ Code explained for those who don't know how to read it
-	  The first coin flip simulates a 15% chance.
+	  The first coin flip simulates a 10% chance.
 	  a/ If the first event (PRD_special_attack) occurs, it triggers the coordinated strike:
 		- Starts the SFX for warning
 		- Broadcasts "Coordinated Attack!"
@@ -1021,7 +984,7 @@ local range = 0.01
 			b/ If PRD_mix is false, it further flips a 50% coin for PRD_denial.
 				a/ If PRD_denial is true, it starts a terror event named "skaven_denial".
 				b/ If PRD_denial is false, it starts a terror event named "chaos_denial".
-	  b/ If the first event doesn't occur, simply end the function. (or 4.5% to troll you)
+	  b/ If the first event doesn't occur, simply end the function.
 
 	All of this is to make sure that all three waves are evenly distributed and spawned, fuck me
 	]]
@@ -1045,13 +1008,6 @@ local range = 0.01
 				end
 			end
 		else
-			if lb then
-				EXPLOSION, die = PseudoRandomDistribution.flip_coin(die, 0.07) -- Flip 7%
-				if EXPLOSION then
-					conflict_director:spawn_one(Breeds.skaven_explosive_loot_rat, nil, nil)
-				else
-				end
-			end
 		end
 	end
 

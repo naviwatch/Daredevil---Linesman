@@ -2213,3 +2213,31 @@ HordeCompositions.linesman_mixed_horde = {
 		},
 	}
 }
+
+HordeCompositions.crackaddicts = {
+	{
+		name = "drugs",
+		weight = 10,
+		breeds = {
+			"beastmen_ungor_archer",
+			{
+				30,
+				30
+			}
+		}
+	},
+} 
+
+HordeCompositions.highasf = {
+	{
+		name = "drugs",
+		weight = 10,
+		breeds = {
+			"beastmen_bestigor",
+			{
+				10,
+				13
+			}
+		}
+	},
+} 
