@@ -2780,40 +2780,12 @@ local co = 0.135
 		end		
 	end)
 
-	local ssms = 7 
-	SpecialsSettings.default.max_specials = ssms
-	SpecialsSettings.default_light.max_specials = ssms
-	SpecialsSettings.skaven.max_specials = ssms
-	SpecialsSettings.skaven_light.max_specials = ssms
-	SpecialsSettings.chaos.max_specials = ssms
-	SpecialsSettings.chaos_light.max_specials = ssms
-	SpecialsSettings.beastmen.max_specials = ssms
-	SpecialsSettings.skaven_beastmen.max_specials = ssms
-	SpecialsSettings.chaos_beastmen.max_specials = ssms
-	
-	PacingSettings.default.delay_specials_threat_value = nil
-	PacingSettings.chaos.delay_specials_threat_value = nil
-	PacingSettings.beastmen.delay_specials_threat_value = nil
-	
 
-	Breeds.skaven_warpfire_thrower.threat_value = 2
-	Breeds.skaven_gutter_runner.threat_value = 4
---	Breeds.skaven_pack_master.threat_value = 2
---	Breeds.skaven_poison_wind_globadier.threat_value = 4
-	Breeds.skaven_ratling_gunner.threat_value = 2
-	Breeds.chaos_corruptor_sorcerer.threat_value = 2
-	Breeds.chaos_vortex_sorcerer.threat_value = 4
-	
-	Managers.state.conflict:set_threat_value("skaven_warpfire_thrower", 2)
-	Managers.state.conflict:set_threat_value("skaven_gutter_runner", 4)
---	Managers.state.conflict:set_threat_value("skaven_pack_master", 2)
---	Managers.state.conflict:set_threat_value("skaven_poison_wind_globadier", 4)
-	Managers.state.conflict:set_threat_value("skaven_ratling_gunner", 2)
-	Managers.state.conflict:set_threat_value("chaos_corruptor_sorcerer", 2)
-	Managers.state.conflict:set_threat_value("chaos_vortex_sorcerer", 4)
-
+	SpecialsSettings.default.max_specials = 7
+	SpecialsSettings.default.spawn_method = "specials_by_slots"
+	SpecialsSettings.default.methods = {}
 	SpecialsSettings.default.methods.specials_by_slots = {
-		max_of_same = 3,                                        
+		max_of_same = 3,
 		coordinated_attack_cooldown_multiplier = 0.4,
 		chance_of_coordinated_attack = 0.3,
 		select_next_breed = "get_random_breed",
@@ -2822,110 +2794,115 @@ local co = 0.135
 			20
 		},
 		spawn_cooldown = {
-			25,
-			30
+			25, -- 32
+			30 -- 60
 		}
 	}
-
-	SpecialsSettings.default_light = SpecialsSettings.default
-	SpecialsSettings.skaven = SpecialsSettings.default
-	SpecialsSettings.skaven_light = SpecialsSettings.default
-	SpecialsSettings.chaos = SpecialsSettings.default
-	SpecialsSettings.chaos_light = SpecialsSettings.default
-	SpecialsSettings.beastmen = SpecialsSettings.default
-
+	
 	SpecialsSettings.default.breeds = {
 		"skaven_gutter_runner",
-		"skaven_gutter_runner",
 		"skaven_pack_master",
-		"skaven_pack_master",
-		"skaven_ratling_gunner",
-		"skaven_ratling_gunner",
 		"skaven_ratling_gunner",
 		"skaven_poison_wind_globadier",
+		"skaven_warpfire_thrower",
 		"chaos_vortex_sorcerer",
 		"chaos_corruptor_sorcerer",
+		"skaven_gutter_runner",
+		"skaven_pack_master",
+		"skaven_ratling_gunner",
+		"skaven_warpfire_thrower",
 		"chaos_corruptor_sorcerer",
+	--	"skaven_gutter_runner",
+	--	"skaven_pack_master",
+		"skaven_ratling_gunner",
+		"skaven_poison_wind_globadier",
 		"skaven_warpfire_thrower",
+		"chaos_vortex_sorcerer",
+	--	"chaos_corruptor_sorcerer",
+	}
+	
+	local default_override = table.clone(SpecialsSettings.default)
+	SpecialsSettings.default.difficulty_overrides.hard = default_override
+	SpecialsSettings.default.difficulty_overrides.harder = default_override
+	SpecialsSettings.default.difficulty_overrides.hardest = default_override
+	SpecialsSettings.default.difficulty_overrides.cataclysm = default_override
+	SpecialsSettings.default.difficulty_overrides.cataclysm_2 = default_override
+	SpecialsSettings.default.difficulty_overrides.cataclysm_3 = default_override
+	SpecialsSettings.default.difficulty_overrides.versus_base = default_override
+	
+	table.merge_recursive(SpecialsSettings.default_light, SpecialsSettings.default)
+	table.merge_recursive(SpecialsSettings.skaven, SpecialsSettings.default)
+	
+	SpecialsSettings.skaven.breeds = {
+		"skaven_gutter_runner",
+		"skaven_pack_master",
+		"skaven_ratling_gunner",
+		"skaven_poison_wind_globadier",
 		"skaven_warpfire_thrower",
+		"skaven_gutter_runner",
+		"skaven_pack_master",
+		"skaven_ratling_gunner",
+		"skaven_poison_wind_globadier",
+		"skaven_warpfire_thrower",
+	--	"skaven_gutter_runner",
+	--	"skaven_pack_master",
+		"skaven_ratling_gunner",
 		"skaven_warpfire_thrower",
 	}
-
---	SpecialsSettings.chaos.breeds = SpecialsSettings.default.breeds
---[[
+	
+	SpecialsSettings.skaven.difficulty_overrides.hard.breeds = SpecialsSettings.skaven.breeds
+	SpecialsSettings.skaven.difficulty_overrides.harder = SpecialsSettings.skaven.breeds
+	SpecialsSettings.skaven.difficulty_overrides.hardest = SpecialsSettings.skaven.breeds
+	SpecialsSettings.skaven.difficulty_overrides.cataclysm = SpecialsSettings.skaven.breeds
+	SpecialsSettings.skaven.difficulty_overrides.cataclysm_2 = SpecialsSettings.skaven.breeds
+	SpecialsSettings.skaven.difficulty_overrides.cataclysm_3 = SpecialsSettings.skaven.breeds
+	SpecialsSettings.skaven.difficulty_overrides.versus_base = SpecialsSettings.skaven.breeds
+	table.merge_recursive(SpecialsSettings.skaven_light, SpecialsSettings.skaven)
+	
+	table.merge_recursive(SpecialsSettings.chaos, SpecialsSettings.default)
+	table.merge_recursive(SpecialsSettings.chaos_light, SpecialsSettings.default)
+	table.merge_recursive(SpecialsSettings.beastmen, SpecialsSettings.default)
+	
 	SpecialsSettings.chaos.breeds = {
 		"skaven_gutter_runner",
-		"skaven_gutter_runner",
-		"skaven_gutter_runner",
-		"skaven_pack_master",
-		"skaven_pack_master",
 		"skaven_pack_master",
 		"skaven_ratling_gunner",
-		"skaven_ratling_gunner",
 		"skaven_poison_wind_globadier",
-		"skaven_poison_wind_globadier",
-		"chaos_vortex_sorcerer",
-		"chaos_vortex_sorcerer",
-		"chaos_corruptor_sorcerer",
-		"chaos_corruptor_sorcerer",
 		"skaven_warpfire_thrower",
+		"chaos_vortex_sorcerer",
+		"chaos_corruptor_sorcerer",
+		"skaven_gutter_runner",
+		"skaven_pack_master",
+		"skaven_ratling_gunner",
+		"skaven_warpfire_thrower",
+		"chaos_corruptor_sorcerer",
+	--	"skaven_gutter_runner",
+	--	"skaven_pack_master",
+		"skaven_ratling_gunner",
+		"skaven_poison_wind_globadier",
+		"skaven_warpfire_thrower",
+		"chaos_vortex_sorcerer",
+	--	"chaos_corruptor_sorcerer",
 	}
-]]
-
-	SpecialsSettings.default.difficulty_overrides.hard = nil
-	SpecialsSettings.default.difficulty_overrides.harder = nil
-	SpecialsSettings.default.difficulty_overrides.hardest = nil
-	SpecialsSettings.default.difficulty_overrides.cataclysm = nil
-	SpecialsSettings.default.difficulty_overrides.cataclysm_2 = nil
-	SpecialsSettings.default.difficulty_overrides.cataclysm_3 = nil
-	SpecialsSettings.default_light.difficulty_overrides.hard = nil
-	SpecialsSettings.default_light.difficulty_overrides.harder = nil
-	SpecialsSettings.default_light.difficulty_overrides.hardest = nil
-	SpecialsSettings.default_light.difficulty_overrides.cataclysm = nil
-	SpecialsSettings.default_light.difficulty_overrides.cataclysm_2 = nil
-	SpecialsSettings.default_light.difficulty_overrides.cataclysm_3 = nil
-	SpecialsSettings.skaven.difficulty_overrides.hard = nil
-	SpecialsSettings.skaven.difficulty_overrides.harder = nil
-	SpecialsSettings.skaven.difficulty_overrides.hardest = nil
-	SpecialsSettings.skaven.difficulty_overrides.cataclysm = nil
-	SpecialsSettings.skaven.difficulty_overrides.cataclysm_2 = nil
-	SpecialsSettings.skaven.difficulty_overrides.cataclysm_3 = nil
-	SpecialsSettings.skaven_light.difficulty_overrides.hard = nil
-	SpecialsSettings.skaven_light.difficulty_overrides.harder = nil
-	SpecialsSettings.skaven_light.difficulty_overrides.hardest = nil
-	SpecialsSettings.skaven_light.difficulty_overrides.cataclysm = nil
-	SpecialsSettings.skaven_light.difficulty_overrides.cataclysm_2 = nil
-	SpecialsSettings.skaven_light.difficulty_overrides.cataclysm_3 = nil
-	SpecialsSettings.chaos.difficulty_overrides.hard = nil
-	SpecialsSettings.chaos.difficulty_overrides.harder = nil
-	SpecialsSettings.chaos.difficulty_overrides.hardest = nil
-	SpecialsSettings.chaos.difficulty_overrides.cataclysm = nil
-	SpecialsSettings.chaos.difficulty_overrides.cataclysm_2 = nil
-	SpecialsSettings.chaos.difficulty_overrides.cataclysm_3 = nil
-	SpecialsSettings.chaos_light.difficulty_overrides.hard = nil
-	SpecialsSettings.chaos_light.difficulty_overrides.harder = nil
-	SpecialsSettings.chaos_light.difficulty_overrides.hardest = nil
-	SpecialsSettings.chaos_light.difficulty_overrides.cataclysm = nil
-	SpecialsSettings.chaos_light.difficulty_overrides.cataclysm_2 = nil
-	SpecialsSettings.chaos_light.difficulty_overrides.cataclysm_3 = nil
-	SpecialsSettings.beastmen.difficulty_overrides.hard = nil
-	SpecialsSettings.beastmen.difficulty_overrides.harder = nil
-	SpecialsSettings.beastmen.difficulty_overrides.hardest = nil
-	SpecialsSettings.beastmen.difficulty_overrides.cataclysm = nil
-	SpecialsSettings.beastmen.difficulty_overrides.cataclysm_2 = nil
-	SpecialsSettings.beastmen.difficulty_overrides.cataclysm_3 = nil
-	SpecialsSettings.skaven_beastmen.difficulty_overrides.hard = nil
-	SpecialsSettings.skaven_beastmen.difficulty_overrides.harder = nil
-	SpecialsSettings.skaven_beastmen.difficulty_overrides.hardest = nil
-	SpecialsSettings.skaven_beastmen.difficulty_overrides.cataclysm = nil
-	SpecialsSettings.skaven_beastmen.difficulty_overrides.cataclysm_2 = nil
-	SpecialsSettings.skaven_beastmen.difficulty_overrides.cataclysm_3 = nil
-	SpecialsSettings.chaos_beastmen.difficulty_overrides.hard = nil
-	SpecialsSettings.chaos_beastmen.difficulty_overrides.harder = nil
-	SpecialsSettings.chaos_beastmen.difficulty_overrides.hardest = nil
-	SpecialsSettings.chaos_beastmen.difficulty_overrides.cataclysm = nil
-	SpecialsSettings.chaos_beastmen.difficulty_overrides.cataclysm_2 = nil
-	SpecialsSettings.chaos_beastmen.difficulty_overrides.cataclysm_3 = nil
+	
+	SpecialsSettings.beastmen.breeds = {
+		"beastmen_standard_bearer",
+		"skaven_gutter_runner",
+		"skaven_pack_master",
+		"skaven_ratling_gunner",
+		"skaven_poison_wind_globadier",
+		"chaos_vortex_sorcerer",
+		"chaos_corruptor_sorcerer",
+		"skaven_gutter_runner",
+		"skaven_pack_master",
+		"skaven_ratling_gunner",
+		"skaven_poison_wind_globadier",
+		"chaos_vortex_sorcerer",
+		"skaven_warpfire_thrower"
+	}
+	
+	SpecialsSettings.skaven_beastmen = SpecialsSettings.beastmen
+	SpecialsSettings.chaos_beastmen = SpecialsSettings.beastmen
 	
 	Breeds.skaven_rat_ogre.threat_value = 25
 	Breeds.skaven_stormfiend.threat_value = 25

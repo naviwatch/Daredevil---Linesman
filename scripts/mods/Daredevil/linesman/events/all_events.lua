@@ -14060,14 +14060,24 @@ end
 			duration = 3
 		},
 		{
-			"event_horde",
+			"spawn_special",
 			spawner_id = "magnus_door_event_specials",
-			composition_type = "onslaught_custom_specials_heavy_denial"
+			breed_name = "skaven_poison_wind_globadier",
 		},
 		{
-			"event_horde",
+			"spawn_special",
 			spawner_id = "magnus_door_event_specials",
-			composition_type = "onslaught_custom_special_denial"
+			breed_name = "chaos_vortex_sorcerer",
+		},
+		{
+			"spawn_special",
+			spawner_id = "magnus_door_event_specials",
+			breed_name = "skaven_ratling_gunner",
+		},
+		{
+			"spawn_special",
+			spawner_id = "magnus_door_event_specials",
+			breed_name = "skaven_ratling_gunner",
 		},
 		{
 			"delay",
@@ -14085,11 +14095,6 @@ end
 		{
 			"delay",
 			duration = 5
-		},
-		{
-			"spawn_special",
-			spawner_id = "magnus_door_event_specials",
-			breed_name = "skaven_poison_wind_globadier",
 		},
 		{
 			"spawn_special",
@@ -14149,9 +14154,24 @@ end
 			composition_type = "event_medium"
 		},
 		{
-			"event_horde",
-			spawner_id = "magnus_door_event_c",
-			composition_type = "onslaught_custom_specials_heavy_denial"
+			"spawn_special",
+			spawner_id = "magnus_door_event_specials",
+			breed_name = "skaven_poison_wind_globadier",
+		},
+		{
+			"spawn_special",
+			spawner_id = "magnus_door_event_specials",
+			breed_name = "chaos_vortex_sorcerer",
+		},
+		{
+			"spawn_special",
+			spawner_id = "magnus_door_event_specials",
+			breed_name = "skaven_ratling_gunner",
+		},
+		{
+			"spawn_special",
+			spawner_id = "magnus_door_event_specials",
+			breed_name = "skaven_ratling_gunner",
 		},
 		{
 			"event_horde",
@@ -14181,14 +14201,29 @@ end
 			duration = 5
 		},
 		{
-			"event_horde",
-			spawner_id = "magnus_door_event_a",
-			composition_type = "athel_wdnmd"
+			"spawn_special",
+			amount = 1,
+			breed_name = "skaven_poison_wind_globadier",
 		},
 		{
-			"event_horde",
-			spawner_id = "magnus_door_event_c",
-			composition_type = "onslaught_custom_specials_heavy_denial"
+			"spawn_special",
+			amount = 1,
+			breed_name = "skaven_ratling_gunner",
+		},
+		{
+			"spawn_special",
+			amount = 1,
+			breed_name = "skaven_ratling_gunner",
+		},
+		{
+			"spawn_special",
+			amount = 1,
+			breed_name = "skaven_ratling_gunner",
+		},
+		{
+			"spawn_special", 
+			amount = 1,
+			breed_name = "skaven_ratling_gunner",
 		},
 		{
 			"event_horde",
@@ -14236,11 +14271,6 @@ end
 			"event_horde",
 			spawner_id = "magnus_door_event_specials",
 			composition_type = "onslaught_plague_monks_medium"
-		},
-		{
-			"event_horde",
-			spawner_id = "magnus_door_event_specials",
-			composition_type = "onslaught_custom_specials_heavy_denial"
 		},
 		{
 			"spawn_special",

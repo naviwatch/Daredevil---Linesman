@@ -807,6 +807,11 @@ local range = 0.01
 	-- Trail
 	mod:dofile("scripts/mods/Daredevil/linesman/events/trail")
 
+	-- CN specific events 
+	if lb then
+		mod:dofile("scripts/mods/Daredevil/linesman/events/cn_righteous")
+	end
+
 	-- Stuff to change for specific maps
 	local co
 	local new_co
@@ -1167,11 +1172,6 @@ local range = 0.01
 		{
 			"delay",
 			duration = 5,
-		},
-		{
-			"spawn_special",
-			amount = 4,
-			breed_name = "skaven_explosive_loot_rat"
 		},
 	}
 
