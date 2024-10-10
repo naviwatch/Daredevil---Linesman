@@ -12756,7 +12756,7 @@ end
 		},
 		{
 			"set_freeze_condition",
-			max_active_enemies = 130
+			max_active_enemies = 100
 		},
 		{
 			"play_stinger",
@@ -12767,32 +12767,44 @@ end
 			enable = false
 		},
 		{
+			"event_horde",
+			spawner_id = "sewer_start",
+			composition_type = "event_medium"
+		},
+		{
 			"play_stinger",
 			stinger_name = "enemy_horde_stingers_plague_monk"
 		},
 		{
+			"event_horde",
+			spawner_id = "sewer_start",
+			composition_type = "onslaught_plague_monks_medium"
+		},
+		{
+			"event_horde",
+			spawner_id = "sewer_start",
+			composition_type = "onslaught_plague_monks_medium"
+		},
+		{
+			"event_horde",
+			spawner_id = "sewer_start",
+			composition_type = "onslaught_plague_monks_medium"
+		},
+		{
+			"event_horde",
+			spawner_id = "sewer_start",
+			composition_type = "onslaught_plague_monks_medium"
+		},
+		{
+			"continue_when",
+			duration = 45,
+			condition = function (t)
+				return count_event_breed("skaven_clan_rat") < 12 and count_event_breed("skaven_slave") < 18
+			end
+		},
+		{
 			"delay",
-			duration = 2
-		},
-		{
-			"event_horde",
-			spawner_id = "sewer_start",
-			composition_type = "onslaught_plague_monks_medium"
-		},
-		{
-			"event_horde",
-			spawner_id = "sewer_start",
-			composition_type = "onslaught_plague_monks_medium"
-		},
-		{
-			"event_horde",
-			spawner_id = "sewer_start",
-			composition_type = "onslaught_plague_monks_medium"
-		},
-		{
-			"event_horde",
-			spawner_id = "sewer_start",
-			composition_type = "onslaught_plague_monks_medium"
+			duration = 20
 		},
 		{
 			"flow_event",
@@ -12806,13 +12818,38 @@ end
 			max_active_enemies = 100
 		},
 		{
-			"spawn_special",
-			amount = 3,
-			breed_name = "skaven_ratling_gunner"
+			"event_horde",
+			limit_spawners = 2,
+			spawner_id = "sewer_spice",
+			composition_type = "event_extra_spice_unshielded"
+		},
+		{
+			"event_horde",
+			limit_spawners = 2,
+			spawner_id = "sewer_spice",
+			composition_type = "onslaught_chaos_warriors_small"
+		},
+		{
+			"event_horde",
+			spawner_id = "sewer_start",
+			composition_type = "onslaught_plague_monks_medium"
+		},
+		{
+			"event_horde",
+			limit_spawners = 2,
+			spawner_id = "sewer_spice",
+			composition_type = "onslaught_storm_vermin_white_medium"
 		},
 		{
 			"delay",
-			duration = 45
+			duration = 10
+		},
+		{
+			"continue_when",
+			duration = 20,
+			condition = function (t)
+				return count_event_breed("skaven_clan_rat") < 12 and count_event_breed("skaven_slave") < 18
+			end
 		},
 		{
 			"flow_event",
@@ -12834,25 +12871,25 @@ end
 			stinger_name = "enemy_horde_stinger"
 		},
 		{
-			"spawn_special",
-			amount = 2,
-			breed_name = "skaven_poison_wind_globadier"
+			"event_horde",
+			spawner_id = "sewer_mid",
+			composition_type = "event_medium"
 		},
 		{
 			"event_horde",
 			spawner_id = "onslaught_sewer_backspawn",
-			composition_type = "mass_trash_chaos"
+			composition_type = "event_large_chaos"
 		},
 		{
 			"event_horde",
 			spawner_id = "onslaught_sewer_backspawn",
-			composition_type = "crackaddicts"
+			composition_type = "event_large_chaos"
 		},
 		{
 			"continue_when",
 			duration = 40,
 			condition = function (t)
-				return count_event_breed("chaos_fanatic") < 16 and count_event_breed("chaos_marauder") < 16
+				return count_event_breed("skaven_clan_rat") < 16 and count_event_breed("skaven_slave") < 25
 			end
 		},
 		{
@@ -12860,10 +12897,15 @@ end
 			duration = 2
 		},
 		{
+			"spawn_at_raw",
+			spawner_id = "sewer_rawspawner01",
+			breed_name = "skaven_poison_wind_globadier"
+		},
+		{
 			"event_horde",
 			limit_spawners = 2,
 			spawner_id = "sewer_mid",
-			composition_type = "dn_chaos_zerkers"
+			composition_type = "event_small"
 		},
 		{
 			"event_horde",
@@ -12875,14 +12917,17 @@ end
 			"event_horde",
 			limit_spawners = 2,
 			spawner_id = "sewer_mid",
-			composition_type = "dn_chaos_zerkers"
+			composition_type = "onslaught_plague_monks_medium"
 		},
 		{
-			"continue_when",
-			duration = 40,
-			condition = function (t)
-				return count_event_breed("skaven_plague_monk") < 4 and count_event_breed("chaos_berzerker") < 4 
-			end
+			"event_horde",
+			limit_spawners = 2,
+			spawner_id = "sewer_mid",
+			composition_type = "onslaught_plague_monks_medium"
+		},
+		{
+			"play_stinger",
+			stinger_name = "enemy_horde_stingers_plague_monk"
 		},
 		{
 			"event_horde",
@@ -12890,11 +12935,24 @@ end
 			composition_type = "event_medium_chaos"
 		},
 		{
+			"delay",
+			duration = 10
+		},
+		{
+			"event_horde",
+			spawner_id = "sewer_mid",
+			composition_type = "event_small"
+		},
+		{
 			"continue_when",
 			duration = 40,
 			condition = function (t)
-				return count_event_breed("chaos_marauder") < 8 and count_event_breed("chaos_fanatic") < 12 
+				return count_event_breed("skaven_plague_monk") < 8 and count_event_breed("skaven_clan_rat") < 12 and count_event_breed("skaven_storm_vermin_commander") < 5 and count_event_breed("skaven_slave") < 15
 			end
+		},
+		{
+			"delay",
+			duration = 5
 		},
 		{
 			"flow_event",
@@ -12918,24 +12976,34 @@ end
 		{
 			"event_horde",
 			spawner_id = "onslaught_sewer_backspawn",
-			composition_type = "linesman_mixed_horde"
+			composition_type = "event_medium"
+		},
+		{
+			"event_horde",
+			limit_spawners = 2,
+			spawner_id = "sewer_end_chaos",
+			composition_type = "event_large_chaos"
 		},
 		{
 			"delay",
-			duration = 20
+			duration = 5
 		},
 		{
-			"control_specials",
-			enable = true
+			"continue_when",
+			duration = 20,
+			condition = function (t)
+				return count_event_breed("chaos_marauder") < 20 and count_event_breed("chaos_marauder_with_shield") < 20
+			end
 		},
 		{
-			"control_pacing",
-			enable = true
+			"delay",
+			duration = 10
 		},
 		{
-			"spawn_special",
-			amount = 3,
-			breed_name = "skaven_warpfire_thrower"
+			"event_horde",
+			limit_spawners = 2,
+			spawner_id = "sewer_end_chaos",
+			composition_type = "event_medium_chaos"
 		},
 		{
 			"event_horde",
@@ -12945,6 +13013,14 @@ end
 		{
 			"delay",
 			duration = 10
+		},
+		{
+			"control_specials",
+			enable = true
+		},
+		{
+			"control_pacing",
+			enable = true
 		},
 		{
 			"flow_event",
@@ -12969,24 +13045,23 @@ end
 			"event_horde",
 			limit_spawners = 2,
 			spawner_id = "sewer_escape",
-			composition_type = "mass_trash_chaos"
+			composition_type = "event_medium_chaos"
 		},
 		{
-			"event_horde",
-			limit_spawners = 2,
-			spawner_id = "sewer_escape",
-			composition_type = "mass_trash_chaos"
+			"spawn_at_raw",
+			spawner_id = "onslaught_sewer_exit_gun_1",
+			breed_name = {
+				"skaven_ratling_gunner",
+				"skaven_warpfire_thrower"
+			}
 		},
 		{
-			"event_horde",
-			limit_spawners = 2,
-			spawner_id = "sewer_escape",
-			composition_type = "mass_trash_chaos"
-		},
-		{
-			"spawn_special",
-			amount = 3,
-			breed_name = "skaven_ratling_gunner"
+			"spawn_at_raw",
+			spawner_id = "onslaught_sewer_exit_gun_2",
+			breed_name = {
+				"skaven_ratling_gunner",
+				"skaven_warpfire_thrower"
+			}
 		},
 		{
 			"delay",
@@ -12996,7 +13071,7 @@ end
 			"continue_when",
 			duration = 40,
 			condition = function (t)
-				return count_event_breed("chaos_marauder") < 8 and count_event_breed("chaos_fanatic") < 8
+				return count_event_breed("chaos_marauder") < 8 and count_event_breed("chaos_marauder_with_shield") < 8
 			end
 		},
 		{

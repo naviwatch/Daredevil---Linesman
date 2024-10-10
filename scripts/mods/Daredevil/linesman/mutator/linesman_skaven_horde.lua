@@ -9,7 +9,8 @@ local shield_elite_scale = 1
 local berzerker_scale = 1
 local super_armor_scale = 1
 
-local trash_entities = { "skaven_slave", "skaven_clan_rat", "chaos_fanatic", "chaos_marauder" }
+local trash_entities = { "skaven_slave", "chaos_fanatic" }
+local elite_trash_entities = { "skaven_clan_rat", "chaos_marauder" }
 local shield_trash_entities = { "skaven_clan_rat_with_shield", "chaos_marauder_with_shield" }
 local elite_entities = { "skaven_storm_vermin_commander", "chaos_raider", "beastmen_bestigor" }
 local shield_elite_entities = { "skaven_storm_vermin_with_shield" }
@@ -20,6 +21,10 @@ local scaling_data = {
 	{
 		scale_factor = trash_scale,
 		breeds = trash_entities,
+	},
+	{
+		scale_factor = trash_scale,
+		breeds = elite_trash_entities,
 	},
 	{
 		scale_factor = shield_trash_scale,
@@ -606,7 +611,7 @@ HordeCompositionsPacing.huge_shields = {
 				2,
 				2
 			},
-			"chaos_corruptor_sorcerer",
+			"beastmen_standard_bearer",
 			{
 				1,
 				1
@@ -683,7 +688,7 @@ HordeCompositionsPacing.huge_shields = {
 				6,
 				8
 			},
-			"skaven_warpfire_thrower",
+			"skaven_pack_master",
 			{
 				1,
 				1
@@ -758,7 +763,7 @@ HordeCompositionsPacing.huge_armor = {
 				3,
 				3
 			},
-			"skaven_ratling_gunner",
+			"beastmen_standard_bearer",
 			{
 				1,
 				1
@@ -808,7 +813,7 @@ HordeCompositionsPacing.huge_armor = {
 	},
 	{
 		name = "leader",
-		weight = 6,
+		weight = 7,
 		breeds = {
 			"skaven_slave",
 			{
@@ -830,7 +835,7 @@ HordeCompositionsPacing.huge_armor = {
 				2,
 				2
 			},
-			"skaven_warpfire_thrower",
+			"skaven_ratling_gunner",
 			{
 				1,
 				1
@@ -866,7 +871,7 @@ HordeCompositionsPacing.huge_armor = {
 				2,
 				2
 			},
-			"chaos_warrior",
+			"skaven_pack_master",
 			{
 				1,
 				1
@@ -972,6 +977,11 @@ HordeCompositionsPacing.huge_berzerker = {
 				15,
 				18
 			},
+			"skaven_warpfire_thrower",
+			{
+				1,
+				1
+			}
 		}
 	},
 	{
@@ -1007,6 +1017,11 @@ HordeCompositionsPacing.huge_berzerker = {
 			{
 				2,
 				2
+			},
+			"beastmen_standard_bearer",
+			{
+				1,
+				1
 			}
 		}
 	},

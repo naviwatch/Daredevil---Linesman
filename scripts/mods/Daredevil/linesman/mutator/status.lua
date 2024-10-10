@@ -763,4 +763,3 @@ local deathwish_enabled = get_mod("catas") and Managers.vmf.persistent_tables.ca
   end
 end)
 
-	

@@ -1082,9 +1082,11 @@ mod:network_register("rpc_disable_white_sv", function (sender, enable)
 end)
 
 mod:network_register("bob_name_enable", function (sender, enable)
+	--[[
 	Breeds.skaven_dummy_clan_rat = mod.deepcopy(Breeds.skaven_ratling_gunner)
 	Breeds.skaven_dummy_clan_rat.size_variation_range = { 3, 3 }
 	Breeds.skaven_dummy_clan_rat.boss = true -- No WHC/Shade cheese fight this big man fair and square
+	]]
 	GrudgeMarkedNames.skaven = { "Bob the Builder" }
 end)
 
@@ -1127,6 +1129,10 @@ mutator_plus.stop = function()
 	mod:dofile("scripts/managers/conflict_director/pacing")
 	mod:dofile("scripts/managers/conflict_director/specials_pacing")
 
+	-- Only send rpc if host disables mutator
+	mod:network_send("rpc_disable_white_sv", "all", true)
+	mod:network_send("bob_name_disable", "all", true)
+
 
 	---------------------
 
@@ -1158,6 +1164,7 @@ mutator_plus.toggle = function()
 			return
 		end
 		mutator_plus.start()
+
 		if mod.difficulty_level == 1 then
 			mod:chat_broadcast("Linesbaby Onslaught ENABLED.")
 			mod:chat_broadcast("L猛已启动")
@@ -1168,15 +1175,14 @@ mutator_plus.toggle = function()
 			mod:chat_broadcast("Linesman Onslaught ENABLED.")
 			mod:chat_broadcast("L猛已启动")
 		end
+
 		if mod:get("beta") then
-			mod:chat_broadcast("Running Linesman BETA v1.4.5")
+			mod:chat_broadcast("Running Linesman BETA v1.4.8")
 		else 
-			mod:chat_broadcast("Version 1.4.5")
+			mod:chat_broadcast("Version 1.4.8")
 		end 
 	else
 		mutator_plus.stop()
-		mod:network_send("rpc_disable_white_sv", "all", true)
-		mod:network_send("bob_name_disable", "all", true)
 		mod:chat_broadcast("Loser!!!!!!!!!!!!!!!!!!!!!!!!!!!!! FUCKING LOSER FUCK YOU FUCK YOU FUCK YOU FUCK HYOYJERHEJKHEWGPWEYGHWBMJ")
 		mod:chat_broadcast("L猛已关掉")
 	end
@@ -1199,7 +1205,7 @@ end
 mod.on_setting_changed = function(self, setting_name)
 	local player = Managers.player:local_player()
 	local unit = player.player_unit
-
+--[[
 	if mod:get("friendly_dr") then
 		if Unit.alive(unit) then
 			local buff_system = Managers.state.entity:system("buff_system")
@@ -1215,6 +1221,7 @@ mod.on_setting_changed = function(self, setting_name)
 		buff_extension:remove_buff(dr_buff.id)
 		mod:echo("Removed 50%% DR.")
 	end
+	]]
 
 	--[[
 	if mod:get("newbie_dr") then

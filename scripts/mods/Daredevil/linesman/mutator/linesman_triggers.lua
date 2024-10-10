@@ -499,7 +499,7 @@ local mod = get_mod("Daredevil")
 		},
 		normal = {
 			{
-				"beastmen_standard_bearer"
+				"beastmen_bestigor"
 			},
 			{
 				"beastmen_bestigor"
@@ -525,7 +525,7 @@ local mod = get_mod("Daredevil")
 		},
 		hard = {
 			{
-				"beastmen_standard_bearer"
+				"beastmen_bestigor"
 			},
 			{
 				"beastmen_bestigor"
@@ -552,7 +552,7 @@ local mod = get_mod("Daredevil")
 		},
 		harder = {
 			{
-				"beastmen_standard_bearer"
+				"beastmen_bestigor"
 			},
 			{
 				"beastmen_bestigor",
@@ -581,7 +581,7 @@ local mod = get_mod("Daredevil")
 		},
 		hardest = {
 			{
-				"beastmen_standard_bearer"
+				"beastmen_bestigor"
 			},
 			{
 				"beastmen_gor",
@@ -663,8 +663,8 @@ local mod = get_mod("Daredevil")
 				"beastmen_bestigor"
 			},
 			{
-				"beastmen_standard_bearer",
-				"beastmen_standard_bearer"
+				"beastmen_bestigor",
+				"beastmen_bestigor"
 			},
 			{
 				"beastmen_bestigor",

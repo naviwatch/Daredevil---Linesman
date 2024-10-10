@@ -177,6 +177,34 @@ SpecialsSettings.default.breeds = {
 --	"chaos_corruptor_sorcerer",
 }
 
+--[[
+if mod:get("beta") then
+	SpecialsSettings.default.breeds = {
+		"skaven_gutter_runner",
+		"skaven_pack_master",
+		"skaven_ratling_gunner",
+		"skaven_poison_wind_globadier",
+		"skaven_warpfire_thrower",
+		"chaos_vortex_sorcerer",
+		"chaos_corruptor_sorcerer",
+		"beastmen_standard_bearer",
+		"skaven_gutter_runner",
+		"skaven_pack_master",
+		"skaven_ratling_gunner",
+		"skaven_warpfire_thrower",
+		"chaos_corruptor_sorcerer",
+		"beastmen_standard_bearer",
+	--	"skaven_gutter_runner",
+	--	"skaven_pack_master",
+		"skaven_ratling_gunner",
+		"skaven_poison_wind_globadier",
+		"skaven_warpfire_thrower",
+		"chaos_vortex_sorcerer",
+	--	"chaos_corruptor_sorcerer",
+	}
+end
+]]
+
 local default_override = table.clone(SpecialsSettings.default)
 SpecialsSettings.default.difficulty_overrides.hard = default_override
 SpecialsSettings.default.difficulty_overrides.harder = default_override

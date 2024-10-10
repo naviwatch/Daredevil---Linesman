@@ -321,67 +321,7 @@ end
 
 		table.shuffle(spawn_list)
 		return spawn_list, #spawn_list
-
 	end)
-
-	-- Bestigor changes
-	local stagger_types = require("scripts/utils/stagger_types")
-	Breeds.beastmen_bestigor.height = 1.5
-
-	-- Stamina shields
-	PlayerUnitStatusSettings.fatigue_point_costs.blocked_charge = 16          -- 28 wtf
-	PlayerUnitStatusSettings.fatigue_point_costs.shield_bestigor_charge = 6   -- 16
-
-	-- Charge stuff
-	BreedActions.beastmen_bestigor.charge_attack.action_weight = 8                 -- 8
-	BreedActions.beastmen_bestigor.charge_attack.push_ai.stagger_distance = 1.25   -- 1.5
-	BreedActions.beastmen_bestigor.charge_attack.push_ai.stagger_impact = {
-		stagger_types.medium,                                                      -- explosion
-		stagger_types.medium,                                                      -- explosion
-		stagger_types.none,
-		stagger_types.none,
-		stagger_types.medium, -- explosion
-	}
-	BreedActions.beastmen_bestigor.charge_attack.push_ai.stagger_duration = {
-		0.5, -- 3
-		0.5, -- 1
-		0,
-		0,
-		0.5,                                                                     -- 4
-	}
-	BreedActions.beastmen_bestigor.charge_attack.player_push_speed = 7         -- 9.5
-	BreedActions.beastmen_bestigor.charge_attack.player_push_speed_blocked = 5.5   -- 10
-
-	-- Suicide rat
-	BreedActions.skaven_explosive_loot_rat.explosion_attack.radius = 0.45
-	
-	mod:hook(DeathReactions.templates.explosive_loot_rat.unit, "start", function(func, self, unit, context, t, killng_blow, is_server)
-		if mutator_plus.active then
-			local chance_to_spawn_ammmo = 0
-
-			if chance_to_spawn_ammmo >= math.random() then
-				local pickup_name = "all_ammo_small"
-				local pickup_settings = AllPickups[pickup_name]
-				local extension_init_data = {
-					pickup_system = {
-						has_physics = false,
-						spawn_type = "loot",
-						pickup_name = pickup_name,
-					},
-				}
-				local unit_name = pickup_settings.unit_name
-				local unit_template_name = pickup_settings.unit_template_name or "pickup_unit"
-				local position = POSITION_LOOKUP[unit]
-				local rotation = Quaternion.identity()
-
-				Managers.state.unit_spawner:spawn_network_unit(unit_name, unit_template_name, extension_init_data, position, rotation)
-			end
-			return func(self, unit, context, t, killing_blow, is_server)
-		else
-			return func(self, unit, context, t, killing_blow, is_server)
-		end
-	end)
-
 
 	--Non-event settings and compositions
 	RecycleSettings = {
@@ -411,10 +351,13 @@ end
 
 		local nocw
 		local nochaos
+		local banners
 		if breed.name == "skaven_clan_rat_with_shield" then
 			nocw = {Breeds["skaven_clan_rat"]} -- To not piss people off
 		elseif breed.name == "chaos_marauder_with_shield" then
 			nochaos = {Breeds["chaos_marauder"]}
+		elseif breed.name == "beastmen_standard_bearer" then
+			banners = {Breeds["skaven_ratling_gunner"], Breeds["skaven_warpfire_thrower"]}
 		end
 
 		if nocw then
@@ -424,6 +367,10 @@ end
 		elseif nochaos then
 			if math.random() <= 0.6 then
 				breed = nochaos[math.random(1, #nochaos)]
+			end
+		elseif not mod:get("beta") and banners then
+			if math.random() <= 1 then
+				breed = banners[math.random(1, #banners)]
 			end
 		end
 

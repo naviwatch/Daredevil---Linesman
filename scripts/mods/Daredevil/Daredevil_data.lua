@@ -66,13 +66,6 @@ menu.options.widgets = {
 		default_value = false
 	},
 	{
-		setting_id    = "friendly_dr",
-		type          = "checkbox",
-		title		  = "friendly_dr",
-		tooltip       = "friendly_dr_tooltip",
-		default_value = false
-	},
-	{
 		setting_id    = "beta",
 		type          = "checkbox",
 		title		  = "beta",

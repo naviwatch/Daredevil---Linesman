@@ -9,7 +9,8 @@ local shield_elite_scale = 1
 local berzerker_scale = 1
 local super_armor_scale = 1
 
-local trash_entities = { "skaven_slave", "skaven_clan_rat", "chaos_fanatic", "chaos_marauder" }
+local trash_entities = { "skaven_slave", "chaos_fanatic" }
+local elite_trash_entities = { "skaven_clan_rat", "chaos_marauder" }
 local shield_trash_entities = { "skaven_clan_rat_with_shield", "chaos_marauder_with_shield" }
 local elite_entities = { "skaven_storm_vermin_commander", "chaos_raider", "beastmen_bestigor" }
 local shield_elite_entities = { "skaven_storm_vermin_with_shield" }
@@ -20,6 +21,10 @@ local scaling_data = {
 	{
 		scale_factor = trash_scale,
 		breeds = trash_entities,
+	},
+	{
+		scale_factor = trash_scale,
+		breeds = elite_trash_entities,
 	},
 	{
 		scale_factor = shield_trash_scale,
@@ -155,7 +160,7 @@ HordeCompositionsPacing.chaos_large = {
 				4,
 				5
 			},
-			"skaven_ratling_gunner",
+			"beastmen_standard_bearer",
 			{
 				1,
 				1
@@ -227,7 +232,7 @@ HordeCompositionsPacing.chaos_large = {
 				6,
 				7	
 			},
-			"chaos_corruptor_sorcerer",
+			"beastmen_standard_bearer",
 			{
 				1,
 				1
@@ -560,7 +565,7 @@ HordeCompositionsPacing.chaos_huge_shields = {
 				4,
 				4	
 			},
-			"chaos_corruptor_sorcerer",
+			"beastmen_standard_bearer",
 			{
 				1,
 				1
@@ -670,7 +675,7 @@ HordeCompositionsPacing.chaos_huge_shields = {
 				6,
 				7
 			},
-			"skaven_warpfire_thrower",
+			"beastmen_standard_bearer",
 			{
 				1,
 				1
@@ -850,7 +855,7 @@ HordeCompositionsPacing.chaos_huge_armor = {
 				4,
 				4
 			},
-			"skaven_warpfire_thrower",
+			"beastmen_standard_bearer",
 			{
 				1,
 				1
@@ -948,7 +953,7 @@ HordeCompositionsPacing.chaos_huge_berzerker = {
 				4,
 				4
 			},
-			"skaven_ratling_gunner",
+			"beastmen_standard_bearer",
 			{
 				1,
 				1
@@ -1026,7 +1031,7 @@ HordeCompositionsPacing.chaos_huge_berzerker = {
 			},
 			"chaos_warrior",
 			{
-				0,
+				1,
 				1
 			}
 		}
