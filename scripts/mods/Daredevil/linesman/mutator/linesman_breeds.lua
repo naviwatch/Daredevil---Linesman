@@ -388,17 +388,19 @@ if mod:get("beta") then
         -- PRD_trash, trash = PseudoRandomDistribution.flip_coin(trash, 0.5) -- Flip 50%
         if director == "default" or "skaven" then
             for i = 1, num_to_spawn_enhanced do
-                spawn_list[i] = "skaven_clan_rat"
+                table.insert(spawn_list, "skaven_clan_rat")
             end
-            for i = 1, num_to_spawn do
-                spawn_list[i] = "skaven_slave"
+    
+            for k = 1, num_to_spawn do
+                table.insert(spawn_list, "skaven_slave")
             end
         else
             for i = 1, num_to_spawn_enhanced do
-                spawn_list[i] = "chaos_marauder"
+                table.insert(spawn_list, "chaos_marauder")
             end
-            for i = 1, num_to_spawn do
-                spawn_list[i] = "chaos_fanatic"
+    
+            for k = 1, num_to_spawn do
+                table.insert(spawn_list, "chaos_fanatic")
             end
         end
 
