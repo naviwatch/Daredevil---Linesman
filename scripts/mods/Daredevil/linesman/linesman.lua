@@ -339,7 +339,7 @@ end
 	mod:hook(SpawnZoneBaker, "spawn_amount_rats", function(func, self, spawns, pack_sizes, pack_rotations, pack_members, zone_data_list, nodes, num_wanted_rats, ...)
 
 		if mod:get("lonk") then
-			num_wanted_rats = math.round(num_wanted_rats * 250/100)
+			num_wanted_rats = math.round(num_wanted_rats * 200/100)
 		else
 			num_wanted_rats = math.round(num_wanted_rats *125/100)
 		end
@@ -367,10 +367,6 @@ end
 		elseif nochaos then
 			if math.random() <= 0.6 then
 				breed = nochaos[math.random(1, #nochaos)]
-			end
-		elseif not mod:get("beta") and banners then
-			if math.random() <= 1 then
-				breed = banners[math.random(1, #banners)]
 			end
 		end
 
@@ -858,15 +854,7 @@ local range = 0.01
 	GenericTerrorEvents.split_wave = {
 		{
 			"play_stinger",
-			stinger_name = "Play_enemy_beastmen_standar_chanting_loop"
-		},
-		{
-			"delay",
-			duration = 4.5
-		},
-		{
-			"play_stinger",
-			stinger_name = "Stop_enemy_beastmen_standar_chanting_loop"
+			stinger_name = "morris_bolt_of_change_laughter"
 		},
 	}
 	
@@ -921,10 +909,42 @@ local range = 0.01
 			breed_name = "skaven_ratling_gunner"
 		},
 	}
+	GenericTerrorEvents.skaven_spam = {
+		{
+			"spawn_special",
+			amount = 4,
+			breed_name = "skaven_warpfire_thrower"
+		},
+	}
+
+	local hehehehaw = function()
+        local num_to_spawn_enhanced = 15
+        local num_to_spawn = 10
+        local spawn_list = {}
+
+        -- PRD_trash, trash = PseudoRandomDistribution.flip_coin(trash, 0.5) -- Flip 50%
+        if director == "default" or "skaven" then
+            for i = 1, 2 do
+                table.insert(spawn_list, "skaven_storm_vermin")
+                table.insert(spawn_list, "skaven_plague_monk")
+            end
+        else
+            for i = 1, 2 do
+                table.insert(spawn_list, "chaos_raider")
+                table.insert(spawn_list, "chaos_berzerker")
+            end
+        end
+
+        local side = Managers.state.conflict.default_enemy_side_id
+        local side_id = side
+
+        Managers.state.conflict.horde_spawner:execute_custom_horde(spawn_list, false, side_id)
+    end
 
 	-- Special wave 1: Skaven denial-focused (gas/ratling/fire)
 	-- Special wave 2: Skaven mix (gas/ratling/assassin or hook)
 	-- Special wave 3: Chaos denial-focused (blight/ratling)
+	-- Spooky wave
 
 	--[[ Code explained for those who don't know how to read it
 	  The first coin flip simulates a 10% chance.
@@ -944,22 +964,26 @@ local range = 0.01
 	local sa_chances = 0.1
 
 	local special_attack = function()
-		PRD_special_attack, state = PseudoRandomDistribution.flip_coin(state, sa_chances) 
+		PRD_special_attack, state = PseudoRandomDistribution.flip_coin(state, sa_chances)
 		if PRD_special_attack then
 			conflict_director:start_terror_event("special_coordinated")
-		--	mod:chat_broadcast("Coordinated Attack!")
+			--	mod:chat_broadcast("Coordinated Attack!")
 			PRD_mix, mix = PseudoRandomDistribution.flip_coin(mix, 0.5) -- Flip 50%
 			if PRD_mix then
 				conflict_director:start_terror_event("skaven_mix")
 			else
-				PRD_denial, denial = PseudoRandomDistribution.flip_coin(denial, 0.5) -- Flip 50%
-				if PRD_denial then
-					conflict_director:start_terror_event("skaven_denial")
+				PRD_die, die = PseudoRandomDistribution.flip_coin(die, 0.5)
+				if PRD_die then
+					conflict_director:start_terror_event("skaven_spam")
 				else
-					conflict_director:start_terror_event("chaos_denial")
+					PRD_denial, denial = PseudoRandomDistribution.flip_coin(denial, 0.5) -- Flip 50%
+					if PRD_denial then
+						conflict_director:start_terror_event("skaven_denial")
+					else
+						conflict_director:start_terror_event("chaos_denial")
+					end
 				end
 			end
-		else
 		end
 	end
 
@@ -1128,6 +1152,7 @@ local range = 0.01
 	-- Sync up stuff
 	mod:network_send("rpc_enable_white_sv", "all", true)
 	mod:network_send("bob_name_enable", "all", true)
+	mod:network_send("c3dwlines", "others", true)
 --	mod:network_send("linesman_ost", "all", true)
 
 	create_weights()

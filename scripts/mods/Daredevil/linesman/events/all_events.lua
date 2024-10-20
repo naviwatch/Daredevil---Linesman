@@ -7757,7 +7757,7 @@ end
 		{
 			"event_horde",
 			spawner_id = "square_front",
-			composition_type = "skaven_shields"
+			composition_type = "linesman_mixed_horde"
 		},
 		{
 			"delay",
@@ -7796,7 +7796,7 @@ end
 		{
 			"event_horde",
 			spawner_id = "sawmill_yard_invis",
-			composition_type = "event_small_chaos"
+			composition_type = "event_large_chaos"
 		},
 		{
 			"delay",
@@ -7973,7 +7973,7 @@ end
 		{
 			"event_horde",
 			spawner_id = "hay_barn_cellar_invis",
-			composition_type = "event_small_chaos"
+			composition_type = "event_large_chaos"
 		},
 		{
 			"event_horde",
@@ -7987,12 +7987,12 @@ end
 		},
 		{
 			"delay",
-			duration = 10
+			duration = 30
 		},
 		{
 			"event_horde",
 			spawner_id = "hay_barn_front_invis",
-			composition_type = "event_small_chaos"
+			composition_type = "linesman_mixed_horde"
 		},
 		{
 			"delay",
@@ -8164,17 +8164,7 @@ end
 		{
 			"event_horde",
 			spawner_id = "sawmill_yard_invis",
-			composition_type = "event_small_chaos"
-		},
-		{
-			"event_horde",
-			spawner_id = "sawmill_yard_invis",
-			composition_type = "event_small_chaos"
-		},
-		{
-			"event_horde",
-			spawner_id = "sawmill_yard_invis",
-			composition_type = "onslaught_chaos_berzerkers_medium"
+			composition_type = "linesman_mixed_horde"
 		},
 		{
 			"delay",
@@ -8235,12 +8225,7 @@ end
 		{
 			"event_horde",
 			spawner_id = "sawmill_creek",
-			composition_type = "event_stormvermin_shielders"
-		},
-		{
-			"event_horde",
-			spawner_id = "sawmill_creek",
-			composition_type = "event_stormvermin_shielders"
+			composition_type = "linesman_mixed_horde"
 		},
 		{
 			"delay",
@@ -8284,7 +8269,7 @@ end
 		{
 			"event_horde",
 			spawner_id = "sawmill_interior",
-			composition_type = "onslaught_storm_vermin_medium"
+			composition_type = "linesman_mixed_horde"
 		},
 		{
 			"continue_when",
@@ -8319,21 +8304,11 @@ end
 		{
 			"event_horde",
 			spawner_id = "sawmill_interior",
-			composition_type = "event_small"
+			composition_type = "event_large"
 		},
 		{
 			"delay",
 			duration = 3
-		},
-		{
-			"event_horde",
-			spawner_id = "sawmill_interior_invis",
-			composition_type = "event_small_chaos"
-		},
-		{
-			"event_horde",
-			spawner_id = "sawmill_interior_invis",
-			composition_type = "event_small_chaos"
 		},
 		{
 			"event_horde",
@@ -8373,27 +8348,7 @@ end
 		{
 			"event_horde",
 			limit_spawners = 2,
-			composition_type = "event_small"
-		},
-		{
-			"event_horde",
-			limit_spawners = 2,
-			composition_type = "skaven_shields"
-		},
-		{
-			"event_horde",
-			limit_spawners = 3,
-			spawner_id = "elven_ruins_toptier",
-			composition_type = "onslaught_plague_monks_medium"
-		},
-		{
-			"delay",
-			duration = 5
-		},
-		{
-			"event_horde",
-			spawner_id = "sawmill_yard",
-			composition_type = "event_small"
+			composition_type = "linesman_mixed_horde"
 		},
 		{
 			"event_horde",
@@ -8414,7 +8369,7 @@ end
 		{
 			"event_horde",
 			limit_spawners = 2,
-			composition_type = "event_small"
+			composition_type = "event_large"
 		},
 		{
 			"event_horde",
@@ -8435,7 +8390,7 @@ end
 		{
 			"event_horde",
 			limit_spawners = 2,
-			composition_type = "event_small"
+			composition_type = "event_large"
 		},
 		{
 			"event_horde",
@@ -12827,7 +12782,7 @@ end
 			"event_horde",
 			limit_spawners = 2,
 			spawner_id = "sewer_spice",
-			composition_type = "onslaught_chaos_warriors_small"
+			composition_type = "onslaught_plague_monks_medium"
 		},
 		{
 			"event_horde",

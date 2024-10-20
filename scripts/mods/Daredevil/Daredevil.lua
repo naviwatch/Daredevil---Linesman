@@ -1,6 +1,7 @@
 local mod = get_mod("Daredevil")
 local mutator = mod:persistent_table("Daredevil")
 local mutator_plus = mod:persistent_table("Daredevil+")
+local lb = get_mod("LinesmanBalance")
 
 --[[
 	Functions
@@ -277,6 +278,12 @@ end)
 
 -- mod:dofile("scripts/mods/Daredevil/linesman/mutator/status")
 
+local c3dwlines = false
+
+mod:network_register("c3dwlines", function (sender, enable)
+	c3dwlines = enable
+end)
+
 mod:hook(IngamePlayerListUI, "_update_difficulty", function (func, self)
 	local difficulty_settings = Managers.state.difficulty:get_difficulty_settings()
 	local base_difficulty_name = difficulty_settings.display_name
@@ -309,6 +316,8 @@ mod:hook(IngamePlayerListUI, "_update_difficulty", function (func, self)
 				self:_set_difficulty_name("Linesman")
 			end
 		end
+	elseif c3dwlines then
+		self:_set_difficulty_name("MAN")
 	else
 		return func(self)
 	end
@@ -378,6 +387,12 @@ mod:hook(Presence, "set_presence", function(func, key, value)
 				else
 					func(key, "DELI HAM ONLY FOR 3.99")
 				end
+			end
+		elseif c3dwlines then
+			if lb then
+				func(key, "MAN")
+			else
+				func(key, "C3 Deathman")
 			end
 		else
 			return func(key, value)
@@ -1098,6 +1113,7 @@ mod:hook_safe("ChatManager", "_add_message_to_list", function (self, channel_id,
 	if message == JOIN_MESSAGE and not mutator_plus.active then
 		mod:network_send("rpc_enable_white_sv", "local", true)
 		mod:network_send("bob_name_enable", "local", true)
+		mod:network_send("c3dwlines", "local", true)
 --		mod:network_send("linesman_ost", "local", true)
 	end
 end)
@@ -1106,6 +1122,7 @@ mod.on_user_joined = function (player)
 	if mutator_plus.active then
 		mod:network_send("rpc_enable_white_sv", "others", true)
 		mod:network_send("bob_name_enable", "others", true)
+		mod:network_send("c3dwlines", "others", true)
 --		mod:network_send("linesman_ost", "others", true)
 	end
 end
@@ -1132,6 +1149,7 @@ mutator_plus.stop = function()
 	-- Only send rpc if host disables mutator
 	mod:network_send("rpc_disable_white_sv", "all", true)
 	mod:network_send("bob_name_disable", "all", true)
+	mod:network_send("c3dwlines", "others", false)
 
 
 	---------------------
@@ -1177,9 +1195,9 @@ mutator_plus.toggle = function()
 		end
 
 		if mod:get("beta") then
-			mod:chat_broadcast("Running Linesman BETA v1.4.9")
+			mod:chat_broadcast("Running Linesman BETA v1.5.1")
 		else 
-			mod:chat_broadcast("Version 1.4.9")
+			mod:chat_broadcast("Version 1.5.2")
 		end 
 	else
 		mutator_plus.stop()

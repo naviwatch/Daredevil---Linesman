@@ -316,8 +316,7 @@ BreedActions.skaven_dummy_slave.downed = {
 
 Breeds.skaven_dummy_slave.size_variation_range = { 1.6, 1.6 }
 
--- Beta-exclusive banner
-if mod:get("beta") then
+
     -- Beastmen banner ranged killable
     mod:hook_origin(BeastmenStandardHealthExtension, "add_damage", function (self, attacker_unit, damage_amount, hit_zone_name, damage_type, hit_position, damage_direction, damage_source_name, hit_ragdoll_actor, damaging_unit, hit_react_type, is_critical_strike, added_dot, first_hit, total_hits, attack_type)
         if mutator_plus.active then
@@ -380,35 +379,64 @@ if mod:get("beta") then
     local cm = Managers.state.conflict
     local director = tostring(cm.current_conflict_settings)
 
-    local spawn_trash_wave = function()
-        local num_to_spawn_enhanced = 35
-        local num_to_spawn = 45
-        local spawn_list = {}
+    local special_attack = function()
+		PRD_special_attack, state1 = PseudoRandomDistribution.flip_coin(state1, 1)
+		if PRD_special_attack then
+		--	conflict_director:start_terror_event("special_coordinated")
+			--	mod:chat_broadcast("Coordinated Attack!")
+			PRD_mix, mix1 = PseudoRandomDistribution.flip_coin(mix1, 0.5) -- Flip 50%
+			if PRD_mix then
+				conflict_director:start_terror_event("skaven_mix")
+			else
+				PRD_die, die1 = PseudoRandomDistribution.flip_coin(die1, 0.5)
+				if PRD_die then
+					conflict_director:start_terror_event("skaven_spam")
+				else
+					PRD_denial, denial1 = PseudoRandomDistribution.flip_coin(denial1, 0.5) -- Flip 50%
+					if PRD_denial then
+						conflict_director:start_terror_event("skaven_denial")
+					else
+						conflict_director:start_terror_event("chaos_denial")
+					end
+				end
+			end
+		end
+	end
 
-        -- PRD_trash, trash = PseudoRandomDistribution.flip_coin(trash, 0.5) -- Flip 50%
-        if director == "default" or "skaven" then
-            for i = 1, num_to_spawn_enhanced do
-                table.insert(spawn_list, "skaven_clan_rat")
-            end
-    
-            for k = 1, num_to_spawn do
-                table.insert(spawn_list, "skaven_slave")
-            end
-        else
-            for i = 1, num_to_spawn_enhanced do
-                table.insert(spawn_list, "chaos_marauder")
-            end
-    
-            for k = 1, num_to_spawn do
-                table.insert(spawn_list, "chaos_fanatic")
-            end
+        local spawn_trash_wave = function()
+            local num_to_spawn_enhanced = 8
+            local num_to_spawn = 5
+            local spawn_list = {}
+
+            -- PRD_trash, trash = PseudoRandomDistribution.flip_coin(trash, 0.5) -- Flip 50%
+                for i = 1, num_to_spawn_enhanced do
+                    table.insert(spawn_list, "skaven_clan_rat")
+                end
+        
+                for i = 1, num_to_spawn do
+                    table.insert(spawn_list, "skaven_slave")
+                end
+
+                for i = 1, 4 do
+                    table.insert(spawn_list, "skaven_storm_vermin")
+                    table.insert(spawn_list, "skaven_plague_monk")
+                    table.insert(spawn_list, "chaos_raider")
+                    table.insert(spawn_list, "chaos_berzerker")
+                end
+
+                for i = 1, num_to_spawn_enhanced do
+                    table.insert(spawn_list, "chaos_marauder")
+                end
+        
+                for i = 1, num_to_spawn do
+                    table.insert(spawn_list, "chaos_fanatic")
+                end
+
+            local side = Managers.state.conflict.default_enemy_side_id
+            local side_id = side
+
+            Managers.state.conflict.horde_spawner:execute_custom_horde(spawn_list, true, side_id)
         end
-
-        local side = Managers.state.conflict.default_enemy_side_id
-        local side_id = side
-
-        Managers.state.conflict.horde_spawner:execute_custom_horde(spawn_list, false, side_id)
-    end
 
     local spawn_skaven_elites = function()
         local spawn_list = {
@@ -422,7 +450,7 @@ if mod:get("beta") then
         local side = Managers.state.conflict.default_enemy_side_id
         local side_id = side
 
-        Managers.state.conflict.horde_spawner:execute_custom_horde(spawn_list, false, side_id)
+        Managers.state.conflict.horde_spawner:execute_custom_horde(spawn_list, true, side_id)
     end
 
     local spawn_chaos_elites = function()
@@ -437,7 +465,42 @@ if mod:get("beta") then
         local side = Managers.state.conflict.default_enemy_side_id
         local side_id = side
 
-        Managers.state.conflict.horde_spawner:execute_custom_horde(spawn_list, false, side_id)
+        Managers.state.conflict.horde_spawner:execute_custom_horde(spawn_list, true, side_id)
+    end
+
+    local spawn_trash_wave = function()
+        local num_to_spawn_enhanced = 8
+        local num_to_spawn = 5
+        local spawn_list = {}
+
+        -- PRD_trash, trash = PseudoRandomDistribution.flip_coin(trash, 0.5) -- Flip 50%
+            for i = 1, num_to_spawn_enhanced do
+                table.insert(spawn_list, "skaven_clan_rat")
+            end
+    
+            for i = 1, num_to_spawn do
+                table.insert(spawn_list, "skaven_slave")
+            end
+
+            for i = 1, 3 do
+                table.insert(spawn_list, "skaven_storm_vermin")
+                table.insert(spawn_list, "skaven_plague_monk")
+                table.insert(spawn_list, "chaos_raider")
+                table.insert(spawn_list, "chaos_berzerker")
+            end
+
+            for i = 1, num_to_spawn_enhanced do
+                table.insert(spawn_list, "chaos_marauder")
+            end
+    
+            for i = 1, num_to_spawn do
+                table.insert(spawn_list, "chaos_fanatic")
+            end
+
+        local side = Managers.state.conflict.default_enemy_side_id
+        local side_id = side
+
+        Managers.state.conflict.horde_spawner:execute_custom_horde(spawn_list, true, side_id)
     end
 
     -- Spawn wave
@@ -449,19 +512,8 @@ if mod:get("beta") then
         local standard_template = self.standard_template
 
         if self.is_server and standard_template.apply_buff_to_ai and t >= self.next_apply_buff_t then
-            -- elite_spawning()
-            --[[
-            if director == "default" or "skaven" then
-                spawn_skaven_elites()
-            else
-                spawn_chaos_elites()
-            end
-            ]]
 
-            --PRD_wave_trash, e = PseudoRandomDistribution.flip_coin(e, 0.15) -- Flip 15%
-            -- if PRD_wave_trash then
             spawn_trash_wave()
-            -- end
 
             self.next_apply_buff_t = t + math.huge
         end
@@ -507,7 +559,7 @@ if mod:get("beta") then
         },
         distance_to_target = {
             blackboard_input = "target_dist",
-            max_value = 7.5,
+            max_value = 7,
             spline = {
                 0,
                 0,
@@ -533,5 +585,3 @@ if mod:get("beta") then
     BeastmenStandardTemplates.healing_standard.radius = 3
 
     -- Banner VFX
-
-end
