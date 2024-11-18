@@ -135,6 +135,15 @@ else
 	max_of_same = 3
 end
 
+-- Timer overrides for difficulties
+if mod.difficulty_level == 1 then -- baby
+	min_special_timer = 35
+	max_special_timer = 47
+elseif mod.difficulty_level == 2 then -- boy
+	min_special_timer = 33
+	max_special_timer = 45
+end
+
 -- n/120*(max+min) ~ specials per min
 
 SpecialsSettings.default.max_specials = special_slots

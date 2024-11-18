@@ -116,7 +116,7 @@ local function create_weights()
 			composition[4] = temp_table
 			composition[5] = temp_table
 			composition[6] = temp_table
-			composition[7] = temp_table	
+			composition[7] = temp_table
 		elseif not composition[6] then
 			composition[6] = composition[5]
 			composition[7] = composition[5]
@@ -127,42 +127,44 @@ local function create_weights()
 	local crash = nil
 
 	for key, setting in pairs(HordeSettings) do
-		setting.name = key
+        setting.name = key
 
-		if setting.compositions then
-			for name, composition in pairs(setting.compositions) do
-				for i = 1, #composition, 1 do
-					table.clear_array(weights, #weights)
+        if setting.compositions then
+            for name, composition in pairs(setting.compositions) do
+                for i = 1, #composition, 1 do
+                    table.clear_array(weights, #weights)
 
-					local compositions = composition[i]
+                    local compositions = composition[i]
 
-					for j, variant in ipairs(compositions) do
-						weights[j] = variant.weight
-						local breeds = variant.breeds
+                    for j, variant in ipairs(compositions) do
+                        weights[j] = variant.weight
+                        local breeds = variant.breeds
+                        
+                        if breeds then
+                            for k = 1, #breeds, 2 do
+                                local breed_name = breeds[k]
+                                local breed = Breeds[breed_name]
 
-						for k = 1, #breeds, 2 do
-							local breed_name = breeds[k]
-							local breed = Breeds[breed_name]
+                                if not breed then
+                                    print(string.format("Bad or non-existing breed in HordeCompositions table %s : '%s' defined in HordeCompositions.", name, tostring(breed_name)))
 
-							if not breed then
-								print(string.format("Bad or non-existing breed in HordeCompositions table %s : '%s' defined in HordeCompositions.", name, tostring(breed_name)))
+                                    crash = true
+                                elseif not breed.can_use_horde_spawners then
+                                    variant.must_use_hidden_spawners = true
+                                end
+                            end
+                        end
+                    end
 
-								crash = true
-							elseif not breed.can_use_horde_spawners then
-								variant.must_use_hidden_spawners = true
-							end
-						end
-					end
+                    compositions.loaded_probs = {
+                        LoadedDice.create(weights)
+                    }
 
-					compositions.loaded_probs = {
-						LoadedDice.create(weights)
-					}
-
-					fassert(not crash, "Found errors in HordeComposition table %s - see above. ", name)
-					fassert(compositions.loaded_probs, "Could not create horde composition probablitity table, make sure the table '%s' in HordeCompositions is correctly structured and has an entry for each difficulty.", name)
-				end
-			end
-		end
+                    fassert(not crash, "Found errors in HordeComposition table %s - see above. ", name)
+                    fassert(compositions.loaded_probs, "Could not create horde composition probablitity table, make sure the table '%s' in HordeCompositions is correctly structured and has an entry for each difficulty.", name)
+                end
+            end
+        end
 
 		if setting.compositions_pacing then
 			for name, composition in pairs(setting.compositions_pacing) do
@@ -7125,8 +7127,7 @@ end
 	}
 
 	---------------------
-	--Into the Nest
-
+	-- Into the Nest
 	TerrorEventBlueprints.skaven_stronghold.stronghold_pacing_off = {
 		{
 			"text",
@@ -7160,13 +7161,13 @@ end
 			"set_freeze_condition",
 			max_active_enemies = 100
 		},
---[[]
+	--[[]
 		{
 			"event_horde",
 			spawner_id = "stronghold_horde_water_wheels",
 			composition_type = "skaven_shields"
 		},
-]]
+	]]
 		{
 			"spawn_at_raw",
 			spawner_id = "stronghold_horde_water_wheels",
@@ -7222,8 +7223,7 @@ end
 			spawner_id = "stronghold_boss",
 			breed_name = "skaven_storm_vermin_warlord",
 			optional_data = {
-				max_health_modifier = 1.5,
-				enhancements = enhancement_4
+				max_health_modifier = 1.5
 			}
 		},
 		{
@@ -7259,7 +7259,7 @@ end
 
 	HordeCompositions.stronghold_boss_event_defensive = {
 		{
-			name = "plain",
+			name = "defensive",
 			weight = 6,
 			breeds = {
 				"skaven_slave",
@@ -7274,39 +7274,19 @@ end
 				},
 				"skaven_clan_rat_with_shield",
 				{
-					15,
-					20
-				},
-				"skaven_plague_monk",
-				{
-					6,
-					8
-				},
-				"skaven_storm_vermin_with_shield",
-				4,
-			}
-		},
-		{
-			name = "somevermin",
-			weight = 4,
-			breeds = {
-				"skaven_clan_rat",
-				{
 					10,
 					12
 				},
-				"skaven_clan_rat_with_shield",
-				{
-					22,
-					24
-				},
 				"skaven_plague_monk",
 				{
-					9,
-					10
+					3,
+					4
 				},
-				"skaven_storm_vermin_with_shield",
-				4,
+				"skaven_storm_vermin_commander",
+				{
+					3,
+					4
+				}
 			}
 		}
 	}
@@ -7314,59 +7294,83 @@ end
 	HordeCompositions.stronghold_boss_trickle = {
 		{
 			name = "plain",
-			weight = 8,
+			weight = 5,
 			breeds = {
 				"skaven_slave",
 				{
-					8,
-					10
+					18,
+					18
 				},
-				"skaven_clan_rat",
+				"skaven_warpfire_thrower",
 				{
-					7,
-					8
+					4,
+					4,
 				},
-				"skaven_clan_rat_with_shield",
+				"skaven_gutter_runner",
 				{
-					5,
-					6
-				}
+					1,
+					1,
+				},
+				"skaven_plague_monk",
+				{
+					3,
+					3,
+				},
+				"skaven_storm_vermin_commander",
+				{
+					2,
+					2,
+				},
 			}
 		},
 		{
-			name = "plain",
-			weight = 2,
+			name = "shit",
+			weight = 5,
 			breeds = {
 				"skaven_slave",
 				{
-					5,
-					6
+					18,
+					18
 				},
-				"skaven_clan_rat",
-				{
-					5,
-					6
-				},
-				"skaven_clan_rat_with_shield",
+				"skaven_ratling_gunner",
 				{
 					4,
-					5
+					4,
+				},
+				"skaven_pack_master",
+				{
+					1,
+					1,
+				},
+				"skaven_plague_monk",
+				{
+					2,
+					2,
 				},
 				"skaven_storm_vermin_commander",
-				3
+				{
+					3,
+					3,
+				},
 			}
 		}
 	}
 
 	HordeCompositions.stronghold_boss_initial_wave = {
 		{
-			name = "plain",
+			name = "initial",
 			weight = 6,
 			breeds = {
 				"skaven_storm_vermin",
-				7,
+				{
+					3,
+					3
+				},
 				"skaven_plague_monk",
-				6,
+				{
+					3,
+					3
+				},
 				"skaven_clan_rat",
 				{
 					15,
@@ -7374,14 +7378,14 @@ end
 				},
 				"skaven_ratling_gunner",
 				{
-					3,
-					4
+					1,
+					1
 				},
-				"skaven_pack_master",
+				"skaven_warpfire_thrower",
 				{
-					2,
-					2
-				}
+					1,
+					1
+				},
 			}
 		}
 	}
@@ -14079,7 +14083,7 @@ end
 		{
 			"event_horde",
 			spawner_id = "magnus_door_event_a",
-			composition_type = "event_medium"
+			composition_type = "event_large"
 		},
 		{
 			"play_stinger",
@@ -14090,24 +14094,14 @@ end
 			duration = 3
 		},
 		{
-			"spawn_special",
+			"event_horde",
 			spawner_id = "magnus_door_event_specials",
-			breed_name = "skaven_poison_wind_globadier",
+			composition_type = "event_stormvermin_shielders"
 		},
 		{
-			"spawn_special",
+			"event_horde",
 			spawner_id = "magnus_door_event_specials",
-			breed_name = "chaos_vortex_sorcerer",
-		},
-		{
-			"spawn_special",
-			spawner_id = "magnus_door_event_specials",
-			breed_name = "skaven_ratling_gunner",
-		},
-		{
-			"spawn_special",
-			spawner_id = "magnus_door_event_specials",
-			breed_name = "skaven_ratling_gunner",
+			composition_type = "event_stormvermin_shielders"
 		},
 		{
 			"delay",
@@ -14124,32 +14118,19 @@ end
 		},
 		{
 			"delay",
-			duration = 5
+			duration = 12
 		},
 		{
-			"spawn_special",
-			spawner_id = "magnus_door_event_specials",
-			breed_name = {
-				"skaven_pack_master",
-				"skaven_gutter_runner"
-			}
-		},
-		{
-			"spawn_special",
-			spawner_id = "magnus_door_event_specials",
-			breed_name = {
-				"skaven_ratling_gunner",
-				"skaven_warpfire_thrower"
-			}
-		},
-		{
-			"delay",
-			duration = 2
+			"continue_when",
+			duration = 10,
+			condition = function (t)
+				return count_breed("skaven_rat_ogre") < 1
+			end
 		},
 		{
 			"event_horde",
 			spawner_id = "magnus_door_event_chaos",
-			composition_type = "event_medium_chaos"
+			composition_type = "onslaught_custom_specials_heavy_denial"
 		},
 		{
 			"event_horde",
@@ -14164,7 +14145,7 @@ end
 			"continue_when",
 			duration = 12,
 			condition = function (t)
-				return (count_breed("chaos_marauder") + count_breed("chaos_marauder_with_shield")) < 8 and count_breed("chaos_fanatic") < 13 and count_breed("chaos_raider") < 4 and count_breed("chaos_berzerker") < 4
+				return (count_breed("chaos_marauder") + count_breed("chaos_marauder_with_shield")) < 12 and count_breed("chaos_fanatic") < 16 and count_breed("chaos_raider") < 6 and count_breed("chaos_berzerker") < 6
 			end
 		},
 		{
@@ -14184,29 +14165,14 @@ end
 			composition_type = "event_medium"
 		},
 		{
-			"spawn_special",
-			spawner_id = "magnus_door_event_specials",
-			breed_name = "skaven_poison_wind_globadier",
-		},
-		{
-			"spawn_special",
-			spawner_id = "magnus_door_event_specials",
-			breed_name = "chaos_vortex_sorcerer",
-		},
-		{
-			"spawn_special",
-			spawner_id = "magnus_door_event_specials",
-			breed_name = "skaven_ratling_gunner",
-		},
-		{
-			"spawn_special",
-			spawner_id = "magnus_door_event_specials",
-			breed_name = "skaven_ratling_gunner",
+			"event_horde",
+			spawner_id = "magnus_door_event_c",
+			composition_type = "event_extra_spice_large"
 		},
 		{
 			"event_horde",
 			spawner_id = "magnus_door_event_c",
-			composition_type = "event_stormvermin_shielders"
+			composition_type = "onslaught_custom_specials_heavy_denial"
 		},
 		{
 			"delay",
@@ -14231,29 +14197,9 @@ end
 			duration = 5
 		},
 		{
-			"spawn_special",
-			amount = 1,
-			breed_name = "skaven_poison_wind_globadier",
-		},
-		{
-			"spawn_special",
-			amount = 1,
-			breed_name = "skaven_ratling_gunner",
-		},
-		{
-			"spawn_special",
-			amount = 1,
-			breed_name = "skaven_ratling_gunner",
-		},
-		{
-			"spawn_special",
-			amount = 1,
-			breed_name = "skaven_ratling_gunner",
-		},
-		{
-			"spawn_special", 
-			amount = 1,
-			breed_name = "skaven_ratling_gunner",
+			"event_horde",
+			spawner_id = "magnus_door_event_a",
+			composition_type = "event_small"
 		},
 		{
 			"event_horde",
@@ -14293,14 +14239,23 @@ end
 			composition_type = "onslaught_plague_monks_medium"
 		},
 		{
-			"event_horde",
-			spawner_id = "magnus_door_event_specials",
-			composition_type = "onslaught_plague_monks_medium"
+			"delay",
+			duration = 2
 		},
 		{
 			"event_horde",
+			spawner_id = "magnus_door_event_chaos",
+			composition_type = "event_small_chaos"
+		},
+		{
+			"event_horde",
+			spawner_id = "magnus_door_event_chaos",
+			composition_type = "event_small_chaos"
+		},
+		{
+			"spawn_special",
 			spawner_id = "magnus_door_event_specials",
-			composition_type = "onslaught_plague_monks_medium"
+			breed_name = "skaven_poison_wind_globadier"
 		},
 		{
 			"spawn_special",
@@ -14315,7 +14270,7 @@ end
 			"continue_when",
 			duration = 12,
 			condition = function (t)
-				return (count_breed("skaven_plague_monk") < 7)
+				return (count_breed("chaos_marauder") + count_breed("chaos_marauder_with_shield")) < 8 and count_breed("chaos_fanatic") < 13 and count_breed("chaos_raider") < 4 and count_breed("chaos_berzerker") < 4
 			end
 		},
 		{
@@ -14341,13 +14296,8 @@ end
 		},
 		{
 			"event_horde",
-			spawner_id = "magnus_door_event_c",
-			composition_type = "onslaught_custom_specials_heavy_denial"
-		},
-		{
-			"event_horde",
 			spawner_id = "magnus_door_event_b",
-			composition_type = "event_stormvermin_shielders"
+			composition_type = "onslaught_custom_specials_heavy_denial"
 		},
 		{
 			"delay",
@@ -14375,12 +14325,6 @@ end
 			"event_horde",
 			spawner_id = "magnus_door_event_chaos",
 			composition_type = "event_medium_chaos"
-		},
-		{
-			"spawn_special",
-			spawner_id = "magnus_door_event_specials",
-			breed_name = "skaven_poison_wind_globadier",
-			amount = 2
 		},
 		{
 			"event_horde",
@@ -14417,8 +14361,8 @@ end
 				"skaven_warpfire_thrower"
 			},
 			amount = {
-				2,
-				3
+				1,
+				2
 			}
 		},
 		{
@@ -14464,11 +14408,6 @@ end
 		},
 		{
 			"event_horde",
-			spawner_id = "magnus_door_event_c",
-			composition_type = "onslaught_custom_specials_heavy_denial"
-		},
-		{
-			"event_horde",
 			spawner_id = "magnus_door_event_b",
 			composition_type = "event_extra_spice_small"
 		},
@@ -14496,9 +14435,12 @@ end
 		},
 		{
 			"spawn_special",
-			spawner_id = "magnus_door_event_specials",
 			breed_name = "skaven_poison_wind_globadier",
-			amount = 2
+			spawner_id = "magnus_door_event_specials",
+			amount = {
+				2,
+				3
+			}
 		},
 		{
 			"delay",
@@ -14508,12 +14450,6 @@ end
 			"event_horde",
 			spawner_id = "magnus_door_event_chaos",
 			composition_type = "event_small_chaos"
-		},
-		{
-			"spawn_special",
-			spawner_id = "magnus_door_event_specials",
-			breed_name = "skaven_poison_wind_globadier",
-			amount = 2
 		},
 		{
 			"event_horde",
@@ -14550,11 +14486,6 @@ end
 		{
 			"event_horde",
 			spawner_id = "magnus_door_event_c",
-			composition_type = "onslaught_custom_specials_heavy_denial"
-		},
-		{
-			"event_horde",
-			spawner_id = "magnus_door_event_c",
 			composition_type = "event_extra_spice_small"
 		},
 		{
@@ -14582,11 +14513,6 @@ end
 		{
 			"event_horde",
 			spawner_id = "magnus_door_event_b",
-			composition_type = "event_small"
-		},
-		{
-			"event_horde",
-			spawner_id = "magnus_door_event_c",
 			composition_type = "onslaught_custom_specials_heavy_denial"
 		},
 		{
@@ -14619,7 +14545,30 @@ end
 		},
 		{
 			"event_horde",
-			spawner_id = "magnus_door_event_c",
+			spawner_id = "magnus_door_event_b",
+			composition_type = "event_extra_spice_small"
+		},
+		{
+			"continue_when",
+			duration = 12,
+			condition = function (t)
+				return (count_breed("skaven_clan_rat") + count_breed("skaven_clan_rat_with_shield")) < 10 and count_breed("skaven_slave") < 15 and (count_breed("skaven_storm_vermin_commander") + count_breed("skaven_storm_vermin_with_shield")) < 4 and count_breed("skaven_plague_monk") < 4
+			end
+		},
+		{
+			"continue_when",
+			duration = 5,
+			condition = function (t)
+				return count_breed("skaven_rat_ogre") < 1
+			end
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"event_horde",
+			spawner_id = "magnus_door_event_b",
 			composition_type = "onslaught_custom_specials_heavy_denial"
 		},
 		{
@@ -14652,11 +14601,6 @@ end
 		},
 		{
 			"event_horde",
-			spawner_id = "magnus_door_event_c",
-			composition_type = "onslaught_custom_specials_heavy_denial"
-		},
-		{
-			"event_horde",
 			spawner_id = "magnus_door_event_b",
 			composition_type = "event_extra_spice_small"
 		},
@@ -14682,44 +14626,6 @@ end
 			"event_horde",
 			spawner_id = "magnus_door_event_b",
 			composition_type = "event_small"
-		},
-		{
-			"event_horde",
-			spawner_id = "magnus_door_event_c",
-			composition_type = "onslaught_custom_specials_heavy_denial"
-		},
-		{
-			"event_horde",
-			spawner_id = "magnus_door_event_b",
-			composition_type = "event_extra_spice_small"
-		},
-		{
-			"continue_when",
-			duration = 12,
-			condition = function (t)
-				return (count_breed("skaven_clan_rat") + count_breed("skaven_clan_rat_with_shield")) < 10 and count_breed("skaven_slave") < 15 and (count_breed("skaven_storm_vermin_commander") + count_breed("skaven_storm_vermin_with_shield")) < 4 and count_breed("skaven_plague_monk") < 4
-			end
-		},
-		{
-			"continue_when",
-			duration = 5,
-			condition = function (t)
-				return count_breed("skaven_rat_ogre") < 1
-			end
-		},
-		{
-			"delay",
-			duration = 5
-		},
-		{
-			"event_horde",
-			spawner_id = "magnus_door_event_b",
-			composition_type = "event_small"
-		},
-		{
-			"event_horde",
-			spawner_id = "magnus_door_event_c",
-			composition_type = "onslaught_custom_specials_heavy_denial"
 		},
 		{
 			"event_horde",
@@ -14751,7 +14657,7 @@ end
 	}
 	
 	TerrorEventBlueprints.magnus.magnus_door_b = TerrorEventBlueprints.magnus.magnus_door_a
-	
+
 	TerrorEventBlueprints.magnus.magnus_end_event = {
 		{
 			"control_pacing",
@@ -15247,6 +15153,7 @@ end
 			enable = true
 		}
 	}
+
 	---------------------
 	--Garden of Morr
 
@@ -20151,7 +20058,7 @@ end
 			"event_horde",
 			limit_spawners = 2,
 			spawner_id = "end_event_escape_spice",
-			composition_type = "onslaught_storm_vermin_medium"
+			composition_type = "onslaught_plague_monks_medium"
 		},
 		{
 			"delay",

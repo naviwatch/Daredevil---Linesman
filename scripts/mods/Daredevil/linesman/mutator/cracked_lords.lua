@@ -110,7 +110,7 @@ end)
 
 	BreedActions.skaven_storm_vermin_warlord.special_lunge_attack.considerations.distance_to_target.max_value = 10
 
-	BreedActions.skaven_storm_vermin_warlord.special_attack_spin.attack_sequence[2].at = 1.2
+	BreedActions.skaven_storm_vermin_warlord.special_attack_spin.attack_sequence[2].at = 1.7
 	BreedActions.skaven_storm_vermin_warlord.defensive_mode_spin.attack_sequence[2].ready_function = function (unit, blackboard, t)
 		local charge_t = t - blackboard.attack_sequence_start_time
 	

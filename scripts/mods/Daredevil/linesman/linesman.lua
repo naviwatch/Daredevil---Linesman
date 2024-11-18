@@ -130,42 +130,44 @@ local function create_weights()
 	local crash = nil
 
 	for key, setting in pairs(HordeSettings) do
-		setting.name = key
+        setting.name = key
 
-		if setting.compositions then
-			for name, composition in pairs(setting.compositions) do
-				for i = 1, #composition, 1 do
-					table.clear_array(weights, #weights)
+        if setting.compositions then
+            for name, composition in pairs(setting.compositions) do
+                for i = 1, #composition, 1 do
+                    table.clear_array(weights, #weights)
 
-					local compositions = composition[i]
+                    local compositions = composition[i]
 
-					for j, variant in ipairs(compositions) do
-						weights[j] = variant.weight
-						local breeds = variant.breeds
+                    for j, variant in ipairs(compositions) do
+                        weights[j] = variant.weight
+                        local breeds = variant.breeds
+                        
+                        if breeds then
+                            for k = 1, #breeds, 2 do
+                                local breed_name = breeds[k]
+                                local breed = Breeds[breed_name]
 
-						for k = 1, #breeds, 2 do
-							local breed_name = breeds[k]
-							local breed = Breeds[breed_name]
+                                if not breed then
+                                    print(string.format("Bad or non-existing breed in HordeCompositions table %s : '%s' defined in HordeCompositions.", name, tostring(breed_name)))
 
-							if not breed then
-								print(string.format("Bad or non-existing breed in HordeCompositions table %s : '%s' defined in HordeCompositions.", name, tostring(breed_name)))
+                                    crash = true
+                                elseif not breed.can_use_horde_spawners then
+                                    variant.must_use_hidden_spawners = true
+                                end
+                            end
+                        end
+                    end
 
-								crash = true
-							elseif not breed.can_use_horde_spawners then
-								variant.must_use_hidden_spawners = true
-							end
-						end
-					end
+                    compositions.loaded_probs = {
+                        LoadedDice.create(weights)
+                    }
 
-					compositions.loaded_probs = {
-						LoadedDice.create(weights)
-					}
-
-					fassert(not crash, "Found errors in HordeComposition table %s - see above. ", name)
-					fassert(compositions.loaded_probs, "Could not create horde composition probablitity table, make sure the table '%s' in HordeCompositions is correctly structured and has an entry for each difficulty.", name)
-				end
-			end
-		end
+                    fassert(not crash, "Found errors in HordeComposition table %s - see above. ", name)
+                    fassert(compositions.loaded_probs, "Could not create horde composition probablitity table, make sure the table '%s' in HordeCompositions is correctly structured and has an entry for each difficulty.", name)
+                end
+            end
+        end
 
 		if setting.compositions_pacing then
 			for name, composition in pairs(setting.compositions_pacing) do
@@ -199,6 +201,7 @@ local function create_weights()
 		end
 	end
 end
+
 
 	mod.difficulty_level = mod:get("difficulty_level")
 	mod.gain = 1
@@ -258,22 +261,22 @@ end
 	-- Stop spawner from spawning one extra enemy in horde
 	local spawn_list_a = {}
 	local spawn_list_b = {}
-
+	
 	local function D(...)
 		if script_data.debug_hordes then
 			printf(...)
 		end
 	end
-
+	
 	local function copy_array(source, index_a, index_b, dest)
 		local j = 1
-
+	
 		for i = index_a, index_b do
 			dest[j] = source[i]
 			j = j + 1
 		end
 	end
-
+	
 	local spawn_list = {
 		"skaven_slave",
 		"skaven_clan_rat",
@@ -286,16 +289,47 @@ end
 		"skaven_slave",
 		"skaven_clan_rat"
 	}
-
+	
 	local spawn_list = {}
 	local spawn_list_hidden = {}
 	local copy_list = {}
-
+	
 	local ok_spawner_breeds = {
 		skaven_clan_rat = true,
 		skaven_slave = true
 	}
-
+	--[[
+	mod:hook_origin(HordeSpawner, "compose_horde_spawn_list", function (self, variant)
+		local i = 1
+	
+		table.clear_array(spawn_list_a, #spawn_list_a)
+		table.clear_array(spawn_list_b, #spawn_list_b)
+	
+		local breeds = variant.breeds
+	
+		for i = 1, #breeds, 2 do
+			local breed_name = breeds[i]
+			local amount = breeds[i + 1]
+			local num_to_spawn = ConflictUtils.random_interval(amount)
+			local spawn_list = ok_spawner_breeds[breed_name] and spawn_list_a or spawn_list_b
+			local start = #spawn_list
+	
+			for j = start + 1, start + num_to_spawn do
+				spawn_list[j] = breed_name
+			end
+		end
+	
+		table.shuffle(spawn_list_a)
+		table.shuffle(spawn_list_b)
+	
+		local sum_a = #spawn_list_a
+		local sum_b = #spawn_list_b
+		local sum = sum_a + sum_b
+	
+		return sum, sum_a, sum_b
+	end)
+	--]]
+	
 	mod:hook_origin(HordeSpawner, "compose_blob_horde_spawn_list", function (self, composition_type)
 		--mod:echo("Blob Horde Spawning")
 		local composition = CurrentHordeSettings.compositions_pacing[composition_type]
@@ -303,24 +337,25 @@ end
 		local variant = composition[index]
 		local i = 1
 		local spawn_list = spawn_list_a
-
+	
 		table.clear_array(spawn_list_a, #spawn_list_a)
-
+	
 		local breeds = variant.breeds
-
+	
 		for i = 1, #breeds, 2 do
 			local breed_name = breeds[i]
 			local amount = breeds[i + 1]
 			local num_to_spawn = ConflictUtils.random_interval(amount)
 			local start = #spawn_list + 1
-
+	
 			for j = start, start + num_to_spawn - 1 do -- Subtracted 1 from num to spawn
 				spawn_list[j] = breed_name
 			end
 		end
-
+	
 		table.shuffle(spawn_list)
 		return spawn_list, #spawn_list
+	
 	end)
 
 	--Non-event settings and compositions
@@ -589,20 +624,11 @@ local range = 0.01
 	IntensitySettings.default.difficulty_overrides = nil
 
 	-- HORDE SETTINGS
-	HordeSettings.default.chance_of_vector = 0.75
+	HordeSettings.default.chance_of_vector = 0.6 -- 0.75
 	HordeSettings.default.chance_of_vector_blob = 0.65
 
-	HordeSettings.chaos.chance_of_vector = 0.9
-	HordeSettings.chaos.chance_of_vector_blob = 0.5
-
-	-- Override if the chinese are playing
-	if mod:get("lb") then
-		HordeSettings.default.chance_of_vector = 0.6
-		HordeSettings.default.chance_of_vector_blob = 0.65
-
-		HordeSettings.chaos.chance_of_vector = 0.65
-		HordeSettings.chaos.chance_of_vector_blob = 0.9
-	end
+	HordeSettings.chaos.chance_of_vector = 0.65 -- 0.9
+	HordeSettings.chaos.chance_of_vector_blob = 0.9 -- 0.5
 
 	HordeSettingsBasics = {
 		ambush = {
@@ -749,6 +775,11 @@ local range = 0.01
 	mod:dofile("scripts/mods/Daredevil/linesman/events/grudge_served_hot")
 	-- Trail
 	mod:dofile("scripts/mods/Daredevil/linesman/events/trail")
+
+	-- Override if Beta
+	if mod:get("beta") then
+		mod:dofile("scripts/mods/Daredevil/linesman/events/linesman_beta_events")
+	end
 
 	-- CN specific events 
 	if lb then
@@ -1152,7 +1183,7 @@ local range = 0.01
 	-- Sync up stuff
 	mod:network_send("rpc_enable_white_sv", "all", true)
 	mod:network_send("bob_name_enable", "all", true)
-	mod:network_send("c3dwlines", "others", true)
+--	mod:network_send("c3dwlines", "others", true)
 --	mod:network_send("linesman_ost", "all", true)
 
 	create_weights()

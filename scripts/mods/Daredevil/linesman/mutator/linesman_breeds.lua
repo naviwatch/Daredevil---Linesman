@@ -1,5 +1,6 @@
 local mod = get_mod("Daredevil")
 local mutator_plus = mod:persistent_table("Daredevil+")
+local lb = get_mod("LinesmanBalance")
 local conflict_director = Managers.state.conflict
 
 local stagger_types = require("scripts/utils/stagger_types")
@@ -375,33 +376,46 @@ Breeds.skaven_dummy_slave.size_variation_range = { 1.6, 1.6 }
 
         return func(self, killer)
     end)
-    
+
+    DamageProfileTemplates.standard_bearer_explosion_lines = {
+		charge_value = "grenade",
+		is_explosion = true,
+		no_damage = true,
+		stagger_duration_modifier = 0.1,
+		armor_modifier = {
+			attack = {
+				1,
+				0.5,
+				1,
+				1,
+				1,
+			},
+			impact = {
+				1,
+				0.5,
+				100,
+				1,
+				1,
+			},
+		},
+		default_target = {
+			attack_template = "basic_sweep_push",
+			damage_type = "push",
+			power_distribution = {
+				attack = 0,
+				impact = 0,
+			},
+		},
+	}
+
+    ExplosionTemplates.standard_bearer_explosion.explosion.damage_profile = "standard_bearer_explosion_lines"
+    ExplosionTemplates.standard_bearer_explosion.explosion.catapult_players = false
+    ExplosionTemplates.standard_bearer_explosion.explosion.player_push_speed = 4.25
+
+    -- Some stuff for spawning
+
     local cm = Managers.state.conflict
     local director = tostring(cm.current_conflict_settings)
-
-    local special_attack = function()
-		PRD_special_attack, state1 = PseudoRandomDistribution.flip_coin(state1, 1)
-		if PRD_special_attack then
-		--	conflict_director:start_terror_event("special_coordinated")
-			--	mod:chat_broadcast("Coordinated Attack!")
-			PRD_mix, mix1 = PseudoRandomDistribution.flip_coin(mix1, 0.5) -- Flip 50%
-			if PRD_mix then
-				conflict_director:start_terror_event("skaven_mix")
-			else
-				PRD_die, die1 = PseudoRandomDistribution.flip_coin(die1, 0.5)
-				if PRD_die then
-					conflict_director:start_terror_event("skaven_spam")
-				else
-					PRD_denial, denial1 = PseudoRandomDistribution.flip_coin(denial1, 0.5) -- Flip 50%
-					if PRD_denial then
-						conflict_director:start_terror_event("skaven_denial")
-					else
-						conflict_director:start_terror_event("chaos_denial")
-					end
-				end
-			end
-		end
-	end
 
         local spawn_trash_wave = function()
             local num_to_spawn_enhanced = 8
@@ -471,30 +485,31 @@ Breeds.skaven_dummy_slave.size_variation_range = { 1.6, 1.6 }
     local spawn_trash_wave = function()
         local num_to_spawn_enhanced = 8
         local num_to_spawn = 5
+        local elite 
         local spawn_list = {}
 
         -- PRD_trash, trash = PseudoRandomDistribution.flip_coin(trash, 0.5) -- Flip 50%
             for i = 1, num_to_spawn_enhanced do
                 table.insert(spawn_list, "skaven_clan_rat")
-            end
-    
-            for i = 1, num_to_spawn do
-                table.insert(spawn_list, "skaven_slave")
-            end
-
-            for i = 1, 3 do
-                table.insert(spawn_list, "skaven_storm_vermin")
-                table.insert(spawn_list, "skaven_plague_monk")
-                table.insert(spawn_list, "chaos_raider")
-                table.insert(spawn_list, "chaos_berzerker")
-            end
-
-            for i = 1, num_to_spawn_enhanced do
                 table.insert(spawn_list, "chaos_marauder")
             end
     
             for i = 1, num_to_spawn do
+                table.insert(spawn_list, "skaven_slave")
                 table.insert(spawn_list, "chaos_fanatic")
+            end 
+
+            if not lb then 
+                elite = 2
+            else
+                elite = 3
+            end
+
+            for i = 1, elite do
+                table.insert(spawn_list, "skaven_storm_vermin")
+                table.insert(spawn_list, "skaven_plague_monk")
+                table.insert(spawn_list, "chaos_raider")
+                table.insert(spawn_list, "chaos_berzerker")
             end
 
         local side = Managers.state.conflict.default_enemy_side_id
@@ -559,7 +574,7 @@ Breeds.skaven_dummy_slave.size_variation_range = { 1.6, 1.6 }
         },
         distance_to_target = {
             blackboard_input = "target_dist",
-            max_value = 7,
+            max_value = 6.5,
             spline = {
                 0,
                 0,
@@ -583,5 +598,3 @@ Breeds.skaven_dummy_slave.size_variation_range = { 1.6, 1.6 }
     }
     BreedActions.beastmen_standard_bearer.place_standard.considerations = UtilityConsiderations.beastmen_place_standard_lines
     BeastmenStandardTemplates.healing_standard.radius = 3
-
-    -- Banner VFX

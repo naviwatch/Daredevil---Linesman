@@ -82,7 +82,7 @@ local function create_weights()
 			composition[4] = temp_table
 			composition[5] = temp_table
 			composition[6] = temp_table
-			composition[7] = temp_table	
+			composition[7] = temp_table
 		elseif not composition[6] then
 			composition[6] = composition[5]
 			composition[7] = composition[5]
@@ -93,42 +93,44 @@ local function create_weights()
 	local crash = nil
 
 	for key, setting in pairs(HordeSettings) do
-		setting.name = key
+        setting.name = key
 
-		if setting.compositions then
-			for name, composition in pairs(setting.compositions) do
-				for i = 1, #composition, 1 do
-					table.clear_array(weights, #weights)
+        if setting.compositions then
+            for name, composition in pairs(setting.compositions) do
+                for i = 1, #composition, 1 do
+                    table.clear_array(weights, #weights)
 
-					local compositions = composition[i]
+                    local compositions = composition[i]
 
-					for j, variant in ipairs(compositions) do
-						weights[j] = variant.weight
-						local breeds = variant.breeds
+                    for j, variant in ipairs(compositions) do
+                        weights[j] = variant.weight
+                        local breeds = variant.breeds
+                        
+                        if breeds then
+                            for k = 1, #breeds, 2 do
+                                local breed_name = breeds[k]
+                                local breed = Breeds[breed_name]
 
-						for k = 1, #breeds, 2 do
-							local breed_name = breeds[k]
-							local breed = Breeds[breed_name]
+                                if not breed then
+                                    print(string.format("Bad or non-existing breed in HordeCompositions table %s : '%s' defined in HordeCompositions.", name, tostring(breed_name)))
 
-							if not breed then
-								print(string.format("Bad or non-existing breed in HordeCompositions table %s : '%s' defined in HordeCompositions.", name, tostring(breed_name)))
+                                    crash = true
+                                elseif not breed.can_use_horde_spawners then
+                                    variant.must_use_hidden_spawners = true
+                                end
+                            end
+                        end
+                    end
 
-								crash = true
-							elseif not breed.can_use_horde_spawners then
-								variant.must_use_hidden_spawners = true
-							end
-						end
-					end
+                    compositions.loaded_probs = {
+                        LoadedDice.create(weights)
+                    }
 
-					compositions.loaded_probs = {
-						LoadedDice.create(weights)
-					}
-
-					fassert(not crash, "Found errors in HordeComposition table %s - see above. ", name)
-					fassert(compositions.loaded_probs, "Could not create horde composition probablitity table, make sure the table '%s' in HordeCompositions is correctly structured and has an entry for each difficulty.", name)
-				end
-			end
-		end
+                    fassert(not crash, "Found errors in HordeComposition table %s - see above. ", name)
+                    fassert(compositions.loaded_probs, "Could not create horde composition probablitity table, make sure the table '%s' in HordeCompositions is correctly structured and has an entry for each difficulty.", name)
+                end
+            end
+        end
 
 		if setting.compositions_pacing then
 			for name, composition in pairs(setting.compositions_pacing) do
