@@ -48,7 +48,7 @@ local scaling_data = {
 	},
 }
 	
-mini_patrol = {
+HordeCompositionsPacing.mini_patrol = {
 	{
 		name = "few_clanrats",
 		weight = 2,
@@ -688,11 +688,6 @@ HordeCompositionsPacing.huge_shields = {
 				6,
 				8
 			},
-			"skaven_pack_master",
-			{
-				1,
-				1
-			}
 		}
 	},
 	{
@@ -804,11 +799,6 @@ HordeCompositionsPacing.huge_armor = {
 				7,
 				9
 			},
-			"skaven_pack_master",
-			{
-				1,
-				1
-			}
 		}
 	},
 	{
@@ -946,11 +936,6 @@ HordeCompositionsPacing.huge_berzerker = {
 				3,
 				3
 			},
-			"skaven_pack_master",
-			{
-				1,
-				1
-			}
 		}
 	},
 	{

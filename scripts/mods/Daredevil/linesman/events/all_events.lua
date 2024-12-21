@@ -7223,7 +7223,7 @@ end
 			spawner_id = "stronghold_boss",
 			breed_name = "skaven_storm_vermin_warlord",
 			optional_data = {
-				max_health_modifier = 1.5
+				max_health_modifier = 1.2
 			}
 		},
 		{
@@ -7303,8 +7303,8 @@ end
 				},
 				"skaven_warpfire_thrower",
 				{
-					4,
-					4,
+					2,
+					2,
 				},
 				"skaven_gutter_runner",
 				{
@@ -7334,8 +7334,8 @@ end
 				},
 				"skaven_ratling_gunner",
 				{
-					4,
-					4,
+					2,
+					2,
 				},
 				"skaven_pack_master",
 				{
@@ -7386,6 +7386,11 @@ end
 					1,
 					1
 				},
+				"skaven_pack_master",
+				{
+					1,
+					1
+				},
 			}
 		}
 	}
@@ -7414,15 +7419,11 @@ end
 			name = "farmlands_boss_barn"
 		},
 		{
-			"play_stinger",
-			stinger_name = "Play_curse_egg_of_tzeentch_alert_low"
-		},
-		{
 			"spawn_at_raw",
 			spawner_id = "farmlands_rat_ogre",
-			breed_name = "skaven_rat_ogre",
+			breed_name = "beastmen_minotaur",
 			optional_data = {
-				enhancements = warchief
+				enhancements = enhancement_1
 			}
 		},
 		{
@@ -7432,32 +7433,7 @@ end
 		{
 			"continue_when",
 			condition = function (t)
-				return count_event_breed("skaven_rat_ogre") == 1 or count_event_breed("skaven_stormfiend") == 1 or count_event_breed("chaos_troll") == 1 or count_event_breed("chaos_spawn") == 1
-			end,
-		},
-{
-			"spawn_at_raw",
-			spawner_id = "farmlands_rat_ogre",
-			breed_name = "skaven_dummy_clan_rat",
-			optional_data = {
-				enhancements = better_bob,
-				max_health_modifier = 2000/213
-			}
-		},
-		--[[
-		{
-			"delay",
-			duration = 20
-		},
-		{
-			"play_stinger",
-			stinger_name = "Play_curse_egg_of_tzeentch_alert_egg_destroyed"
-		},
-		]]
-		{
-			"continue_when",
-			condition = function (t)
-				return count_event_breed("skaven_rat_ogre") == 1
+				return count_event_breed("beastmen_minotaur") == 1
 			end
 		},
 		{
@@ -7467,6 +7443,14 @@ end
 		{
 			"flow_event",
 			flow_event_name = "farmlands_barn_boss_spawned"
+		},
+		{
+			"delay",
+			duration = 1
+		},
+		{
+			"delay",
+			duration = 1
 		},
 		{
 			"continue_when",
@@ -7486,15 +7470,11 @@ end
 			name = "farmlands_boss_barn"
 		},
 		{
-			"play_stinger",
-			stinger_name = "Play_curse_egg_of_tzeentch_alert_low"
-		},
-		{
 			"spawn_at_raw",
 			spawner_id = "farmlands_rat_ogre",
-			breed_name = "skaven_rat_ogre",
+			breed_name = "beastmen_minotaur",
 			optional_data = {
-				enhancements = warchief
+				enhancements = enhancement_1
 			}
 		},
 		{
@@ -7502,34 +7482,19 @@ end
 			duration = 1
 		},
 		{
-			"spawn_at_raw",
-			spawner_id = "farmlands_rat_ogre",
-			breed_name = "skaven_dummy_clan_rat",
-			optional_data = {
-				enhancements = better_bob,
-				max_health_modifier = 2000/213
-			}
-		},
-		{
 			"continue_when",
 			condition = function (t)
-				return count_event_breed("skaven_rat_ogre") == 1 or count_event_breed("skaven_stormfiend") == 1 or count_event_breed("chaos_troll") == 1 or count_event_breed("chaos_spawn") == 1
-			end,
+				return count_event_breed("beastmen_minotaur") == 1
+			end
 		},
-		--[[
 		{
 			"delay",
-			duration = 20
-		},
-		{
-			"play_stinger",
-			stinger_name = "Play_curse_egg_of_tzeentch_alert_egg_destroyed"
+			duration = 1
 		},
 		{
 			"flow_event",
 			flow_event_name = "farmlands_barn_boss_spawned"
 		},
-		]]
 		{
 			"delay",
 			duration = 1
@@ -7556,15 +7521,11 @@ end
 			name = "farmlands_boss_barn"
 		},
 		{
-			"play_stinger",
-			stinger_name = "Play_curse_egg_of_tzeentch_alert_low"
-		},
-		{
 			"spawn_at_raw",
 			spawner_id = "farmlands_rat_ogre",
-			breed_name = "chaos_troll",
+			breed_name = "beastmen_minotaur",
 			optional_data = {
-				enhancements = warchief
+				enhancements = enhancement_1
 			}
 		},
 		{
@@ -7572,30 +7533,15 @@ end
 			duration = 1
 		},
 		{
-			"spawn_at_raw",
-			spawner_id = "farmlands_rat_ogre",
-			breed_name = "skaven_dummy_clan_rat",
-			optional_data = {
-				enhancements = better_bob,
-				max_health_modifier = 2000/213
-			}
-		},
-		{
 			"continue_when",
 			condition = function (t)
-				return count_event_breed("skaven_rat_ogre") == 1 or count_event_breed("skaven_stormfiend") == 1 or count_event_breed("chaos_troll") == 1 or count_event_breed("chaos_spawn") == 1
-			end,
+				return count_event_breed("beastmen_minotaur") == 1
+			end
 		},
-		--[[
 		{
 			"delay",
-			duration = 20
+			duration = 1
 		},
-		{
-			"play_stinger",
-			stinger_name = "Play_curse_egg_of_tzeentch_alert_egg_destroyed"
-		},
-		]]
 		{
 			"flow_event",
 			flow_event_name = "farmlands_barn_boss_spawned"
@@ -7626,13 +7572,9 @@ end
 			name = "farmlands_boss_barn"
 		},
 		{
-			"play_stinger",
-			stinger_name = "Play_curse_egg_of_tzeentch_alert_low"
-		},
-		{
 			"spawn_at_raw",
 			spawner_id = "farmlands_rat_ogre",
-			breed_name = "chaos_spawn",
+			breed_name = "beastmen_minotaur",
 			optional_data = {
 				enhancements = enhancement_1
 			}
@@ -7642,30 +7584,15 @@ end
 			duration = 1
 		},
 		{
-			"spawn_at_raw",
-			spawner_id = "farmlands_rat_ogre",
-			breed_name = "skaven_dummy_clan_rat",
-			optional_data = {
-				enhancements = better_bob,
-				max_health_modifier = 2000/213
-			}
-		},
-		{
 			"continue_when",
 			condition = function (t)
-				return count_event_breed("skaven_rat_ogre") == 1 or count_event_breed("skaven_stormfiend") == 1 or count_event_breed("chaos_troll") == 1 or count_event_breed("chaos_spawn") == 1
-			end,
+				return count_event_breed("beastmen_minotaur") == 1
+			end
 		},
-		--[[
 		{
 			"delay",
-			duration = 20
+			duration = 1
 		},
-		{
-			"play_stinger",
-			stinger_name = "Play_curse_egg_of_tzeentch_alert_egg_destroyed"
-		},
-		]]
 		{
 			"flow_event",
 			flow_event_name = "farmlands_barn_boss_spawned"
@@ -7765,17 +7692,12 @@ end
 		},
 		{
 			"delay",
-			duration = 5
+			duration = 40
 		},
 		{
 			"event_horde",
 			spawner_id = "hay_barn_bridge_invis",
-			composition_type = "onslaught_chaos_berzerkers_medium"
-		},
-		{
-			"event_horde",
-			spawner_id = "hay_barn_bridge_invis",
-			composition_type = "onslaught_chaos_berzerkers_medium"
+			composition_type = "linesman_mixed_horde"
 		},
 		{
 			"delay",
@@ -7800,7 +7722,7 @@ end
 		{
 			"event_horde",
 			spawner_id = "sawmill_yard_invis",
-			composition_type = "event_large_chaos"
+			composition_type = "linesman_mixed_horde"
 		},
 		{
 			"delay",
@@ -7821,7 +7743,7 @@ end
 		{
 			"event_horde",
 			spawner_id = "hay_barn_back",
-			composition_type = "event_small"
+			composition_type = "linesman_mixed_horde"
 		},
 		{
 			"event_horde",
@@ -7847,7 +7769,7 @@ end
 		{
 			"event_horde",
 			spawner_id = "square_front",
-			composition_type = "event_large"
+			composition_type = "linesman_mixed_horde"
 		},
 		{
 			"event_horde",
@@ -7856,7 +7778,7 @@ end
 		},
 		{
 			"delay",
-			duration = 5
+			duration = 40
 		},
 		{
 			"event_horde",
@@ -7888,7 +7810,7 @@ end
 		{
 			"event_horde",
 			spawner_id = "sawmill_yard_invis",
-			composition_type = "event_medium_chaos"
+			composition_type = "linesman_mixed_horde"
 		},
 		{
 			"delay",
@@ -7977,21 +7899,11 @@ end
 		{
 			"event_horde",
 			spawner_id = "hay_barn_cellar_invis",
-			composition_type = "event_large_chaos"
-		},
-		{
-			"event_horde",
-			spawner_id = "hay_barn_cellar_invis",
-			composition_type = "onslaught_chaos_berzerkers_medium"
-		},
-		{
-			"event_horde",
-			spawner_id = "hay_barn_cellar_invis",
-			composition_type = "onslaught_chaos_berzerkers_medium"
+			composition_type = "linesman_mixed_horde"
 		},
 		{
 			"delay",
-			duration = 30
+			duration = 35
 		},
 		{
 			"event_horde",
@@ -8000,12 +7912,12 @@ end
 		},
 		{
 			"delay",
-			duration = 10
+			duration = 40
 		},
 		{
 			"event_horde",
 			spawner_id = "hay_barn_interior",
-			composition_type = "event_medium"
+			composition_type = "linesman_mixed_horde"
 		},
 		{
 			"delay",
@@ -8025,29 +7937,12 @@ end
 		{
 			"event_horde",
 			limit_spawners = 2,
-			composition_type = "event_small"
+			composition_type = "linesman_mixed_horde"
 		},
 		{
 			"event_horde",
 			limit_spawners = 2,
-			composition_type = "onslaught_storm_vermin_medium"
-		},
-		{
-			"event_horde",
-			limit_spawners = 2,
-			composition_type = "onslaught_storm_vermin_medium"
-		},
-		{
-			"spawn_at_raw",
-			spawner_id = "Against_the_Grain_2nd_event",
-			breed_name = "skaven_ratling_gunner",
-			optional_data = {
-				spawned_func = slaanesh_buff_spawn_function,
-				size_variation_range = {
-				    3,
-				    3
-				}
-			}
+			composition_type = "linesman_mixed_horde"
 		},
 		{
 			"delay",
@@ -8055,7 +7950,7 @@ end
 		},
 		{
 			"continue_when",
-			duration = 20,
+			duration = 60,
 			condition = function (t)
 				return count_event_breed("skaven_clan_rat") < 30 and count_event_breed("skaven_clan_rat_with_shield") < 30 and count_event_breed("skaven_slave") < 40 and count_event_breed("skaven_storm_vermin_commander") < 16
 			end
@@ -8063,7 +7958,7 @@ end
 		{
 			"event_horde",
 			limit_spawners = 2,
-			composition_type = "event_small"
+			composition_type = "linesman_mixed_horde"
 		},
 		{
 			"event_horde",
@@ -8071,25 +7966,8 @@ end
 			composition_type = "onslaught_storm_vermin_medium"
 		},
 		{
-			"event_horde",
-			limit_spawners = 2,
-			composition_type = "event_stormvermin_shielders"
-		},
-		{
-			"spawn_at_raw",
-			spawner_id = "Against_the_Grain_2nd_event",
-			breed_name = "skaven_storm_vermin",
-			optional_data = {
-				spawned_func = slaanesh_buff_spawn_function,
-				size_variation_range = {
-				    1.4,
-				    1.45
-				}
-			}
-		},
-		{
 			"delay",
-			duration = 10
+			duration = 20
 		},
 		{
 			"continue_when",
@@ -8101,7 +7979,7 @@ end
 		{
 			"event_horde",
 			limit_spawners = 2,
-			composition_type = "event_small"
+			composition_type = "linesman_mixed_horde"
 		},
 		{
 			"delay",
@@ -8117,7 +7995,7 @@ end
 		{
 			"event_horde",
 			limit_spawners = 2,
-			composition_type = "event_large"
+			composition_type = "linesman_mixed_horde"
 		},
 		{
 			"delay",
@@ -8177,12 +8055,7 @@ end
 		{
 			"event_horde",
 			spawner_id = "sawmill_yard",
-			composition_type = "event_large"
-		},
-		{
-			"event_horde",
-			spawner_id = "sawmill_yard",
-			composition_type = "skaven_shields"
+			composition_type = "linesman_mixed_horde"
 		},
 		{
 			"event_horde",
@@ -8203,7 +8076,7 @@ end
 		{
 			"event_horde",
 			spawner_id = "sawmill_yard_invis",
-			composition_type = "event_small_chaos"
+			composition_type = "linesman_mixed_horde"
 		},
 		{
 			"delay",
@@ -8215,11 +8088,6 @@ end
 			condition = function (t)
 				return count_event_breed("skaven_clan_rat") < 30 and count_event_breed("skaven_clan_rat_with_shield") < 30 and count_event_breed("skaven_slave") < 40 and count_event_breed("chaos_marauder") < 30
 			end
-		},
-		{
-			"event_horde",
-			spawner_id = "sawmill_creek",
-			composition_type = "event_small"
 		},
 		{
 			"event_horde",
@@ -8268,11 +8136,6 @@ end
 		{
 			"event_horde",
 			spawner_id = "sawmill_interior",
-			composition_type = "event_large"
-		},
-		{
-			"event_horde",
-			spawner_id = "sawmill_interior",
 			composition_type = "linesman_mixed_horde"
 		},
 		{
@@ -8307,15 +8170,6 @@ end
 		},
 		{
 			"event_horde",
-			spawner_id = "sawmill_interior",
-			composition_type = "event_large"
-		},
-		{
-			"delay",
-			duration = 3
-		},
-		{
-			"event_horde",
 			spawner_id = "sawmill_interior_invis",
 			composition_type = "onslaught_skaven_double_wave"
 		},
@@ -8325,14 +8179,14 @@ end
 		},
 		{
 			"continue_when",
-			duration = 30,
+			duration = 50,
 			condition = function (t)
 				return count_event_breed("skaven_clan_rat") < 30 and count_event_breed("skaven_clan_rat_with_shield") < 30 and count_event_breed("skaven_slave") < 40
 			end
 		},
 		{
 			"event_horde",
-			composition_type = "event_medium"
+			composition_type = "linesman_mixed_horde"
 		},
 		{
 			"delay",
@@ -8361,11 +8215,11 @@ end
 		},
 		{
 			"delay",
-			duration = 10
+			duration = 20
 		},
 		{
 			"continue_when",
-			duration = 30,
+			duration = 40,
 			condition = function (t)
 				return count_event_breed("skaven_clan_rat") < 30 and count_event_breed("skaven_clan_rat_with_shield") < 30 and count_event_breed("skaven_slave") < 40
 			end
@@ -8373,7 +8227,7 @@ end
 		{
 			"event_horde",
 			limit_spawners = 2,
-			composition_type = "event_large"
+			composition_type = "linesman_mixed_horde"
 		},
 		{
 			"event_horde",
@@ -8394,7 +8248,7 @@ end
 		{
 			"event_horde",
 			limit_spawners = 2,
-			composition_type = "event_large"
+			composition_type = "linesman_mixed_horde"
 		},
 		{
 			"event_horde",
@@ -8434,17 +8288,7 @@ end
 		{
 			"event_horde",
 			spawner_id = "sawmill_yard",
-			composition_type = "event_large"
-		},
-		{
-			"event_horde",
-			spawner_id = "sawmill_yard",
-			composition_type = "event_small"
-		},
-		{
-			"event_horde",
-			spawner_id = "sawmill_yard",
-			composition_type = "skaven_shields"
+			composition_type = "linesman_mixed_horde"
 		},
 		{
 			"event_horde",

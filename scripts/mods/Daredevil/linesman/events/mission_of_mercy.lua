@@ -365,18 +365,9 @@ end
 		{
 			"spawn_at_raw",
 			spawner_id = "dwarf_interior_brewery_specials_01",
-			amount = 2,
-			breed_name = {
-				"skaven_ratling_gunner",
-			}
-		},
-		{
-			"spawn_at_raw",
-			spawner_id = "dwarf_interior_brewery_specials_02",
 			amount = 1,
 			breed_name = {
-				"skaven_poison_wind_globadier",
-				"skaven_warpfire_thrower"
+				"skaven_ratling_gunner",
 			}
 		},
 		{
@@ -414,7 +405,7 @@ end
 		{
 			"spawn_at_raw",
 			spawner_id = "dwarf_interior_brewery_specials_02",
-			amount = 2,
+			amount = 1,
 			breed_name = {
 				"skaven_warpfire_thrower",
 				"skaven_ratling_gunner"
@@ -483,7 +474,7 @@ end
 		{
 			"spawn_at_raw",
 			spawner_id = "dwarf_interior_brewery_specials_02",
-			amount = 2,
+			amount = 1,
 			breed_name = {
 				"skaven_warpfire_thrower",
 				"skaven_ratling_gunner"
@@ -506,15 +497,6 @@ end
 			amount = 2,
 			breed_name = {
 				"skaven_ratling_gunner",
-			}
-		},
-		{
-			"spawn_at_raw",
-			spawner_id = "dwarf_interior_brewery_specials_02",
-			amount = 1,
-			breed_name = {
-				"skaven_poison_wind_globadier",
-				"skaven_warpfire_thrower"
 			}
 		},
 		{
@@ -543,7 +525,7 @@ end
 		{
 			"spawn_at_raw",
 			spawner_id = "dwarf_interior_brewery_specials_01",
-			amount = 1,
+			amount = 0,
 			breed_name = {
 				"skaven_pack_master",
 				"skaven_gutter_runner"
@@ -572,7 +554,7 @@ end
 		{
 			"spawn_at_raw",
 			spawner_id = "dwarf_interior_brewery_specials_01",
-			amount = 2,
+			amount = 1,
 			breed_name = {
 				"skaven_ratling_gunner",
 			}

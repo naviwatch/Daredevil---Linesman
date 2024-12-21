@@ -49,7 +49,7 @@ local scaling_data = {
 }
 
 
-chaos_mini_patrol = {
+HordeCompositionsPacing.chaos_mini_patrol = {
 	{
 		name = "few_marauders",
 		weight = 10,
@@ -63,6 +63,43 @@ chaos_mini_patrol = {
 			{
 				1,
 				1
+			},
+			"chaos_berzerker",
+			{
+				2,
+				2
+			}
+		}
+	},
+	{
+		name = "few_clanrats",
+		weight = 2,
+		breeds = {
+			"chaos_marauder",
+			{
+				3,
+				4
+			},
+			"chaos_berzerker",
+			{
+				3,
+				4
+			}
+		}
+	},
+	{
+		name = "storm_clanrats",
+		weight = 2,
+		breeds = {
+			"chaos_marauder",
+			{
+				2,
+				3
+			},
+			"chaos_raider",
+			{
+				3,
+				4
 			}
 		}
 	}
@@ -560,15 +597,15 @@ HordeCompositionsPacing.chaos_huge_shields = {
 				3,
 				4
 			},
-			"chaos_berzerker",
-			{
-				4,
-				4	
-			},
 			"beastmen_standard_bearer",
 			{
 				1,
 				1
+			},
+			"chaos_berzerker",
+			{
+				4,
+				4	
 			},
 			"chaos_warrior",
 			1
@@ -660,6 +697,11 @@ HordeCompositionsPacing.chaos_huge_shields = {
 				14,
 				16
 			},
+			"beastmen_standard_bearer",
+			{
+				1,
+				1
+			},
 			"chaos_raider",
 			{
 				2,
@@ -674,11 +716,6 @@ HordeCompositionsPacing.chaos_huge_shields = {
 			{
 				6,
 				7
-			},
-			"beastmen_standard_bearer",
-			{
-				1,
-				1
 			},
 			"beastmen_bestigor",
 			{
@@ -845,6 +882,11 @@ HordeCompositionsPacing.chaos_huge_armor = {
 				14,
 				16
 			},
+			"beastmen_standard_bearer",
+			{
+				1,
+				1
+			},
 			"chaos_raider",
 			{
 				3,
@@ -854,11 +896,6 @@ HordeCompositionsPacing.chaos_huge_armor = {
 			{
 				4,
 				4
-			},
-			"beastmen_standard_bearer",
-			{
-				1,
-				1
 			},
 			"chaos_warrior",
 			1
@@ -948,15 +985,15 @@ HordeCompositionsPacing.chaos_huge_berzerker = {
 				4,
 				4
 			},
-			"beastmen_bestigor",
-			{
-				4,
-				4
-			},
 			"beastmen_standard_bearer",
 			{
 				1,
 				1
+			},
+			"beastmen_bestigor",
+			{
+				4,
+				4
 			},
 			"chaos_warrior",
 			1

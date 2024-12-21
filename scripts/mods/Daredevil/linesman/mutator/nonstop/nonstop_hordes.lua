@@ -304,38 +304,38 @@ HordeCompositionsPacing.large = {
 HordeCompositionsPacing.huge = {
     {
         name = "mixed",
-        weight = 6,
-        breeds = {"chaos_marauder", {9, 9,}, "chaos_fanatic", {10, 12,}, "skaven_clan_rat", {10, 12,}, "skaven_slave", {17, 18,}, "skaven_plague_monk", {1, 1,}, "chaos_berzerker", {1, 1,}, "chaos_raider", {1, 1,}, "skaven_storm_vermin_commander", {1, 1,}, "chaos_warrior", {1, 1} },
+        weight = 15,
+        breeds = {"chaos_marauder", {9, 9,}, "chaos_fanatic", {10, 12,}, "skaven_clan_rat", {10, 12,}, "skaven_slave", {17, 18,}, "skaven_plague_monk", {2, 2,}, "chaos_berzerker", {2, 2,}, "chaos_raider", {1, 1,}, "skaven_storm_vermin_commander", {2, 2,}, "chaos_warrior", {1, 1} },
     },
     {
         name = "shield_leader",	
         weight = 7, 
-        breeds = {"skaven_plague_monk", {2, 2}, "skaven_clan_rat", {10, 12,}, "skaven_slave", {17, 18,}, "skaven_storm_vermin_commander", {2, 2}, "skaven_clan_rat_with_shield", {6, 8}, "skaven_warpfire_thrower", {1, 1}, "chaos_warrior", {1, 1} }
+        breeds = {"skaven_plague_monk", {3, 3}, "skaven_clan_rat", {10, 12,}, "skaven_slave", {17, 18,}, "skaven_storm_vermin_commander", {3, 3}, "skaven_clan_rat_with_shield", {6, 8}, "skaven_warpfire_thrower", {1, 1}, "chaos_warrior", {1, 1} }
     },
     {
         name = "armored_leader",
         weight = 5,
-        breeds = {"skaven_clan_rat", {10, 12,}, "skaven_slave", {17, 18,}, "skaven_storm_vermin_commander", {3, 3}, "skaven_plague_monk", {2, 2}, "skaven_warpfire_thrower", {1, 1}}
+        breeds = {"skaven_clan_rat", {10, 12,}, "skaven_slave", {17, 18,}, "skaven_storm_vermin_commander", {4, 4}, "skaven_plague_monk", {3, 3}, "skaven_warpfire_thrower", {1, 1}}
     },
     {
         name = "berserker_leader",
         weight = 5,
-        breeds = {"skaven_plague_monk", {3, 3}, "skaven_storm_vermin_commander", {2, 2}, "skaven_clan_rat", {10, 12,}, "skaven_slave", {17, 18,}, "skaven_ratling_gunner", {1, 1}}
+        breeds = {"skaven_plague_monk", {4, 4}, "skaven_storm_vermin_commander", {3, 3}, "skaven_clan_rat", {10, 12,}, "skaven_slave", {17, 18,}, "skaven_ratling_gunner", {1, 1}}
     },
     {
         name = "chaos_shield_leader",
         weight = 7,
-		breeds = {"chaos_fanatic", {17, 20}, "chaos_marauder", {14, 16}, "chaos_raider", {2, 2}, "chaos_berzerker", {2, 2}, "chaos_marauder_with_shield", {6, 7}, "skaven_warpfire_thrower", {1, 1}}
+		breeds = {"chaos_fanatic", {17, 20}, "chaos_marauder", {14, 16}, "chaos_raider", {3, 3}, "chaos_berzerker", {3, 3}, "chaos_marauder_with_shield", {6, 7}, "skaven_warpfire_thrower", {1, 1}}
     },
     {
         name = "chaos_berserker_leader",
         weight = 4,
-        breeds = {"chaos_fanatic", {17, 20}, "chaos_marauder", {14, 16}, "chaos_raider", {2, 2}, "chaos_berzerker", {3, 3}, "skaven_ratling_gunner", {1, 1}, "chaos_warrior", 1}
+        breeds = {"chaos_fanatic", {17, 20}, "chaos_marauder", {14, 16}, "chaos_raider", {3, 3}, "chaos_berzerker", {4, 4}, "skaven_ratling_gunner", {1, 1}, "chaos_warrior", 1}
     },
     {
         name = "chaos_armored_leader",
         weight = 4,
-        breeds = {"chaos_fanatic", {17, 20}, "chaos_marauder", {14, 16}, "chaos_raider", {3, 3}, "chaos_berzerker", {2, 2}, "skaven_ratling_gunner", {1, 1}, "chaos_warrior", 1}
+        breeds = {"chaos_fanatic", {17, 20}, "chaos_marauder", {14, 16}, "chaos_raider", {4, 4}, "chaos_berzerker", {3	, 3}, "skaven_ratling_gunner", {1, 1}, "chaos_warrior", 1}
     },
     sound_settings = HordeCompositionsSoundSettings.skaven
 }

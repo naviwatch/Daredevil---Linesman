@@ -137,7 +137,7 @@ end
 
 -- Timer overrides for difficulties
 if mod.difficulty_level == 1 then -- baby
-	min_special_timer = 35
+	min_special_timer = 37
 	max_special_timer = 47
 elseif mod.difficulty_level == 2 then -- boy
 	min_special_timer = 33
@@ -152,7 +152,7 @@ SpecialsSettings.default.methods = {}
 SpecialsSettings.default.methods.specials_by_slots = {
 	max_of_same = max_of_same,
 	coordinated_attack_cooldown_multiplier = 0.4,
-	chance_of_coordinated_attack = 0,
+	chance_of_coordinated_attack = 0.3,
 	select_next_breed = "get_random_breed",
 	after_safe_zone_delay = {
 		5,
@@ -296,6 +296,7 @@ SpecialsSettings.beastmen.breeds = {
 
 SpecialsSettings.skaven_beastmen = SpecialsSettings.beastmen
 SpecialsSettings.chaos_beastmen = SpecialsSettings.beastmen
+
 
 --[[
 mod:hook(SpecialsPacing, "specials_by_slots", function(func, self, t, specials_settings, method_data, ...)

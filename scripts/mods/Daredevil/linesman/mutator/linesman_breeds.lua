@@ -126,7 +126,7 @@ Breeds.skaven_dummy_slave.size_variation_range = { 1.45, 1.45 }
 Breeds.skaven_dummy_slave.regen_pulse_interval = 10 -- 10s per regen
 Breeds.skaven_dummy_slave.regen_taken_damage_pause_time = 20 -- 20s delay until regen kicks in
 BreedActions.skaven_dummy_slave.vomit = {
-    near_vomit_distance = 100
+    near_vomit_distance = 120
 }
 
 BreedActions.skaven_dummy_slave.attack_cleave = {
@@ -302,8 +302,6 @@ BreedActions.skaven_dummy_slave.melee_sweep = {
     },
 }
 
-
-
 BreedActions.skaven_dummy_slave.downed = {
     become_downed_hp_percent = 0, -- 0.4
     downed_duration = 1, -- 7
@@ -315,8 +313,7 @@ BreedActions.skaven_dummy_slave.downed = {
     standup_anim_duration = 5,
 }
 
-Breeds.skaven_dummy_slave.size_variation_range = { 1.6, 1.6 }
-
+Breeds.skaven_dummy_slave.size_variation_range = { 1.8, 1.8 }
 
     -- Beastmen banner ranged killable
     mod:hook_origin(BeastmenStandardHealthExtension, "add_damage", function (self, attacker_unit, damage_amount, hit_zone_name, damage_type, hit_position, damage_direction, damage_source_name, hit_ragdoll_actor, damaging_unit, hit_react_type, is_critical_strike, added_dot, first_hit, total_hits, attack_type)
@@ -482,6 +479,7 @@ Breeds.skaven_dummy_slave.size_variation_range = { 1.6, 1.6 }
         Managers.state.conflict.horde_spawner:execute_custom_horde(spawn_list, true, side_id)
     end
 
+
     local spawn_trash_wave = function()
         local num_to_spawn_enhanced = 8
         local num_to_spawn = 5
@@ -598,3 +596,4 @@ Breeds.skaven_dummy_slave.size_variation_range = { 1.6, 1.6 }
     }
     BreedActions.beastmen_standard_bearer.place_standard.considerations = UtilityConsiderations.beastmen_place_standard_lines
     BeastmenStandardTemplates.healing_standard.radius = 3
+

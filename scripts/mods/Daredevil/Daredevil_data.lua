@@ -71,6 +71,13 @@ menu.options.widgets = {
 		title		  = "beta",
 		tooltip       = "beta_tooltip",
 		default_value = false
+	},
+	{
+		setting_id    = "debug",
+		type          = "checkbox",
+		title		  = "debug",
+		tooltip       = "DEBUG_STUFF",
+		default_value = false
 	}
 }
 

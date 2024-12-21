@@ -330,33 +330,280 @@ end
 	end)
 	--]]
 	
-	mod:hook_origin(HordeSpawner, "compose_blob_horde_spawn_list", function (self, composition_type)
+	mod:hook_origin(HordeSpawner, "compose_blob_horde_spawn_list", function(self, composition_type)
 		--mod:echo("Blob Horde Spawning")
 		local composition = CurrentHordeSettings.compositions_pacing[composition_type]
 		local index = LoadedDice.roll_easy(composition.loaded_probs)
 		local variant = composition[index]
 		local i = 1
 		local spawn_list = spawn_list_a
-	
+
 		table.clear_array(spawn_list_a, #spawn_list_a)
-	
+
 		local breeds = variant.breeds
-	
+
 		for i = 1, #breeds, 2 do
 			local breed_name = breeds[i]
 			local amount = breeds[i + 1]
 			local num_to_spawn = ConflictUtils.random_interval(amount)
 			local start = #spawn_list + 1
-	
-			for j = start, start + num_to_spawn - 1 do -- Subtracted 1 from num to spawn
-				spawn_list[j] = breed_name
+			local total_intensity = Managers.state.conflict.pacing:get_pacing_intensity()
+			local horde_spawner = Managers.state.conflict.horde_spawner
+			local num_paced_hordes = horde_spawner.num_paced_hordes
+
+			if mutator_plus.active then 
+				if num_paced_hordes <= 2 then -- If its the first two hordes, lower difficulty by spawning less
+					for j = start, start + num_to_spawn - 3 do
+						spawn_list[j] = breed_name
+					end
+				else
+					if total_intensity <= 30 then -- Add one because why not, triple chaos warriors is fun
+						if mod:get("debug") then 
+							mod:chat_broadcast("LOW Intensity HORDE NUMBERS")
+						end
+						for j = start, start + num_to_spawn + 1 do
+							spawn_list[j] = breed_name
+						end
+					elseif total_intensity <= 60 then
+						if mod:get("debug") then 
+							mod:chat_broadcast("MED Intensity HORDE NUMBERS")
+						end
+						for j = start, start + num_to_spawn - 1 do -- Subtract the extra one 
+							spawn_list[j] = breed_name
+						end
+					elseif total_intensity <= 100 then
+						if mod:get("debug") then 
+							mod:chat_broadcast("HI Intensity HORDE NUMBERS")
+						end
+						for j = start, start + num_to_spawn - 3 do -- Subtract three
+							spawn_list[j] = breed_name
+						end
+					end
+				end
+			else 
+				for j = start, start + num_to_spawn  do 
+					spawn_list[j] = breed_name
+				end
 			end
 		end
-	
+
 		table.shuffle(spawn_list)
 		return spawn_list, #spawn_list
-	
 	end)
+
+	-- holy mother of kino
+	mod:hook_origin(ConflictDirector, "update_horde_pacing", function(self, t, dt)
+		local pacing = self.pacing
+		local level_name = Managers.level_transition_handler:get_current_level_key()
+	
+		if pacing:horde_population() < 1 or pacing.pacing_state == "pacing_frozen" then
+			self._next_horde_time = nil
+	
+			return
+		end
+	
+		if not self._next_horde_time then
+			-- New Intensity stuff
+			if mutator_plus.active and not lb then 
+				local total_intensity = Managers.state.conflict.pacing:get_pacing_intensity()
+				if total_intensity < 30 then 
+					self._next_horde_time = t + ConflictUtils.random_interval(CurrentPacing.horde_frequency)
+					if mod:get("debug") then 
+						mod:chat_broadcast("LOW Intensity, pacing time given - 10 : " .. self._next_horde_time)
+					end
+				elseif total_intensity < 60 then
+					self._next_horde_time = t + ConflictUtils.random_interval(CurrentPacing.horde_frequency)
+					if mod:get("debug") then 
+						mod:chat_broadcast("MED Intensity, pacing time given: " .. self._next_horde_time)
+					end
+				else
+					self._next_horde_time = t + ConflictUtils.random_interval(CurrentPacing.horde_frequency) + 20
+					if mod:get("debug") then 
+						mod:chat_broadcast("HI Intensity, pacing time given + 20 : " .. self._next_horde_time)
+					end
+				end
+			else
+				self._next_horde_time = t + ConflictUtils.random_interval(CurrentPacing.horde_frequency)
+			end
+		--	print("Setting horde timers to 30-45s")
+		end
+	
+		if t > self._next_horde_time and not self.delay_horde then
+			local enemy_data = self._conflict_data_by_side[self.default_enemy_side_id]
+			local num_spawned = #enemy_data.spawned
+			local horde_failed
+			
+			if mutator_plus.active then
+				horde_failed = num_spawned > 160
+			else 
+				horde_failed = num_spawned > RecycleSettings.push_horde_if_num_alive_grunts_above
+			end
+	
+			if horde_failed then
+				local pacing_setting = CurrentPacing
+	
+				if RecycleSettings.push_horde_in_time then
+					print("HORDE: Pushing horde in time; too many units out " .. num_spawned)
+	
+					self._next_horde_time = t + 5
+	
+					pacing:annotate_graph("Pushed horde", "red")
+				else
+					mod:echo("HORDE: Skipped horde; too many units out")
+	
+					self._next_horde_time = t + ConflictUtils.random_interval(pacing_setting.horde_frequency)
+	
+					pacing:annotate_graph("Failed horde", "red")
+				end
+	
+				return
+			end
+	
+			local wave, horde_type, no_fallback, optional_wave_composition
+	
+			if script_data.ai_pacing_disabled then
+				self._next_horde_time = math.huge
+				self._multiple_horde_count = nil
+				wave = "unknown"
+				self._wave = wave
+			else
+				local set_standard_horde
+				local pacing_setting = CurrentPacing
+	
+				if pacing_setting.multiple_hordes then
+					if self._multiple_horde_count then
+						self._multiple_horde_count = self._multiple_horde_count - 1
+	
+						if self._multiple_horde_count <= 0 then
+							print("HORDE: last wave, reset to standard horde delay")
+	
+							optional_wave_composition = self._current_wave_composition
+							self._multiple_horde_count = nil
+							self._current_wave_composition = nil
+							wave = "multi_last_wave"
+
+							if mutator_plus.active and not lb then 
+								local total_intensity = Managers.state.conflict.pacing:get_pacing_intensity()
+								if total_intensity < 30 then 
+									self._next_horde_time = t + ConflictUtils.random_interval(pacing_setting.max_delay_until_next_horde) - 10
+									if mod:get("debug") then 
+										mod:chat_broadcast("LOW Intensity PACING")
+									end
+								elseif total_intensity < 60 then
+									self._next_horde_time = t + ConflictUtils.random_interval(pacing_setting.max_delay_until_next_horde)
+									if mod:get("debug") then 
+										mod:chat_broadcast("MED Intensity PACING")
+									end
+								else
+									self._next_horde_time = t + ConflictUtils.random_interval(pacing_setting.max_delay_until_next_horde) + 20
+									if mod:get("debug") then 
+										mod:chat_broadcast("HI Intensity PACING")
+									end
+								end
+							else 
+								self._next_horde_time = t + ConflictUtils.random_interval(pacing_setting.max_delay_until_next_horde)
+							end
+						else
+							local time_delay = ConflictUtils.random_interval(pacing_setting.multiple_horde_frequency)
+	
+							print("HORDE: next wave, multiple_horde_frequency -> Time delay", time_delay)
+	
+							self._next_horde_time = t + time_delay
+							wave = "multi_consecutive_wave"
+							optional_wave_composition = self._current_wave_composition
+						end
+	
+						horde_type = "multi_followup"
+						no_fallback = true
+					else
+						self._multiple_horde_count = pacing_setting.multiple_hordes - 1
+						self._next_horde_time = t + ConflictUtils.random_interval(pacing_setting.multiple_horde_frequency)
+						wave = "multi_first_wave"
+					end
+				else
+					self._next_horde_time = t + ConflictUtils.random_interval(pacing_setting.horde_frequency)
+					wave = "single_wave"
+				end
+	
+				self._wave = wave
+			end
+	
+			local horde_settings = CurrentHordeSettings
+	
+			if not horde_type then
+				if horde_settings.mix_paced_hordes then
+					-- Map modifiers 
+					if mutator_plus.active then 
+						if level_name == "dlc_termite_1" then -- Freaky Temple
+							horde_type = math.random() < horde_settings.chance_of_vector_termite_1 and "vector" or "ambush" 
+						end
+
+						im_not_gonna_sugarcoat_it, wves = PseudoRandomDistribution.flip_coin(wves, horde_settings.chance_of_vector)
+
+						if im_not_gonna_sugarcoat_it then 
+							horde_type = "vector"
+						else 
+							horde_type = "ambush"
+						end
+					else 
+						if self.horde_spawner.num_paced_hordes % 2 == 0 then
+							horde_type = math.random() < horde_settings.chance_of_vector and "vector" or "ambush"
+						else
+							horde_type = self.horde_spawner.last_paced_horde_type == "vector" and "ambush" or "vector"
+						end
+					end
+				else
+					horde_type = math.random() < horde_settings.chance_of_vector and "vector" or "ambush"
+				end
+
+				-- Check for triple ambush
+				if mutator_plus.active then 
+					if self.horde_spawner.num_paced_hordes % 2 == 0 and horde_type == "ambush" then
+						horde_type = "vector"
+					end
+				end
+	
+				if mutator_plus.active then 
+					blob_blob_blob, bbb = PseudoRandomDistribution.flip_coin(bbb, horde_settings.chance_of_vector_blob)
+
+					if bbb then 
+						horde_type = "vector_blob"
+					end 
+				else
+					if horde_type == "vector" and math.random() <= horde_settings.chance_of_vector_blob then
+						horde_type = "vector_blob"
+					end
+				end
+				
+				local composition = horde_type == "vector" and horde_settings.vector_composition or horde_type == "vector_blob" and horde_settings.vector_blob_composition or horde_settings.ambush_composition
+	
+				if wave and type(composition) == "table" then
+					optional_wave_composition = composition[math.random(#composition)]
+	
+					printf("HORDE: Chosing horde wave composition %s", optional_wave_composition)
+	
+					self._current_wave_composition = optional_wave_composition
+				end
+			elseif horde_type == "multi_followup" then
+				horde_type = self.horde_spawner.last_paced_horde_type
+			end
+	
+			print("Time for new HOOORDE!", wave)
+	
+			self._horde_ends_at = t + 120
+	
+			local extra_data = {
+				multiple_horde_count = self._multiple_horde_count,
+				horde_wave = wave,
+				optional_wave_composition = optional_wave_composition,
+			}
+			local side_id = self.default_enemy_side_id
+	
+			print("HORDE: Spawning hordes while " .. #enemy_data.spawned .. " other ai are spawned")
+			self.horde_spawner:horde(horde_type, extra_data, side_id, no_fallback)
+		end
+	end)
+
 
 	--Non-event settings and compositions
 	RecycleSettings = {
@@ -366,17 +613,34 @@ end
 		destroy_no_path_only_behind = true,
 		destroy_stuck_distance_squared = 400, --20 squared
 		max_grunts = 170,
-		push_horde_if_num_alive_grunts_above = 200,
+		push_horde_if_num_alive_grunts_above = 300,
 		push_horde_in_time = true,
 	}
+	-- im scared
+	RecycleSettings.max_grunts = 170
+	RecycleSettings.push_horde_if_num_alive_grunts_above = 300
 
 	-- Ambient density multiplied by 125% instead of 200
 	mod:hook(SpawnZoneBaker, "spawn_amount_rats", function(func, self, spawns, pack_sizes, pack_rotations, pack_members, zone_data_list, nodes, num_wanted_rats, ...)
+		local total_intensity = Managers.state.conflict.pacing:get_pacing_intensity()
+		local level_name = Managers.level_transition_handler:get_current_level_key()
+		local num_wanted_percentage
+
+		if mod.difficulty_level == 1 then
+			num_wanted_percentage = 1
+		else 
+			num_wanted_percentage = 1.25
+		end
+
+		-- Map overrides
+		if level_name == "dlc_termite_1" then 
+			num_wanted_percentage = 0.65
+		end
+
+		num_wanted_rats = math.round(num_wanted_rats * num_wanted_percentage)
 
 		if mod:get("lonk") then
 			num_wanted_rats = math.round(num_wanted_rats * 200/100)
-		else
-			num_wanted_rats = math.round(num_wanted_rats *125/100)
 		end
 
 		return func(self, spawns, pack_sizes, pack_rotations, pack_members, zone_data_list, nodes, num_wanted_rats, ...)
@@ -386,13 +650,10 @@ end
 
 		local nocw
 		local nochaos
-		local banners
 		if breed.name == "skaven_clan_rat_with_shield" then
 			nocw = {Breeds["skaven_clan_rat"]} -- To not piss people off
 		elseif breed.name == "chaos_marauder_with_shield" then
 			nochaos = {Breeds["chaos_marauder"]}
-		elseif breed.name == "beastmen_standard_bearer" then
-			banners = {Breeds["skaven_ratling_gunner"], Breeds["skaven_warpfire_thrower"]}
 		end
 
 		if nocw then
@@ -408,8 +669,8 @@ end
 		return func(self, breed, boxed_spawn_pos, boxed_spawn_rot, spawn_category, spawn_animation, spawn_type, ...)
 	end)
 
-local mean = 1.1
-local range = 0.01
+	local mean = 1.1
+	local range = 0.01
 
 	PackDistributions = {
 		periodical = {
@@ -561,12 +822,12 @@ local range = 0.01
 	PackSpawningSettings.chaos_beastmen.difficulty_overrides = nil
 
 	-- PACING
-	PacingSettings.default.peak_fade_threshold = 110
-	PacingSettings.default.peak_intensity_threshold = 120
+	PacingSettings.default.peak_fade_threshold = 5000
+	PacingSettings.default.peak_intensity_threshold = 5000
 	PacingSettings.default.sustain_peak_duration = { 5, 10 }
 	PacingSettings.default.relax_duration = { 7, 10 }                     -- 10/13
-	PacingSettings.default.horde_frequency = { 30, 45 }
-	PacingSettings.default.multiple_horde_frequency = { 6, 7 }            -- 7/8
+	PacingSettings.default.horde_frequency = { 35, 50 }
+	PacingSettings.default.multiple_horde_frequency = { 4, 5 }            -- 7/8, 6/7
 	PacingSettings.default.max_delay_until_next_horde = { 74, 76 }        -- 70/75 
 	PacingSettings.default.horde_startup_time = { 12, 15 }
 	PacingSettings.default.multiple_hordes = 3							  -- Came from Dense 
@@ -578,12 +839,12 @@ local range = 0.01
 	PacingSettings.default.difficulty_overrides = nil
 	PacingSettings.default.delay_specials_threat_value = nil
 
-	PacingSettings.chaos.peak_fade_threshold = 110
-	PacingSettings.chaos.peak_intensity_threshold = 120
+	PacingSettings.chaos.peak_fade_threshold = 5000
+	PacingSettings.chaos.peak_intensity_threshold = 5000
 	PacingSettings.chaos.sustain_peak_duration = { 5, 10 }
 	PacingSettings.chaos.relax_duration = { 10, 13 }					  -- 13/15
-	PacingSettings.chaos.horde_frequency = { 30, 45 } 					  -- Base 30/45
-	PacingSettings.chaos.multiple_horde_frequency = { 7, 10 } 			  -- Base 7/10
+	PacingSettings.chaos.horde_frequency = { 35, 50 } 					  -- Base 30/45
+	PacingSettings.chaos.multiple_horde_frequency = { 6, 7 } 			  -- Base 7/10
 	PacingSettings.chaos.max_delay_until_next_horde = { 77, 79 }		  -- 74/78
 	PacingSettings.chaos.horde_startup_time = { 13, 15 }
 	PacingSettings.chaos.multiple_hordes = 3
@@ -595,8 +856,8 @@ local range = 0.01
 	PacingSettings.chaos.difficulty_overrides = nil
 	PacingSettings.chaos.delay_specials_threat_value = nil
 
-	PacingSettings.beastmen.peak_fade_threshold = 110					  -- I'm not touching beastmen they suck
-	PacingSettings.beastmen.peak_intensity_threshold = 120
+	PacingSettings.beastmen.peak_fade_threshold = 5000					  -- I'm not touching beastmen they suck
+	PacingSettings.beastmen.peak_intensity_threshold = 5000
 	PacingSettings.beastmen.sustain_peak_duration = { 5, 10 }
 	PacingSettings.beastmen.relax_duration = { 10, 15 }
 	PacingSettings.beastmen.horde_frequency = { 30, 45 }
@@ -613,22 +874,24 @@ local range = 0.01
 	PacingSettings.beastmen.delay_specials_threat_value = nil
 
 	-- INTENSITY
-	IntensitySettings.default.intensity_added_per_percent_damage_taken = 0
-	IntensitySettings.default.decay_delay = 1
-	IntensitySettings.default.decay_per_second = 6
-	IntensitySettings.default.intensity_added_knockdown = 50
-	IntensitySettings.default.intensity_added_pounced_down = 25
+	IntensitySettings.default.intensity_add_per_percent_dmg_taken = 0.2
+	IntensitySettings.default.decay_delay = 4
+	IntensitySettings.default.decay_per_second = 3
+	IntensitySettings.default.intensity_add_knockdown = 20
+	IntensitySettings.default.intensity_add_pounced_down = 4
 	IntensitySettings.default.max_intensity = 100
-	IntensitySettings.default.intensity_added_nearby_kill = 2
+	IntensitySettings.default.intensity_add_nearby_kill = -0.2
 
 	IntensitySettings.default.difficulty_overrides = nil
 
 	-- HORDE SETTINGS
 	HordeSettings.default.chance_of_vector = 0.6 -- 0.75
 	HordeSettings.default.chance_of_vector_blob = 0.65
+	HordeSettings.default.chance_of_vector_termite_1 = 0.9
 
-	HordeSettings.chaos.chance_of_vector = 0.65 -- 0.9
+	HordeSettings.chaos.chance_of_vector = 0.8 -- 0.9
 	HordeSettings.chaos.chance_of_vector_blob = 0.9 -- 0.5
+	HordeSettings.chaos.chance_of_vector_termite_1 = 0.9
 
 	HordeSettingsBasics = {
 		ambush = {
@@ -647,7 +910,7 @@ local range = 0.01
 			main_path_dist_from_players = 30,
 			max_hidden_spawner_dist = 30,
 			max_horde_spawner_dist = 20,
-			max_spawners = 14,
+			max_spawners = 12,
 			min_hidden_spawner_dist = 0,
 			min_horde_spawner_dist = 0,
 			raw_dist_from_players = 13,
@@ -731,20 +994,6 @@ local range = 0.01
 		mod:dofile("scripts/mods/Daredevil/linesman/mutator/nonstop/nonstop_hordes")
 		mod:dofile("scripts/mods/Daredevil/linesman/mutator/nonstop/nonstop_breed_pack")
 
-		PacingSettings.beastmen.delay_horde_threat_value = {
-			cataclysm = 65, -- 80
-			cataclysm_2 = 65, -- 100
-			cataclysm_3 = 65, -- 100
-			easy = 40,
-			hard = 50,
-			harder = 60,
-			hardest = 60,
-			normal = 40,
-			versus_base = 60,
-		}
-		PacingSettings.chaos.delay_horde_threat_value = PacingSettings.beastmen.delay_horde_threat_value
-		PacingSettings.default.delay_horde_threat_value = PacingSettings.beastmen.delay_horde_threat_value
-
 		HordeSettings.default.chance_of_vector = 1
 		HordeSettings.default.chance_of_vector_blob = 1
 
@@ -759,6 +1008,8 @@ local range = 0.01
 		mod:chat_broadcast("Unending Hordes ENABLED.")
 	end
 
+	-- Custom waves
+	mod:dofile("scripts/mods/Daredevil/linesman/mutator/custom_waves")
 	-- Events
 	mod:dofile("scripts/mods/Daredevil/linesman/events/all_events")
 	-- Mission of Mercy
@@ -775,6 +1026,8 @@ local range = 0.01
 	mod:dofile("scripts/mods/Daredevil/linesman/events/grudge_served_hot")
 	-- Trail
 	mod:dofile("scripts/mods/Daredevil/linesman/events/trail")
+	-- Forsaken Temple
+	mod:dofile("scripts/mods/Daredevil/linesman/events/the_freaky_temple")
 
 	-- Override if Beta
 	if mod:get("beta") then
@@ -784,6 +1037,10 @@ local range = 0.01
 	-- CN specific events 
 	if lb then
 		mod:dofile("scripts/mods/Daredevil/linesman/events/cn_righteous")
+	end
+
+	-- Linesman specific events
+	if mod.difficulty_level == 1 then 
 	end
 
 	-- Stuff to change for specific maps
@@ -813,9 +1070,9 @@ local range = 0.01
    ]]
 
 	if mod.difficulty_level == 1 then
-		co = 0.09
+		co = 0.08
 	elseif mod.difficulty_level == 2 then
-		co = 0.124
+		co = 0.11
 	elseif mod.difficulty_level == 3 then
 		co = 0.1335 -- 0.135
 	elseif mod.difficulty_level == 3 and lb then
@@ -875,221 +1132,27 @@ local range = 0.01
 		}
 	end
 
-	GenericTerrorEvents.special_coordinated = {
-		{
-			"play_stinger",
-			stinger_name = "Play_curse_egg_of_tzeentch_alert_high"
-		},
-	}
-
-	GenericTerrorEvents.split_wave = {
-		{
-			"play_stinger",
-			stinger_name = "morris_bolt_of_change_laughter"
-		},
-	}
-	
-	GenericTerrorEvents.skaven_denial = {
-		{
-			"spawn_special",
-			amount = 2,
-			breed_name = "skaven_poison_wind_globadier"
-		},
-		{
-			"spawn_special",
-			amount = 1,
-			breed_name = "skaven_ratling_gunner"
-		},
-		{
-			"spawn_special",
-			amount = 1,
-			breed_name = "skaven_warpfire_thrower"
-		}
-	}
-	GenericTerrorEvents.skaven_mix = {
-		{
-			"spawn_special",
-			amount = 1,
-			breed_name = "skaven_poison_wind_globadier"
-		},
-		{
-			"spawn_special",
-			amount = 1,
-			breed_name = "skaven_ratling_gunner"
-		},
-		{
-			"spawn_special",
-			amount = 1,
-			breed_name = "skaven_gutter_runner"
-		},
-		{
-			"spawn_special",
-			amount = 1,
-			breed_name = "skaven_pack_master"
-		},
-	}
-	GenericTerrorEvents.chaos_denial = {
-		{
-			"spawn_special",
-			amount = 1,
-			breed_name = "chaos_vortex_sorcerer"
-		},
-		{
-			"spawn_special",
-			amount = 3,
-			breed_name = "skaven_ratling_gunner"
-		},
-	}
-	GenericTerrorEvents.skaven_spam = {
-		{
-			"spawn_special",
-			amount = 4,
-			breed_name = "skaven_warpfire_thrower"
-		},
-	}
-
-	local hehehehaw = function()
-        local num_to_spawn_enhanced = 15
-        local num_to_spawn = 10
-        local spawn_list = {}
-
-        -- PRD_trash, trash = PseudoRandomDistribution.flip_coin(trash, 0.5) -- Flip 50%
-        if director == "default" or "skaven" then
-            for i = 1, 2 do
-                table.insert(spawn_list, "skaven_storm_vermin")
-                table.insert(spawn_list, "skaven_plague_monk")
-            end
-        else
-            for i = 1, 2 do
-                table.insert(spawn_list, "chaos_raider")
-                table.insert(spawn_list, "chaos_berzerker")
-            end
-        end
-
-        local side = Managers.state.conflict.default_enemy_side_id
-        local side_id = side
-
-        Managers.state.conflict.horde_spawner:execute_custom_horde(spawn_list, false, side_id)
-    end
-
-	-- Special wave 1: Skaven denial-focused (gas/ratling/fire)
-	-- Special wave 2: Skaven mix (gas/ratling/assassin or hook)
-	-- Special wave 3: Chaos denial-focused (blight/ratling)
-	-- Spooky wave
-
-	--[[ Code explained for those who don't know how to read it
-	  The first coin flip simulates a 10% chance.
-	  a/ If the first event (PRD_special_attack) occurs, it triggers the coordinated strike:
-		- Starts the SFX for warning
-		- Broadcasts "Coordinated Attack!"
-		- Then, based on another 50% coin flip (PRD_mix), it spawns different comps (three atm)
-			a/ If PRD_mix is true, it starts a terror event named "skaven_mix".
-			b/ If PRD_mix is false, it further flips a 50% coin for PRD_denial.
-				a/ If PRD_denial is true, it starts a terror event named "skaven_denial".
-				b/ If PRD_denial is false, it starts a terror event named "chaos_denial".
-	  b/ If the first event doesn't occur, simply end the function.
-
-	All of this is to make sure that all three waves are evenly distributed and spawned, fuck me
-	]]
-
-	local sa_chances = 0.1
-
-	local special_attack = function()
-		PRD_special_attack, state = PseudoRandomDistribution.flip_coin(state, sa_chances)
-		if PRD_special_attack then
-			conflict_director:start_terror_event("special_coordinated")
-			--	mod:chat_broadcast("Coordinated Attack!")
-			PRD_mix, mix = PseudoRandomDistribution.flip_coin(mix, 0.5) -- Flip 50%
-			if PRD_mix then
-				conflict_director:start_terror_event("skaven_mix")
-			else
-				PRD_die, die = PseudoRandomDistribution.flip_coin(die, 0.5)
-				if PRD_die then
-					conflict_director:start_terror_event("skaven_spam")
-				else
-					PRD_denial, denial = PseudoRandomDistribution.flip_coin(denial, 0.5) -- Flip 50%
-					if PRD_denial then
-						conflict_director:start_terror_event("skaven_denial")
-					else
-						conflict_director:start_terror_event("chaos_denial")
-					end
-				end
-			end
-		end
-	end
-
-	-- Both directions, from Spawn Tweaks
-	mod:hook(HordeSpawner, "find_good_vector_horde_pos", function(func, self, main_target_pos, distance, check_reachable)
-		local prd_direction = 0.1
-		PRD_sandwich, sandwhich = PseudoRandomDistribution.flip_coin(sandwhich, prd_direction) -- Flip 10%, every 4th horde or 10th wave
-		if PRD_sandwich then
-			conflict_director:start_terror_event("split_wave")
-			local success, horde_spawners, found_cover_points, epicenter_pos = func(self, main_target_pos, distance,
-				check_reachable)
-
-			local o_horde_spawners = nil
-			local o_found_cover_points = nil
-
-			if success then
-				o_horde_spawners = table.clone(horde_spawners)
-				o_found_cover_points = table.clone(found_cover_points)
-
-				local new_epicenter_pos = self:get_point_on_main_path(main_target_pos, -distance, check_reachable)
-				if new_epicenter_pos then
-					local new_success, new_horde_spawners, new_found_cover_points = self:find_vector_horde_spawners(
-					new_epicenter_pos, main_target_pos)
-
-					if new_success then
-						for _, horde_spawner in ipairs(new_horde_spawners) do
-							table.insert(o_horde_spawners, horde_spawner)
-						end
-						for _, cover_point in ipairs(new_found_cover_points) do
-							table.insert(o_found_cover_points, cover_point)
-						end
-					end
-				end
-			end
-		elseif not PRD_sandwich then
-			return func(self, main_target_pos, distance, check_reachable)
-		end
-
-		return success, o_horde_spawners, o_found_cover_points, epicenter_pos
-	end)
-
-	-- Spooky special wave
-	-- This shit is ran every wave i only realized after i did this
-	mod:hook(HordeSpawner, "horde", function(func, self, horde_type, extra_data, side_id, no_fallback)
-		print("horde requested: ", horde_type)
-
-		if horde_type == "vector" then
-			self:execute_vector_horde(extra_data, side_id, no_fallback)
-			special_attack()
-		elseif horde_type == "vector_blob" then
-			self:execute_vector_blob_horde(extra_data, side_id, no_fallback)
-			special_attack()
-		else
-			self:execute_ambush_horde(extra_data, side_id, no_fallback)
-			special_attack()
-		end
-	end)
-
 	PackSpawningSettings.default.area_density_coefficient = co
 	PackSpawningSettings.skaven.area_density_coefficient = co
 	PackSpawningSettings.chaos.area_density_coefficient = co
 	PackSpawningSettings.beastmen.area_density_coefficient = co
 
 	mod.difficulty_level = mod:get("difficulty_level")
+	--[[
 	mod:hook_safe(StateLoadingRunning, "on_enter", function(self, params)
 		local level_name = Managers.level_transition_handler:get_current_level_key()
-		if mutator_plus.active == true then
+		if mutator_plus.active then
 			-- Reapply all stuff
 			if level_name == "dlc_dwarf_beacons" then 
-				mod:dofile("scripts/mods/Daredevil/linesman/map_modifiers/dwarf_beacons")
+			--	mod:dofile("scripts/mods/Daredevil/linesman/map_modifiers/dwarf_beacons")
+			elseif level_name == "dlc_termite_1" then
+				mod:dofile("scripts/mods/Daredevil/linesman/map_modifiers/freaky_temple")
 			end
 
 			mod:dofile("scripts/mods/Daredevil/linesman/mutator/linesman_triggers")
 		end
 	end)
+	]]
 
 	--[[
 	mod:hook(MissionSystem, "_update_level_progress", function(func, self, dt)
@@ -1183,7 +1246,8 @@ local range = 0.01
 	-- Sync up stuff
 	mod:network_send("rpc_enable_white_sv", "all", true)
 	mod:network_send("bob_name_enable", "all", true)
---	mod:network_send("c3dwlines", "others", true)
+	mod:network_send("giant_so_true", "all", true)
+	mod:network_send("c3dwlines", "others", true)
 --	mod:network_send("linesman_ost", "all", true)
 
 	create_weights()

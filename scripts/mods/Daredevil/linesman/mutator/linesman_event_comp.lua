@@ -837,6 +837,25 @@ local mod = get_mod("Daredevil")
 		}
 	}
 
+	HordeCompositions.mass_trash_skaven_mini = {
+		{
+			name = "plain",
+			weight = 5,
+			breeds = {
+				"skaven_slave",
+				{
+					12,
+					13
+				},
+				"skaven_clan_rat",
+				{
+					14,
+					15
+				}
+			}
+		}
+	}
+
 	HordeCompositions.mass_trash_chaos = {
 		{
 			name = "plain",
@@ -1695,6 +1714,11 @@ HordeCompositions.dn_skaven_pursuit = {
 			{
 				8,
 				13
+			},
+			"skaven_plague_monk", 
+			{
+				3,
+				4
 			}
 		}
 	},
@@ -1740,18 +1764,18 @@ HordeCompositions.dn_skaven_pursuit = {
 			},
 			"skaven_clan_rat_with_shield",
 			{
-				10,
-				14
+				7,
+				10
 			},
-			"skaven_storm_vermin",
-			{
-				1,
-				1
-			},
-			"skaven_storm_vermin_with_shield",
+			"skaven_storm_vermin_commander",
 			{
 				2,
 				2
+			},
+			"skaven_plague_monk", 
+			{
+				3,
+				4
 			}
 		}
 	}
@@ -2065,6 +2089,20 @@ HordeCompositions.dn_ratling_spam = {
 	}
 }
 
+HordeCompositions.dn_warpfire_spam = {
+	{
+		name = "warpfires",
+		weight = 10,
+		breeds = {
+			"skaven_warpfire_thrower",
+			{
+				4,
+				4
+			}
+		}
+	}
+}
+
 HordeCompositions.dn_packmaster_spam = {
 	{
 		name = "packmasterz",
@@ -2223,6 +2261,20 @@ HordeCompositions.crackaddicts = {
 			{
 				30,
 				30
+			}
+		}
+	},
+} 
+
+HordeCompositions.crackaddicts_mini = {
+	{
+		name = "drugs",
+		weight = 10,
+		breeds = {
+			"beastmen_ungor_archer",
+			{
+				15,
+				15
 			}
 		}
 	},

@@ -286,125 +286,138 @@ mod:network_register("c3dwlines", function (sender, enable)
 	c3dwlines = enable
 end)
 
---[[
 mod:hook(IngamePlayerListUI, "_update_difficulty", function (func, self)
 	local difficulty_settings = Managers.state.difficulty:get_difficulty_settings()
 	local base_difficulty_name = difficulty_settings.display_name
 	local dw = get_mod("catas")
-	local deathwish = dw:persistent_table("catas")
+	if dw ~= nil then
+		local deathwish = dw:persistent_table("catas")
 	
-	mod.difficulty_level = mod:get("difficulty_level")
+		mod.difficulty_level = mod:get("difficulty_level")
 
-	if mutator.active == true and dw ~= nil then 
-		self:_set_difficulty_name(Localize(base_difficulty_name) .. " Daredevil")
-	end 
+		if mutator.active == true and dw ~= nil then 
+			self:_set_difficulty_name(Localize(base_difficulty_name) .. " Daredevil")
+		end 
 
-	if mutator_plus.active == true and dw ~= nil then
-		if mod.difficulty_level == 1 then
-			if deathwish.active == true then
-				self:_set_difficulty_name(Localize(base_difficulty_name) .. " Linesbaby")
-			else
-				self:_set_difficulty_name(Localize(base_difficulty_name) .. " Deathbaby")
+		if mutator_plus.active == true and dw ~= nil then
+			if mod.difficulty_level == 1 then
+				if deathwish.active == true then
+					self:_set_difficulty_name(Localize(base_difficulty_name) .. " Linesbaby")
+				else
+					self:_set_difficulty_name(Localize(base_difficulty_name) .. " Deathbaby")
+				end
+			elseif mod.difficulty_level == 2 then
+				if deathwish.active == true then
+					self:_set_difficulty_name(Localize(base_difficulty_name) .. " Linesboy")
+				else
+					self:_set_difficulty_name(Localize(base_difficulty_name) .. " Deathboy")
+				end
+			elseif mod.difficulty_level == 3 then
+				if deathwish.active == true then
+					self:_set_difficulty_name("MAN")
+				else
+					self:_set_difficulty_name("Linesman")
+				end
 			end
-		elseif mod.difficulty_level == 2 then
-			if deathwish.active == true then
-				self:_set_difficulty_name(Localize(base_difficulty_name) .. " Linesboy")
-			else
-				self:_set_difficulty_name(Localize(base_difficulty_name) .. " Deathboy")
-			end
-		elseif mod.difficulty_level == 3 then
-			if deathwish.active == true then
-				self:_set_difficulty_name("MAN")
-			else
-				self:_set_difficulty_name("Linesman")
-			end
+		elseif c3dwlines then
+			self:_set_difficulty_name("MAN")
+		else
+			return func(self)
 		end
-	elseif c3dwlines then
-		self:_set_difficulty_name("MAN")
-	else
-		return func(self)
+	else 
+		if mutator_plus.active == true then
+			self:_set_difficulty_name("MAN")
+		elseif c3dwlines then
+			self:_set_difficulty_name("MAN")
+		else
+			return func(self)
+		end
 	end
 end)
 
 mod:hook(Presence, "set_presence", function(func, key, value)
-	local deathwish_enabled = get_mod("catas") and Managers.vmf.persistent_tables.catas.catas.active
 	local dw = get_mod("catas")
-	local deathwish = dw:persistent_table("catas")
-	mod.difficulty_level = mod:get("difficulty_level")
+	if dw ~= nil then
+		local deathwish = dw:persistent_table("catas")
+		mod.difficulty_level = mod:get("difficulty_level")
 
-	if value == "#presence_modded" then
-		func(key, "#presence_modded_difficulty")
-	elseif key == "difficulty" then
-		if mutator.active == true and deathwish.active == false and dw ~= nil then 
-			func(key, "Daredevil")
-		elseif mutator.active == true and deathwish.active == true and dw ~= nil then 
-			func(key, "DWREDEVIL")
-		elseif mutator_plus.active == true and deathwish.active == false and dw ~= nil then
-			if mod.difficulty_level == 1 then
-				if value == "cataclysm_3" then
-					func(key, "C3 Linesbaby")
-				elseif value == "cataclysm" then
-					func(key, "C1 Linesbaby")
-				else
-					func(key, "DELI HAM ONLY FOR 1.99")
+		if value == "#presence_modded" then
+			func(key, "#presence_modded_difficulty")
+		elseif key == "difficulty" then
+			if mutator.active == true and deathwish.active == false and dw ~= nil then 
+				func(key, "Daredevil")
+			elseif mutator.active == true and deathwish.active == true and dw ~= nil then 
+				func(key, "DWREDEVIL")
+			elseif mutator_plus.active == true and deathwish.active == false and dw ~= nil then
+				if mod.difficulty_level == 1 then
+					if value == "cataclysm_3" then
+						func(key, "C3 Linesbaby")
+					elseif value == "cataclysm" then
+						func(key, "C1 Linesbaby")
+					else
+						func(key, "DELI HAM ONLY FOR 1.99")
+					end
+				elseif mod.difficulty_level == 2 then
+					if value == "cataclysm_3" then
+						func(key, "C3 Linesboy")
+					elseif value == "cataclysm" then
+						func(key, "C1 Linesboy")
+					else
+						func(key, "DELI HAM ONLY FOR 2.99")
+					end
+				elseif mod.difficulty_level == 3 then
+					if value == "cataclysm_3" then
+						func(key, "MY LIFE FOR THE OLD WORLD [C3 Linesman]")
+					elseif value == "cataclysm" then
+						func(key, "MY LIFE FOR HELMGART [C1 Linesman]")
+					else
+						func(key, "DELI HAM ONLY FOR 3.99")
+					end
 				end
-			elseif mod.difficulty_level == 2 then
-				if value == "cataclysm_3" then
-					func(key, "C3 Linesboy")
-				elseif value == "cataclysm" then
-					func(key, "C1 Linesboy")
-				else
-					func(key, "DELI HAM ONLY FOR 2.99")
+			elseif mutator_plus.active == true and deathwish.active == true and dw ~= nil then
+				if mod.difficulty_level == 1 then
+					if value == "cataclysm_3" then
+						func(key, "C3 Deathbaby")
+					elseif value == "cataclysm" then
+						func(key, "C3 Deathbaby")
+					else
+						func(key, "DELI HAM ONLY FOR 1.99")
+					end
+				elseif mod.difficulty_level == 2 then
+					if value == "cataclysm_3" then
+						func(key, "C3 Deathboy")
+					elseif value == "cataclysm" then
+						func(key, "C3 Deathboy")
+					else
+						func(key, "DELI HAM ONLY FOR 2.99")
+					end
+				elseif mod.difficulty_level == 3 then
+					if value == "cataclysm_3" then
+						func(key, "MAN")
+					elseif value == "cataclysm" then
+						func(key, "ryan gosling")
+					else
+						func(key, "DELI HAM ONLY FOR 3.99")
+					end
 				end
-			elseif mod.difficulty_level == 3 then
-				if value == "cataclysm_3" then
-					func(key, "MY LIFE FOR THE OLD WORLD [C3 Linesman]")
-				elseif value == "cataclysm" then
-					func(key, "MY LIFE FOR HELMGART [C1 Linesman]")
-				else
-					func(key, "DELI HAM ONLY FOR 3.99")
-				end
-			end
-		elseif mutator_plus.active == true and deathwish.active == true and dw ~= nil then
-			if mod.difficulty_level == 1 then
-				if value == "cataclysm_3" then
-					func(key, "C3 Deathbaby")
-				elseif value == "cataclysm" then
-					func(key, "C3 Deathbaby")
-				else
-					func(key, "DELI HAM ONLY FOR 1.99")
-				end
-			elseif mod.difficulty_level == 2 then
-				if value == "cataclysm_3" then
-					func(key, "C3 Deathboy")
-				elseif value == "cataclysm" then
-					func(key, "C3 Deathboy")
-				else
-					func(key, "DELI HAM ONLY FOR 2.99")
-				end
-			elseif mod.difficulty_level == 3 then
-				if value == "cataclysm_3" then
-					func(key, "C3 Deathman")
-				elseif value == "cataclysm" then
-					func(key, "ryan gosling")
-				else
-					func(key, "DELI HAM ONLY FOR 3.99")
-				end
-			end
-		elseif c3dwlines then
-			if lb then
+			elseif c3dwlines then
 				func(key, "MAN")
 			else
-				func(key, "C3 Deathman")
+				return func(key, value)
 			end
 		else
-			return func(key, value)
+			func(key, value)
 		end
 	else
-	func(key, value)
-  end
+		if mutator_plus.active == true then
+			func(key, "MAN")
+		elseif c3dwlines then
+			func(key, "MAN")
+		else
+			func(key, value)
+		end
+	end
 end)
-]]
 
 --Custom spawner logic
 local custom_spawners = {}
@@ -611,7 +624,7 @@ mod:hook(Breeds.skaven_storm_vermin_warlord, "run_on_update", function (func, un
 
 			conflict_director.horde_spawner:execute_event_horde(t, terror_event_id, side_id, composition_type, limit_spawners, silent, nil, strictly_not_close_to_players)
 
-			blackboard.trickle_timer = t + 8
+			blackboard.trickle_timer = t + 35
 		else
 			blackboard.trickle_timer = t + 2
 		end
@@ -660,7 +673,7 @@ mod:hook(Breeds.skaven_storm_vermin_warlord, "run_on_update", function (func, un
 			end
 		elseif blackboard.dual_wield_timer < t and not blackboard.active_node then
 			blackboard.dual_wield_mode = true
-			blackboard.dual_wield_timer = t + 20
+			blackboard.dual_wield_timer = t + 60
 		end
 	end
 
@@ -1049,10 +1062,21 @@ mod:network_register("bob_name_disable", function (sender, enable)
 	GrudgeMarkedNames.skaven = { "name_grudge_skaven_001" }
 end)
 
+mod:network_register("giant_so_true", function (sender, enable)
+	Breeds.skaven_dummy_slave = mod.deepcopy(Breeds.chaos_troll)
+	Breeds.skaven_dummy_slave.height = 4.35
+	Breeds.skaven_dummy_slave.size_variation_range = { 1.45, 1.45 }
+end)
+
+mod:network_register("giant_so_false", function (sender, enable)
+	Breeds.skaven_dummy_slave = mod.deepcopy(Breeds.skaven_dummy_slave)
+end)
+
 mod:hook_safe("ChatManager", "_add_message_to_list", function (self, channel_id, message_sender, local_player_id, message, is_system_message, pop_chat, is_dev, message_type, link, data)
 	if message == JOIN_MESSAGE and not mutator_plus.active then
 		mod:network_send("rpc_enable_white_sv", "local", true)
 		mod:network_send("bob_name_enable", "local", true)
+		mod:network_send("giant_so_true", "local", true)
 		mod:network_send("c3dwlines", "local", true)
 --		mod:network_send("linesman_ost", "local", true)
 	end
@@ -1062,6 +1086,7 @@ mod.on_user_joined = function (player)
 	if mutator_plus.active then
 		mod:network_send("rpc_enable_white_sv", "others", true)
 		mod:network_send("bob_name_enable", "others", true)
+		mod:network_send("giant_so_true", "local", true)
 		mod:network_send("c3dwlines", "others", true)
 --		mod:network_send("linesman_ost", "others", true)
 	end
@@ -1093,7 +1118,8 @@ mutator_plus.stop = function()
 	-- Only send rpc if host disables mutator
 	mod:network_send("rpc_disable_white_sv", "all", true)
 	mod:network_send("bob_name_disable", "all", true)
---	mod:network_send("c3dwlines", "others", false)
+	mod:network_send("c3dwlines", "others", false)
+	mod:network_send("giant_so_false", "all", true)
 
 
 	---------------------
@@ -1139,9 +1165,9 @@ mutator_plus.toggle = function()
 		end
 
 		if mod:get("beta") then
-			mod:chat_broadcast("Running Linesman BETA Version 1.6.3")
+			mod:chat_broadcast("Running Linesman BETA Version 2.0.2")
 		else 
-			mod:chat_broadcast("Version 1.6.3")
+			mod:chat_broadcast("Version 2.0.2")
 		end 
 	else
 		mutator_plus.stop()
