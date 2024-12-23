@@ -271,7 +271,7 @@ end
 			"event_horde",
 			limit_spawners = 1,
 			spawner_id = "onslaught_courtyard_roof_middle",
-			composition_type = "onslaught_custom_boss_random_no_fiend"
+			composition_type = "onslaught_custom_boss_ogre"
 		},
 		{
 			"event_horde",

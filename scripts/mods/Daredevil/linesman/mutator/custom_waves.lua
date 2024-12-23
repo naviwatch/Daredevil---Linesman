@@ -91,8 +91,8 @@ GenericTerrorEvents.skaven_spam = {
 }
 
 local spawn_trash_wave = function()
-    local num_to_spawn_enhanced = 13
-    local num_to_spawn = 13
+    local num_to_spawn_enhanced = 10
+    local num_to_spawn = 10
     local spawn_list = {}
 
     -- PRD_trash, trash = PseudoRandomDistribution.flip_coin(trash, 0.5) -- Flip 50%
@@ -167,7 +167,7 @@ local custom_wave_c3 = function()
     local chances
     
     if base_difficulty_name == "difficulty_cataclysm_1" then 
-        chances = 0.25
+        chances = 0.2
     else
         chances = 0.15
     end
@@ -177,7 +177,7 @@ local custom_wave_c3 = function()
     if PRD_custom_wave then 
         Managers.state.conflict:start_terror_event("grunt_rush")
 
-        trash, eot = PseudoRandomDistribution.flip_coin(eot, 0.7)
+        trash, eot = PseudoRandomDistribution.flip_coin(eot, 1) -- ripped from apocalypse
 
         if trash then
             spawn_trash_wave()
@@ -195,25 +195,24 @@ mod:hook(HordeSpawner, "horde", function(func, self, horde_type, extra_data, sid
 
     if horde_type == "vector" then
         self:execute_vector_horde(extra_data, side_id, no_fallback)
-        if num_paced_hordes <= 2 and mutator_plus.active then 
+        if mutator_plus.active then 
             special_attack()
             custom_wave_c3()
         end
     elseif horde_type == "vector_blob" then
         self:execute_vector_blob_horde(extra_data, side_id, no_fallback)
-        if num_paced_hordes <= 2 and mutator_plus.active then 
+        if mutator_plus.active then 
             special_attack()
             custom_wave_c3()
         end
     else
         self:execute_ambush_horde(extra_data, side_id, no_fallback)
-        if num_paced_hordes <= 2 and mutator_plus.active then 
+        if mutator_plus.active then 
             special_attack()
             custom_wave_c3()
         end
     end
 end)
-
 
 local prd_direction
 if mod.difficulty_level == 3 then 

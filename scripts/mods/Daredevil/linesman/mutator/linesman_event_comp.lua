@@ -1434,6 +1434,31 @@ local mod = get_mod("Daredevil")
 		}
 	}
 
+	HordeCompositions.onslaught_custom_boss_ogre_or_troll = {
+		{
+			name = "ogre",
+			weight = 5,
+			breeds = {
+				"skaven_rat_ogre",
+				{
+					1,
+					1
+				}
+			}
+		},
+		{
+			name = "troll",
+			weight = 5,
+			breeds = {
+				"chaos_troll",
+				{
+					1,
+					1
+				}
+			}
+		}
+	}
+
 	-- Daredevil Custom
 	HordeCompositions.cheekspreader = {
 		{

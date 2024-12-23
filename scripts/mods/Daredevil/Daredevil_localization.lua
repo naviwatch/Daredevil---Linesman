@@ -1,6 +1,6 @@
 return {
 	mod_description = {
-		en = "Version 2.0.2",
+		en = "Version 2.0.4",
 	},
 	giga_specials = {
 		en = "Unrelenting Specials"
@@ -34,7 +34,7 @@ return {
 		en = "Scaling"
 	},
 	level_one = {
-		en = "Linesbaby (Onslaught+ equivalent)",
+		en = "Linesbaby",
 		zh = "等同plus"
 	},
 	level_two = {

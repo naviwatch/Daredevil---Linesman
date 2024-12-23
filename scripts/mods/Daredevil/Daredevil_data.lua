@@ -24,7 +24,7 @@ menu.options.widgets = {
 		tooltip = "difficulty_level_tooltip",
 		options = {
 			{text = "level_one", value = 1},
-			{text = "level_two", value = 2},
+		--	{text = "level_two", value = 2},
 			{text = "level_three", value = 3},
 		},
 	},

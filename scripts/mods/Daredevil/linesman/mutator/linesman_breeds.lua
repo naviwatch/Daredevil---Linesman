@@ -315,6 +315,9 @@ BreedActions.skaven_dummy_slave.downed = {
 
 Breeds.skaven_dummy_slave.size_variation_range = { 1.8, 1.8 }
 
+-- Beastmen armor changes
+Breeds.beastmen_standard_bearer.hitzone_primary_armor_categories = { head = 3, neck = 3 }
+
     -- Beastmen banner ranged killable
     mod:hook_origin(BeastmenStandardHealthExtension, "add_damage", function (self, attacker_unit, damage_amount, hit_zone_name, damage_type, hit_position, damage_direction, damage_source_name, hit_ragdoll_actor, damaging_unit, hit_react_type, is_critical_strike, added_dot, first_hit, total_hits, attack_type)
         if mutator_plus.active then

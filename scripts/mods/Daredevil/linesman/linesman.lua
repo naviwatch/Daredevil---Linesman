@@ -537,7 +537,7 @@ end
 						if level_name == "dlc_termite_1" then -- Freaky Temple
 							horde_type = math.random() < horde_settings.chance_of_vector_termite_1 and "vector" or "ambush" 
 						end
-
+						
 						im_not_gonna_sugarcoat_it, wves = PseudoRandomDistribution.flip_coin(wves, horde_settings.chance_of_vector)
 
 						if im_not_gonna_sugarcoat_it then 
@@ -558,7 +558,7 @@ end
 
 				-- Check for triple ambush
 				if mutator_plus.active then 
-					if self.horde_spawner.num_paced_hordes % 2 == 0 and horde_type == "ambush" then
+					if self.horde_spawner.num_paced_hordes % 3 == 0 and horde_type == "ambush" and self.horde_spawner.last_paced_horde_type == "ambush" then
 						horde_type = "vector"
 					end
 				end
@@ -612,13 +612,10 @@ end
 		destroy_no_path_found_time = 5,
 		destroy_no_path_only_behind = true,
 		destroy_stuck_distance_squared = 400, --20 squared
-		max_grunts = 170,
+		max_grunts = 160,
 		push_horde_if_num_alive_grunts_above = 300,
 		push_horde_in_time = true,
 	}
-	-- im scared
-	RecycleSettings.max_grunts = 170
-	RecycleSettings.push_horde_if_num_alive_grunts_above = 300
 
 	-- Ambient density multiplied by 125% instead of 200
 	mod:hook(SpawnZoneBaker, "spawn_amount_rats", function(func, self, spawns, pack_sizes, pack_rotations, pack_members, zone_data_list, nodes, num_wanted_rats, ...)
