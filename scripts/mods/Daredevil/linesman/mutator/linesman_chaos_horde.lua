@@ -19,11 +19,11 @@ local super_armor_entities = { "skaven_storm_vermin", "chaos_warrior" }
 
 local scaling_data = {
 	{
-		scale_factor = trash_scale * 1.25,
+		scale_factor = trash_scale * 1.2,
 		breeds = trash_entities,
 	},
 	{
-		scale_factor = trash_scale * 1.1,
+		scale_factor = trash_scale * 1,
 		breeds = elite_trash_entities,
 	},
 	{
@@ -258,11 +258,6 @@ HordeCompositionsPacing.chaos_large = {
 			{
 				10,
 				12
-			},
-			"beastmen_standard_bearer",
-			{
-				1,
-				1
 			},
 			"chaos_berzerker",
 			{
@@ -651,11 +646,6 @@ HordeCompositionsPacing.chaos_huge_shields = {
 				14,
 				15
 			},
-			"beastmen_standard_bearer",
-			{
-				1,
-				1
-			},
 			"chaos_raider",
 			{
 				3,
@@ -691,11 +681,6 @@ HordeCompositionsPacing.chaos_huge_shields = {
 			{
 				14,
 				16
-			},
-			"beastmen_standard_bearer",
-			{
-				1,
-				1
 			},
 			"chaos_raider",
 			{
@@ -877,11 +862,6 @@ HordeCompositionsPacing.chaos_huge_armor = {
 				14,
 				16
 			},
-			"beastmen_standard_bearer",
-			{
-				1,
-				1
-			},
 			"chaos_raider",
 			{
 				3,
@@ -1007,11 +987,6 @@ HordeCompositionsPacing.chaos_huge_berzerker = {
 			{
 				8,
 				10
-			},
-			"beastmen_standard_bearer",
-			{
-				1,
-				1
 			},
 			"chaos_berzerker",
 			{

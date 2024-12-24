@@ -485,7 +485,7 @@ end
 							if mutator_plus.active and not lb then 
 								local total_intensity = Managers.state.conflict.pacing:get_pacing_intensity()
 								if total_intensity < 30 then 
-									self._next_horde_time = t + ConflictUtils.random_interval(pacing_setting.max_delay_until_next_horde) - 10
+									self._next_horde_time = t + ConflictUtils.random_interval(pacing_setting.max_delay_until_next_horde)
 									if mod:get("debug") then 
 										mod:chat_broadcast("LOW Intensity PACING")
 									end
@@ -603,7 +603,6 @@ end
 			self.horde_spawner:horde(horde_type, extra_data, side_id, no_fallback)
 		end
 	end)
-
 
 	--Non-event settings and compositions
 	RecycleSettings = {

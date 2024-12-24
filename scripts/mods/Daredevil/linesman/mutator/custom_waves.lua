@@ -92,7 +92,7 @@ GenericTerrorEvents.skaven_spam = {
 
 local spawn_trash_wave = function()
     local num_to_spawn_enhanced = 10
-    local num_to_spawn = 10
+    local num_to_spawn = 0
     local spawn_list = {}
 
     -- PRD_trash, trash = PseudoRandomDistribution.flip_coin(trash, 0.5) -- Flip 50%
@@ -164,13 +164,7 @@ end
 local custom_wave_c3 = function()
     local difficulty_settings = Managers.state.difficulty:get_difficulty_settings()
     local base_difficulty_name = difficulty_settings.display_name
-    local chances
-    
-    if base_difficulty_name == "difficulty_cataclysm_1" then 
-        chances = 0.2
-    else
-        chances = 0.15
-    end
+    local chances = 0.12
 
     PRD_custom_wave, w = PseudoRandomDistribution.flip_coin(w, chances)
 

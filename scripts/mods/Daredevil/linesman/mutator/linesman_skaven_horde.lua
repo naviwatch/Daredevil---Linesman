@@ -19,11 +19,11 @@ local super_armor_entities = { "skaven_storm_vermin", "chaos_warrior" }
 
 local scaling_data = {
 	{
-		scale_factor = trash_scale * 1.25,
+		scale_factor = trash_scale * 1.2,
 		breeds = trash_entities,
 	},
 	{
-		scale_factor = trash_scale * 1.1,
+		scale_factor = trash_scale,
 		breeds = elite_trash_entities,
 	},
 	{
@@ -841,11 +841,6 @@ HordeCompositionsPacing.huge_armor = {
 				3,
 				5
 			},
-			"beastmen_standard_bearer",
-			{
-				1,
-				1
-			},
 			"skaven_storm_vermin_commander",
 			{
 				6,
@@ -977,11 +972,6 @@ HordeCompositionsPacing.huge_berzerker = {
 			{
 				20,
 				22
-			},
-			"beastmen_standard_bearer",
-			{
-				1,
-				1
 			},
 			"skaven_clan_rat_with_shield",
 			{
