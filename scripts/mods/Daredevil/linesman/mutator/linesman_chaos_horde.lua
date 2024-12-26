@@ -569,8 +569,8 @@ HordeCompositionsPacing.chaos_huge_shields = {
 		breeds = {
 			"chaos_fanatic",
 			{
-				20,
-				22
+				23,
+				24
 			},
 			"chaos_marauder",
 			{
@@ -602,8 +602,8 @@ HordeCompositionsPacing.chaos_huge_shields = {
 		breeds = {
 			"chaos_fanatic",
 			{
-				20,
-				22
+				24,
+				25
 			},
 			"chaos_marauder_with_shield",
 			{
@@ -638,8 +638,8 @@ HordeCompositionsPacing.chaos_huge_shields = {
 		breeds = {
 			"chaos_fanatic",
 			{
-				20,
-				22
+				24,
+				25
 			},
 			"chaos_marauder_with_shield",
 			{
@@ -674,12 +674,12 @@ HordeCompositionsPacing.chaos_huge_shields = {
 		breeds = {
 			"chaos_fanatic",
 			{
-				12,
-				14
+				23,
+				24
 			},
 			"chaos_marauder",
 			{
-				14,
+				15,
 				16
 			},
 			"chaos_raider",
@@ -710,12 +710,12 @@ HordeCompositionsPacing.chaos_huge_shields = {
 		breeds = {
 			"chaos_fanatic",
 			{
-				18,
-				20
+				23,
+				24
 			},
 			"chaos_marauder",
 			{
-				16,
+				15,
 				16
 			},
 			"chaos_raider",
@@ -785,8 +785,8 @@ HordeCompositionsPacing.chaos_huge_armor = {
 			},
 			"chaos_marauder",
 			{
-				12,
-				14
+				20,
+				22
 			},
 			"chaos_raider",
 			{
@@ -813,13 +813,13 @@ HordeCompositionsPacing.chaos_huge_armor = {
 		breeds = {
 			"chaos_fanatic",
 			{
-				20,
-				22
+				23,
+				24
 			},
 			"chaos_marauder",
 			{
-				10,
-				12
+				15,
+				16
 			},
 			"chaos_marauder_with_shield",
 			{
@@ -854,12 +854,12 @@ HordeCompositionsPacing.chaos_huge_armor = {
 		breeds = {
 			"chaos_fanatic",
 			{
-				20,
-				22
+				23,
+				24
 			},
 			"chaos_marauder",
 			{
-				14,
+				15,
 				16
 			},
 			"chaos_raider",
@@ -947,13 +947,13 @@ HordeCompositionsPacing.chaos_huge_berzerker = {
 		breeds = {
 			"chaos_fanatic",
 			{
-				10,
-				12
+				23,
+				24
 			},
 			"chaos_marauder",
 			{
-				18,
-				20
+				15,
+				16
 			},
 			"chaos_berzerker",
 			{
@@ -1013,13 +1013,13 @@ HordeCompositionsPacing.chaos_huge_berzerker = {
 		breeds = {
 			"chaos_fanatic",
 			{
-				14,
-				16
+				23,
+				24
 			},
 			"chaos_marauder",
 			{
-				18,
-				20
+				15,
+				16
 			},
 			"chaos_berzerker",
 			{
@@ -1049,13 +1049,13 @@ HordeCompositionsPacing.chaos_huge_berzerker = {
 		breeds = {
 			"chaos_fanatic",
 			{
-				14,
-				16
+				23,
+				24
 			},
 			"chaos_marauder",
 			{
-				16,
-				18
+				15,
+				16
 			},
 			"chaos_raider",
 			{

@@ -351,7 +351,7 @@ end
 			local horde_spawner = Managers.state.conflict.horde_spawner
 			local num_paced_hordes = horde_spawner.num_paced_hordes
 
-			if mutator_plus.active then 
+			if mutator_plus.active and not lb then 
 				if num_paced_hordes <= 2 then -- If its the first two hordes, lower difficulty by spawning less
 					for j = start, start + num_to_spawn - 3 do
 						spawn_list[j] = breed_name

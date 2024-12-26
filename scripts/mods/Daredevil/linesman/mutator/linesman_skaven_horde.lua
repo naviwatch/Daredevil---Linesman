@@ -745,7 +745,7 @@ HordeCompositionsPacing.huge_armor = {
 			},
 			"skaven_clan_rat",
 			{
-				12,
+				22,
 				24
 			},
 			"skaven_plague_monk",
