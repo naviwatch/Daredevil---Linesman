@@ -19,11 +19,11 @@ local super_armor_entities = { "skaven_storm_vermin", "chaos_warrior" }
 
 local scaling_data = {
 	{
-		scale_factor = trash_scale * 1.2,
+		scale_factor = trash_scale * 1.15,
 		breeds = trash_entities,
 	},
 	{
-		scale_factor = trash_scale * 1,
+		scale_factor = trash_scale,
 		breeds = elite_trash_entities,
 	},
 	{
@@ -174,158 +174,234 @@ HordeCompositionsPacing.chaos_medium = {
 }
 HordeCompositionsPacing.chaos_large = {
 	{
-		name = "plain",
+		name = "mixed",
 		weight = 7,
 		breeds = {
+			"chaos_marauder",
+			{
+				12,
+				12,
+			},
 			"chaos_fanatic",
 			{
+				16,
 				18,
-				20
 			},
-			"chaos_marauder",
-			{
-				24,
-				26
-			},
-			"chaos_raider",
-			{
-				5,
-				6
-			},
-			"chaos_berzerker",
-			{
-				4,
-				5
-			},
-			"chaos_warrior",
-			{
-				1,
-				1
-			}
-		}
-	},
-	{
-		name = "zerker",
-		weight = 7,
-		breeds = {
-			"chaos_fanatic",
-			{
-				14,
-				16
-			},
-			"chaos_marauder",
-			{
-				24,
-				26
-			},
-			"chaos_berzerker",
+			"skaven_clan_rat",
 			{
 				7,
-				8
+				9,
+			},
+			"skaven_slave",
+			{
+				11,
+				12,
+			},
+			"skaven_plague_monk",
+			{
+				2,
+				2,
+			},
+			"chaos_berzerker",
+			{
+				2,
+				2,
 			},
 			"chaos_raider",
 			{
 				2,
-				2
+				2,
 			},
-			"chaos_corruptor_sorcerer",
+			"skaven_storm_vermin_commander",
 			{
-				1,
-				1
+				2,
+				3,
 			},
-			"chaos_warrior",
-			{
-				1,
-				1
-			}
-		}
+		},
 	},
 	{
-		name = "shielders",
-		weight = 2,
+		name = "monks",
+		weight = 3,
 		breeds = {
-			"chaos_fanatic",
-			{
-				20,
-				22
-			},
 			"chaos_marauder",
 			{
-				15,
-				16
+				12,
+				12,
 			},
-			"chaos_marauder_with_shield",
+			"chaos_fanatic",
 			{
-				10,
-				12
+				16,
+				18,
+			},
+			"skaven_clan_rat",
+			{
+				7,
+				9,
+			},
+			"skaven_slave",
+			{
+				11,
+				12,
+			},
+			"skaven_plague_monk",
+			{
+				4,
+				4,
 			},
 			"chaos_berzerker",
 			{
-				6,
-				7	
-			},
-			"chaos_warrior",
-			1
-		}
-	},
-	{
-		name = "leader",
-		weight = 4,
-		breeds = {
-			"chaos_fanatic",
-			{
-				20,
-				22
-			},
-			"chaos_marauder",
-			{
-				14,
-				16
+				2,
+				2,
 			},
 			"chaos_raider",
 			{
-				5,
-				6
+				1,
+				1,
+			},
+			"skaven_storm_vermin_commander",
+			{
+				2,
+				2,
+			},
+		},
+	},
+	{
+		name = "stormvermins", 
+		weight = 3,
+		breeds = {
+			"chaos_marauder",
+			{
+				12,
+				12,
+			},
+			"chaos_fanatic",
+			{
+				16,
+				18,
+			},
+			"skaven_clan_rat",
+			{
+				7,
+				9,
+			},
+			"skaven_slave",
+			{
+				11,
+				12,
+			},
+			"skaven_plague_monk",
+			{
+				2,
+				2,
+			},
+			"chaos_berzerker",
+			{
+				1,
+				1,
+			},
+			"chaos_raider",
+			{
+				2,
+				2,
+			},
+			"skaven_storm_vermin_commander",
+			{
+				4,
+				4,
+			},
+		},
+	},
+	{
+		name = "chaoszerkers",
+		weight = 5,
+		breeds = {
+			"chaos_marauder",
+			{
+				12,
+				12,
+			},
+			"chaos_fanatic",
+			{
+				16,
+				18,
+			},
+			"skaven_clan_rat",
+			{
+				7,
+				9,
+			},
+			"skaven_slave",
+			{
+				11,
+				12,
+			},
+			"skaven_plague_monk",
+			{
+				2,
+				2,
 			},
 			"chaos_berzerker",
 			{
 				4,
-				4
-			},
-			"skaven_warpfire_thrower",
-			{
-				1,
-				1
-			},
-			"chaos_warrior",
-			1
-		}
-	},
-	{
-		name = "frenzy",
-		weight = 2,
-		breeds = {
-			"chaos_fanatic",
-			{
-				45,
-				50
+				4,
 			},
 			"chaos_raider",
 			{
-				5,
-				5
+				2,
+				2,
+			},
+			"skaven_storm_vermin_commander",
+			{
+				1,
+				1,
+			},
+		},
+	},
+	{
+		name = "maulers",
+		weight = 5,
+		breeds = {
+			"chaos_marauder",
+			{
+				9,
+				9,
+			},
+			"chaos_fanatic",
+			{
+				10,
+				12,
+			},
+			"skaven_clan_rat",
+			{
+				10,
+				12,
+			},
+			"skaven_slave",
+			{
+				17,
+				18,
+			},
+			"skaven_plague_monk",
+			{
+				1,
+				1,
 			},
 			"chaos_berzerker",
 			{
-				30,
-				30
+				2,
+				2,
 			},
-			"chaos_marauder_with_shield",
+			"chaos_raider",
 			{
-				1,
-				2
+				4,
+				4,
 			},
-		}
+			"skaven_storm_vermin_commander",
+			{
+				2,
+				2,
+			},
+		},
 	},
 	sound_settings = HordeCompositionsSoundSettings.chaos
 }

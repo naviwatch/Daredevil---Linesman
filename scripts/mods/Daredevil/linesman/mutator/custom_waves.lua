@@ -91,8 +91,8 @@ GenericTerrorEvents.skaven_spam = {
 }
 
 local spawn_trash_wave = function()
-    local num_to_spawn_enhanced = 10
-    local num_to_spawn = 0
+    local num_to_spawn_enhanced = 0
+    local num_to_spawn = 1
     local spawn_list = {}
 
     -- PRD_trash, trash = PseudoRandomDistribution.flip_coin(trash, 0.5) -- Flip 50%
@@ -102,8 +102,7 @@ local spawn_trash_wave = function()
     end
 
     for i = 1, num_to_spawn do
-        table.insert(spawn_list, "skaven_slave")
-        table.insert(spawn_list, "chaos_fanatic")
+        table.insert(spawn_list, "beastmen_standard_bearer")
     end
 
     local side = Managers.state.conflict.default_enemy_side_id
@@ -164,7 +163,7 @@ end
 local custom_wave_c3 = function()
     local difficulty_settings = Managers.state.difficulty:get_difficulty_settings()
     local base_difficulty_name = difficulty_settings.display_name
-    local chances = 0.12
+    local chances = 0.08
 
     PRD_custom_wave, w = PseudoRandomDistribution.flip_coin(w, chances)
 
@@ -176,7 +175,7 @@ local custom_wave_c3 = function()
         if trash then
             spawn_trash_wave()
             if mod:get("debug") then
-                mod:chat_broadcast("Spawning waves of trash")
+                mod:chat_broadcast("Spawning banner")
             end
         end 
     end

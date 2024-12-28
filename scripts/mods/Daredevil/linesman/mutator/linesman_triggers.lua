@@ -35,7 +35,7 @@ local mod = get_mod("Daredevil")
 		},
 		{
 			"spawn_special",
-			amount = 6,
+			amount = 8,
 			breed_name = "skaven_ratling_gunner"
 		},
 		{
@@ -51,11 +51,6 @@ local mod = get_mod("Daredevil")
 		{
 			"delay",
 			duration = 2
-		},
-		{
-			"spawn_special",
-			amount = 15,
-			breed_name = "beastmen_ungor_archer"
 		},
 	}
 
@@ -181,9 +176,18 @@ local mod = get_mod("Daredevil")
 			elseif terror_event_kind == "event_special" then -- encampment wont be used anyways so we'll override this with our own L
 				-- id love to do it how fatshark did but i cannot be assed to figure it out so therefore we're going to use a horrible workaround method
 				-- \(˚☐˚”)/ 
-				-- for some reason doing event_boss event_patrol event_special gaurantees the trigger orders like that so i guess its a good thing?
-
+				local conflict_director = Managers.state.conflict
 				terror_event_name = "darktide"
+
+				--[[
+				local override_composition_table = HordeCompositions[template.composition]
+				local current_difficulty_rank, difficulty_tweak = Managers.state.difficulty:get_difficulty_rank()
+				local composition_difficulty_rank = DifficultyTweak.converters.composition_rank(current_difficulty_rank, difficulty_tweak)
+				local override_composition = override_composition_table[composition_difficulty_rank - 1]
+
+				-- Instantly trigger an ambush horde, will lead to actual double wave if not careful
+				conflict_director.horde_spawner:execute_ambush_horde(extra_data, conflict_director.default_enemy_side_id, "fallback",  nil, override_composition)
+				]]
 
 				-- Completely steal the stuff for event_bosses to determine when and where to trigger the special spam
 				local data = terror_spawners["event_boss"]

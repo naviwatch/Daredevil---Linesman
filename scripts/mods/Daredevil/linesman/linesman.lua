@@ -351,32 +351,34 @@ end
 			local horde_spawner = Managers.state.conflict.horde_spawner
 			local num_paced_hordes = horde_spawner.num_paced_hordes
 
-			if mutator_plus.active and not lb then 
+			if mutator_plus.active then 
 				if num_paced_hordes <= 2 then -- If its the first two hordes, lower difficulty by spawning less
 					for j = start, start + num_to_spawn - 3 do
 						spawn_list[j] = breed_name
 					end
 				else
-					if total_intensity <= 30 then -- Add one because why not, triple chaos warriors is fun
-						if mod:get("debug") then 
-							mod:chat_broadcast("LOW Intensity HORDE NUMBERS")
-						end
-						for j = start, start + num_to_spawn + 1 do
-							spawn_list[j] = breed_name
-						end
-					elseif total_intensity <= 60 then
-						if mod:get("debug") then 
-							mod:chat_broadcast("MED Intensity HORDE NUMBERS")
-						end
-						for j = start, start + num_to_spawn - 1 do -- Subtract the extra one 
-							spawn_list[j] = breed_name
-						end
-					elseif total_intensity <= 100 then
-						if mod:get("debug") then 
-							mod:chat_broadcast("HI Intensity HORDE NUMBERS")
-						end
-						for j = start, start + num_to_spawn - 3 do -- Subtract three
-							spawn_list[j] = breed_name
+					if not lb then 
+						if total_intensity <= 30 then -- Add one because why not, triple chaos warriors is fun
+							if mod:get("debug") then 
+								mod:chat_broadcast("LOW Intensity HORDE NUMBERS")
+							end
+							for j = start, start + num_to_spawn + 1 do
+								spawn_list[j] = breed_name
+							end
+						elseif total_intensity <= 60 then
+							if mod:get("debug") then 
+								mod:chat_broadcast("MED Intensity HORDE NUMBERS")
+							end
+							for j = start, start + num_to_spawn - 1 do -- Subtract the extra one 
+								spawn_list[j] = breed_name
+							end
+						elseif total_intensity <= 100 then
+							if mod:get("debug") then 
+								mod:chat_broadcast("HI Intensity HORDE NUMBERS")
+							end
+							for j = start, start + num_to_spawn - 3 do -- Subtract three
+								spawn_list[j] = breed_name
+							end
 						end
 					end
 				end

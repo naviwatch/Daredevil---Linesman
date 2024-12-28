@@ -80,6 +80,11 @@ local enhancement_list = {
 	["unstaggerable"] = true
 }
 local warchief = TerrorEventUtils.generate_enhanced_breed_from_set(enhancement_list)
+local enhancement_list = {
+	["crushing"] = true,
+	["intangible"] = true,
+}
+local grain = TerrorEventUtils.generate_enhanced_breed_from_set(enhancement_list)
 
 local function create_weights()
 	local crash = nil
@@ -6609,7 +6614,7 @@ end
 			spawner_id = "canyon_ogre_boss",
 			breed_name = "skaven_dummy_clan_rat",
 			optional_data = {
-				enhancements = shield_shatter,
+				enhancements = bob,
 				max_health_modifier = 15
 			}
 		},

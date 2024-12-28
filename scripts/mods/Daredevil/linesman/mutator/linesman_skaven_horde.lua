@@ -19,7 +19,7 @@ local super_armor_entities = { "skaven_storm_vermin", "chaos_warrior" }
 
 local scaling_data = {
 	{
-		scale_factor = trash_scale * 1.2,
+		scale_factor = trash_scale * 1.15,
 		breeds = trash_entities,
 	},
 	{
@@ -183,163 +183,234 @@ HordeCompositionsPacing.medium = {
 }
 HordeCompositionsPacing.large = {
 	{
-		name = "plain",
-		weight = 5,
+		name = "mixed",
+		weight = 7,
 		breeds = {
-			"skaven_slave",
-			{
-				22,
-				28
-			},
-			"skaven_clan_rat",
-			{
-				20,
-				30
-			},
-			"skaven_plague_monk",
+			"chaos_marauder",
 			{
 				9,
-				9
+				9,
+			},
+			"chaos_fanatic",
+			{
+				10,
+				12,
+			},
+			"skaven_clan_rat",
+			{
+				10,
+				12,
+			},
+			"skaven_slave",
+			{
+				17,
+				18,
+			},
+			"skaven_plague_monk",
+			{
+				2,
+				2,
+			},
+			"chaos_berzerker",
+			{
+				2,
+				2,
+			},
+			"chaos_raider",
+			{
+				2,
+				2,
 			},
 			"skaven_storm_vermin_commander",
 			{
-				6,
-				6
+				2,
+				3,
 			},
-			"skaven_warpfire_thrower",
-			{
-				1,
-				1
-			},
-			"skaven_poison_wind_globadier",
-			{
-				0,
-				1
-			}
-		}
+		},
 	},
 	{
-		name = "shielders",
+		name = "monks",
 		weight = 5,
 		breeds = {
-			"skaven_slave",
+			"chaos_marauder",
 			{
-				22,
-				28
+				9,
+				9,
+			},
+			"chaos_fanatic",
+			{
+				10,
+				12,
 			},
 			"skaven_clan_rat",
 			{
-				20,
-				30
+				10,
+				12,
 			},
-			"skaven_clan_rat_with_shield",
+			"skaven_slave",
 			{
-				16,
-				25
+				17,
+				18,
 			},
 			"skaven_plague_monk",
 			{
-				6,
-				9
+				4,
+				4,
+			},
+			"chaos_berzerker",
+			{
+				2,
+				2,
+			},
+			"chaos_raider",
+			{
+				1,
+				1,
 			},
 			"skaven_storm_vermin_commander",
 			{
-				6,
-				6
+				2,
+				2,
 			},
-			"skaven_ratling_gunner",
-			{
-				0,
-				1
-			},
-			"skaven_pack_master",
-			{
-				0,
-				1
-			}
-		}
+		},
 	},
 	{
-		name = "leader",
-		weight = 6,
+		name = "stormvermins",
+		weight = 5,
 		breeds = {
-			"skaven_slave",
+			"chaos_marauder",
 			{
-				22,
-				28
+				9,
+				9,
+			},
+			"chaos_fanatic",
+			{
+				10,
+				12,
 			},
 			"skaven_clan_rat",
 			{
-				20,
-				30
+				10,
+				12,
 			},
-			"skaven_clan_rat_with_shield",
+			"skaven_slave",
 			{
-				16,
-				25
+				17,
+				18,
 			},
 			"skaven_plague_monk",
 			{
-				5,
-				17
+				2,
+				2,
+			},
+			"chaos_berzerker",
+			{
+				1,
+				1,
+			},
+			"chaos_raider",
+			{
+				2,
+				2,
 			},
 			"skaven_storm_vermin_commander",
 			{
-				8,
-				23
+				4,
+				4,
 			},
-			"skaven_ratling_gunner",
-			{
-				0,
-				1
-			},
-			"skaven_pack_master",
-			{
-				0,
-				1
-			}
-		}
+		},
 	},
 	{
-		name = "shielders_heavy",
-		weight = 2,
+		name = "chaoszerkers",
+		weight = 3,
 		breeds = {
-			"skaven_slave",
+			"chaos_marauder",
 			{
-				60,
-				60
+				9,
+				9,
+			},
+			"chaos_fanatic",
+			{
+				10,
+				12,
 			},
 			"skaven_clan_rat",
 			{
-				50,
-				50
+				10,
+				12,
 			},
-			"skaven_gutter_runner",
+			"skaven_slave",
+			{
+				17,
+				18,
+			},
+			"skaven_plague_monk",
+			{
+				2,
+				2,
+			},
+			"chaos_berzerker",
+			{
+				4,
+				4,
+			},
+			"chaos_raider",
+			{
+				2,
+				2,
+			},
+			"skaven_storm_vermin_commander",
 			{
 				1,
-				1
+				1,
 			},
-			"skaven_warpfire_thrower",
+		},
+	},
+	{
+		name = "maulers",
+		weight = 3,
+		breeds = {
+			"chaos_marauder",
+			{
+				9,
+				9,
+			},
+			"chaos_fanatic",
+			{
+				10,
+				12,
+			},
+			"skaven_clan_rat",
+			{
+				10,
+				12,
+			},
+			"skaven_slave",
+			{
+				17,
+				18,
+			},
+			"skaven_plague_monk",
 			{
 				1,
-				1
-			},
-			"skaven_ratling_gunner",
-			{
 				1,
-				1
 			},
-			"chaos_corruptor_sorcerer",
+			"chaos_berzerker",
 			{
-				1,
-				1
+				2,
+				2,
 			},
-			"chaos_plague_sorcerer",
+			"chaos_raider",
 			{
-				1,
-				1
-			}
-		}
+				4,
+				4,
+			},
+			"skaven_storm_vermin_commander",
+			{
+				2,
+				2,
+			},
+		},
 	},
 	sound_settings = HordeCompositionsSoundSettings.skaven
 }

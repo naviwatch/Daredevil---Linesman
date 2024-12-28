@@ -1,6 +1,6 @@
 return {
 	mod_description = {
-		en = "Version 2.0.7",
+		en = "Version 2.0.9",
 	},
 	giga_specials = {
 		en = "Unrelenting Specials"
@@ -50,7 +50,8 @@ return {
 		zh = "将大规模敌人和环境调整为其他猛攻版本，让玩家适应全新的前线体验。"
 	},
 	beta = {
-		en = "Linesman Beta"
+		en = "Linesman Beta",
+		zh = "别开别开别开别开别开别开别开别开别开别开别开别开别开别开别开别开别开别开别开别开别开别开别开别开别开别开别开别开别开别开别开别开别开别开别开别开别开别开别开别开别开别开别开"
 	},
 	beta_tooltip = {
 		en = "Beta version of Linesman, includes stuff that will be included into main (or not)"

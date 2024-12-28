@@ -2318,3 +2318,17 @@ HordeCompositions.highasf = {
 		}
 	},
 } 
+
+HordeCompositions.banners = {
+	{
+		name = "drugs",
+		weight = 10,
+		breeds = {
+			"beastmen_standard_bearer",
+			{
+				1,
+				1
+			}
+		}
+	},
+} 
