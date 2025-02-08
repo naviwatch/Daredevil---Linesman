@@ -39,7 +39,7 @@ GenericTerrorEvents.skaven_denial = {
     },
     {
         "spawn_special",
-        amount = 1,
+        amount = 2,
         breed_name = "skaven_warpfire_thrower"
     }
 }
@@ -64,6 +64,11 @@ GenericTerrorEvents.skaven_mix = {
         amount = 1,
         breed_name = "skaven_pack_master"
     },
+    {
+        "spawn_special",
+        amount = 1,
+        breed_name = "chaos_corruptor_sorcerer"
+    },
 }
 GenericTerrorEvents.chaos_denial = {
     {
@@ -73,8 +78,8 @@ GenericTerrorEvents.chaos_denial = {
     },
     {
         "spawn_special",
-        amount = 3,
-        breed_name = "skaven_ratling_gunner"
+        amount = 2,
+        breed_name = "chaos_corruptor_sorcerer"
     },
 }
 GenericTerrorEvents.skaven_spam = {
@@ -85,8 +90,20 @@ GenericTerrorEvents.skaven_spam = {
     },
     {
         "spawn_special",
-        amount = 3,
+        amount = 4,
         breed_name = "skaven_ratling_gunner"
+    },
+}
+GenericTerrorEvents.skaven_gas = {
+    {
+        "spawn_special",
+        amount = 3,
+        breed_name = "skaven_poison_wind_globadier"
+    },
+    {
+        "spawn_special",
+        amount = 1,
+        breed_name = "chaos_vortex_sorcerer"
     },
 }
 
@@ -143,7 +160,12 @@ local special_attack = function()
         --	mod:chat_broadcast("Coordinated Attack!")
         PRD_mix, mix = PseudoRandomDistribution.flip_coin(mix, 0.5) -- Flip 50%
         if PRD_mix then
-            conflict_director:start_terror_event("skaven_mix")
+            PRD_gas, gas = PseudoRandomDistribution.flip_coin(gas, 0.5)
+            if gas then 
+                conflict_director:start_terror_event("skaven_gas")
+            else
+                conflict_director:start_terror_event("skaven_mix")
+            end
         else
             PRD_die, die = PseudoRandomDistribution.flip_coin(die, 0.5)
             if PRD_die then
@@ -208,15 +230,17 @@ mod:hook(HordeSpawner, "horde", function(func, self, horde_type, extra_data, sid
 end)
 
 local prd_direction
-if mod.difficulty_level == 3 then 
-    prd_direction = 0.1
-else
+if not lb then 
+    prd_direction = 0.15
+elseif mod.difficulty_level == 1 then 
     prd_direction = 0.05
+else
+    prd_direction = 0.1
 end
 
 -- Both directions, from Spawn Tweaks
 mod:hook(HordeSpawner, "find_good_vector_horde_pos", function(func, self, main_target_pos, distance, check_reachable)
-    PRD_sandwich, sandwhich = PseudoRandomDistribution.flip_coin(sandwhich, prd_direction) -- Flip 10%, every 4th horde or 10th wave
+    PRD_sandwich, sandwhich = PseudoRandomDistribution.flip_coin(sandwhich, prd_direction) -- Flip 15%, every 3rd vector horde or 6th vector wave
     if PRD_sandwich then
         conflict_director:start_terror_event("split_wave")
         local success, horde_spawners, found_cover_points, epicenter_pos = func(self, main_target_pos, distance,
@@ -244,7 +268,7 @@ mod:hook(HordeSpawner, "find_good_vector_horde_pos", function(func, self, main_t
                 end
             end
         end
-    elseif not PRD_sandwich then
+    else
         return func(self, main_target_pos, distance, check_reachable)
     end
 

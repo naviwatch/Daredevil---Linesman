@@ -273,12 +273,12 @@ for conflict_director_name, data in pairs(ConflictDirectors) do
     end
 end
 
-local trash_weight = 1.4
+local trash_weight = 1.7	
 local shielded_trash_weight = 0.5
 local elite_weight = 1
-local shielded_elite_weight = 0.4
-local berzerker_weight = 1.2
-local super_armor_weight = 0.25
+local shielded_elite_weight = 0.25
+local berzerker_weight = 1.4
+local super_armor_weight = 0.3
 
 local trash_entities = {"beastmen_ungor","beastmen_gor","skaven_slave","skaven_clan_rat","chaos_fanatic","chaos_marauder"}
 local shielded_trash_entities = {"chaos_marauder_with_shield","skaven_clan_rat_with_shield"}
@@ -2957,7 +2957,7 @@ dense_beastmen.patrol_overrides = BreedPacks.chaos_beastmen.patrol_overrides
 BreedPacks.dense_standard = dense_standard
 BreedPacks.dense_skaven = dense_skaven
 BreedPacks.dense_chaos = dense_chaos
-BreedPacks.dense_beastmen = dense_beastmen
+BreedPacks.dense_beastmen = dense_standard -- dense_beastmen
 
 BreedPacksBySize = {}
 

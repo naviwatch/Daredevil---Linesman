@@ -65,7 +65,6 @@ menu.options.widgets = {
 		tooltip       = "lonk_tooltip",
 		default_value = false
 	},
-	--[[ Temporary removal until CN finishes the competition
 	{
 		setting_id    = "beta",
 		type          = "checkbox",
@@ -73,7 +72,6 @@ menu.options.widgets = {
 		tooltip       = "beta_tooltip",
 		default_value = false
 	},
-	]]
 	{
 		setting_id    = "debug",
 		type          = "checkbox",

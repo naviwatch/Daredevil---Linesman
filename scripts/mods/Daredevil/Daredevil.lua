@@ -1165,10 +1165,10 @@ mutator_plus.toggle = function()
 		end
 
 		if mod:get("beta") then
-			mod:chat_broadcast("Running Linesman BETA Version 2.0.9")
-			mod:chat_broadcast("这是Linesman BETA，别开！")
+			mod:chat_broadcast("Running Linesman BETA Version 2.2.0")
+			mod:chat_broadcast("这是Linesman BETA！")
 		else 
-			mod:chat_broadcast("Version 2.0.9")
+			mod:chat_broadcast("Version 2.2.0")
 		end 
 	else
 		mutator_plus.stop()
@@ -1252,3 +1252,17 @@ mod:command("darksoulseldenring", " Plays Bob Boss fight OST.", function()
     WwiseWorld.trigger_event(wwise_world, "Play_curse_egg_of_tzeentch_alert_low")
 end)  
 ]]
+
+mod:command("ihateconvo", " i HATE convocation of DECAY more like convocation of PISS", function()
+	TerrorEventBlueprints.catacombs.catacombs_load_sorcerers = {
+		{
+			"force_load_breed_package",
+			breed_name = "chaos_dummy_sorcerer"
+		},
+		{
+			"control_hordes",
+			enable = true
+		}
+	}
+	mod:chat_broadcast("FUCK convo")
+end)

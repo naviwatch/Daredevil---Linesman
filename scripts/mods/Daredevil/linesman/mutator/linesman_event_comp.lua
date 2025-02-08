@@ -2277,6 +2277,60 @@ HordeCompositions.linesman_mixed_horde = {
 	}
 }
 
+HordeCompositions.apocalypse_wave = {
+	{
+        name = "mixed",
+        weight = 7,
+        breeds = {
+            "chaos_marauder",
+            {
+                12,
+                12,
+            },
+            "chaos_fanatic",
+            {
+                13,
+                15,
+            },
+            "skaven_clan_rat",
+            {
+                13,
+                15,
+            },
+            "skaven_slave",
+            {
+                20,
+                21,
+            },
+            "skaven_plague_monk",
+            {
+                3,
+                3,
+            },
+            "chaos_berzerker",
+            {
+                3,
+                3,
+            },
+            "chaos_raider",
+            {
+                3,
+                3,
+            },
+            "skaven_storm_vermin_commander",
+            {
+                3,
+                4,
+            },
+            "chaos_warrior", 
+            {
+                1,
+                1
+            }
+        },
+    },
+}
+
 HordeCompositions.crackaddicts = {
 	{
 		name = "drugs",

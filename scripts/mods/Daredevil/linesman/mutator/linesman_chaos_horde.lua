@@ -19,7 +19,7 @@ local super_armor_entities = { "skaven_storm_vermin", "chaos_warrior" }
 
 local scaling_data = {
 	{
-		scale_factor = trash_scale * 1.15,
+		scale_factor = trash_scale,
 		breeds = trash_entities,
 	},
 	{
@@ -39,7 +39,7 @@ local scaling_data = {
 		breeds = shield_elite_entities,
 	},
 	{
-		scale_factor = berzerker_scale * mod.gain,
+		scale_factor = berzerker_scale * mod.gain * 1.1,
 		breeds = berzerker_entities,
 	},
 	{
@@ -66,8 +66,8 @@ HordeCompositionsPacing.chaos_mini_patrol = {
 			},
 			"chaos_berzerker",
 			{
-				2,
-				2
+				1,
+				1
 			}
 		}
 	},
@@ -82,8 +82,8 @@ HordeCompositionsPacing.chaos_mini_patrol = {
 			},
 			"chaos_berzerker",
 			{
-				3,
-				4
+				2,
+				2
 			}
 		}
 	},
@@ -98,8 +98,8 @@ HordeCompositionsPacing.chaos_mini_patrol = {
 			},
 			"chaos_raider",
 			{
-				3,
-				4
+				2,
+				2
 			}
 		}
 	}
@@ -415,6 +415,11 @@ HordeCompositionsPacing.chaos_huge = {
 				12,
 				12,
 			},
+			"chaos_raider",
+			{
+				2,
+				2,
+			},
 			"chaos_fanatic",
 			{
 				16,
@@ -424,11 +429,6 @@ HordeCompositionsPacing.chaos_huge = {
 			{
 				7,
 				9,
-			},
-			"skaven_slave",
-			{
-				11,
-				12,
 			},
 			"skaven_plague_monk",
 			{
@@ -440,10 +440,10 @@ HordeCompositionsPacing.chaos_huge = {
 				2,
 				2,
 			},
-			"chaos_raider",
+			"skaven_slave",
 			{
-				2,
-				2,
+				11,
+				12,
 			},
 			"skaven_storm_vermin_commander",
 			{
@@ -502,11 +502,6 @@ HordeCompositionsPacing.chaos_huge = {
 		name = "stormvermins", 
 		weight = 3,
 		breeds = {
-			"chaos_marauder",
-			{
-				12,
-				12,
-			},
 			"chaos_fanatic",
 			{
 				16,
@@ -517,22 +512,22 @@ HordeCompositionsPacing.chaos_huge = {
 				7,
 				9,
 			},
+			"chaos_raider",
+			{
+				2,
+				2,
+			},
 			"skaven_slave",
 			{
 				11,
 				12,
-			},
-			"skaven_plague_monk",
-			{
-				2,
-				2,
 			},
 			"chaos_berzerker",
 			{
 				1,
 				1,
 			},
-			"chaos_raider",
+			"skaven_plague_monk",
 			{
 				2,
 				2,
@@ -542,7 +537,12 @@ HordeCompositionsPacing.chaos_huge = {
 				4,
 				4,
 			},
-		},
+			"chaos_marauder",
+			{
+				12,
+				12,
+			},
+		}
 	},
 	{
 		name = "chaoszerkers",
@@ -575,8 +575,13 @@ HordeCompositionsPacing.chaos_huge = {
 			},
 			"chaos_berzerker",
 			{
-				4,
-				4,
+				3,
+				3,
+			},
+			"beastmen_bestigor",
+			{
+				1,
+				1
 			},
 			"chaos_raider",
 			{
@@ -594,17 +599,32 @@ HordeCompositionsPacing.chaos_huge = {
 		name = "maulers",
 		weight = 5,
 		breeds = {
+			"skaven_plague_monk",
+			{
+				1,
+				1,
+			},
+			"chaos_raider",
+			{
+				4,
+				4,
+			},
+			"skaven_clan_rat",
+			{
+				10,
+				12,
+			},
 			"chaos_marauder",
 			{
 				9,
 				9,
 			},
-			"chaos_fanatic",
+			"skaven_storm_vermin_commander",
 			{
-				10,
-				12,
+				2,
+				2,
 			},
-			"skaven_clan_rat",
+			"chaos_fanatic",
 			{
 				10,
 				12,
@@ -614,27 +634,12 @@ HordeCompositionsPacing.chaos_huge = {
 				17,
 				18,
 			},
-			"skaven_plague_monk",
-			{
-				1,
-				1,
-			},
 			"chaos_berzerker",
 			{
 				2,
 				2,
 			},
-			"chaos_raider",
-			{
-				4,
-				4,
-			},
-			"skaven_storm_vermin_commander",
-			{
-				2,
-				2,
-			},
-		},
+		}
 	},
 	sound_settings = HordeCompositionsSoundSettings.chaos
 }
@@ -643,6 +648,11 @@ HordeCompositionsPacing.chaos_huge_shields = {
 		name = "plain",
 		weight = 7,
 		breeds = {
+			"beastmen_bestigor",
+			{
+				3,
+				4
+			},
 			"chaos_fanatic",
 			{
 				23,
@@ -658,11 +668,6 @@ HordeCompositionsPacing.chaos_huge_shields = {
 				10,
 				12
 			},
-			"beastmen_bestigor",
-			{
-				3,
-				4
-			},
 			"chaos_berzerker",
 			{
 				4,
@@ -676,12 +681,17 @@ HordeCompositionsPacing.chaos_huge_shields = {
 		name = "zerker",
 		weight = 5,
 		breeds = {
+			"chaos_raider",
+			{
+				3,
+				4
+			},
 			"chaos_fanatic",
 			{
 				24,
 				25
 			},
-			"chaos_marauder_with_shield",
+			"chaos_marauder",
 			{
 				8,
 				10
@@ -689,11 +699,6 @@ HordeCompositionsPacing.chaos_huge_shields = {
 			"beastmen_bestigor",
 			{
 				4,
-				4
-			},
-			"chaos_raider",
-			{
-				3,
 				4
 			},
 			"skaven_ratling_gunner",
@@ -717,7 +722,7 @@ HordeCompositionsPacing.chaos_huge_shields = {
 				24,
 				25
 			},
-			"chaos_marauder_with_shield",
+			"chaos_marauder",
 			{
 				14,
 				15
@@ -782,7 +787,7 @@ HordeCompositionsPacing.chaos_huge_shields = {
 	},
 	{
 		name = "frenzy",
-		weight = 2,
+		weight = 5,
 		breeds = {
 			"chaos_fanatic",
 			{
@@ -796,8 +801,13 @@ HordeCompositionsPacing.chaos_huge_shields = {
 			},
 			"chaos_raider",
 			{
-				3,
-				3
+				1,
+				1
+			},
+			"beastmen_bestigor",
+			{
+				2,
+				2
 			},
 			"chaos_berzerker",
 			{
@@ -818,6 +828,11 @@ HordeCompositionsPacing.chaos_huge_armor = {
 		name = "plain",
 		weight = 7,
 		breeds = {
+			"beastmen_bestigor",
+			{
+				2,
+				2
+			},
 			"chaos_fanatic",
 			{
 				20,
@@ -843,17 +858,17 @@ HordeCompositionsPacing.chaos_huge_armor = {
 				1,
 				1
 			},
-			"beastmen_bestigor",
-			{
-				2,
-				2
-			},
 		}
 	},
 	{
 		name = "zerker",
 		weight = 5,
 		breeds = {
+			"chaos_raider",
+			{
+				5,
+				6
+			},
 			"chaos_fanatic",
 			{
 				20,
@@ -863,11 +878,6 @@ HordeCompositionsPacing.chaos_huge_armor = {
 			{
 				20,
 				22
-			},
-			"chaos_raider",
-			{
-				5,
-				6
 			},
 			"beastmen_bestigor",
 			{
@@ -887,10 +897,20 @@ HordeCompositionsPacing.chaos_huge_armor = {
 		name = "shielders",
 		weight = 4,
 		breeds = {
+			"chaos_warrior",
+			{
+				1,
+				1
+			},
 			"chaos_fanatic",
 			{
 				23,
 				24
+			},
+			"chaos_berzerker",
+			{
+				3,
+				3
 			},
 			"chaos_marauder",
 			{
@@ -906,16 +926,6 @@ HordeCompositionsPacing.chaos_huge_armor = {
 			{
 				4,
 				4
-			},
-			"chaos_berzerker",
-			{
-				3,
-				3
-			},
-			"chaos_warrior",
-			{
-				1,
-				1
 			},
 			"skaven_ratling_gunner",
 			{
@@ -940,8 +950,8 @@ HordeCompositionsPacing.chaos_huge_armor = {
 			},
 			"chaos_raider",
 			{
-				3,
-				4
+				1,
+				1
 			},
 			"chaos_berzerker",
 			{
@@ -949,7 +959,7 @@ HordeCompositionsPacing.chaos_huge_armor = {
 				4
 			},
 			"chaos_warrior",
-			1
+			3
 		}
 	},
 	{
@@ -958,8 +968,8 @@ HordeCompositionsPacing.chaos_huge_armor = {
 		breeds = {
 			"chaos_fanatic",
 			{
-				12,
-				14
+				18,
+				20
 			},
 			"chaos_marauder",
 			{
@@ -983,6 +993,27 @@ HordeCompositionsPacing.chaos_huge_armor = {
 			}
 		}
 	},
+	{
+		name = "guh",
+		weight = 2,
+		breeds = {
+			"chaos_fanatic",
+			{
+				18,
+				20
+			},
+			"chaos_marauder",
+			{
+				20,
+				30
+			},
+			"chaos_berzerker",
+			{
+				10,
+				10
+			}
+		}
+	},
 	sound_settings = HordeCompositionsSoundSettings.chaos
 }
 HordeCompositionsPacing.chaos_huge_berzerker = {
@@ -995,6 +1026,11 @@ HordeCompositionsPacing.chaos_huge_berzerker = {
 				14,
 				16
 			},
+			"beastmen_bestigor",
+			{
+				2,
+				2
+			},
 			"chaos_marauder",
 			{
 				24,
@@ -1004,11 +1040,6 @@ HordeCompositionsPacing.chaos_huge_berzerker = {
 			{
 				6,
 				7
-			},
-			"beastmen_bestigor",
-			{
-				2,
-				2
 			},
 			"chaos_corruptor_sorcerer",
 			{
@@ -1155,6 +1186,27 @@ HordeCompositionsPacing.chaos_huge_berzerker = {
 			},
 			"chaos_warrior",
 			1
+		}
+	},
+	{
+		name = "guh",
+		weight = 2,
+		breeds = {
+			"chaos_fanatic",
+			{
+				18,
+				20
+			},
+			"chaos_marauder",
+			{
+				20,
+				30
+			},
+			"chaos_raider",
+			{
+				10,
+				10
+			}
 		}
 	},
 	sound_settings = HordeCompositionsSoundSettings.chaos

@@ -216,34 +216,8 @@ end
 
 	-- Pacing
 	-- mutator_plus.OriginalBreedPacks = table.clone(BreedPacks)
-	mutator_plus.OriginalConflictDirectors = table.clone(ConflictDirectors)
-	mutator_plus.OriginalDifficultySettings = table.clone(DifficultySettings)
 	mutator_plus.OriginalBreeds = table.clone(Breeds)
-	mutator_plus.OriginalBreedPacks = table.clone(BreedPacks)
-	mutator_plus.OriginalBreedActions = table.clone(BreedActions)
-	mutator_plus.OriginalBreedPacksBySize = table.clone(BreedPacksBySize)
-	mutator_plus.OriginalPackSpawningSettings = table.clone(PackSpawningSettings)
-	mutator_plus.OriginalPacingSettings = table.clone(PacingSettings)
-	mutator_plus.OriginalRecycleSettings  = table.clone(RecycleSettings)
-	mutator_plus.OriginalHordeCompositions = table.clone(HordeCompositions)
-	mutator_plus.OriginalHordeCompositionsPacing = table.clone(HordeCompositionsPacing)
-	mutator_plus.OriginalSpecialsSettings = table.clone(SpecialsSettings)
 	--mutator_plus.OriginalCurrentSpecialsSettings = table.clone(CurrentSpecialsSettings)
-
-	-- Events and Triggers
-	mutator_plus.OriginalGenericTerrorEvents = table.clone(GenericTerrorEvents)
-	mutator_plus.OriginalTerrorEventBlueprints = table.clone(TerrorEventBlueprints)
-	mutator_plus.OriginalBossSettings = table.clone(BossSettings)
-	mutator_plus.OriginalPatrolFormationSettings = table.clone(PatrolFormationSettings)
-	mutator_plus.OriginalBob = table.clone(Breeds.skaven_dummy_clan_rat)
-	mutator_plus.OriginalGiant = table.clone(Breeds.skaven_dummy_slave)
-
-	mutator_plus.OriginalThreatValue = {}
-	for name, breed in pairs(Breeds) do
-		if breed.threat_value then
-			mutator_plus.OriginalThreatValue[name] = breed.threat_value
-		end
-	end
 
 	-- Load custom breeds
 	mod:dofile("scripts/mods/Daredevil/linesman/mutator/linesman_breeds")
@@ -329,7 +303,6 @@ end
 		return sum, sum_a, sum_b
 	end)
 	--]]
-	
 	mod:hook_origin(HordeSpawner, "compose_blob_horde_spawn_list", function(self, composition_type)
 		--mod:echo("Blob Horde Spawning")
 		local composition = CurrentHordeSettings.compositions_pacing[composition_type]
@@ -357,15 +330,15 @@ end
 						spawn_list[j] = breed_name
 					end
 				else
-					if not lb then 
-						if total_intensity <= 30 then -- Add one because why not, triple chaos warriors is fun
+					if not lb then -- if TBT then apply intensity system
+						if total_intensity <= 30 then 
 							if mod:get("debug") then 
 								mod:chat_broadcast("LOW Intensity HORDE NUMBERS")
 							end
-							for j = start, start + num_to_spawn + 1 do
+							for j = start, start + num_to_spawn - 1 do
 								spawn_list[j] = breed_name
 							end
-						elseif total_intensity <= 60 then
+						elseif total_intensity <= 70 then
 							if mod:get("debug") then 
 								mod:chat_broadcast("MED Intensity HORDE NUMBERS")
 							end
@@ -376,14 +349,18 @@ end
 							if mod:get("debug") then 
 								mod:chat_broadcast("HI Intensity HORDE NUMBERS")
 							end
-							for j = start, start + num_to_spawn - 3 do -- Subtract three
+							for j = start, start + num_to_spawn - 1 do -- Subtract two
 								spawn_list[j] = breed_name
 							end
+						end
+					else -- if LB then don't and use defualt 
+						for j = start, start + num_to_spawn - 1 do 
+							spawn_list[j] = breed_name
 						end
 					end
 				end
 			else 
-				for j = start, start + num_to_spawn  do 
+				for j = start, start + num_to_spawn - 1 do 
 					spawn_list[j] = breed_name
 				end
 			end
@@ -419,7 +396,7 @@ end
 						mod:chat_broadcast("MED Intensity, pacing time given: " .. self._next_horde_time)
 					end
 				else
-					self._next_horde_time = t + ConflictUtils.random_interval(CurrentPacing.horde_frequency) + 20
+					self._next_horde_time = t + ConflictUtils.random_interval(CurrentPacing.horde_frequency) + 5
 					if mod:get("debug") then 
 						mod:chat_broadcast("HI Intensity, pacing time given + 20 : " .. self._next_horde_time)
 					end
@@ -497,7 +474,7 @@ end
 										mod:chat_broadcast("MED Intensity PACING")
 									end
 								else
-									self._next_horde_time = t + ConflictUtils.random_interval(pacing_setting.max_delay_until_next_horde) + 20
+									self._next_horde_time = t + ConflictUtils.random_interval(pacing_setting.max_delay_until_next_horde)
 									if mod:get("debug") then 
 										mod:chat_broadcast("HI Intensity PACING")
 									end
@@ -558,19 +535,27 @@ end
 					horde_type = math.random() < horde_settings.chance_of_vector and "vector" or "ambush"
 				end
 
+				--[[
 				-- Check for triple ambush
 				if mutator_plus.active then 
 					if self.horde_spawner.num_paced_hordes % 3 == 0 and horde_type == "ambush" and self.horde_spawner.last_paced_horde_type == "ambush" then
 						horde_type = "vector"
 					end
 				end
+				]]
 	
 				if mutator_plus.active then 
+					--[[
 					blob_blob_blob, bbb = PseudoRandomDistribution.flip_coin(bbb, horde_settings.chance_of_vector_blob)
 
 					if bbb then 
 						horde_type = "vector_blob"
 					end 
+					]]
+
+					if horde_type == "vector" and math.random() <= horde_settings.chance_of_vector_blob then
+						horde_type = "vector_blob"
+					end
 				else
 					if horde_type == "vector" and math.random() <= horde_settings.chance_of_vector_blob then
 						horde_type = "vector_blob"
@@ -626,8 +611,8 @@ end
 
 		if mod.difficulty_level == 1 then
 			num_wanted_percentage = 1
-		else 
-			num_wanted_percentage = 1.25
+		else
+			num_wanted_percentage = 1.3
 		end
 
 		-- Map overrides
@@ -645,13 +630,17 @@ end
 	end)
 
 	mod:hook(ConflictDirector, "spawn_queued_unit", function(func, self, breed, boxed_spawn_pos, boxed_spawn_rot, spawn_category, spawn_animation, spawn_type, ...)
-
+		-- This all could be better but idc
+		local level_name = Managers.level_transition_handler:get_current_level_key()
 		local nocw
 		local nochaos
+		local pit 
 		if breed.name == "skaven_clan_rat_with_shield" then
 			nocw = {Breeds["skaven_clan_rat"]} -- To not piss people off
 		elseif breed.name == "chaos_marauder_with_shield" then
 			nochaos = {Breeds["chaos_marauder"]}
+		elseif level_name == "skaven_stronghold" and breed.name == "skaven_storm_vermin_commander" then 
+			pit = {Breeds["skaven_plague_monk"]}
 		end
 
 		if nocw then
@@ -803,6 +792,36 @@ end
 			}
 		}
 	}
+
+	PackSpawningSettings.beastmen.roaming_set = {
+		breed_packs = "dense_beastmen",
+		breed_packs_peeks_overide_chance = {
+			0.3,
+			0.4
+		},
+		breed_packs_override = {
+			{
+				"marauders_and_warriors",
+				4,
+				0.03
+			},
+			{
+				"marauders_shields",
+				2,
+				0.03
+			},
+			{
+				"marauders_elites",
+				2,
+				0.03
+			},
+			{
+				"marauders_berzerkers",
+				2,
+				0.03
+			}
+		}
+	}
 	
 
 	-- Make light variations disappear
@@ -818,6 +837,98 @@ end
 	PackSpawningSettings.beastmen.difficulty_overrides = nil
 	PackSpawningSettings.skaven_beastmen.difficulty_overrides = nil
 	PackSpawningSettings.chaos_beastmen.difficulty_overrides = nil
+
+	-- Stuff to change for specific maps
+	local co
+	local new_co
+
+	--[[
+	if mod:get("scaling") then
+		local players = Managers.player:human_and_bot_players()
+	   
+	   if mod.difficulty_level == 1 then 
+		   co = 0.05
+	   elseif mod.difficulty_level == 2 then 
+		   co = 0.084
+	   elseif mod.difficulty_level == 3 then 
+		   co = 0.094
+	   elseif mod.difficulty_level == 3 and lb then
+		   co = 0.0938
+	   end
+
+	   new_co = co 
+
+	   for _, player in pairs(players) do
+		   new_co = new_co + 0.01
+	   end
+   end
+   ]]
+
+	if mod.difficulty_level == 1 then
+		co = 0.08
+	elseif mod.difficulty_level == 2 then
+		co = 0.11
+	elseif mod.difficulty_level == 3 then
+		co = 0.134 -- 0.1335
+	end
+
+	if mod:get("lonk") then
+		co = 0.134
+
+		HordeSettings.default.chance_of_vector = 0.1
+		HordeSettings.default.chance_of_vector_blob = 0.65
+
+		HordeSettings.chaos.chance_of_vector = 0.1
+		HordeSettings.chaos.chance_of_vector_blob = 0.65
+
+		HordeWaveCompositions = {
+			skaven_huge = {"huge",},
+			skaven_huge_shields = {"huge", "huge_shields",},
+			skaven_huge_armor = {"huge", "huge_armor",},
+			skaven_huge_berzerker = {"huge", "huge_berzerker",},
+			chaos_huge = {"chaos_huge",},
+			chaos_huge_shields = {"chaos_huge", "chaos_huge_shields",},
+			chaos_huge_armor = {"chaos_huge", "chaos_huge_armor",},
+			chaos_huge_berzerker = {"chaos_huge", "chaos_huge_berzerker",},
+		}
+
+		HordeSettingsBasics = {
+			ambush = {
+				max_spawners = math.huge,
+				max_size,
+				max_hidden_spawner_dist = 40,
+				max_horde_spawner_dist = 35,
+				min_hidden_spawner_dist = 5,
+				min_horde_spawner_dist = 1,
+				min_spawners = math.huge,
+				start_delay = 3.45,
+			},
+			vector = {
+				max_size,
+				main_path_chance_spawning_ahead = 0.67,
+				main_path_dist_from_players = 30,
+				max_hidden_spawner_dist = 30,
+				max_horde_spawner_dist = 20,
+				max_spawners = math.huge,
+				min_hidden_spawner_dist = 0,
+				min_horde_spawner_dist = 0,
+				raw_dist_from_players = 13,
+				start_delay = 4,
+			},
+			vector_blob = {
+				max_size,
+				main_path_chance_spawning_ahead = 0.67,
+				main_path_dist_from_players = 60,
+				raw_dist_from_players = 13,
+				start_delay = 1,
+			},
+		}
+	end
+
+	PackSpawningSettings.default.area_density_coefficient = co
+	PackSpawningSettings.skaven.area_density_coefficient = co
+	PackSpawningSettings.chaos.area_density_coefficient = co
+	PackSpawningSettings.beastmen.area_density_coefficient = co
 
 	-- PACING
 	PacingSettings.default.peak_fade_threshold = 5000
@@ -872,11 +983,11 @@ end
 	PacingSettings.beastmen.delay_specials_threat_value = nil
 
 	-- INTENSITY
-	IntensitySettings.default.intensity_add_per_percent_dmg_taken = 0.2
+	IntensitySettings.default.intensity_add_per_percent_dmg_taken = 0.2	
 	IntensitySettings.default.decay_delay = 4
 	IntensitySettings.default.decay_per_second = 3
-	IntensitySettings.default.intensity_add_knockdown = 20
-	IntensitySettings.default.intensity_add_pounced_down = 4
+	IntensitySettings.default.intensity_add_knockdown = 50
+	IntensitySettings.default.intensity_add_pounced_down = 25
 	IntensitySettings.default.max_intensity = 100
 	IntensitySettings.default.intensity_add_nearby_kill = -0.2
 
@@ -884,19 +995,19 @@ end
 
 	-- HORDE SETTINGS
 	HordeSettings.default.chance_of_vector = 0.6 -- 0.75
-	HordeSettings.default.chance_of_vector_blob = 0.65
+	HordeSettings.default.chance_of_vector_blob = 0.65	
 	HordeSettings.default.chance_of_vector_termite_1 = 0.9
 
-	HordeSettings.chaos.chance_of_vector = 0.8 -- 0.9
-	HordeSettings.chaos.chance_of_vector_blob = 0.9 -- 0.5
+	HordeSettings.chaos.chance_of_vector = 0.6 -- 0.9
+	HordeSettings.chaos.chance_of_vector_blob = 0.65 -- 0.5
 	HordeSettings.chaos.chance_of_vector_termite_1 = 0.9
 
 	HordeSettingsBasics = {
 		ambush = {
 			max_spawners = math.huge,
 			max_size,
-			max_hidden_spawner_dist = 40,
-			max_horde_spawner_dist = 35,
+			max_hidden_spawner_dist = 30, -- 40
+			max_horde_spawner_dist = 20, -- 35
 			min_hidden_spawner_dist = 5,
 			min_horde_spawner_dist = 1,
 			min_spawners = math.huge,
@@ -908,7 +1019,7 @@ end
 			main_path_dist_from_players = 30,
 			max_hidden_spawner_dist = 30,
 			max_horde_spawner_dist = 20,
-			max_spawners = 12,
+			max_spawners = 15,
 			min_hidden_spawner_dist = 0,
 			min_horde_spawner_dist = 0,
 			raw_dist_from_players = 13,
@@ -916,7 +1027,7 @@ end
 		},
 		vector_blob = {
 			max_size,
-			main_path_chance_spawning_ahead = 0.67,
+			main_path_chance_spawning_ahead = 0.5,
 			main_path_dist_from_players = 60,
 			raw_dist_from_players = 13,
 			start_delay = 1,
@@ -1006,6 +1117,25 @@ end
 		mod:chat_broadcast("Unending Hordes ENABLED.")
 	end
 
+	-- Beastmen mixed faction waves since i didnt make them just for dark omens
+	HordeSettings.beastmen.difficulty_overrides = {
+		cataclysm = {
+			ambush_composition = {"chaos_huge", "chaos_huge_shields", "chaos_huge_armor", "chaos_huge_berzerker", "huge", "huge_armor", "huge_shields", "huge_berzerker"},
+			vector_composition = {"chaos_huge", "chaos_huge_shields", "chaos_huge_armor", "chaos_huge_berzerker", "huge", "huge_armor", "huge_shields", "huge_berzerker"},
+			vector_blob_composition = {"chaos_huge", "chaos_huge_shields", "chaos_huge_armor", "chaos_huge_berzerker", "huge", "huge_armor", "huge_shields", "huge_berzerker"},
+		},
+		cataclysm_2 = {
+			ambush_composition = {"chaos_huge", "chaos_huge_shields", "chaos_huge_armor", "chaos_huge_berzerker", "huge", "huge_armor", "huge_shields", "huge_berzerker"},
+			vector_composition = {"chaos_huge", "chaos_huge_shields", "chaos_huge_armor", "chaos_huge_berzerker", "huge", "huge_armor", "huge_shields", "huge_berzerker"},
+			vector_blob_composition = {"chaos_huge", "chaos_huge_shields", "chaos_huge_armor", "chaos_huge_berzerker", "huge", "huge_armor", "huge_shields", "huge_berzerker"},
+		},
+		cataclysm_3 = {
+			ambush_composition = {"chaos_huge", "chaos_huge_shields", "chaos_huge_armor", "chaos_huge_berzerker", "huge", "huge_armor", "huge_shields", "huge_berzerker"},
+			vector_composition = {"chaos_huge", "chaos_huge_shields", "chaos_huge_armor", "chaos_huge_berzerker", "huge", "huge_armor", "huge_shields", "huge_berzerker"},
+			vector_blob_composition = {"chaos_huge", "chaos_huge_shields", "chaos_huge_armor", "chaos_huge_berzerker", "huge", "huge_armor", "huge_shields", "huge_berzerker"},
+		},
+	}
+
 	-- Custom waves
 	mod:dofile("scripts/mods/Daredevil/linesman/mutator/custom_waves")
 	-- Events
@@ -1016,8 +1146,6 @@ end
 	mod:dofile("scripts/mods/Daredevil/linesman/events/dwarf_whaling")
 	-- Set Warcamp to strictly chaos
 	LevelSettings.ground_zero.conflict_settings = "chaos"
-	-- Set Dark Omens to Skaven because fuck beastmen
-	LevelSettings.crater.conflict_settings = "skaven"
 	-- Dwarf 3rd map ambience override
 	mod:dofile("scripts/mods/Daredevil/linesman/events/dwarf_beacons")
 	-- Grudge Served cold
@@ -1035,105 +1163,12 @@ end
 	-- CN specific events 
 	if lb then
 		mod:dofile("scripts/mods/Daredevil/linesman/events/cn_righteous")
+		mod:dofile("scripts/mods/Daredevil/linesman/mutator/lb_override_temp")
 	end
 
 	-- Linesman specific events
 	if mod.difficulty_level == 1 then 
 	end
-
-	-- Stuff to change for specific maps
-	local co
-	local new_co
-
-	--[[
-	if mod:get("scaling") then
-		local players = Managers.player:human_and_bot_players()
-	   
-	   if mod.difficulty_level == 1 then 
-		   co = 0.05
-	   elseif mod.difficulty_level == 2 then 
-		   co = 0.084
-	   elseif mod.difficulty_level == 3 then 
-		   co = 0.094
-	   elseif mod.difficulty_level == 3 and lb then
-		   co = 0.0938
-	   end
-
-	   new_co = co 
-
-	   for _, player in pairs(players) do
-		   new_co = new_co + 0.01
-	   end
-   end
-   ]]
-
-	if mod.difficulty_level == 1 then
-		co = 0.08
-	elseif mod.difficulty_level == 2 then
-		co = 0.11
-	elseif mod.difficulty_level == 3 then
-		co = 0.1335 -- 0.135
-	elseif mod.difficulty_level == 3 and lb then
-		co = 0.134
-	end
-
-	if mod:get("lonk") then
-		co = 0.134
-
-		HordeSettings.default.chance_of_vector = 0.1
-		HordeSettings.default.chance_of_vector_blob = 0.65
-
-		HordeSettings.chaos.chance_of_vector = 0.1
-		HordeSettings.chaos.chance_of_vector_blob = 0.65
-
-		HordeWaveCompositions = {
-			skaven_huge = {"huge",},
-			skaven_huge_shields = {"huge", "huge_shields",},
-			skaven_huge_armor = {"huge", "huge_armor",},
-			skaven_huge_berzerker = {"huge", "huge_berzerker",},
-			chaos_huge = {"chaos_huge",},
-			chaos_huge_shields = {"chaos_huge", "chaos_huge_shields",},
-			chaos_huge_armor = {"chaos_huge", "chaos_huge_armor",},
-			chaos_huge_berzerker = {"chaos_huge", "chaos_huge_berzerker",},
-		}
-
-		HordeSettingsBasics = {
-			ambush = {
-				max_spawners = math.huge,
-				max_size,
-				max_hidden_spawner_dist = 40,
-				max_horde_spawner_dist = 35,
-				min_hidden_spawner_dist = 5,
-				min_horde_spawner_dist = 1,
-				min_spawners = math.huge,
-				start_delay = 3.45,
-			},
-			vector = {
-				max_size,
-				main_path_chance_spawning_ahead = 0.67,
-				main_path_dist_from_players = 30,
-				max_hidden_spawner_dist = 30,
-				max_horde_spawner_dist = 20,
-				max_spawners = math.huge,
-				min_hidden_spawner_dist = 0,
-				min_horde_spawner_dist = 0,
-				raw_dist_from_players = 13,
-				start_delay = 4,
-			},
-			vector_blob = {
-				max_size,
-				main_path_chance_spawning_ahead = 0.67,
-				main_path_dist_from_players = 60,
-				raw_dist_from_players = 13,
-				start_delay = 1,
-			},
-		}
-	end
-
-	PackSpawningSettings.default.area_density_coefficient = co
-	PackSpawningSettings.skaven.area_density_coefficient = co
-	PackSpawningSettings.chaos.area_density_coefficient = co
-	PackSpawningSettings.beastmen.area_density_coefficient = co
 
 	mod.difficulty_level = mod:get("difficulty_level")
 	--[[
@@ -1185,6 +1220,7 @@ end
 	]]
 
 	--- Disable patrols.
+	--[[
 	mod:hook(TerrorEventMixer.run_functions, "spawn_patrol", function (func, ...)
 		local level_name = Managers.level_transition_handler:get_current_level_key()
 		if mutator_plus.active == true then
@@ -1210,6 +1246,7 @@ end
 
 		return func(...)
 	end)
+	]]
 
 	GenericTerrorEvents.fuck_you = {
 		{

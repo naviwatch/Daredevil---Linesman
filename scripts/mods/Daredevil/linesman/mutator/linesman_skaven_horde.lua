@@ -19,7 +19,7 @@ local super_armor_entities = { "skaven_storm_vermin", "chaos_warrior" }
 
 local scaling_data = {
 	{
-		scale_factor = trash_scale * 1.15,
+		scale_factor = trash_scale,
 		breeds = trash_entities,
 	},
 	{
@@ -39,7 +39,7 @@ local scaling_data = {
 		breeds = shield_elite_entities,
 	},
 	{
-		scale_factor = berzerker_scale * mod.gain,
+		scale_factor = berzerker_scale * mod.gain * 1.2,
 		breeds = berzerker_entities,
 	},
 	{
@@ -904,8 +904,8 @@ HordeCompositionsPacing.huge_armor = {
 			},
 			"skaven_clan_rat",
 			{
-				20,
-				22
+				24,
+				28
 			},
 			"skaven_clan_rat_with_shield",
 			{
@@ -927,6 +927,37 @@ HordeCompositionsPacing.huge_armor = {
 				1,
 				1
 			}
+		}
+	},
+	{
+		name = "guh",
+		weight = 2,
+		breeds = {
+			"skaven_slave",
+			{
+				15,
+				18
+			},
+			"skaven_clan_rat",
+			{
+				20,
+				22
+			},
+			"skaven_clan_rat_with_shield",
+			{
+				3,
+				5
+			},
+			"chaos_warrior",
+			{
+				1,
+				1
+			},
+			"skaven_storm_vermin_commander",
+			{
+				10,
+				10
+			},
 		}
 	},
 	sound_settings = HordeCompositionsSoundSettings.skaven
@@ -1063,6 +1094,37 @@ HordeCompositionsPacing.huge_berzerker = {
 			{
 				2,
 				2
+			},
+		}
+	},
+	{
+		name = "guh",
+		weight = 2,
+		breeds = {
+			"skaven_slave",
+			{
+				15,
+				18
+			},
+			"skaven_clan_rat",
+			{
+				20,
+				22
+			},
+			"skaven_clan_rat_with_shield",
+			{
+				3,
+				5
+			},
+			"chaos_warrior",
+			{
+				1,
+				1
+			},
+			"skaven_plague_monk",
+			{
+				10,
+				10
 			},
 		}
 	},

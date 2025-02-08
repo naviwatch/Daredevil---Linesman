@@ -54,6 +54,7 @@ local mod = get_mod("Daredevil")
 		},
 	}
 
+	--[[
 	mod:hook_origin(LevelAnalysis, "_give_events", function (self, main_paths, terror_spawners, generated_event_list, terror_event_list, conflict_director_section_list, terror_event_category)
 		local spawn_distance = 0
 		local padding = 10
@@ -179,16 +180,6 @@ local mod = get_mod("Daredevil")
 				local conflict_director = Managers.state.conflict
 				terror_event_name = "darktide"
 
-				--[[
-				local override_composition_table = HordeCompositions[template.composition]
-				local current_difficulty_rank, difficulty_tweak = Managers.state.difficulty:get_difficulty_rank()
-				local composition_difficulty_rank = DifficultyTweak.converters.composition_rank(current_difficulty_rank, difficulty_tweak)
-				local override_composition = override_composition_table[composition_difficulty_rank - 1]
-
-				-- Instantly trigger an ambush horde, will lead to actual double wave if not careful
-				conflict_director.horde_spawner:execute_ambush_horde(extra_data, conflict_director.default_enemy_side_id, "fallback",  nil, override_composition)
-				]]
-
 				-- Completely steal the stuff for event_bosses to determine when and where to trigger the special spam
 				local data = terror_spawners["event_boss"]
 				local level_sections = data.level_sections
@@ -304,7 +295,9 @@ local mod = get_mod("Daredevil")
 			}
 		end
 	end)
+	]]
 
+	--[[
 	if mod:get("beta") then 
 		BossSettings.default.event_lookup = {
 			event_boss = {"boss_event_chaos_troll", "boss_event_chaos_spawn", "boss_event_storm_fiend", "boss_event_rat_ogre",},
@@ -386,6 +379,7 @@ local mod = get_mod("Daredevil")
 			return func(self, main_paths, terror_event_list, terror_event_category)
 		end)
 	else
+	]]
 		BossSettings.default.boss_events.event_lookup.event_boss = {"boss_event_chaos_troll", "boss_event_chaos_spawn", "boss_event_storm_fiend", "boss_event_rat_ogre"}
 		BossSettings.default_light.boss_events.event_lookup.event_boss = {"boss_event_chaos_troll", "boss_event_chaos_spawn", "boss_event_storm_fiend", "boss_event_rat_ogre"}
 		
@@ -399,7 +393,6 @@ local mod = get_mod("Daredevil")
 		BossSettings.skaven_beastmen.boss_events.events = {"event_boss", "event_patrol",}
 		BossSettings.chaos_beastmen.boss_events.events = {"event_boss", "event_patrol",}
 		BossSettings.beastmen_light.boss_events.events = {"event_boss", "event_patrol"}
-	end
 
 	-- Settings required to allow Plague Monks in Patrols 
 	Breeds.skaven_plague_monk.patrol_active_perception = "perception_regular"
@@ -650,17 +643,9 @@ local mod = get_mod("Daredevil")
 				"chaos_raider"
 			},
 			{
-				"chaos_warrior",
-				"chaos_warrior"
+				"chaos_raider",
+				"chaos_raider"
 			},
-			{
-				"chaos_berzerker",
-				"chaos_berzerker"
-			},
-			{
-				"chaos_warrior",
-				"chaos_warrior"
-			}
 		}
 	}
 

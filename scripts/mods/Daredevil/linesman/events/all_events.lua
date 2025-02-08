@@ -81,8 +81,8 @@ local enhancement_list = {
 }
 local warchief = TerrorEventUtils.generate_enhanced_breed_from_set(enhancement_list)
 local enhancement_list = {
-	["crushing"] = true,
 	["intangible"] = true,
+	["unstaggerable"] = true
 }
 local grain = TerrorEventUtils.generate_enhanced_breed_from_set(enhancement_list)
 
@@ -581,7 +581,7 @@ end
 			"event_horde",
 			limit_spawners = 2,
 			spawner_id = "onslaught_courtyard_roof_left",
-			composition_type = "onslaught_custom_specials_heavy_disabler"
+			composition_type = "onslaught_custom_specials_heavy_denial"
 		},
 		{
 			"delay",
@@ -606,7 +606,7 @@ end
 			"event_horde",
 			limit_spawners = 2,
 			spawner_id = "onslaught_courtyard_roof_right",
-			composition_type = "onslaught_custom_specials_heavy_disabler"
+			composition_type = "onslaught_custom_specials_heavy_denial"
 		},
 		{
 			"delay",
@@ -6615,7 +6615,8 @@ end
 			breed_name = "skaven_dummy_clan_rat",
 			optional_data = {
 				enhancements = bob,
-				max_health_modifier = 15
+				max_health_modifier = 15,
+				size_variation_range = { 4, 4 }
 			}
 		},
 		{
@@ -6629,6 +6630,7 @@ end
 			optional_data = {
 				enhancements = shield_shatter,
 				max_health_modifier = 15,
+				size_variation_range = { 3, 3 }
 			}
 		},
 		{
@@ -6742,7 +6744,7 @@ end
 		{
 			"event_horde",
 			spawner_id = "terror_event_climb",
-			composition_type = "event_extra_spice_small"
+			composition_type = "event_extra_spice_large"
 		},
 		{
 			"delay",
@@ -6777,7 +6779,7 @@ end
 		{
 			"event_horde",
 			spawner_id = "terror_event_inner_yard",
-			composition_type = "event_extra_spice_small"
+			composition_type = "event_extra_spice_medium"
 		},
 		{
 			"delay",
@@ -6813,6 +6815,11 @@ end
 			"event_horde",
 			spawner_id = "terror_event_inner_yard",
 			composition_type = "event_large_chaos"
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_small_chaos"
 		},
 		{
 			"delay",
@@ -6854,7 +6861,7 @@ end
 		{
 			"event_horde",
 			spawner_id = "fort_horde_gate",
-			composition_type = "onslaught_chaos_berzerkers_small"
+			composition_type = "onslaught_chaos_berzerkers_medium"
 		},
 		{
 			"delay",
@@ -7428,7 +7435,7 @@ end
 			spawner_id = "farmlands_rat_ogre",
 			breed_name = "beastmen_minotaur",
 			optional_data = {
-				enhancements = enhancement_1
+				enhancements = grain
 			}
 		},
 		{
@@ -7479,7 +7486,7 @@ end
 			spawner_id = "farmlands_rat_ogre",
 			breed_name = "beastmen_minotaur",
 			optional_data = {
-				enhancements = enhancement_1
+				enhancements = grain
 			}
 		},
 		{
@@ -7530,7 +7537,7 @@ end
 			spawner_id = "farmlands_rat_ogre",
 			breed_name = "beastmen_minotaur",
 			optional_data = {
-				enhancements = enhancement_1
+				enhancements = grain
 			}
 		},
 		{
@@ -7581,7 +7588,7 @@ end
 			spawner_id = "farmlands_rat_ogre",
 			breed_name = "beastmen_minotaur",
 			optional_data = {
-				enhancements = enhancement_1
+				enhancements = grain
 			}
 		},
 		{
@@ -7688,16 +7695,11 @@ end
 		{
 			"event_horde",
 			spawner_id = "square_front",
-			composition_type = "event_large"
-		},
-		{
-			"event_horde",
-			spawner_id = "square_front",
-			composition_type = "linesman_mixed_horde"
+			composition_type = "apocalypse_wave"
 		},
 		{
 			"delay",
-			duration = 40
+			duration = 45
 		},
 		{
 			"event_horde",
@@ -7705,13 +7707,16 @@ end
 			composition_type = "linesman_mixed_horde"
 		},
 		{
-			"delay",
-			duration = 10
+			"continue_when",
+			duration = 30,
+			condition = function (t)
+				return count_event_breed("chaos_marauder") < 10 and count_event_breed("skaven_slave") < 20
+			end
 		},
 		{
 			"event_horde",
 			spawner_id = "square_center",
-			composition_type = "event_small"
+			composition_type = "linesman_mixed_horde"
 		},
 		{
 			"delay",
@@ -7721,7 +7726,7 @@ end
 			"continue_when",
 			duration = 30,
 			condition = function (t)
-				return count_event_breed("chaos_marauder") < 25 and count_event_breed("skaven_slave") < 50
+				return count_event_breed("chaos_marauder") < 25 and count_event_breed("skaven_slave") < 20
 			end
 		},
 		{
@@ -7748,12 +7753,7 @@ end
 		{
 			"event_horde",
 			spawner_id = "hay_barn_back",
-			composition_type = "linesman_mixed_horde"
-		},
-		{
-			"event_horde",
-			spawner_id = "hay_barn_back",
-			composition_type = "skaven_shields"
+			composition_type = "apocalypse_wave"
 		},
 		{
 			"event_horde",
@@ -7783,7 +7783,7 @@ end
 		},
 		{
 			"delay",
-			duration = 40
+			duration = 25
 		},
 		{
 			"event_horde",
@@ -7815,7 +7815,7 @@ end
 		{
 			"event_horde",
 			spawner_id = "sawmill_yard_invis",
-			composition_type = "linesman_mixed_horde"
+			composition_type = "apocalypse_wave"
 		},
 		{
 			"delay",
@@ -7908,7 +7908,7 @@ end
 		},
 		{
 			"delay",
-			duration = 35
+			duration = 25
 		},
 		{
 			"event_horde",
@@ -8073,7 +8073,7 @@ end
 		},
 		{
 			"continue_when",
-			duration = 40,
+			duration = 30,
 			condition = function (t)
 				return count_event_breed("chaos_marauder") < 30 and count_event_breed("skaven_clan_rat") < 30 and count_event_breed("skaven_clan_rat_with_shield") < 30 and count_event_breed("skaven_slave") < 40
 			end
@@ -8089,7 +8089,7 @@ end
 		},
 		{
 			"continue_when",
-			duration = 30,
+			duration = 20,
 			condition = function (t)
 				return count_event_breed("skaven_clan_rat") < 30 and count_event_breed("skaven_clan_rat_with_shield") < 30 and count_event_breed("skaven_slave") < 40 and count_event_breed("chaos_marauder") < 30
 			end
@@ -13322,7 +13322,8 @@ end
 			breed_name = "skaven_dummy_clan_rat",
 			optional_data = {
 				max_health_modifier = 15,
-			    enhancements = better_bob
+			    enhancements = better_bob,
+				size_variation_range = { 3, 3 }
 			}
 		},
 		{
@@ -14604,6 +14605,9 @@ end
 			amount = {
 				2,
 				3
+			},
+			optional_data = {
+				size_variation_range = { 3, 3 }
 			}
 		},
 		{
@@ -16939,12 +16943,14 @@ end
 			"control_specials",
 			enable = true
 		},
+		--[[
 		{
 			"event_horde",
 			limit_spawners = 3,
 			spawner_id = "crater_mid_event_door_horde_01",
 			composition_type = "cheekspreader",
 		},
+		]]
 		{
 			"event_horde",
 			limit_spawners = 3,
@@ -16998,9 +17004,8 @@ end
 		},
 		{
 			"continue_when",
-			duration = 40,
 			condition = function (t)
-				return count_event_breed("beastmen_gor") < 1 and count_breed("beastmen_ungor") < 1
+				return count_event_breed("chaos_exalted_champion_warcamp") < 1
 			end
 		},
 		{
@@ -17455,7 +17460,7 @@ end
 	TerrorEventBlueprints.crater.crater_end_event_minotaur = {
 		{
 			"spawn_at_raw",
-			breed_name = "beastmen_minotaur",
+			breed_name = "skaven_clan_rat_tutorial",
 			spawner_id = "event_minotaur",
 			difficulty_requirement = HARD
 		},
