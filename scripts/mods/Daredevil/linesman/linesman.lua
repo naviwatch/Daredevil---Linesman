@@ -2,6 +2,7 @@ local mod = get_mod("Daredevil")
 local mutator_plus = mod:persistent_table("Daredevil+")
 local lb = get_mod("LinesmanBalance")
 local conflict_director = Managers.state.conflict
+local bl = get_mod("Beastmen Loader")
 
 local enhancement_list = {
 	["regenerating"] = true,
@@ -221,6 +222,10 @@ end
 
 	-- Load custom breeds
 	mod:dofile("scripts/mods/Daredevil/linesman/mutator/linesman_breeds")
+	-- Perceptions
+	mod:dofile("scripts/mods/Daredevil/linesman/functions/perceptions")
+	-- Functions
+	mod:dofile("scripts/mods/Daredevil/linesman/functions/man_functions")
 
 	-- OST
 --	Wwise.load_bank("backstab")
@@ -231,365 +236,6 @@ end
 		mod:dofile("scripts/mods/Daredevil/linesman/mutator/actual_beta/beta_specials_stuff")
 	end
 	]]
-
-	-- Stop spawner from spawning one extra enemy in horde
-	local spawn_list_a = {}
-	local spawn_list_b = {}
-	
-	local function D(...)
-		if script_data.debug_hordes then
-			printf(...)
-		end
-	end
-	
-	local function copy_array(source, index_a, index_b, dest)
-		local j = 1
-	
-		for i = index_a, index_b do
-			dest[j] = source[i]
-			j = j + 1
-		end
-	end
-	
-	local spawn_list = {
-		"skaven_slave",
-		"skaven_clan_rat",
-		"skaven_slave",
-		"skaven_clan_rat",
-		"skaven_slave",
-		"skaven_clan_rat",
-		"skaven_slave",
-		"skaven_clan_rat",
-		"skaven_slave",
-		"skaven_clan_rat"
-	}
-	
-	local spawn_list = {}
-	local spawn_list_hidden = {}
-	local copy_list = {}
-	
-	local ok_spawner_breeds = {
-		skaven_clan_rat = true,
-		skaven_slave = true
-	}
-	--[[
-	mod:hook_origin(HordeSpawner, "compose_horde_spawn_list", function (self, variant)
-		local i = 1
-	
-		table.clear_array(spawn_list_a, #spawn_list_a)
-		table.clear_array(spawn_list_b, #spawn_list_b)
-	
-		local breeds = variant.breeds
-	
-		for i = 1, #breeds, 2 do
-			local breed_name = breeds[i]
-			local amount = breeds[i + 1]
-			local num_to_spawn = ConflictUtils.random_interval(amount)
-			local spawn_list = ok_spawner_breeds[breed_name] and spawn_list_a or spawn_list_b
-			local start = #spawn_list
-	
-			for j = start + 1, start + num_to_spawn do
-				spawn_list[j] = breed_name
-			end
-		end
-	
-		table.shuffle(spawn_list_a)
-		table.shuffle(spawn_list_b)
-	
-		local sum_a = #spawn_list_a
-		local sum_b = #spawn_list_b
-		local sum = sum_a + sum_b
-	
-		return sum, sum_a, sum_b
-	end)
-	--]]
-	mod:hook_origin(HordeSpawner, "compose_blob_horde_spawn_list", function(self, composition_type)
-		--mod:echo("Blob Horde Spawning")
-		local composition = CurrentHordeSettings.compositions_pacing[composition_type]
-		local index = LoadedDice.roll_easy(composition.loaded_probs)
-		local variant = composition[index]
-		local i = 1
-		local spawn_list = spawn_list_a
-
-		table.clear_array(spawn_list_a, #spawn_list_a)
-
-		local breeds = variant.breeds
-
-		for i = 1, #breeds, 2 do
-			local breed_name = breeds[i]
-			local amount = breeds[i + 1]
-			local num_to_spawn = ConflictUtils.random_interval(amount)
-			local start = #spawn_list + 1
-			local total_intensity = Managers.state.conflict.pacing:get_pacing_intensity()
-			local horde_spawner = Managers.state.conflict.horde_spawner
-			local num_paced_hordes = horde_spawner.num_paced_hordes
-
-			if mutator_plus.active then 
-				if num_paced_hordes <= 2 then -- If its the first two hordes, lower difficulty by spawning less
-					for j = start, start + num_to_spawn - 3 do
-						spawn_list[j] = breed_name
-					end
-				else
-					if not lb then -- if TBT then apply intensity system
-						if total_intensity <= 30 then 
-							if mod:get("debug") then 
-								mod:chat_broadcast("LOW Intensity HORDE NUMBERS")
-							end
-							for j = start, start + num_to_spawn - 1 do
-								spawn_list[j] = breed_name
-							end
-						elseif total_intensity <= 70 then
-							if mod:get("debug") then 
-								mod:chat_broadcast("MED Intensity HORDE NUMBERS")
-							end
-							for j = start, start + num_to_spawn - 1 do -- Subtract the extra one 
-								spawn_list[j] = breed_name
-							end
-						elseif total_intensity <= 100 then
-							if mod:get("debug") then 
-								mod:chat_broadcast("HI Intensity HORDE NUMBERS")
-							end
-							for j = start, start + num_to_spawn - 1 do -- Subtract two
-								spawn_list[j] = breed_name
-							end
-						end
-					else -- if LB then don't and use defualt 
-						for j = start, start + num_to_spawn - 1 do 
-							spawn_list[j] = breed_name
-						end
-					end
-				end
-			else 
-				for j = start, start + num_to_spawn - 1 do 
-					spawn_list[j] = breed_name
-				end
-			end
-		end
-
-		table.shuffle(spawn_list)
-		return spawn_list, #spawn_list
-	end)
-
-	-- holy mother of kino
-	mod:hook_origin(ConflictDirector, "update_horde_pacing", function(self, t, dt)
-		local pacing = self.pacing
-		local level_name = Managers.level_transition_handler:get_current_level_key()
-	
-		if pacing:horde_population() < 1 or pacing.pacing_state == "pacing_frozen" then
-			self._next_horde_time = nil
-	
-			return
-		end
-	
-		if not self._next_horde_time then
-			-- New Intensity stuff
-			if mutator_plus.active and not lb then 
-				local total_intensity = Managers.state.conflict.pacing:get_pacing_intensity()
-				if total_intensity < 30 then 
-					self._next_horde_time = t + ConflictUtils.random_interval(CurrentPacing.horde_frequency)
-					if mod:get("debug") then 
-						mod:chat_broadcast("LOW Intensity, pacing time given - 10 : " .. self._next_horde_time)
-					end
-				elseif total_intensity < 60 then
-					self._next_horde_time = t + ConflictUtils.random_interval(CurrentPacing.horde_frequency)
-					if mod:get("debug") then 
-						mod:chat_broadcast("MED Intensity, pacing time given: " .. self._next_horde_time)
-					end
-				else
-					self._next_horde_time = t + ConflictUtils.random_interval(CurrentPacing.horde_frequency) + 5
-					if mod:get("debug") then 
-						mod:chat_broadcast("HI Intensity, pacing time given + 20 : " .. self._next_horde_time)
-					end
-				end
-			else
-				self._next_horde_time = t + ConflictUtils.random_interval(CurrentPacing.horde_frequency)
-			end
-		--	print("Setting horde timers to 30-45s")
-		end
-	
-		if t > self._next_horde_time and not self.delay_horde then
-			local enemy_data = self._conflict_data_by_side[self.default_enemy_side_id]
-			local num_spawned = #enemy_data.spawned
-			local horde_failed
-			
-			if mutator_plus.active then
-				horde_failed = num_spawned > 160
-			else 
-				horde_failed = num_spawned > RecycleSettings.push_horde_if_num_alive_grunts_above
-			end
-	
-			if horde_failed then
-				local pacing_setting = CurrentPacing
-	
-				if RecycleSettings.push_horde_in_time then
-					print("HORDE: Pushing horde in time; too many units out " .. num_spawned)
-	
-					self._next_horde_time = t + 5
-	
-					pacing:annotate_graph("Pushed horde", "red")
-				else
-					mod:echo("HORDE: Skipped horde; too many units out")
-	
-					self._next_horde_time = t + ConflictUtils.random_interval(pacing_setting.horde_frequency)
-	
-					pacing:annotate_graph("Failed horde", "red")
-				end
-	
-				return
-			end
-	
-			local wave, horde_type, no_fallback, optional_wave_composition
-	
-			if script_data.ai_pacing_disabled then
-				self._next_horde_time = math.huge
-				self._multiple_horde_count = nil
-				wave = "unknown"
-				self._wave = wave
-			else
-				local set_standard_horde
-				local pacing_setting = CurrentPacing
-	
-				if pacing_setting.multiple_hordes then
-					if self._multiple_horde_count then
-						self._multiple_horde_count = self._multiple_horde_count - 1
-	
-						if self._multiple_horde_count <= 0 then
-							print("HORDE: last wave, reset to standard horde delay")
-	
-							optional_wave_composition = self._current_wave_composition
-							self._multiple_horde_count = nil
-							self._current_wave_composition = nil
-							wave = "multi_last_wave"
-
-							if mutator_plus.active and not lb then 
-								local total_intensity = Managers.state.conflict.pacing:get_pacing_intensity()
-								if total_intensity < 30 then 
-									self._next_horde_time = t + ConflictUtils.random_interval(pacing_setting.max_delay_until_next_horde)
-									if mod:get("debug") then 
-										mod:chat_broadcast("LOW Intensity PACING")
-									end
-								elseif total_intensity < 60 then
-									self._next_horde_time = t + ConflictUtils.random_interval(pacing_setting.max_delay_until_next_horde)
-									if mod:get("debug") then 
-										mod:chat_broadcast("MED Intensity PACING")
-									end
-								else
-									self._next_horde_time = t + ConflictUtils.random_interval(pacing_setting.max_delay_until_next_horde)
-									if mod:get("debug") then 
-										mod:chat_broadcast("HI Intensity PACING")
-									end
-								end
-							else 
-								self._next_horde_time = t + ConflictUtils.random_interval(pacing_setting.max_delay_until_next_horde)
-							end
-						else
-							local time_delay = ConflictUtils.random_interval(pacing_setting.multiple_horde_frequency)
-	
-							print("HORDE: next wave, multiple_horde_frequency -> Time delay", time_delay)
-	
-							self._next_horde_time = t + time_delay
-							wave = "multi_consecutive_wave"
-							optional_wave_composition = self._current_wave_composition
-						end
-	
-						horde_type = "multi_followup"
-						no_fallback = true
-					else
-						self._multiple_horde_count = pacing_setting.multiple_hordes - 1
-						self._next_horde_time = t + ConflictUtils.random_interval(pacing_setting.multiple_horde_frequency)
-						wave = "multi_first_wave"
-					end
-				else
-					self._next_horde_time = t + ConflictUtils.random_interval(pacing_setting.horde_frequency)
-					wave = "single_wave"
-				end
-	
-				self._wave = wave
-			end
-	
-			local horde_settings = CurrentHordeSettings
-	
-			if not horde_type then
-				if horde_settings.mix_paced_hordes then
-					-- Map modifiers 
-					if mutator_plus.active then 
-						if level_name == "dlc_termite_1" then -- Freaky Temple
-							horde_type = math.random() < horde_settings.chance_of_vector_termite_1 and "vector" or "ambush" 
-						end
-						
-						im_not_gonna_sugarcoat_it, wves = PseudoRandomDistribution.flip_coin(wves, horde_settings.chance_of_vector)
-
-						if im_not_gonna_sugarcoat_it then 
-							horde_type = "vector"
-						else 
-							horde_type = "ambush"
-						end
-					else 
-						if self.horde_spawner.num_paced_hordes % 2 == 0 then
-							horde_type = math.random() < horde_settings.chance_of_vector and "vector" or "ambush"
-						else
-							horde_type = self.horde_spawner.last_paced_horde_type == "vector" and "ambush" or "vector"
-						end
-					end
-				else
-					horde_type = math.random() < horde_settings.chance_of_vector and "vector" or "ambush"
-				end
-
-				--[[
-				-- Check for triple ambush
-				if mutator_plus.active then 
-					if self.horde_spawner.num_paced_hordes % 3 == 0 and horde_type == "ambush" and self.horde_spawner.last_paced_horde_type == "ambush" then
-						horde_type = "vector"
-					end
-				end
-				]]
-	
-				if mutator_plus.active then 
-					--[[
-					blob_blob_blob, bbb = PseudoRandomDistribution.flip_coin(bbb, horde_settings.chance_of_vector_blob)
-
-					if bbb then 
-						horde_type = "vector_blob"
-					end 
-					]]
-
-					if horde_type == "vector" and math.random() <= horde_settings.chance_of_vector_blob then
-						horde_type = "vector_blob"
-					end
-				else
-					if horde_type == "vector" and math.random() <= horde_settings.chance_of_vector_blob then
-						horde_type = "vector_blob"
-					end
-				end
-				
-				local composition = horde_type == "vector" and horde_settings.vector_composition or horde_type == "vector_blob" and horde_settings.vector_blob_composition or horde_settings.ambush_composition
-	
-				if wave and type(composition) == "table" then
-					optional_wave_composition = composition[math.random(#composition)]
-	
-					printf("HORDE: Chosing horde wave composition %s", optional_wave_composition)
-	
-					self._current_wave_composition = optional_wave_composition
-				end
-			elseif horde_type == "multi_followup" then
-				horde_type = self.horde_spawner.last_paced_horde_type
-			end
-	
-			print("Time for new HOOORDE!", wave)
-	
-			self._horde_ends_at = t + 120
-	
-			local extra_data = {
-				multiple_horde_count = self._multiple_horde_count,
-				horde_wave = wave,
-				optional_wave_composition = optional_wave_composition,
-			}
-			local side_id = self.default_enemy_side_id
-	
-			print("HORDE: Spawning hordes while " .. #enemy_data.spawned .. " other ai are spawned")
-			self.horde_spawner:horde(horde_type, extra_data, side_id, no_fallback)
-		end
-	end)
 
 	--Non-event settings and compositions
 	RecycleSettings = {
@@ -969,11 +615,11 @@ end
 	PacingSettings.beastmen.peak_intensity_threshold = 5000
 	PacingSettings.beastmen.sustain_peak_duration = { 5, 10 }
 	PacingSettings.beastmen.relax_duration = { 10, 15 }
-	PacingSettings.beastmen.horde_frequency = { 30, 45 }
-	PacingSettings.beastmen.multiple_horde_frequency = { 20, 23 }
-	PacingSettings.beastmen.max_delay_until_next_horde = { 75, 95 }
+	PacingSettings.beastmen.horde_frequency = { 30, 50 }
+	PacingSettings.beastmen.multiple_horde_frequency = { 6, 7 }
+	PacingSettings.beastmen.max_delay_until_next_horde = { 77, 79 }
 	PacingSettings.beastmen.horde_startup_time = { 10, 20 }
-	PacingSettings.beastmen.multiple_hordes = math.huge
+	PacingSettings.beastmen.multiple_hordes = math.huge -- 无限
 
 	PacingSettings.beastmen.mini_patrol.only_spawn_above_intensity = 0
 	PacingSettings.beastmen.mini_patrol.only_spawn_below_intensity = 900
@@ -994,11 +640,11 @@ end
 	IntensitySettings.default.difficulty_overrides = nil
 
 	-- HORDE SETTINGS
-	HordeSettings.default.chance_of_vector = 0.6 -- 0.75
+	HordeSettings.default.chance_of_vector = 0.7 -- 0.75
 	HordeSettings.default.chance_of_vector_blob = 0.65	
 	HordeSettings.default.chance_of_vector_termite_1 = 0.9
 
-	HordeSettings.chaos.chance_of_vector = 0.6 -- 0.9
+	HordeSettings.chaos.chance_of_vector = 0.7 -- 0.9
 	HordeSettings.chaos.chance_of_vector_blob = 0.65 -- 0.5
 	HordeSettings.chaos.chance_of_vector_termite_1 = 0.9
 
@@ -1019,15 +665,15 @@ end
 			main_path_dist_from_players = 30,
 			max_hidden_spawner_dist = 30,
 			max_horde_spawner_dist = 20,
-			max_spawners = 15,
-			min_hidden_spawner_dist = 0,
-			min_horde_spawner_dist = 0,
+			max_spawners = 13,
+			min_hidden_spawner_dist = 5,
+			min_horde_spawner_dist = 5,
 			raw_dist_from_players = 13,
-			start_delay = 4,
+			start_delay = 4.5,
 		},
 		vector_blob = {
 			max_size,
-			main_path_chance_spawning_ahead = 0.5,
+			main_path_chance_spawning_ahead = 0.67,
 			main_path_dist_from_players = 60,
 			raw_dist_from_players = 13,
 			start_delay = 1,
@@ -1096,10 +742,10 @@ end
 
 	-- Multiple hordes thing 
 	if mod:get("testers") then
-		PacingSettings.default.multiple_horde_frequency = PacingSettings.beastmen.multiple_horde_frequency
-		PacingSettings.chaos.multiple_horde_frequency = PacingSettings.beastmen.multiple_horde_frequency
-		PacingSettings.default.multiple_hordes = PacingSettings.beastmen.multiple_hordes
-		PacingSettings.chaos.multiple_hordes = PacingSettings.beastmen.multiple_hordes
+		PacingSettings.default.multiple_horde_frequency = math.huge
+		PacingSettings.chaos.multiple_horde_frequency = math.huge
+		PacingSettings.default.multiple_hordes = { 20, 25 }
+		PacingSettings.chaos.multiple_hordes = { 20, 25 }
 		mod:dofile("scripts/mods/Daredevil/linesman/mutator/nonstop/nonstop_hordes")
 		mod:dofile("scripts/mods/Daredevil/linesman/mutator/nonstop/nonstop_breed_pack")
 
@@ -1283,7 +929,14 @@ end
 	mod:network_send("bob_name_enable", "all", true)
 	mod:network_send("giant_so_true", "all", true)
 	mod:network_send("c3dwlines", "others", true)
+	mod:network_send("breed_loading_in", "all", true)
 --	mod:network_send("linesman_ost", "all", true)
+
+	-- Just override the shit set by beastmen loader
+	-- Load breeds
+
+	
+	EnemyPackageLoaderSettings.max_loaded_breed_cap = 50
 
 	create_weights()
 

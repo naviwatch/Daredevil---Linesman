@@ -2386,3 +2386,117 @@ HordeCompositions.banners = {
 		}
 	},
 } 
+
+HordeCompositions.event_small_beastmen = {
+	{
+		name = "plain",
+		weight = 7,
+		breeds = {
+			"beastmen_gor",
+			{
+				13,
+				14
+			}
+		}
+	},
+	{
+		name = "mixed",
+		weight = 3,
+		breeds = {
+			"beastmen_ungor",
+			{
+				3,
+				4
+			},
+			"beastmen_gor",
+			{
+				9,
+				10
+			}
+		}
+	}
+}
+
+HordeCompositions.event_medium_beastmen = {
+	{
+		name = "plain",
+		weight = 7,
+		breeds = {
+			"beastmen_gor",
+			{
+				16,
+				17
+			},
+			"beastmen_ungor",
+			{
+				8,
+				9
+			}
+		}
+	},
+	{
+		name = "mixed",
+		weight = 3,
+		breeds = {
+			"beastmen_gor",
+			{
+				7,
+				8
+			},
+			"beastmen_ungor",
+			{
+				15,
+				16
+			}
+		}
+	}
+}
+
+HordeCompositions.event_large_beastmen = {
+	{
+		name = "plain",
+		weight = 7,
+		breeds = {
+			"beastmen_gor",
+			{
+				18,
+				19
+			},
+			"beastmen_ungor",
+			{
+				16,
+				17
+			}
+		}
+	},
+	{
+		name = "mixed",
+		weight = 3,
+		breeds = {
+			"beastmen_gor",
+			{
+				22,
+				23
+			},
+			"beastmen_ungor",
+			{
+				14,
+				15
+			}
+		}
+	}
+}
+
+HordeCompositions.crater_bestigor_medium = {
+	{
+		name = "ambestigor",
+		weight = 3,
+		breeds = {
+			"beastmen_bestigor",
+			{
+				9,
+				10
+			},
+		}
+	}
+}

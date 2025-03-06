@@ -220,7 +220,8 @@ mod:hook(AISpawner, "spawn_unit", function (func, self)
 	local unit = self._unit
 
 	-- Code Added by Grim to fix specific spawn issue with Bile Chemists
-	if breed_name == "chaos_plague_sorcerer" then
+	--[[
+	if breed_name == "chaos_corruptor_sorcerer" then
 		if Unit.local_position(self._unit, 0).x == 349.67596435546875 then
 			local spawner_system = Managers.state.entity:system("spawner_system")
 			self._unit = spawner_system._id_lookup["sorcerer_boss_minion"][1]
@@ -231,6 +232,7 @@ mod:hook(AISpawner, "spawn_unit", function (func, self)
 		self._unit = spawner_system._id_lookup["sorcerer_boss_minion"][5]
 		self.changed = nil
 	end
+	]]
 
 	Unit.flow_event(unit, "lua_spawn")
 
@@ -967,10 +969,10 @@ mod:hook(BTSpawnAllies, "_spawn", function (func, self, unit, data, blackboard, 
 	elseif comp == "spawn_allies_offensive" then
 		local conflict_director = Managers.state.conflict
 		local hidden_pos = conflict_director.specials_pacing:get_special_spawn_pos()
-		conflict_director:spawn_one(Breeds["chaos_plague_sorcerer"], hidden_pos)
-		conflict_director:spawn_one(Breeds["chaos_plague_sorcerer"], hidden_pos)
-		conflict_director:spawn_one(Breeds["chaos_plague_sorcerer"], hidden_pos)
-		conflict_director:spawn_one(Breeds["chaos_plague_sorcerer"], hidden_pos)
+		conflict_director:spawn_one(Breeds["chaos_corruptor_sorcerer"], hidden_pos)
+		conflict_director:spawn_one(Breeds["chaos_corruptor_sorcerer"], hidden_pos)
+		conflict_director:spawn_one(Breeds["chaos_corruptor_sorcerer"], hidden_pos)
+		conflict_director:spawn_one(Breeds["chaos_corruptor_sorcerer"], hidden_pos)
 	elseif comp == "spawn_allies_trickle" then
 		if leech_spawn_count == 4 then
 			leech_spawn_count = 0
@@ -988,10 +990,10 @@ mod:hook(BTQuickTeleportAction, "enter", function (func, self, unit, blackboard,
 	if blackboard.action.name == "teleport_to_aoe" then
 		local conflict_director = Managers.state.conflict
 		local hidden_pos = conflict_director.specials_pacing:get_special_spawn_pos()
-		conflict_director:spawn_one(Breeds["chaos_plague_sorcerer"], hidden_pos)
-		conflict_director:spawn_one(Breeds["chaos_plague_sorcerer"], hidden_pos)
-		conflict_director:spawn_one(Breeds["chaos_plague_sorcerer"], hidden_pos)
-		conflict_director:spawn_one(Breeds["chaos_plague_sorcerer"], hidden_pos)
+		conflict_director:spawn_one(Breeds["chaos_corruptor_sorcerer"], hidden_pos)
+		conflict_director:spawn_one(Breeds["chaos_corruptor_sorcerer"], hidden_pos)
+		conflict_director:spawn_one(Breeds["chaos_corruptor_sorcerer"], hidden_pos)
+		conflict_director:spawn_one(Breeds["chaos_corruptor_sorcerer"], hidden_pos)
 	end
 end)
 
@@ -1072,12 +1074,102 @@ mod:network_register("giant_so_false", function (sender, enable)
 	Breeds.skaven_dummy_slave = mod.deepcopy(Breeds.skaven_dummy_slave)
 end)
 
+mod:network_register("breed_loading_in", function (sender, enable)
+	EnemyPackageLoaderSettings.categories = {
+		{
+			id = "bosses",
+			dynamic_loading = false,
+			limit = math.huge,
+			breeds = {
+				"chaos_spawn",
+				"chaos_troll",
+				"skaven_rat_ogre",
+				"skaven_stormfiend",
+				"beastmen_minotaur"
+			}
+		},
+		{
+			id = "specials",
+			dynamic_loading = false,
+			limit = math.huge,
+			breeds = {
+				"chaos_corruptor_sorcerer",
+				"skaven_gutter_runner",
+				"skaven_pack_master",
+				"skaven_poison_wind_globadier",
+				"skaven_ratling_gunner",
+				"skaven_warpfire_thrower",
+				"chaos_vortex_sorcerer",
+				"beastmen_standard_bearer"
+			}
+		},
+		{
+			id = "level_specific",
+			dynamic_loading = true,
+			limit = math.huge,
+			breeds = {
+				"chaos_dummy_sorcerer",
+				"chaos_exalted_champion_warcamp",
+				"chaos_exalted_sorcerer",
+				"skaven_storm_vermin_warlord",
+				"skaven_storm_vermin_champion",
+				"chaos_plague_wave_spawner",
+				"skaven_stormfiend_boss",
+				"skaven_grey_seer"
+			}
+		},
+		{
+			id = "debug",
+			dynamic_loading = true,
+			forbidden_in_build = "release",
+			limit = math.huge,
+			breeds = {
+				"chaos_zombie",
+				"chaos_tentacle",
+				"chaos_tentacle_sorcerer",
+				"skaven_stormfiend_demo"
+			}
+		},
+		{
+			id = "always_loaded",
+			dynamic_loading = false,
+			breeds = {
+				"chaos_vortex",
+				"critter_rat",
+				"critter_pig",
+				"critter_nurgling",
+				"beastmen_gor",
+				"beastmen_bestigor",
+				"beastmen_ungor",
+				"chaos_warrior",
+				"chaos_raider",
+				"skaven_clan_rat",
+				"skaven_clan_rat_with_shield",
+				"skaven_plague_monk",
+				"skaven_slave",
+				"chaos_marauder",
+				"chaos_marauder_with_shield",
+				"chaos_berzerker",
+				"skaven_storm_vermin",
+				"skaven_storm_vermin_with_shield",
+				"chaos_fanatic",
+				"skaven_storm_vermin_warlord",
+				"chaos_exalted_sorcerer_drachenfels",
+				"chaos_exalted_sorcerer",
+				"skaven_storm_vermin_champion",
+				"chaos_bulwark"
+			}
+		}
+	}
+end)
+
 mod:hook_safe("ChatManager", "_add_message_to_list", function (self, channel_id, message_sender, local_player_id, message, is_system_message, pop_chat, is_dev, message_type, link, data)
 	if message == JOIN_MESSAGE and not mutator_plus.active then
 		mod:network_send("rpc_enable_white_sv", "local", true)
 		mod:network_send("bob_name_enable", "local", true)
 		mod:network_send("giant_so_true", "local", true)
 		mod:network_send("c3dwlines", "local", true)
+		mod:network_send("breed_loading_in", "local", true)
 --		mod:network_send("linesman_ost", "local", true)
 	end
 end)
@@ -1088,6 +1180,7 @@ mod.on_user_joined = function (player)
 		mod:network_send("bob_name_enable", "others", true)
 		mod:network_send("giant_so_true", "local", true)
 		mod:network_send("c3dwlines", "others", true)
+		mod:network_send("breed_loading_in", "others", true)
 --		mod:network_send("linesman_ost", "others", true)
 	end
 end
@@ -1165,10 +1258,10 @@ mutator_plus.toggle = function()
 		end
 
 		if mod:get("beta") then
-			mod:chat_broadcast("Running Linesman BETA Version 2.2.0")
+			mod:chat_broadcast("Running Linesman BETA Version 3.0.0")
 			mod:chat_broadcast("这是Linesman BETA！")
 		else 
-			mod:chat_broadcast("Version 2.2.0")
+			mod:chat_broadcast("Version 3.0.0")
 		end 
 	else
 		mutator_plus.stop()

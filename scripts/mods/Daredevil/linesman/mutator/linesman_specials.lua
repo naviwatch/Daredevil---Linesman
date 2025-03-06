@@ -169,8 +169,8 @@ if mod:get("giga_specials") then
 	max_of_same = 3
 else
 	special_slots = 7
-	min_special_timer = 30
-	max_special_timer = 43
+	min_special_timer = 30 -- 30
+	max_special_timer = 45 
 	max_of_same = 3
 end
 
@@ -188,12 +188,12 @@ SpecialsSettings.default.spawn_method = "specials_by_slots"
 SpecialsSettings.default.methods = {}
 SpecialsSettings.default.methods.specials_by_slots = {
 	max_of_same = max_of_same,
-	coordinated_attack_cooldown_multiplier = 0.4,
+	coordinated_attack_cooldown_multiplier = 0.5,
 	chance_of_coordinated_attack = 0.5,
 	select_next_breed = "get_random_breed",
 	after_safe_zone_delay = {
-		10,
-		35
+		20,
+		45
 	},
 	spawn_cooldown = {
 		min_special_timer, -- 32
@@ -346,7 +346,7 @@ SpecialsSettings.chaos_beastmen = SpecialsSettings.beastmen
 
 -------------------------------------------------------------
 
-local new_slot_timers = { 10, 23 }
+local new_slot_timers = { 10, 20 }
 
 mod:hook_origin(SpecialsPacing, "specials_by_slots", function(self, t, specials_settings, method_data, slots, spawn_queue)
 	local num_slots = #slots
@@ -408,7 +408,7 @@ mod:hook_origin(SpecialsPacing, "specials_by_slots", function(self, t, specials_
 		end
 	end
 	
-	if mutator_plus.active and not lb then
+	if mutator_plus.active then
 		-- Process first two slots with reduced cd
 		for i = 1, 1 do
 			process_slot(slots[i], t, method_data, spawn_queue, waiting, about_to_respawn, self, true)

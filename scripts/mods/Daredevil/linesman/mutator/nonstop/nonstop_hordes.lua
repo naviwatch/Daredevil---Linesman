@@ -292,7 +292,7 @@ HordeCompositionsPacing.large = {
 				1,
 				1
 			},
-			"chaos_plague_sorcerer",
+			"chaos_corruptor_sorcerer",
 			{
 				1,
 				1

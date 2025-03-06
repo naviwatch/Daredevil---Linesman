@@ -120,10 +120,9 @@ BreedActions.skaven_dummy_clan_rat.shoot_ratling_gun = {
 
 GrudgeMarkedNames.skaven = { "Bob the Builder" }
 
---[[
 Breeds.skaven_dummy_slave = mod.deepcopy(Breeds.chaos_troll)
 Breeds.skaven_dummy_slave.height = 4.35
-Breeds.skaven_dummy_slave.size_variation_range = { 1.45, 1.45 }
+-- Breeds.skaven_dummy_slave.size_variation_range = { 1.45, 1.45 }
 Breeds.skaven_dummy_slave.regen_pulse_interval = 10 -- 10s per regen
 Breeds.skaven_dummy_slave.regen_taken_damage_pause_time = 20 -- 20s delay until regen kicks in
 BreedActions.skaven_dummy_slave.vomit = {
@@ -313,42 +312,39 @@ BreedActions.skaven_dummy_slave.downed = {
     respawn_hp_min_percent = 0,
     standup_anim_duration = 5,
 }
-]]
 
-if not lb then 
-    BreedActions.skaven_poison_wind_globadier.advance_towards_players = {
-        exit_to_skulk_distance = 45,
-        ignore_LOS_check_after_first_throw = false,
-        range = 40,
-        slot_count_distance_modifier = 0,
-        slot_count_time_modifier = 0,
-        time_before_throw_distance_modifier = 1,
-        time_until_first_throw = {
-            25,
-            25,
-        },
-        keep_target_distance = {
-            15,
-            20,
-        },
-        throw_at_distance = {
-            10,
-            25,
-        },
-        throw_at_distance_first_time = {
-            8,
-            15,
-        },
-        attack_throw_offset = {
-            0.1281,
-            1.1719,
-            1.3749,
-        },
-        radius = 4,
-    }
-    BreedActions.skaven_poison_wind_globadier.throw_poison_globe.time_between_throws = { 10, 12 }
-    BreedActions.skaven_poison_wind_globadier.throw_poison_globe.barrage_count = 1 
-end
+BreedActions.skaven_poison_wind_globadier.advance_towards_players = {
+    exit_to_skulk_distance = 45,
+    ignore_LOS_check_after_first_throw = false,
+    range = 40,
+    slot_count_distance_modifier = 0,
+    slot_count_time_modifier = 0,
+    time_before_throw_distance_modifier = 1,
+    time_until_first_throw = {
+        18,
+        25,
+    },
+    keep_target_distance = {
+        15,
+        20,
+    },
+    throw_at_distance = {
+        10,
+        25,
+    },
+    throw_at_distance_first_time = {
+        8,
+        15,
+    },
+    attack_throw_offset = {
+        0.1281,
+        1.1719,
+        1.3749,
+    },
+    radius = 4,
+}
+BreedActions.skaven_poison_wind_globadier.throw_poison_globe.time_between_throws = { 8, 12 }
+BreedActions.skaven_poison_wind_globadier.throw_poison_globe.barrage_count = 1
 
 Breeds.skaven_dummy_slave.size_variation_range = { 1.8, 1.8 }
 
@@ -636,4 +632,3 @@ Breeds.beastmen_standard_bearer.hitzone_primary_armor_categories = { head = 3, n
     }
     BreedActions.beastmen_standard_bearer.place_standard.considerations = UtilityConsiderations.beastmen_place_standard_lines
     BeastmenStandardTemplates.healing_standard.radius = 3
-

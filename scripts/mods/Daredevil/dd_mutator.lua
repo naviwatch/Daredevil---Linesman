@@ -875,7 +875,7 @@ local co = 0.135
 					1,
 					1
 				},
-				"chaos_plague_sorcerer",
+				"chaos_corruptor_sorcerer",
 				{
 					1,
 					1
@@ -9572,7 +9572,7 @@ HordeCompositions.athel_wdnmd = {
 				},
 				"chaos_warrior",
 				1,
-				"chaos_plague_sorcerer",
+				"chaos_corruptor_sorcerer",
 				2
 			}
 		},
@@ -9602,7 +9602,7 @@ HordeCompositions.athel_wdnmd = {
 				},
 				"chaos_warrior",
 				1,
-				"chaos_plague_sorcerer",
+				"chaos_corruptor_sorcerer",
 				2
 			}
 		},
@@ -9625,7 +9625,7 @@ HordeCompositions.athel_wdnmd = {
 					2,
 					3
 				},
-				"chaos_plague_sorcerer",
+				"chaos_corruptor_sorcerer",
 				2
 			}
 		},
@@ -9650,7 +9650,7 @@ HordeCompositions.athel_wdnmd = {
 				},
 				"chaos_warrior",
 				1,
-				"chaos_plague_sorcerer",
+				"chaos_corruptor_sorcerer",
 				2
 			}
 		},
@@ -9670,7 +9670,7 @@ HordeCompositions.athel_wdnmd = {
 				},
 				"chaos_warrior",
 				1,
-				"chaos_plague_sorcerer",
+				"chaos_corruptor_sorcerer",
 				2
 			}
 		},

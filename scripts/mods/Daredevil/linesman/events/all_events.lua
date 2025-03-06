@@ -3139,27 +3139,11 @@ end
 			composition_type = "event_large"
 		},
 		{
-			"event_horde",
-			limit_spawners = 2,
-			spawner_id = "onslaught_mines_horde_front",
-			composition_type = "onslaught_storm_vermin_medium"
-		},
-		{
-			"event_horde",
-			limit_spawners = 2,
-			spawner_id = "end_event",
-			composition_type = "onslaught_storm_vermin_medium"
-		},
-		{
-			"delay",
-			duration = 2
-		},
-		{
 			"spawn_at_raw",
-			spawner_id = "onslaught_mines_extra_troll_3",
-			breed_name = "chaos_warrior",
+			spawner_id = "onslaught_mines_extra_troll_1",
+			breed_name = "chaos_troll",
 			optional_data = {
-				spawned_func = nurgle_buff_spawn_function
+				max_health_modifier = 0.0225
 			}
 		},
 		{
@@ -3167,8 +3151,28 @@ end
 			spawner_id = "onslaught_mines_extra_troll_1",
 			breed_name = "chaos_troll",
 			optional_data = {
-				enhancements = enhancement_1
+				max_health_modifier = 0.0225
 			}
+		},
+		{
+			"spawn_at_raw",
+			spawner_id = "onslaught_mines_extra_troll_1",
+			breed_name = "chaos_troll",
+			optional_data = {
+				max_health_modifier = 0.0225
+			}
+		},
+		{
+			"spawn_at_raw",
+			spawner_id = "onslaught_mines_extra_troll_1",
+			breed_name = "chaos_troll",
+			optional_data = {
+				max_health_modifier = 0.0225
+			}
+		},
+		{
+			"delay",
+			duration = 2
 		},
 		{
 			"continue_when",
@@ -3201,7 +3205,8 @@ end
 			spawner_id = "onslaught_mines_extra_troll_3",
 			breed_name = "chaos_troll",
 			optional_data = {
-				enhancements = enhancement_1
+				enhancements = better_bob,
+				max_health_modifier = 0.0625
 			}
 		},
 		{
@@ -3213,31 +3218,12 @@ end
 		{
 			"event_horde",
 			limit_spawners = 2,
-			spawner_id = "end_event_chaos",
-			composition_type = "onslaught_chaos_berzerkers_medium"
-		},
-		{
-			"event_horde",
-			limit_spawners = 2,
-			spawner_id = "end_event_chaos",
-			composition_type = "onslaught_chaos_berzerkers_medium"
-		},
-		{
-			"event_horde",
-			limit_spawners = 2,
 			spawner_id = "onslaught_mines_horde_front",
 			composition_type = "event_small_chaos"
 		},
 		{
 			"delay",
-			duration = 5
-		},
-		{
-			"continue_when",
-			duration = 45,
-			condition = function (t)
-				return (count_event_breed("chaos_marauder") + count_event_breed("chaos_marauder_with_shield")) < 25 and count_event_breed("chaos_berzerker") < 12
-			end
+			duration = 30
 		},
 		{
 			"delay",
@@ -3264,12 +3250,6 @@ end
 			composition_type = "chaos_warriors"
 		},
 		{
-			"event_horde",
-			limit_spawners = 3,
-			spawner_id = "onslaught_mines_horde_front",
-			composition_type = "event_small"
-		},
-		{
 			"delay",
 			duration = 5
 		},
@@ -3278,12 +3258,6 @@ end
 			limit_spawners = 2,
 			spawner_id = "onslaught_mines_horde_front",
 			composition_type = "event_maulers_medium"
-		},
-		{
-			"event_horde",
-			limit_spawners = 2,
-			spawner_id = "end_event",
-			composition_type = "event_extra_spice_large"
 		},
 		{
 			"delay",
@@ -3305,16 +3279,18 @@ end
 			stinger_name = "enemy_horde_chaos_stinger"
 		},
 		{
-			"event_horde",
-			limit_spawners = 2,
-			spawner_id = "end_event_chaos",
-			composition_type = "event_small_chaos"
+			"spawn_at_raw",
+			spawner_id = "onslaught_mines_extra_troll_1",
+			breed_name = "chaos_troll",
+			optional_data = {
+				max_health_modifier = 0.0625
+			}
 		},
 		{
 			"event_horde",
 			limit_spawners = 2,
-			spawner_id = "onslaught_mines_horde_front",
-			composition_type = "event_large_chaos"
+			spawner_id = "end_event_chaos",
+			composition_type = "event_small_chaos"
 		},
 		{
 			"event_horde",
@@ -3344,6 +3320,14 @@ end
 			duration = 5
 		},
 		{
+			"spawn_at_raw",
+			spawner_id = "onslaught_mines_extra_troll_1",
+			breed_name = "chaos_troll",
+			optional_data = {
+				max_health_modifier = 0.0625
+			}
+		},
+		{
 			"event_horde",
 			limit_spawners = 2,
 			spawner_id = "end_event",
@@ -3355,41 +3339,7 @@ end
 		},
 		{
 			"delay",
-			duration = 2
-		},
-		{
-			"play_stinger",
-			stinger_name = "enemy_horde_stingers_plague_monk"
-		},
-		{
-			"delay",
-			duration = 2
-		},
-		{
-			"play_stinger",
-			stinger_name = "enemy_horde_stingers_plague_monk"
-		},
-		{
-			"delay",
 			duration = 1
-		},
-		{
-			"event_horde",
-			limit_spawners = 2,
-			spawner_id = "end_event_chaos",
-			composition_type = "onslaught_plague_monks_medium"
-		},
-		{
-			"event_horde",
-			limit_spawners = 2,
-			spawner_id = "end_event_chaos",
-			composition_type = "onslaught_plague_monks_medium"
-		},
-		{
-			"event_horde",
-			limit_spawners = 2,
-			spawner_id = "onslaught_mines_horde_front",
-			composition_type = "onslaught_plague_monks_medium"
 		},
 		{
 			"event_horde",
@@ -3424,7 +3374,7 @@ end
 		}
 	}
 
-	TerrorEventBlueprints.mines.mines_end_event_loop_02 = {
+	TerrorEventBlueprints.mines.mines_end_event_loop_02_skaven = {
 		{
 			"set_freeze_condition",
 			max_active_enemies = 100
@@ -3450,16 +3400,12 @@ end
 			composition_type = "event_medium_chaos"
 		},
 		{
-			"event_horde",
-			limit_spawners = 2,
-			spawner_id = "end_event_chaos",
-			composition_type = "onslaught_chaos_berzerkers_medium"
-		},
-		{
-			"event_horde",
-			limit_spawners = 2,
-			spawner_id = "onslaught_mines_horde_front",
-			composition_type = "event_maulers_medium"
+			"spawn_at_raw",
+			spawner_id = "onslaught_mines_extra_troll_1",
+			breed_name = "chaos_troll",
+			optional_data = {
+				max_health_modifier = 0.0625
+			}
 		},
 		{
 			"delay",
@@ -3483,6 +3429,14 @@ end
 			composition_type = "event_medium"
 		},
 		{
+			"spawn_at_raw",
+			spawner_id = "onslaught_mines_extra_troll_1",
+			breed_name = "chaos_troll",
+			optional_data = {
+				max_health_modifier = 0.0625
+			}
+		},
+		{
 			"event_horde",
 			limit_spawners = 2,
 			spawner_id = "onslaught_mines_horde_front",
@@ -3491,12 +3445,6 @@ end
 		{
 			"delay",
 			duration = 5
-		},
-		{
-			"event_horde",
-			limit_spawners = 2,
-			spawner_id = "end_event",
-			composition_type = "event_extra_spice_medium"
 		},
 		{
 			"event_horde",
@@ -3523,12 +3471,6 @@ end
 			"event_horde",
 			limit_spawners = 2,
 			spawner_id = "end_event_chaos",
-			composition_type = "event_small_chaos"
-		},
-		{
-			"event_horde",
-			limit_spawners = 2,
-			spawner_id = "end_event_chaos",
 			composition_type = "event_medium_chaos"
 		},
 		{
@@ -3536,6 +3478,14 @@ end
 			limit_spawners = 2,
 			spawner_id = "onslaught_mines_horde_front",
 			composition_type = "event_maulers_small"
+		},
+		{
+			"spawn_at_raw",
+			spawner_id = "onslaught_mines_extra_troll_1",
+			breed_name = "chaos_troll",
+			optional_data = {
+				max_health_modifier = 0.0625
+			}
 		},
 		{
 			"event_horde",
@@ -3575,18 +3525,6 @@ end
 			composition_type = "onslaught_plague_monks_medium"
 		},
 		{
-			"event_horde",
-			limit_spawners = 2,
-			spawner_id = "end_event_chaos",
-			composition_type = "onslaught_plague_monks_small"
-		},
-		{
-			"event_horde",
-			limit_spawners = 2,
-			spawner_id = "onslaught_mines_horde_front",
-			composition_type = "onslaught_plague_monks_small"
-		},
-		{
 			"delay",
 			duration = 10
 		},
@@ -3606,6 +3544,8 @@ end
 			flow_event_name = "mines_end_event_loop_02_done"
 		}
 	}
+
+	TerrorEventBlueprints.mines.mines_end_event_loop_02_chaos = TerrorEventBlueprints.mines.mines_end_event_loop_02_skaven
 
 	TerrorEventBlueprints.mines.mines_end_event_specials_01 = {
 		{
@@ -3862,7 +3802,11 @@ end
 		{
 			"spawn_at_raw",
 			spawner_id = "troll_boss",
-			breed_name = "chaos_troll"
+			breed_name = "skaven_dummy_slave",
+			optional_data = {
+				size_variation_range = { 1.45, 1.45 },
+				max_health_modifier = 0.2
+			}
 		},
 		{
 			"set_time_challenge",
@@ -4164,7 +4108,7 @@ end
 				},
 				"chaos_warrior",
 				1,
-				"chaos_plague_sorcerer",
+				"chaos_corruptor_sorcerer",
 				2
 			}
 		},
@@ -4194,7 +4138,7 @@ end
 				},
 				"chaos_warrior",
 				1,
-				"chaos_plague_sorcerer",
+				"chaos_corruptor_sorcerer",
 				2
 			}
 		},
@@ -4217,7 +4161,7 @@ end
 					2,
 					3
 				},
-				"chaos_plague_sorcerer",
+				"chaos_corruptor_sorcerer",
 				2
 			}
 		},
@@ -4242,7 +4186,7 @@ end
 				},
 				"chaos_warrior",
 				1,
-				"chaos_plague_sorcerer",
+				"chaos_corruptor_sorcerer",
 				2
 			}
 		},
@@ -4262,7 +4206,7 @@ end
 				},
 				"chaos_warrior",
 				1,
-				"chaos_plague_sorcerer",
+				"chaos_corruptor_sorcerer",
 				2
 			}
 		},
@@ -6616,7 +6560,8 @@ end
 			optional_data = {
 				enhancements = bob,
 				max_health_modifier = 15,
-				size_variation_range = { 4, 4 }
+				size_variation_range = { 2, 2 },
+				target_selection = "least_healthy_player"
 			}
 		},
 		{
@@ -6630,7 +6575,8 @@ end
 			optional_data = {
 				enhancements = shield_shatter,
 				max_health_modifier = 15,
-				size_variation_range = { 3, 3 }
+				size_variation_range = { 2, 2 },
+				target_selection = "least_healthy_player"
 			}
 		},
 		{
@@ -6724,11 +6670,11 @@ end
 	TerrorEventBlueprints.fort.fort_pacing_off = {
 		{
 			"control_pacing",
-			enable = false
+			enable = true
 		},
 		{
 			"control_specials",
-			enable = false
+			enable = true
 		}
 	}
 
@@ -6744,7 +6690,7 @@ end
 		{
 			"event_horde",
 			spawner_id = "terror_event_climb",
-			composition_type = "event_extra_spice_large"
+			composition_type = "apocalypse_wave"
 		},
 		{
 			"delay",
@@ -6930,7 +6876,7 @@ end
 		},
 		{
 			"delay",
-			duration = 60
+			duration = 15
 		},
 		{
 			"spawn_at_raw",
@@ -6944,7 +6890,7 @@ end
 		},
 		{
 			"delay",
-			duration = 30
+			duration = 8
 		},
 		{
 			"event_horde",
@@ -7000,7 +6946,7 @@ end
 		},
 		{
 			"delay",
-			duration = 8
+			duration = 15
 		},
 		{
 			"spawn_at_raw",
@@ -13967,6 +13913,14 @@ end
 			duration = 12
 		},
 		{
+			"spawn_at_raw",
+			spawner_id = "onslaught_magnus_boss_middle",
+			breed_name = "skaven_rat_ogre",
+			optional_data = {
+				max_health_modifier = 0.375 -- 2400 hp
+			}
+		},
+		{
 			"delay",
 			duration = 12
 		},
@@ -13980,7 +13934,7 @@ end
 		{
 			"event_horde",
 			spawner_id = "magnus_door_event_chaos",
-			composition_type = "onslaught_custom_specials_heavy_denial"
+			composition_type = "event_medium_chaos"
 		},
 		{
 			"event_horde",
@@ -14022,7 +13976,7 @@ end
 		{
 			"event_horde",
 			spawner_id = "magnus_door_event_c",
-			composition_type = "onslaught_custom_specials_heavy_denial"
+			composition_type = "event_stormvermin_shielders"
 		},
 		{
 			"delay",
@@ -14147,7 +14101,7 @@ end
 		{
 			"event_horde",
 			spawner_id = "magnus_door_event_b",
-			composition_type = "onslaught_custom_specials_heavy_denial"
+			composition_type = "event_stormvermin_shielders"
 		},
 		{
 			"delay",
@@ -14288,8 +14242,8 @@ end
 			breed_name = "skaven_poison_wind_globadier",
 			spawner_id = "magnus_door_event_specials",
 			amount = {
-				2,
-				3
+				1,
+				2
 			}
 		},
 		{
@@ -14363,7 +14317,7 @@ end
 		{
 			"event_horde",
 			spawner_id = "magnus_door_event_b",
-			composition_type = "onslaught_custom_specials_heavy_denial"
+			composition_type = "event_small"
 		},
 		{
 			"event_horde",
@@ -14419,7 +14373,7 @@ end
 		{
 			"event_horde",
 			spawner_id = "magnus_door_event_b",
-			composition_type = "onslaught_custom_specials_heavy_denial"
+			composition_type = "event_small"
 		},
 		{
 			"event_horde",
@@ -14551,18 +14505,6 @@ end
 			"event_horde",
 			limit_spawners = 2,
 			spawner_id = "magnus_tower_horn",
-			composition_type = "onslaught_storm_vermin_white_medium"
-		},
-		{
-			"event_horde",
-			limit_spawners = 2,
-			spawner_id = "magnus_tower_horn",
-			composition_type = "onslaught_storm_vermin_white_medium"
-		},
-		{
-			"event_horde",
-			limit_spawners = 2,
-			spawner_id = "magnus_tower_horn",
 			composition_type = "onslaught_plague_monks_medium"
 		},
 		{
@@ -14594,20 +14536,14 @@ end
 			duration = 5
 		},
 		{
-			"event_horde",
-			limit_spawners = 4,
-			spawner_id = "magnus_tower_horn",
-			composition_type = "event_medium"
-		},
-		{
 			"spawn_special",
 			breed_name = "skaven_dummy_clan_rat",
 			amount = {
-				2,
+				3,
 				3
 			},
 			optional_data = {
-				size_variation_range = { 3, 3 }
+				size_variation_range = { 3, 3 },
 			}
 		},
 		{
@@ -14621,18 +14557,6 @@ end
 			limit_spawners = 2,
 			spawner_id = "magnus_tower_horn",
 			composition_type = "onslaught_storm_vermin_medium"
-		},
-		{
-			"event_horde",
-			limit_spawners = 2,
-			spawner_id = "magnus_tower_horn",
-			composition_type = "onslaught_storm_vermin_white_medium"
-		},
-		{
-			"event_horde",
-			limit_spawners = 2,
-			spawner_id = "magnus_tower_horn",
-			composition_type = "onslaught_storm_vermin_white_medium"
 		},
 		{
 			"event_horde",
@@ -14656,9 +14580,21 @@ end
 			stinger_name = "enemy_horde_chaos_stinger"
 		},
 		{
+			"spawn_special",
+			breed_name = "skaven_stormfiend",
+			amount = {
+				2,
+				2
+			},
+			optional_data = {
+				size_variation_range = { 1.45, 1.45 },
+				max_health_modifier = 0.1
+			}
+		},
+		{
 			"event_horde",
 			spawner_id = "magnus_tower_chaos",
-			composition_type = "event_large_chaos"
+			composition_type = "dn_warpfire_spam"
 		},
 		{
 			"delay",
@@ -14683,18 +14619,6 @@ end
 			composition_type = "event_maulers_medium"
 		},
 		{
-			"event_horde",
-			limit_spawners = 2,
-			spawner_id = "magnus_tower_chaos",
-			composition_type = "onslaught_chaos_berzerkers_medium"
-		},
-		{
-			"event_horde",
-			limit_spawners = 2,
-			spawner_id = "magnus_tower_chaos",
-			composition_type = "onslaught_chaos_berzerkers_medium"
-		},
-		{
 			"delay",
 			duration = 1
 		},
@@ -14703,6 +14627,10 @@ end
 			limit_spawners = 1,
 			spawner_id = "magnus_tower_chaos",
 			composition_type = "onslaught_event_small_fanatics"
+		},
+		{
+			"delay",
+			duration = 30
 		},
 		{
 			"event_horde",
@@ -14736,6 +14664,11 @@ end
 			stinger_name = "enemy_horde_stinger"
 		},
 		{
+			"spawn_special",
+			breed_name = "skaven_ratling_gunner",
+			amount = 4,
+		},
+		{
 			"event_horde",
 			limit_spawners = 4,
 			spawner_id = "magnus_tower_horn",
@@ -14743,19 +14676,18 @@ end
 		},
 		{
 			"delay",
-			duration = 5
-		},
-		{
-			"event_horde",
-			limit_spawners = 4,
-			spawner_id = "magnus_tower_horn",
-			composition_type = "event_medium"
+			duration = 10
 		},
 		{
 			"event_horde",
 			limit_spawners = 4,
 			spawner_id = "magnus_tower_horn",
 			composition_type = "event_stormvermin_shielders"
+		},
+		{
+			"spawn_special",
+			breed_name = "skaven_gutter_runner",
+			amount = 2,
 		},
 		{
 			"event_horde",
@@ -14765,7 +14697,7 @@ end
 		},
 		{
 			"delay",
-			duration = 5
+			duration = 10
 		},
 		{
 			"event_horde",
@@ -14796,29 +14728,23 @@ end
 		},
 		{
 			"event_horde",
-			limit_spawners = 4,
-			spawner_id = "magnus_tower_horn",
-			composition_type = "event_medium"
-		},
-		{
-			"delay",
-			duration = 3
-		},
-		{
-			"event_horde",
 			limit_spawners = 2,
 			spawner_id = "magnus_tower_horn",
 			composition_type = "event_extra_spice_large"
 		},
 		{
-			"delay",
-			duration = 5
+			"spawn_special",
+			breed_name = "skaven_poison_wind_globadier",
+			amount = 3,
 		},
 		{
-			"event_horde",
-			limit_spawners = 4,
-			spawner_id = "magnus_tower_horn",
-			composition_type = "event_small"
+			"spawn_special",
+			breed_name = "skaven_ratling_gunner",
+			amount = 1,
+		},
+		{
+			"delay",
+			duration = 5
 		},
 		{
 			"event_horde",
@@ -14856,42 +14782,7 @@ end
 		{
 			"event_horde",
 			spawner_id = "magnus_tower_chaos",
-			composition_type = "onslaught_chaos_berzerkers_medium"
-		},
-		{
-			"event_horde",
-			spawner_id = "magnus_tower_chaos",
-			composition_type = "onslaught_chaos_berzerkers_medium"
-		},
-		{
-			"event_horde",
-			spawner_id = "magnus_tower_chaos",
-			composition_type = "onslaught_chaos_berzerkers_medium"
-		},
-		{
-			"delay",
-			duration = 1
-		},
-		{
-			"play_stinger",
-			stinger_name = "enemy_horde_chaos_stinger"
-		},
-		{
-			"event_horde",
-			limit_spawners = 2,
-			spawner_id = "magnus_tower_chaos",
-			composition_type = "onslaught_chaos_warriors"
-		},
-		{
-			"event_horde",
-			limit_spawners = 2,
-			spawner_id = "magnus_tower_chaos",
-			composition_type = "onslaught_chaos_warriors"
-		},
-		{
-			"event_horde",
-			spawner_id = "magnus_tower_chaos",
-			composition_type = "event_medium_chaos"
+			composition_type = "apocalypse_wave"
 		},
 		{
 			"delay",
@@ -14921,28 +14812,6 @@ end
 			composition_type = "event_small"
 		},
 		{
-			"delay",
-			duration = 5
-		},
-		{
-			"event_horde",
-			limit_spawners = 2,
-			spawner_id = "magnus_tower_horn",
-			composition_type = "onslaught_plague_monks_medium"
-		},
-		{
-			"event_horde",
-			limit_spawners = 2,
-			spawner_id = "magnus_tower_horn",
-			composition_type = "onslaught_plague_monks_medium"
-		},
-		{
-			"event_horde",
-			limit_spawners = 2,
-			spawner_id = "magnus_tower_horn",
-			composition_type = "onslaught_storm_vermin_white_medium"
-		},
-		{
 			"continue_when",
 			duration = 60,
 			condition = function (t)
@@ -14959,39 +14828,8 @@ end
 			composition_type = "event_large"
 		},
 		{
-			"event_horde",
-			limit_spawners = 4,
-			spawner_id = "magnus_tower_horn",
-			composition_type = "event_extra_spice_large"
-		},
-		{
-			"event_horde",
-			limit_spawners = 4,
-			spawner_id = "magnus_tower_horn",
-			composition_type = "onslaught_storm_vermin_small"
-		},
-		{
-			"event_horde",
-			limit_spawners = 2,
-			spawner_id = "magnus_tower_horn",
-			composition_type = "onslaught_storm_vermin_white_medium"
-		},
-		{
-			"event_horde",
-			limit_spawners = 2,
-			spawner_id = "magnus_tower_horn",
-			composition_type = "onslaught_storm_vermin_white_medium"
-		},
-		{
 			"delay",
 			duration = 10
-		},
-		{
-			"continue_when",
-			duration = 60,
-			condition = function (t)
-				return (count_event_breed("skaven_clan_rat") + count_event_breed("skaven_clan_rat_with_shield")) < 3 and count_event_breed("skaven_slave") < 5 and count_event_breed("skaven_storm_vermin_commander") < 1 and count_event_breed("skaven_plague_monk") < 1
-			end
 		},
 		{
 			"flow_event",
@@ -17363,7 +17201,7 @@ end
 			"event_horde",
 			limit_spawners = 4,
 			spawner_id = "crater_end_event",
-			composition_type = "ungor_archers"
+			composition_type = "highasf"
 		},
 		{
 			"continue_when",
@@ -17429,18 +17267,6 @@ end
 			composition_type = "event_large_beastmen"
 		},
 		{
-			"event_horde",
-			limit_spawners = 4,
-			spawner_id = "crater_end_event",
-			composition_type = "ungor_archers"
-		},
-		{
-			"event_horde",
-			limit_spawners = 4,
-			spawner_id = "crater_end_event",
-			composition_type = "ungor_archers"
-		},
-		{
 			"flow_event",
 			flow_event_name = "crater_end_event_wave_04_repeat"
 		},
@@ -17475,120 +17301,6 @@ end
 			condition = function (t)
 				return count_event_breed("beastmen_minotaur") < 2
 			end
-		}
-	}
-
-	HordeCompositions.event_small_beastmen = {
-		{
-			name = "plain",
-			weight = 7,
-			breeds = {
-				"beastmen_gor",
-				{
-					13,
-					14
-				}
-			}
-		},
-		{
-			name = "mixed",
-			weight = 3,
-			breeds = {
-				"beastmen_ungor",
-				{
-					3,
-					4
-				},
-				"beastmen_gor",
-				{
-					9,
-					10
-				}
-			}
-		}
-	}
-
-	HordeCompositions.event_medium_beastmen = {
-		{
-			name = "plain",
-			weight = 7,
-			breeds = {
-				"beastmen_gor",
-				{
-					16,
-					17
-				},
-				"beastmen_ungor",
-				{
-					8,
-					9
-				}
-			}
-		},
-		{
-			name = "mixed",
-			weight = 3,
-			breeds = {
-				"beastmen_gor",
-				{
-					7,
-					8
-				},
-				"beastmen_ungor",
-				{
-					15,
-					16
-				}
-			}
-		}
-	}
-
-	HordeCompositions.event_large_beastmen = {
-		{
-			name = "plain",
-			weight = 7,
-			breeds = {
-				"beastmen_gor",
-				{
-					18,
-					19
-				},
-				"beastmen_ungor",
-				{
-					16,
-					17
-				}
-			}
-		},
-		{
-			name = "mixed",
-			weight = 3,
-			breeds = {
-				"beastmen_gor",
-				{
-					22,
-					23
-				},
-				"beastmen_ungor",
-				{
-					14,
-					15
-				}
-			}
-		}
-	}
-
-	HordeCompositions.crater_bestigor_medium = {
-		{
-			name = "ambestigor",
-			weight = 3,
-			breeds = {
-				"beastmen_bestigor",
-				{
-					9,
-					10
-				},
-			}
 		}
 	}
 
