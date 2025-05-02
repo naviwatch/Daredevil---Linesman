@@ -1,6 +1,6 @@
 return {
 	mod_description = {
-		en = "Version 3.0.0",
+		en = "Version 4.0.0",
 	},
 	giga_specials = {
 		en = "Unrelenting Specials"
@@ -70,6 +70,18 @@ return {
 	},
 	debug = {
 		en = "Debug"
+	},
+	bob_message = {
+		en = "A wave of heat washes over you as the wind grows thick with soot.",
+		zh = "一股热浪扑面而来，风裹挟着厚厚的煤灰。"
+	},
+	linesman = {
+		en = "Linesman Onslaught ENABLED.",
+		zh = "L猛已启动"
+	},
+	linesbaby = {
+		en = "Linesbaby Onslaught ENABLED.",
+		zh = "L猛(baby)已启动"
 	}
 }
 

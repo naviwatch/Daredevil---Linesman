@@ -2,6 +2,8 @@ local mod = get_mod("Daredevil")
 local mutator = mod:persistent_table("Daredevil")
 local mutator_plus = mod:persistent_table("Daredevil+")
 local lb = get_mod("LinesmanBalance")
+local language_id = Managers.localizer:language_id()
+local is_chinese = language_id == "zh"
 
 --[[
 	Functions
@@ -1052,11 +1054,9 @@ mod:network_register("rpc_disable_white_sv", function (sender, enable)
 end)
 
 mod:network_register("bob_name_enable", function (sender, enable)
-	--[[
 	Breeds.skaven_dummy_clan_rat = mod.deepcopy(Breeds.skaven_ratling_gunner)
-	Breeds.skaven_dummy_clan_rat.size_variation_range = { 3, 3 }
+	Breeds.skaven_dummy_clan_rat.size_variation_range = { 2, 2 }
 	Breeds.skaven_dummy_clan_rat.boss = true -- No WHC/Shade cheese fight this big man fair and square
-	]]
 	GrudgeMarkedNames.skaven = { "Bob the Builder" }
 end)
 
@@ -1169,7 +1169,7 @@ mod:hook_safe("ChatManager", "_add_message_to_list", function (self, channel_id,
 		mod:network_send("bob_name_enable", "local", true)
 		mod:network_send("giant_so_true", "local", true)
 		mod:network_send("c3dwlines", "local", true)
-		mod:network_send("breed_loading_in", "local", true)
+--		mod:network_send("breed_loading_in", "local", true)
 --		mod:network_send("linesman_ost", "local", true)
 	end
 end)
@@ -1178,9 +1178,9 @@ mod.on_user_joined = function (player)
 	if mutator_plus.active then
 		mod:network_send("rpc_enable_white_sv", "others", true)
 		mod:network_send("bob_name_enable", "others", true)
-		mod:network_send("giant_so_true", "local", true)
+		mod:network_send("giant_so_true", "others", true)
 		mod:network_send("c3dwlines", "others", true)
-		mod:network_send("breed_loading_in", "others", true)
+--		mod:network_send("breed_loading_in", "others", true)
 --		mod:network_send("linesman_ost", "others", true)
 	end
 end
@@ -1247,21 +1247,19 @@ mutator_plus.toggle = function()
 		mutator_plus.start()
 
 		if mod.difficulty_level == 1 then
-			mod:chat_broadcast("Linesbaby Onslaught ENABLED.")
-			mod:chat_broadcast("L猛已启动")
+			mod:chat_broadcast(mod:localize("linesbaby"))
 		elseif mod.difficulty_level == 2 then
 			mod:chat_broadcast("Linesboy Onslaught ENABLED.")
 			mod:chat_broadcast("L猛已启动")
 		elseif mod.difficulty_level == 3 then
-			mod:chat_broadcast("Linesman Onslaught ENABLED.")
-			mod:chat_broadcast("L猛已启动")
+			mod:chat_broadcast(mod:localize("linesman"))
 		end
 
 		if mod:get("beta") then
-			mod:chat_broadcast("Running Linesman BETA Version 3.0.0")
+			mod:chat_broadcast("Running Linesman BETA Version 4.0.0")
 			mod:chat_broadcast("这是Linesman BETA！")
 		else 
-			mod:chat_broadcast("Version 3.0.0")
+			mod:chat_broadcast("Version 4.0.0")
 		end 
 	else
 		mutator_plus.stop()
@@ -1359,3 +1357,514 @@ mod:command("ihateconvo", " i HATE convocation of DECAY more like convocation of
 	}
 	mod:chat_broadcast("FUCK convo")
 end)
+
+mod:command("spawn_a_bob", " spawn a bob :D", function()
+	Managers.state.conflict:start_terror_event("bob_the_builder")
+	mod:chat_broadcast("BOB is here.")
+end)
+
+mod:command("trigger_haz40", " Triggers something special", function()
+	Managers.state.conflict:start_terror_event("eee")
+	Managers.state.conflict:start_terror_event("eee_trash")
+end)
+
+local haz_40 = function(num_to_sv, num_to_white_sv, num_to_monk, num_to_mauler, num_to_bers, num_to_cw, num_to_bestigor) -- sv/monk/mauler/bers/cw/bestigor
+    -- so i can be lazy
+    local num_to_sv = num_to_sv or 0
+    local num_to_white_sv = num_to_white_sv or 0
+    local num_to_monk = num_to_monk or 0
+    local num_to_mauler = num_to_mauler or 0
+    local num_to_bers = num_to_bers or 0
+    local num_to_cw = num_to_cw or 0
+    local num_to_bestigor = num_to_bestigor or 0
+
+    local spawn_list = {}
+
+    for i = 1, num_to_sv do
+        table.insert(spawn_list, "skaven_storm_vermin_commander")
+    end
+
+    for i = 1, num_to_white_sv do 
+        table.insert(spawn_list, "skaven_storm_vermin")
+    end
+
+    for i = 1, num_to_monk do
+        table.insert(spawn_list, "skaven_plague_monk")
+    end
+
+    for i = 1, num_to_mauler do
+        table.insert(spawn_list, "chaos_raider")
+    end
+
+    for i = 1, num_to_bers do
+        table.insert(spawn_list, "chaos_berzerker")
+    end
+
+    for i = 1, num_to_cw do
+        table.insert(spawn_list, "chaos_warrior")
+    end
+
+    for i = 1, num_to_bestigor do
+        table.insert(spawn_list, "beastmen_bestigor")
+    end
+
+    local side = Managers.state.conflict.default_enemy_side_id
+    local side_id = side
+
+    Managers.state.conflict.horde_spawner:execute_custom_horde(spawn_list, true, side_id) -- only spawn front so force players to push back and to avoid speedrunning
+end
+
+local haz_40_trash = function(num_to_spawn_enhanced, num_to_spawn) -- trash are x2
+    -- so i can be lazy
+    local num_to_spawn_enhanced = num_to_spawn_enhanced or 0
+    local num_to_spawn = num_to_spawn or 0
+
+    local spawn_list = {}
+
+    for i = 1, num_to_spawn_enhanced do
+        table.insert(spawn_list, "skaven_clan_rat")
+        table.insert(spawn_list, "chaos_marauder")
+    end
+
+    for i = 1, num_to_spawn do
+        table.insert(spawn_list, "skaven_slave")
+        table.insert(spawn_list, "chaos_fanatic")
+    end
+
+    local side = Managers.state.conflict.default_enemy_side_id
+    local side_id = side
+
+    Managers.state.conflict.horde_spawner:execute_custom_horde(spawn_list, true, side_id) -- only spawn front so force players to push back and to avoid speedrunning
+end
+
+local function add_item(is_server, player_unit, pickup_type)
+	local player_manager = Managers.player
+	local player = player_manager:owner(player_unit)
+
+	if player then
+		local local_bot_or_human = not player.remote
+
+		if local_bot_or_human then
+			local network_manager = Managers.state.network
+			local network_transmit = network_manager.network_transmit
+			local inventory_extension = ScriptUnit.extension(player_unit, "inventory_system")
+			local career_extension = ScriptUnit.extension(player_unit, "career_system")
+			local pickup_settings = AllPickups[pickup_type]
+			local slot_name = pickup_settings.slot_name
+			local item_name = pickup_settings.item_name
+			local slot_data = inventory_extension:get_slot_data(slot_name)
+			local can_store_additional_item = inventory_extension:can_store_additional_item(slot_name)
+			local has_additional_items = inventory_extension:has_additional_items(slot_name)
+
+			if slot_data and not can_store_additional_item then
+				local item_data = slot_data.item_data
+				local item_template = BackendUtils.get_item_template(item_data)
+				local pickup_item_to_spawn
+
+				if item_template.name == "wpn_side_objective_tome_01" then
+					pickup_item_to_spawn = "tome"
+				elseif item_template.name == "wpn_grimoire_01" then
+					pickup_item_to_spawn = "grimoire"
+				end
+
+				if pickup_item_to_spawn then
+					local pickup_spawn_type = "dropped"
+					local pickup_name_id = NetworkLookup.pickup_names[pickup_item_to_spawn]
+					local pickup_spawn_type_id = NetworkLookup.pickup_spawn_types[pickup_spawn_type]
+					local position = POSITION_LOOKUP[player_unit]
+					local rotation = Unit.local_rotation(player_unit, 0)
+
+					network_transmit:send_rpc_server("rpc_spawn_pickup", pickup_name_id, position, rotation, pickup_spawn_type_id)
+				end
+			end
+
+			local item_data = ItemMasterList[item_name]
+			local unit_template
+			local extra_extension_init_data = {}
+
+			if can_store_additional_item and slot_data then
+				inventory_extension:store_additional_item(slot_name, item_data)
+			elseif has_additional_items and slot_data then
+				local has_droppable, is_stored, drop_item_data = inventory_extension:has_droppable_item(slot_name)
+
+				if is_stored then
+					inventory_extension:remove_additional_item(slot_name, drop_item_data)
+					inventory_extension:store_additional_item(slot_name, item_data)
+				else
+					inventory_extension:destroy_slot(slot_name)
+					inventory_extension:add_equipment(slot_name, item_data, unit_template, extra_extension_init_data)
+				end
+			else
+				inventory_extension:destroy_slot(slot_name)
+				inventory_extension:add_equipment(slot_name, item_data, unit_template, extra_extension_init_data)
+			end
+
+			local go_id = Managers.state.unit_storage:go_id(player_unit)
+			local slot_id = NetworkLookup.equipment_slots[slot_name]
+			local item_id = NetworkLookup.item_names[item_name]
+			local weapon_skin_id = NetworkLookup.weapon_skins["n/a"]
+
+			if is_server then
+				network_transmit:send_rpc_clients("rpc_add_equipment", go_id, slot_id, item_id, weapon_skin_id)
+			else
+				network_transmit:send_rpc_server("rpc_add_equipment", go_id, slot_id, item_id, weapon_skin_id)
+			end
+
+			local wielded_slot_name = inventory_extension:get_wielded_slot_name()
+
+			if wielded_slot_name == slot_name then
+				CharacterStateHelper.stop_weapon_actions(inventory_extension, "picked_up_object")
+				CharacterStateHelper.stop_career_abilities(career_extension, "picked_up_object")
+				inventory_extension:wield(slot_name)
+			end
+		end
+	end
+end
+
+local give_strength_pot_man = function()
+    local players = Managers.player:human_and_bot_players()
+
+    for _, player in pairs(players) do
+        local unit = player.player_unit
+        if Unit.alive(unit) then
+            add_item(is_server, unit, "damage_boost_potion")
+        end
+    end
+end
+
+GenericTerrorEvents.darktide = {
+    {
+        "play_stinger",
+        stinger_name = "enemy_horde_stinger"
+    }
+}
+
+GenericTerrorEvents.eee = {
+	{
+		"control_hordes",
+		enable = false
+	},
+    {
+        "continue_when",
+        condition = function(t)
+            mod:chat_broadcast("A skittering cacophony rises from the metal grates beneath your feet.")
+            return true
+        end
+    },
+    {
+        "delay",
+        duration = 3,
+    },
+    {
+        "continue_when",
+        condition = function(t)
+            mod:chat_broadcast("The air grows thick with musk and malice. Your skin prickles with unnatural awareness.")
+            return true
+        end
+    },
+    {
+        "delay",
+        duration = 5,
+    },
+    {
+        "continue_when",
+        condition = function(t)
+            mod:chat_broadcast("The dim glow of lumens flickers as shadows begin to move of their own accord.")
+            return true
+        end
+    },
+    {
+        "delay",
+        duration = 3,
+    },
+    {
+        "continue_when",
+        condition = function(t)
+            mod:chat_broadcast("THE VERMINTIDE COMES! [WAVE 1]")
+            return true
+        end
+    },
+    {
+        "continue_when",
+        condition = function(t)
+			Managers.state.conflict:start_terror_event("darktide")
+			haz_40(nil, 3, nil, nil, nil, 6)
+            return true
+        end
+    },
+    {
+        "delay",
+        duration = 15,
+    },
+    {
+        "continue_when",
+        condition = function(t)
+            if (count_breed("skaven_storm_vermin") + count_breed("chaos_warrior")) < 3 then 
+                mod:chat_broadcast("The echoing war-horn shakes the walls. [WAVE 2]")
+				Managers.state.conflict:start_terror_event("darktide")
+                haz_40(6, nil, nil, 6, nil, nil)
+                return true
+            else
+                return false
+            end
+        end
+    },
+	{
+        "spawn_around_player",
+        amount = 1,
+        breed_name = "skaven_loot_rat"
+    },
+    {
+        "delay",
+        duration = 15,
+    },
+    {
+        "continue_when",
+        condition = function(t)
+            if (count_breed("skaven_storm_vermin_commander") + count_breed("chaos_raider")) < 4 then 
+                mod:chat_broadcast("A chorus of chittering madness rises as blood-mad killers emerge. [WAVE 3]")
+				Managers.state.conflict:start_terror_event("darktide")
+                haz_40_trash(0, 15)
+                haz_40(3, nil, 7, nil, 7, nil)
+                return true
+            else
+                return false
+            end
+        end
+    },
+    {
+        "delay",
+        duration = 15,
+    },
+    {
+        "continue_when",
+		duration = 15,
+        condition = function(t)
+            return (count_breed("skaven_storm_vermin_commander") + count_breed("chaos_raider")) < 5  
+        end
+    },
+    {
+        "continue_when",
+        condition = function(t)
+            mod:chat_broadcast("The warpstone stench grows overwhelming as unnatural flames lick at the bulkheads, a vexing roar climbing in the horizons. [WAVE 4]")
+			Managers.state.conflict:start_terror_event("darktide")
+			give_strength_pot_man()
+            return true
+        end
+    },	
+    {
+        "spawn_special",
+        amount = 2,
+        breed_name = "skaven_rat_ogre",
+        optional_data = {
+            max_health_modifier = 0.25
+        }
+    },
+    {
+        "delay",
+        duration = 15
+    },
+    {
+        "continue_when",
+        condition = function(t)
+            if count_breed("skaven_rat_ogre") < 1 then
+                mod:chat_broadcast("The tide of fur and filth breaks against your resolve. Only the most fanatical remain, their beady eyes burning with dying dreams of glory. [WAVE 5]")
+				Managers.state.conflict:start_terror_event("darktide")
+                haz_40_trash(10, 10)
+				haz_40(3, nil, 7, nil, 7, nil)
+                return true
+            else 
+                return false
+            end
+        end
+    },
+    {
+        "delay",
+        duration = 25
+    },
+    {
+        "continue_when",
+        condition = function(t)
+            if (count_breed("skaven_storm_vermin_commander") + count_breed("chaos_raider")) < 5 then 
+                mod:chat_broadcast("The very walls scream as the Rat God's chosen descend upon you, drive them back with an iron will and prevail against doom. [WAVE 6]")
+				Managers.state.conflict:start_terror_event("darktide")
+                haz_40(7, 5, 9, 7, 6, 5)
+
+				-- Give purple pot buff + healing
+				local players = Managers.player:human_and_bot_players()
+
+				for _, player in pairs(players) do
+					local unit = player.player_unit
+	
+					if Unit.alive(unit) then
+						local buff_system = Managers.state.entity:system("buff_system")
+						local server_controlled = false
+	
+						buff_system:add_buff(unit, "twitch_cooldown_reduction_boost", unit, server_controlled)
+						buff_system:add_buff(unit, "twitch_damage_boost", unit, server_controlled)
+						buff_system:add_buff(unit, "twitch_health_regen", unit, server_controlled)
+					end
+				end
+
+                return true
+            else
+                return false
+            end
+        end
+    },
+	{
+        "spawn_special",
+        amount = 5,
+        breed_name = "skaven_warpfire_thrower",
+    },
+	{
+        "spawn_special",
+        amount = 5,
+        breed_name = "skaven_ratling_gunner",
+    },
+    {
+        "spawn_special",
+        amount = 1,
+        breed_name = "skaven_rat_ogre",
+        optional_data = {
+            max_health_modifier = 0.25
+        }
+    },
+	{
+        "spawn_special",
+        amount = 1,
+        breed_name = "skaven_stormfiend",
+        optional_data = {
+            max_health_modifier = 0.5
+        }
+    },
+	{
+        "delay",
+        duration = 15
+    },
+    {
+        "continue_when",
+        condition = function(t)
+            return (count_breed("skaven_slave") + count_breed("chaos_marauder")) < 15 and count_breed("skaven_rat_ogre") < 1 and count_breed("skaven_stormfiend") < 1 and (count_breed("skaven_storm_vermin_commander") + count_breed("skaven_storm_vermin") + count_breed("chaos_raider") + count_breed("chaos_warrior")) < 5
+        end
+    },
+	{
+		"control_hordes",
+		enable = true
+	},
+    {
+        "continue_when",
+        condition = function(t)
+            mod:chat_broadcast("Silence falls. The corpses of your foes form a grisly monument to your skill. Sigmar smiles upon you this day.")
+			give_strength_pot_man()
+            return true
+        end
+    },
+	{
+        "spawn_around_player",
+        amount = 3,
+        breed_name = "skaven_loot_rat"
+    },
+}
+
+GenericTerrorEvents.eee_trash = {
+    {
+        "delay",
+        duration = 14,
+    },
+    {
+        "continue_when",
+        condition = function(t)
+            haz_40_trash(10, 15)
+            return true
+        end
+    },
+    {
+        "delay",
+        duration = 30,
+    },
+	{
+        "continue_when",
+        condition = function(t)
+            haz_40_trash(10, 15)
+            return true
+        end
+    },
+    {
+        "delay",
+        duration = 30,
+    },
+	{
+        "continue_when",
+        condition = function(t)
+            haz_40_trash(10, 15)
+            return true
+        end
+    },
+    {
+        "delay",
+        duration = 30,
+    },
+	{
+        "continue_when",
+        condition = function(t)
+            haz_40_trash(10, 15)
+            return true
+        end
+    },
+    {
+        "delay",
+        duration = 30,
+    },
+	{
+        "continue_when",
+        condition = function(t)
+            haz_40_trash(10, 15)
+            return true
+        end
+    },
+    {
+        "delay",
+        duration = 30,
+    },
+	{
+        "continue_when",
+        condition = function(t)
+            haz_40_trash(10, 15)
+            return true
+        end
+    },
+    {
+        "delay",
+        duration = 30,
+    },
+	{
+        "continue_when",
+        condition = function(t)
+            haz_40_trash(10, 15)
+            return true
+        end
+    },
+    {
+        "delay",
+        duration = 30,
+    },
+	{
+        "continue_when",
+        condition = function(t)
+            haz_40_trash(10, 15)
+            return true
+        end
+    },
+    {
+        "delay",
+        duration = 30,
+    },
+	{
+        "continue_when",
+        condition = function(t)
+            mod:chat_broadcast("You've exhausted their ranks, for once.")
+            return true
+        end
+    },
+}

@@ -13,47 +13,7 @@ local mod = get_mod("Daredevil")
 	Managers.state.conflict:set_threat_value("chaos_troll", 25)
 	Managers.state.conflict:set_threat_value("beastmen_minotaur", 25)
 	]]
-
-	GenericTerrorEvents.darktide = {
-		{
-			"play_stinger",
-			stinger_name = "morris_power_ups_ammo_explosion"
-		},
-		{
-			"spawn_special",
-			amount = 2,
-			breed_name = "skaven_poison_wind_globadier"
-		},
-		{
-			"spawn_special",
-			amount = 1,
-			breed_name = "chaos_vortex_sorcerer"
-		},
-		{
-			"delay",
-			duration = 2
-		},
-		{
-			"spawn_special",
-			amount = 8,
-			breed_name = "skaven_ratling_gunner"
-		},
-		{
-			"spawn_special",
-			amount = 3,
-			breed_name = "skaven_warpfire_thrower"
-		},
-		{
-			"spawn_special",
-			amount = 1,
-			breed_name = "beastmen_standard_bearer"
-		},
-		{
-			"delay",
-			duration = 2
-		},
-	}
-
+	
 	--[[
 	mod:hook_origin(LevelAnalysis, "_give_events", function (self, main_paths, terror_spawners, generated_event_list, terror_event_list, conflict_director_section_list, terror_event_category)
 		local spawn_distance = 0
@@ -379,7 +339,7 @@ local mod = get_mod("Daredevil")
 			return func(self, main_paths, terror_event_list, terror_event_category)
 		end)
 	else
-	]]
+		]]
 		BossSettings.default.boss_events.event_lookup.event_boss = {"boss_event_chaos_troll", "boss_event_chaos_spawn", "boss_event_storm_fiend", "boss_event_rat_ogre"}
 		BossSettings.default_light.boss_events.event_lookup.event_boss = {"boss_event_chaos_troll", "boss_event_chaos_spawn", "boss_event_storm_fiend", "boss_event_rat_ogre"}
 		

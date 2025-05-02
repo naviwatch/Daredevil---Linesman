@@ -67,10 +67,10 @@ PerceptionUtils.furthest_player = function (unit, blackboard, breed)
     local side = blackboard.side
     local max_distance = 100
     local PLAYER_AND_BOT_UNITS = side.ENEMY_PLAYER_AND_BOT_UNITS
-    local score
 
     for i = 1, #PLAYER_AND_BOT_UNITS do
         local player_unit = PLAYER_AND_BOT_UNITS[i]
+        local score = 0
         if Unit.alive(player_unit) then
             if dist < max_distance then
 				local inv_radius = math.clamp(dist / max_distance, 0, 1)

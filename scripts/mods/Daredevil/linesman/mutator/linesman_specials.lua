@@ -314,7 +314,7 @@ SpecialsSettings.chaos.breeds = {
 	"skaven_ratling_gunner",
 	"skaven_poison_wind_globadier",
 	"skaven_warpfire_thrower",
---	"chaos_vortex_sorcerer",
+	"chaos_vortex_sorcerer",
 	"chaos_corruptor_sorcerer",
 }
 
@@ -345,8 +345,8 @@ SpecialsSettings.skaven_beastmen = SpecialsSettings.beastmen
 SpecialsSettings.chaos_beastmen = SpecialsSettings.beastmen
 
 -------------------------------------------------------------
-
-local new_slot_timers = { 10, 20 }
+	
+local new_slot_timers = { 10, 15 } -- gaslighting time
 
 mod:hook_origin(SpecialsPacing, "specials_by_slots", function(self, t, specials_settings, method_data, slots, spawn_queue)
 	local num_slots = #slots

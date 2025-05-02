@@ -3804,7 +3804,6 @@ end
 			spawner_id = "troll_boss",
 			breed_name = "skaven_dummy_slave",
 			optional_data = {
-				size_variation_range = { 1.45, 1.45 },
 				max_health_modifier = 0.2
 			}
 		},
@@ -6560,7 +6559,6 @@ end
 			optional_data = {
 				enhancements = bob,
 				max_health_modifier = 15,
-				size_variation_range = { 2, 2 },
 				target_selection = "least_healthy_player"
 			}
 		},
@@ -6575,7 +6573,6 @@ end
 			optional_data = {
 				enhancements = shield_shatter,
 				max_health_modifier = 15,
-				size_variation_range = { 2, 2 },
 				target_selection = "least_healthy_player"
 			}
 		},
@@ -6670,7 +6667,7 @@ end
 	TerrorEventBlueprints.fort.fort_pacing_off = {
 		{
 			"control_pacing",
-			enable = true
+			enable = false
 		},
 		{
 			"control_specials",
@@ -6718,6 +6715,10 @@ end
 			name = "fort_terror_event_inner_yard"
 		},
 		{
+			"delay",
+			duration = 10
+		},
+		{
 			"event_horde",
 			spawner_id = "terror_event_inner_yard",
 			composition_type = "event_medium"
@@ -6736,6 +6737,726 @@ end
 			duration = 20,
 			condition = function (t)
 				return count_event_breed("skaven_slave") < 24 and count_event_breed("skaven_clan_rat") < 12 and count_event_breed("skaven_clan_rat_with_shield") < 6 and count_event_breed("skaven_storm_vermin_commander") < 6
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_extra_spice_medium"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_extra_spice_medium"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_extra_spice_medium"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_extra_spice_medium"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_extra_spice_medium"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_extra_spice_medium"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_extra_spice_medium"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_extra_spice_medium"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_extra_spice_medium"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_extra_spice_medium"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_extra_spice_medium"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_extra_spice_medium"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_extra_spice_medium"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_extra_spice_medium"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_extra_spice_medium"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_extra_spice_medium"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_extra_spice_medium"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_extra_spice_medium"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_extra_spice_medium"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_extra_spice_medium"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_extra_spice_medium"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_extra_spice_medium"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_extra_spice_medium"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_extra_spice_medium"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_extra_spice_medium"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_extra_spice_medium"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_extra_spice_medium"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_extra_spice_medium"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_extra_spice_medium"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_extra_spice_medium"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_extra_spice_medium"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_extra_spice_medium"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_extra_spice_medium"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_extra_spice_medium"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_extra_spice_medium"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_extra_spice_medium"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_extra_spice_medium"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_extra_spice_medium"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_extra_spice_medium"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_extra_spice_medium"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_extra_spice_medium"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_extra_spice_medium"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_extra_spice_medium"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_extra_spice_medium"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_extra_spice_medium"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_extra_spice_medium"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_extra_spice_medium"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_extra_spice_medium"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
 			end
 		},
 		{
@@ -6758,14 +7479,13 @@ end
 			stinger_name = "enemy_horde_chaos_stinger"
 		},
 		{
-			"event_horde",
-			spawner_id = "terror_event_inner_yard",
-			composition_type = "event_large_chaos"
+			"delay",
+			duration = 10
 		},
 		{
 			"event_horde",
 			spawner_id = "terror_event_inner_yard",
-			composition_type = "event_small_chaos"
+			composition_type = "event_large_chaos"
 		},
 		{
 			"delay",
@@ -6776,6 +7496,546 @@ end
 			duration = 30,
 			condition = function (t)
 				return count_event_breed("chaos_fanatic") < 16 and count_event_breed("chaos_raider") < 6 and count_event_breed("chaos_marauder") < 10 and count_event_breed("chaos_marauder_with_shield") < 7
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_large_chaos"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_large_chaos"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_large_chaos"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_large_chaos"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_large_chaos"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_large_chaos"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_large_chaos"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_large_chaos"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_large_chaos"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_large_chaos"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_large_chaos"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_large_chaos"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_large_chaos"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_large_chaos"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_large_chaos"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_large_chaos"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_large_chaos"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_large_chaos"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_large_chaos"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_large_chaos"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_large_chaos"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_large_chaos"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_large_chaos"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_large_chaos"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_large_chaos"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_large_chaos"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_large_chaos"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_large_chaos"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_large_chaos"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_large_chaos"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_large_chaos"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_large_chaos"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_large_chaos"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_large_chaos"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_large_chaos"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "terror_event_inner_yard",
+			composition_type = "event_large_chaos"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return count_event_breed("skaven_slave") and count_event_breed("chaos_marauder") < 12
 			end
 		},
 		{
@@ -6829,7 +8089,7 @@ end
 		},
 		{
 			"continue_when",
-			duration = 50,
+			duration = 30,
 			condition = function (t)
 				return count_event_breed("chaos_marauder") < 16 and count_event_breed("chaos_berzerker") < 8 and count_event_breed("skaven_storm_vermin") < 6
 			end
@@ -6900,10 +8160,159 @@ end
 		},
 		{
 			"continue_when",
-			duration = 70,
+			duration = 30,
 			condition = function (t)
 				return count_event_breed("skaven_slave") < 25 and (count_event_breed("skaven_clan_rat") + count_event_breed("skaven_clan_rat_with_shield")) < 15 and count_event_breed("skaven_storm_vermin_commander") < 6 and count_event_breed("skaven_plague_monk") < 6 and count_event_breed("skaven_poison_wind_globadier") < 10 and count_event_breed("skaven_warpfire_thrower") < 6 and count_event_breed("skaven_ratling_gunner") < 6
 			end
+		},
+		{
+			"event_horde",
+			spawner_id = "fort_horde_cannon",
+			composition_type = "event_fort_pestilen"
+		},
+		{
+			"event_horde",
+			spawner_id = "fort_horde_cannon",
+			composition_type = "event_extra_spice_medium"
+		},
+		{
+			"spawn_at_raw",
+			spawner_id = "manual_special_spawners",
+			breed_name = {
+				"skaven_poison_wind_globadier",
+				"skaven_pack_master",
+				"skaven_gutter_runner",
+				"skaven_ratling_gunner",
+				"skaven_warpfire_thrower"
+			},
+		},
+		{
+			"delay",
+			duration = 15
+		},
+		{
+			"spawn_at_raw",
+			spawner_id = "siege_1",
+			breed_name = "skaven_warpfire_thrower"
+		},
+		{
+			"spawn_at_raw",
+			spawner_id = "siege_2",
+			breed_name = "skaven_poison_wind_globadier"
+		},
+		{
+			"delay",
+			duration = 8
+		},
+		{
+			"event_horde",
+			limit_spawners = 3,
+			spawner_id = "fort_horde_cannon",
+			composition_type = "dn_skaven_pursuit"
+		},
+		{
+			"continue_when",
+			duration = 30,
+			condition = function (t)
+				return count_event_breed("skaven_slave") < 25 and (count_event_breed("skaven_clan_rat") + count_event_breed("skaven_clan_rat_with_shield")) < 15 and count_event_breed("skaven_storm_vermin_commander") < 6 and count_event_breed("skaven_plague_monk") < 6 and count_event_breed("skaven_poison_wind_globadier") < 10 and count_event_breed("skaven_warpfire_thrower") < 6 and count_event_breed("skaven_ratling_gunner") < 6
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "fort_horde_cannon",
+			composition_type = "event_fort_pestilen"
+		},
+		{
+			"event_horde",
+			spawner_id = "fort_horde_cannon",
+			composition_type = "event_extra_spice_medium"
+		},
+		{
+			"spawn_at_raw",
+			spawner_id = "manual_special_spawners",
+			breed_name = {
+				"skaven_poison_wind_globadier",
+				"skaven_pack_master",
+				"skaven_gutter_runner",
+				"skaven_ratling_gunner",
+				"skaven_warpfire_thrower"
+			},
+		},
+		{
+			"delay",
+			duration = 15
+		},
+		{
+			"spawn_at_raw",
+			spawner_id = "siege_1",
+			breed_name = "skaven_warpfire_thrower"
+		},
+		{
+			"spawn_at_raw",
+			spawner_id = "siege_2",
+			breed_name = "skaven_poison_wind_globadier"
+		},
+		{
+			"delay",
+			duration = 8
+		},
+		{
+			"event_horde",
+			limit_spawners = 3,
+			spawner_id = "fort_horde_cannon",
+			composition_type = "dn_skaven_pursuit"
+		},
+		{
+			"continue_when",
+			duration = 30,
+			condition = function (t)
+				return count_event_breed("skaven_slave") < 25 and (count_event_breed("skaven_clan_rat") + count_event_breed("skaven_clan_rat_with_shield")) < 15 and count_event_breed("skaven_storm_vermin_commander") < 6 and count_event_breed("skaven_plague_monk") < 6 and count_event_breed("skaven_poison_wind_globadier") < 10 and count_event_breed("skaven_warpfire_thrower") < 6 and count_event_breed("skaven_ratling_gunner") < 6
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "fort_horde_cannon",
+			composition_type = "event_fort_pestilen"
+		},
+		{
+			"event_horde",
+			spawner_id = "fort_horde_cannon",
+			composition_type = "event_extra_spice_medium"
+		},
+		{
+			"spawn_at_raw",
+			spawner_id = "manual_special_spawners",
+			breed_name = {
+				"skaven_poison_wind_globadier",
+				"skaven_pack_master",
+				"skaven_gutter_runner",
+				"skaven_ratling_gunner",
+				"skaven_warpfire_thrower"
+			},
+		},
+		{
+			"delay",
+			duration = 15
+		},
+		{
+			"spawn_at_raw",
+			spawner_id = "siege_1",
+			breed_name = "skaven_warpfire_thrower"
+		},
+		{
+			"spawn_at_raw",
+			spawner_id = "siege_2",
+			breed_name = "skaven_poison_wind_globadier"
+		},
+		{
+			"delay",
+			duration = 8
+		},
+		{
+			"event_horde",
+			limit_spawners = 3,
+			spawner_id = "fort_horde_cannon",
+			composition_type = "dn_skaven_pursuit"
 		},
 		{
 			"flow_event",
@@ -6970,10 +8379,156 @@ end
 		},
 		{
 			"continue_when",
-			duration = 70,
+			duration = 30,
 			condition = function (t)
 				return count_event_breed("chaos_fanatic") < 15 and (count_event_breed("chaos_marauder") + count_event_breed("chaos_marauder_with_shield")) < 10 and count_event_breed("chaos_raider") < 6 and count_event_breed("chaos_berzerker") < 6 and count_event_breed("chaos_warrior") < 4 and count_event_breed("skaven_poison_wind_globadier") < 10 and count_event_breed("skaven_warpfire_thrower") < 6 and count_event_breed("chaos_vortex_sorcerer") < 6
 			end
+		},
+		{
+			"event_horde",
+			spawner_id = "fort_horde_cannon",
+			composition_type = "event_fort_savagery"
+		},
+		{
+			"event_horde",
+			spawner_id = "fort_horde_cannon",
+			composition_type = "onslaught_chaos_warriors"
+		},
+		{
+			"spawn_at_raw",
+			spawner_id = "manual_special_spawners",
+			breed_name = {
+				"chaos_corruptor_sorcerer",
+				"skaven_gutter_runner",
+				"skaven_ratling_gunner",
+				"skaven_warpfire_thrower"
+			}
+		},
+		{
+			"delay",
+			duration = 15
+		},
+		{
+			"spawn_at_raw",
+			spawner_id = "siege_1",
+			breed_name = "skaven_warpfire_thrower"
+		},
+		{
+			"spawn_at_raw",
+			spawner_id = "siege_2",
+			breed_name = "skaven_poison_wind_globadier"
+		},
+		{
+			"delay",
+			duration = 8
+		},
+		{
+			"event_horde",
+			limit_spawners = 3,
+			spawner_id = "fort_horde_cannon",
+			composition_type = "event_medium_chaos"
+		},
+		{
+			"continue_when",
+			duration = 30,
+			condition = function (t)
+				return count_event_breed("chaos_fanatic") < 15 and (count_event_breed("chaos_marauder") + count_event_breed("chaos_marauder_with_shield")) < 10 and count_event_breed("chaos_raider") < 6 and count_event_breed("chaos_berzerker") < 6 and count_event_breed("chaos_warrior") < 4 and count_event_breed("skaven_poison_wind_globadier") < 10 and count_event_breed("skaven_warpfire_thrower") < 6 and count_event_breed("chaos_vortex_sorcerer") < 6
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "fort_horde_cannon",
+			composition_type = "event_fort_savagery"
+		},
+		{
+			"event_horde",
+			spawner_id = "fort_horde_cannon",
+			composition_type = "onslaught_chaos_warriors"
+		},
+		{
+			"spawn_at_raw",
+			spawner_id = "manual_special_spawners",
+			breed_name = {
+				"chaos_corruptor_sorcerer",
+				"skaven_gutter_runner",
+				"skaven_ratling_gunner",
+				"skaven_warpfire_thrower"
+			}
+		},
+		{
+			"delay",
+			duration = 15
+		},
+		{
+			"spawn_at_raw",
+			spawner_id = "siege_1",
+			breed_name = "skaven_warpfire_thrower"
+		},
+		{
+			"spawn_at_raw",
+			spawner_id = "siege_2",
+			breed_name = "skaven_poison_wind_globadier"
+		},
+		{
+			"delay",
+			duration = 8
+		},
+		{
+			"event_horde",
+			limit_spawners = 3,
+			spawner_id = "fort_horde_cannon",
+			composition_type = "event_medium_chaos"
+		},
+		{
+			"continue_when",
+			duration = 30,
+			condition = function (t)
+				return count_event_breed("chaos_fanatic") < 15 and (count_event_breed("chaos_marauder") + count_event_breed("chaos_marauder_with_shield")) < 10 and count_event_breed("chaos_raider") < 6 and count_event_breed("chaos_berzerker") < 6 and count_event_breed("chaos_warrior") < 4 and count_event_breed("skaven_poison_wind_globadier") < 10 and count_event_breed("skaven_warpfire_thrower") < 6 and count_event_breed("chaos_vortex_sorcerer") < 6
+			end
+		},
+		{
+			"event_horde",
+			spawner_id = "fort_horde_cannon",
+			composition_type = "event_fort_savagery"
+		},
+		{
+			"event_horde",
+			spawner_id = "fort_horde_cannon",
+			composition_type = "onslaught_chaos_warriors"
+		},
+		{
+			"spawn_at_raw",
+			spawner_id = "manual_special_spawners",
+			breed_name = {
+				"chaos_corruptor_sorcerer",
+				"skaven_gutter_runner",
+				"skaven_ratling_gunner",
+				"skaven_warpfire_thrower"
+			}
+		},
+		{
+			"delay",
+			duration = 15
+		},
+		{
+			"spawn_at_raw",
+			spawner_id = "siege_1",
+			breed_name = "skaven_warpfire_thrower"
+		},
+		{
+			"spawn_at_raw",
+			spawner_id = "siege_2",
+			breed_name = "skaven_poison_wind_globadier"
+		},
+		{
+			"delay",
+			duration = 8
+		},
+		{
+			"event_horde",
+			limit_spawners = 3,
+			spawner_id = "fort_horde_cannon",
+			composition_type = "event_medium_chaos"
 		},
 		{
 			"flow_event",
@@ -7044,6 +8599,31 @@ end
 		{
 			"spawn_at_raw",
 			spawner_id = "siege_6",
+			breed_name = "chaos_bulwark"
+		},
+		{
+			"spawn_at_raw",
+			spawner_id = "siege_1",
+			breed_name = "chaos_bulwark"
+		},
+		{
+			"spawn_at_raw",
+			spawner_id = "siege_2",
+			breed_name = "chaos_bulwark"
+		},
+		{
+			"spawn_at_raw",
+			spawner_id = "siege_3",
+			breed_name = "chaos_bulwark"
+		},
+		{
+			"spawn_at_raw",
+			spawner_id = "siege_4",
+			breed_name = "chaos_bulwark"
+		},
+		{
+			"spawn_at_raw",
+			spawner_id = "siege_5",
 			breed_name = "chaos_bulwark"
 		},
 		{
@@ -7824,7 +9404,7 @@ end
 		},
 		{
 			"control_specials",
-			enable = false
+			enable = true
 		},
 		{
 			"disable_kick"
@@ -7975,7 +9555,7 @@ end
 		},
 		{
 			"control_specials",
-			enable = false
+			enable = true
 		},
 		{
 			"set_master_event_running",
@@ -7998,6 +9578,11 @@ end
 			"event_horde",
 			spawner_id = "sawmill_yard_invis",
 			composition_type = "linesman_mixed_horde"
+		},
+		{
+			"event_horde",
+			limit_spawners = 2,
+			composition_type = "onslaught_custom_special_skaven"
 		},
 		{
 			"delay",
@@ -8074,7 +9659,7 @@ end
 		},
 		{
 			"control_specials",
-			enable = false
+			enable = true
 		},
 		{
 			"set_master_event_running",
@@ -8088,6 +9673,16 @@ end
 			"event_horde",
 			spawner_id = "sawmill_interior",
 			composition_type = "linesman_mixed_horde"
+		},
+		{
+			"event_horde",
+			limit_spawners = 2,
+			composition_type = "onslaught_custom_special_skaven"
+		},
+		{
+			"event_horde",
+			limit_spawners = 2,
+			composition_type = "onslaught_custom_special_skaven"
 		},
 		{
 			"continue_when",
@@ -13269,7 +14864,6 @@ end
 			optional_data = {
 				max_health_modifier = 15,
 			    enhancements = better_bob,
-				size_variation_range = { 3, 3 }
 			}
 		},
 		{
@@ -14542,9 +16136,6 @@ end
 				3,
 				3
 			},
-			optional_data = {
-				size_variation_range = { 3, 3 },
-			}
 		},
 		{
 			"event_horde",

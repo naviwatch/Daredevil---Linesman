@@ -207,13 +207,12 @@ end
 	mod.difficulty_level = mod:get("difficulty_level")
 	mod.gain = 1
 	if mod.difficulty_level == 1 then
-		mod.gain = 0.5
+		mod.gain = 0.6
 	elseif mod.difficulty_level == 2 then
 		mod.gain = 0.77
 	elseif mod.difficulty_level == 3 then
 		mod.gain = 1
 	end
-
 
 	-- Pacing
 	-- mutator_plus.OriginalBreedPacks = table.clone(BreedPacks)
@@ -256,9 +255,9 @@ end
 		local num_wanted_percentage
 
 		if mod.difficulty_level == 1 then
-			num_wanted_percentage = 1
+			num_wanted_percentage = 1.2
 		else
-			num_wanted_percentage = 1.3
+			num_wanted_percentage = 1.25
 		end
 
 		-- Map overrides
@@ -515,7 +514,7 @@ end
 	elseif mod.difficulty_level == 2 then
 		co = 0.11
 	elseif mod.difficulty_level == 3 then
-		co = 0.134 -- 0.1335
+		co = 0.1335 -- 0.1335
 	end
 
 	if mod:get("lonk") then
@@ -665,7 +664,7 @@ end
 			main_path_dist_from_players = 30,
 			max_hidden_spawner_dist = 30,
 			max_horde_spawner_dist = 20,
-			max_spawners = 13,
+			max_spawners = 9, -- 13/6
 			min_hidden_spawner_dist = 5,
 			min_horde_spawner_dist = 5,
 			raw_dist_from_players = 13,
@@ -817,21 +816,6 @@ end
 	end
 
 	mod.difficulty_level = mod:get("difficulty_level")
-	--[[
-	mod:hook_safe(StateLoadingRunning, "on_enter", function(self, params)
-		local level_name = Managers.level_transition_handler:get_current_level_key()
-		if mutator_plus.active then
-			-- Reapply all stuff
-			if level_name == "dlc_dwarf_beacons" then 
-			--	mod:dofile("scripts/mods/Daredevil/linesman/map_modifiers/dwarf_beacons")
-			elseif level_name == "dlc_termite_1" then
-				mod:dofile("scripts/mods/Daredevil/linesman/map_modifiers/freaky_temple")
-			end
-
-			mod:dofile("scripts/mods/Daredevil/linesman/mutator/linesman_triggers")
-		end
-	end)
-	]]
 
 	--[[
 	mod:hook(MissionSystem, "_update_level_progress", function(func, self, dt)
@@ -894,49 +878,17 @@ end
 	end)
 	]]
 
-	GenericTerrorEvents.fuck_you = {
-		{
-			"spawn_special",
-			amount = 1,
-			breed_name = "skaven_gutter_runner"
-		},
-		{
-			"spawn_special",
-			amount = 3,
-			breed_name = "skaven_ratling_gunner"
-		},
-		{
-			"spawn_special",
-			amount = 1,
-			breed_name = "skaven_pack_master"
-		},
-		{
-			"spawn_special",
-			amount = 2,
-			breed_name = "skaven_poison_wind_globadier"
-		},
-		{
-			"delay",
-			duration = 5,
-		},
-	}
 
 	-- Custom Director
 	--mod:dofile("scripts/mods/Daredevil/Custom-Director")
 
 	-- Sync up stuff
 	mod:network_send("rpc_enable_white_sv", "all", true)
-	mod:network_send("bob_name_enable", "all", true)
+	mod:network_send("bob_name_enable", "others", true)
 	mod:network_send("giant_so_true", "all", true)
 	mod:network_send("c3dwlines", "others", true)
-	mod:network_send("breed_loading_in", "all", true)
+--	mod:network_send("breed_loading_in", "all", true)
 --	mod:network_send("linesman_ost", "all", true)
-
-	-- Just override the shit set by beastmen loader
-	-- Load breeds
-
-	
-	EnemyPackageLoaderSettings.max_loaded_breed_cap = 50
 
 	create_weights()
 

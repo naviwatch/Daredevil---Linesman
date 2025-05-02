@@ -199,6 +199,10 @@ mod:hook_origin(ConflictDirector, "update_horde_pacing", function(self, t, dt)
                 end
             end
 
+            if self.horde_spawner.num_paced_hordes == 0 then 
+                horde_type = "vector_blob"
+            end
+
             local composition = horde_type == "vector" and horde_settings.vector_composition or
                 horde_type == "vector_blob" and horde_settings.vector_blob_composition or
                 horde_settings.ambush_composition
@@ -324,7 +328,7 @@ mod:hook_origin(HordeSpawner, "compose_blob_horde_spawn_list", function(self, co
         local num_paced_hordes = horde_spawner.num_paced_hordes
 
         if mutator_plus.active then
-            if num_paced_hordes <= 2 then -- If its the first two hordes, lower difficulty by spawning less
+            if num_paced_hordes <= 2 and not mod.difficulty_level == 1 then -- If its the first two hordes, lower difficulty by spawning less
                 for j = start, start + num_to_spawn - 3 do
                     spawn_list[j] = breed_name
                 end
@@ -443,9 +447,11 @@ mod:hook_origin(ConflictDirector, "_spawn_unit", function(self, breed, spawn_pos
         if target_selection then -- https://github.com/Aussiemon/Vermintide-2-Source-Code/blob/1bd09637f5786e97fe47b1c7e2d37d35aecff6aa/scripts/unit_extensions/human/ai_player_unit/target_selection_utils.lua
             target_selection = optional_data.target_selection or target_selection
 
+            --[[
             if breed.name == "skaven_ratling_gunner" or breed.name == "skaven_gutter_runner" or breed.name == "skaven_pack_master" then
                 mod:echo(target_selection)
             end
+            ]]
         -- target selection check
         end
     end

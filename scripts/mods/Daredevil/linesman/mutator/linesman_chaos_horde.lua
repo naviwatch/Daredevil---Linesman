@@ -39,7 +39,7 @@ local scaling_data = {
 		breeds = shield_elite_entities,
 	},
 	{
-		scale_factor = berzerker_scale * mod.gain * 1.1,
+		scale_factor = berzerker_scale * mod.gain,
 		breeds = berzerker_entities,
 	},
 	{
