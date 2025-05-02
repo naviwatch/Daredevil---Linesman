@@ -1,9 +1,0 @@
-
-win32 = {
-	banks = [
-		"wwise/shade_stiff"
-	]
-	metadata = "wwise/project"
-	streams = [
-	]
-}

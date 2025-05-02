@@ -1,9 +1,0 @@
-
-win32 = {
-	banks = [
-		"wwise/Init"
-	]
-	metadata = "wwise/project"
-	streams = [
-	]
-}
