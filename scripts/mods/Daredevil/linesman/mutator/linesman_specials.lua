@@ -220,7 +220,7 @@ SpecialsSettings.default.breeds = {
 	"skaven_ratling_gunner",
 	"skaven_poison_wind_globadier",
 	"skaven_warpfire_thrower",
---	"chaos_vortex_sorcerer",
+	"chaos_vortex_sorcerer",
 	"chaos_corruptor_sorcerer",
 }
 
@@ -347,6 +347,7 @@ SpecialsSettings.chaos_beastmen = SpecialsSettings.beastmen
 -------------------------------------------------------------
 	
 local new_slot_timers = { 10, 15 } -- gaslighting time
+local level_name = Managers.level_transition_handler:get_current_level_key()
 
 mod:hook_origin(SpecialsPacing, "specials_by_slots", function(self, t, specials_settings, method_data, slots, spawn_queue)
 	local num_slots = #slots
@@ -409,14 +410,25 @@ mod:hook_origin(SpecialsPacing, "specials_by_slots", function(self, t, specials_
 	end
 	
 	if mutator_plus.active then
-		-- Process first two slots with reduced cd
-		for i = 1, 1 do
-			process_slot(slots[i], t, method_data, spawn_queue, waiting, about_to_respawn, self, true)
-		end
-	
-		-- Process remaining slots with random cooldown
-		for i = 2, num_slots do
-			process_slot(slots[i], t, method_data, spawn_queue, waiting, about_to_respawn, self, false)
+		if level_name == "dlc_termite_3" then 
+			-- First two
+			for i = 1, 2 do
+				process_slot(slots[i], t, method_data, spawn_queue, waiting, about_to_respawn, self, true)
+			end
+		
+			for i = 3, num_slots do
+				process_slot(slots[i], t, method_data, spawn_queue, waiting, about_to_respawn, self, false)
+			end
+		else
+			-- Process first slot with reduced cd
+			for i = 1, 1 do
+				process_slot(slots[i], t, method_data, spawn_queue, waiting, about_to_respawn, self, true)
+			end
+		
+			-- Process remaining slots with random cooldown
+			for i = 2, num_slots do
+				process_slot(slots[i], t, method_data, spawn_queue, waiting, about_to_respawn, self, false)
+			end
 		end
 	else
 		-- Process all slots with random cooldown

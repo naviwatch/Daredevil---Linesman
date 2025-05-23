@@ -207,7 +207,7 @@ GenericTerrorEvents.darktide = {
 GenericTerrorEvents.skaven_denial = {
     {
         "spawn_special",
-        amount = 2,
+        amount = 1,
         breed_name = "skaven_poison_wind_globadier",
     },
     {
@@ -286,14 +286,6 @@ GenericTerrorEvents.skaven_spam = {
     },
     {
         "spawn_special",
-        amount = 2,
-        breed_name = "skaven_ratling_gunner",
-        optional_data = {
-            target_selection = "healthy_players"
-        }
-    },
-    {
-        "spawn_special",
         amount = 1,
         breed_name = "skaven_gutter_runner",
         optional_data = {
@@ -342,7 +334,7 @@ GenericTerrorEvents.spam_ratling = {
     },
     {
         "delay",
-        duration = 2
+        duration = 10
     },
     {
         "spawn_special",
@@ -354,7 +346,7 @@ GenericTerrorEvents.spam_ratling = {
     },
     {
         "delay",
-        duration = 2
+        duration = 20
     },
     {
         "spawn_special",
@@ -381,7 +373,7 @@ GenericTerrorEvents.spam_warpfire = {
     },
     {
         "delay",
-        duration = 2
+        duration = 10
     },
     {
         "spawn_special",
@@ -393,7 +385,7 @@ GenericTerrorEvents.spam_warpfire = {
     },
     {
         "delay",
-        duration = 2
+        duration = 15
     },
     {
         "spawn_special",
@@ -436,7 +428,7 @@ GenericTerrorEvents.spam_leech = { -- 3 rotations
     },
     {
         "delay",
-        duration = 5
+        duration = 25
     },
     {
         "spawn_special",
@@ -464,7 +456,7 @@ GenericTerrorEvents.spam_leech = { -- 3 rotations
     },
     {
         "delay",
-        duration = 5
+        duration = 25
     },
     {
         "spawn_special",
@@ -523,7 +515,27 @@ GenericTerrorEvents.spam_assassin = { -- 3 rotations
     },
     {
         "delay",
-        duration = 5
+        duration = 25
+    },
+    {
+        "spawn_special",
+        amount = 1,
+        breed_name = "skaven_gutter_runner",
+        optional_data = {
+            target_selection = "healthy_players"
+        }
+    },
+    {
+        "spawn_special",
+        amount = 1,
+        breed_name = "skaven_gutter_runner",
+        optional_data = {
+            target_selection = "pick_solitary_target"
+        }
+    },
+    {
+        "delay",
+        duration = 30
     },
     {
         "spawn_special",
@@ -548,38 +560,6 @@ GenericTerrorEvents.spam_assassin = { -- 3 rotations
         optional_data = {
             target_selection = "pick_solitary_target"
         }
-    },
-    {
-        "delay",
-        duration = 5
-    },
-    {
-        "spawn_special",
-        amount = 1,
-        breed_name = "skaven_gutter_runner",
-        optional_data = {
-            target_selection = "least_healthy_player"
-        }
-    },
-    {
-        "spawn_special",
-        amount = 1,
-        breed_name = "skaven_gutter_runner",
-        optional_data = {
-            target_selection = "healthy_players"
-        }
-    },
-    {
-        "spawn_special",
-        amount = 1,
-        breed_name = "skaven_gutter_runner",
-        optional_data = {
-            target_selection = "pick_solitary_target"
-        }
-    },
-    {
-        "delay",
-        duration = 5
     },
 }
 
@@ -703,7 +683,7 @@ GenericTerrorEvents.mini_ogre = {
             detection_radius = math.huge,
             target_selection = "pick_closest_target_infinte_range",
             size_variation_range = { 2, 2 },
-            max_health_modifier = 6
+            max_health_modifier = 4
         }
     }
 }
@@ -713,10 +693,11 @@ GenericTerrorEvents.bob_the_builder = {
         "spawn_special",
         breed_name = "skaven_dummy_clan_rat",
         optional_data = {
-            max_health_modifier = 11,
+            max_health_modifier = 5,
         --    spawned_func = AiUtils.magic_entrance_optional_spawned_func,
             enhancements = bob_pacing,
-            target_selection = "least_healthy_player"
+            target_selection = "least_healthy_player",
+            size_variation_range = { 2, 2 }
         }
     }
 }
@@ -752,6 +733,7 @@ local special_attack = function()
     PRD_special_attack, state = PseudoRandomDistribution.flip_coin(state, sa_chances)
     if PRD_special_attack then
         conflict_director:start_terror_event("special_coordinated")
+        mod:chat_broadcast("SPECIAL WAVE!")
 
         PRD_well_thought_out_waves, wtow = PseudoRandomDistribution.flip_coin(wtow, 0.5)
 
@@ -839,7 +821,7 @@ local custom_wave_c3 = function()
 end
 
 local mini_boss = function()
-    local chances = 0.07
+    local chances = 0.04
 
     PRD_mini_boss, pmb = PseudoRandomDistribution.flip_coin(pmb, chances)
 

@@ -3,6 +3,8 @@ local mutator_plus = mod:persistent_table("Daredevil+")
 local lb = get_mod("LinesmanBalance")
 local conflict_director = Managers.state.conflict
 
+local dlc_termite_delay_horde = { 160, 200 }
+
 -- holy mother of kino
 mod:hook_origin(ConflictDirector, "update_horde_pacing", function(self, t, dt)
     local pacing = self.pacing
@@ -16,24 +18,8 @@ mod:hook_origin(ConflictDirector, "update_horde_pacing", function(self, t, dt)
 
     if not self._next_horde_time then
         -- New Intensity stuff
-        if mutator_plus.active and not lb then
-            local total_intensity = Managers.state.conflict.pacing:get_pacing_intensity()
-            if total_intensity < 30 then
-                self._next_horde_time = t + ConflictUtils.random_interval(CurrentPacing.horde_frequency)
-                if mod:get("debug") then
-                    mod:chat_broadcast("LOW Intensity, pacing time given - 10 : " .. self._next_horde_time)
-                end
-            elseif total_intensity < 60 then
-                self._next_horde_time = t + ConflictUtils.random_interval(CurrentPacing.horde_frequency)
-                if mod:get("debug") then
-                    mod:chat_broadcast("MED Intensity, pacing time given: " .. self._next_horde_time)
-                end
-            else
-                self._next_horde_time = t + ConflictUtils.random_interval(CurrentPacing.horde_frequency) + 5
-                if mod:get("debug") then
-                    mod:chat_broadcast("HI Intensity, pacing time given + 20 : " .. self._next_horde_time)
-                end
-            end
+        if mutator_plus.active and level_name == "dlc_termite_3" then
+            self._next_horde_time = t + ConflictUtils.random_interval(CurrentPacing.horde_frequency) + 75
         else
             self._next_horde_time = t + ConflictUtils.random_interval(CurrentPacing.horde_frequency)
         end
@@ -94,30 +80,10 @@ mod:hook_origin(ConflictDirector, "update_horde_pacing", function(self, t, dt)
                         self._current_wave_composition = nil
                         wave = "multi_last_wave"
 
-                        if mutator_plus.active and not lb then
-                            local total_intensity = Managers.state.conflict.pacing:get_pacing_intensity()
-                            if total_intensity < 30 then
-                                self._next_horde_time = t +
-                                    ConflictUtils.random_interval(pacing_setting.max_delay_until_next_horde)
-                                if mod:get("debug") then
-                                    mod:chat_broadcast("LOW Intensity PACING")
-                                end
-                            elseif total_intensity < 60 then
-                                self._next_horde_time = t +
-                                    ConflictUtils.random_interval(pacing_setting.max_delay_until_next_horde)
-                                if mod:get("debug") then
-                                    mod:chat_broadcast("MED Intensity PACING")
-                                end
-                            else
-                                self._next_horde_time = t +
-                                    ConflictUtils.random_interval(pacing_setting.max_delay_until_next_horde)
-                                if mod:get("debug") then
-                                    mod:chat_broadcast("HI Intensity PACING")
-                                end
-                            end
+                        if mutator_plus.active and level_name == "dlc_termite_3" then
+                            self._next_horde_time = t + ConflictUtils.random_interval(dlc_termite_delay_horde)
                         else
-                            self._next_horde_time = t +
-                                ConflictUtils.random_interval(pacing_setting.max_delay_until_next_horde)
+                            self._next_horde_time = t + ConflictUtils.random_interval(pacing_setting.max_delay_until_next_horde)
                         end
                     else
                         local time_delay = ConflictUtils.random_interval(pacing_setting.multiple_horde_frequency)
@@ -154,8 +120,15 @@ mod:hook_origin(ConflictDirector, "update_horde_pacing", function(self, t, dt)
                         horde_type = math.random() < horde_settings.chance_of_vector_termite_1 and "vector" or "ambush"
                     end
 
-                    im_not_gonna_sugarcoat_it, wves = PseudoRandomDistribution.flip_coin(wves,
-                        horde_settings.chance_of_vector)
+                    if level_name == "dlc_termite_3" then -- Well of Shit
+                        horde_type = math.random() < horde_settings.chance_of_vector_blob and "vector_blob" or "ambush"
+                    end
+                    
+                    if self.num_paced_hordes ~= nil and self.num_paced_hordes <= 10 and not lb then 
+                        horde_type = "vector"
+                    end
+
+                    im_not_gonna_sugarcoat_it, wves = PseudoRandomDistribution.flip_coin(wves, horde_settings.chance_of_vector)
 
                     if im_not_gonna_sugarcoat_it then
                         horde_type = "vector"

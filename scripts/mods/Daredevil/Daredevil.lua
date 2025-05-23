@@ -58,6 +58,27 @@ local enhancement_list = {
 }
 local shield_shatter = TerrorEventUtils.generate_enhanced_breed_from_set(enhancement_list)
 
+mod.deepcopy = function(orig, copies)
+    copies = copies or {}
+    local orig_type = type(orig)
+    local copy
+    if orig_type == 'table' then
+        if copies[orig] then
+            copy = copies[orig]
+        else
+            copy = {}
+            copies[orig] = copy
+            for orig_key, orig_value in next, orig, nil do
+                copy[mod.deepcopy(orig_key, copies)] = mod.deepcopy(orig_value, copies)
+            end
+            setmetatable(copy, mod.deepcopy(getmetatable(orig), copies))
+        end
+    else -- number, string, boolean, etc
+        copy = orig
+    end
+    return copy
+end
+
 local function create_weights()
 	local crash = nil
 
@@ -1055,8 +1076,10 @@ end)
 
 mod:network_register("bob_name_enable", function (sender, enable)
 	Breeds.skaven_dummy_clan_rat = mod.deepcopy(Breeds.skaven_ratling_gunner)
+	--[[
 	Breeds.skaven_dummy_clan_rat.size_variation_range = { 2, 2 }
 	Breeds.skaven_dummy_clan_rat.boss = true -- No WHC/Shade cheese fight this big man fair and square
+	]]
 	GrudgeMarkedNames.skaven = { "Bob the Builder" }
 end)
 
@@ -1256,15 +1279,18 @@ mutator_plus.toggle = function()
 		end
 
 		if mod:get("beta") then
-			mod:chat_broadcast("Running Linesman BETA Version 4.0.0")
+			mod:chat_broadcast("Running Linesman BETA Version 4.1.0")
 			mod:chat_broadcast("这是Linesman BETA！")
 		else 
-			mod:chat_broadcast("Version 4.0.0")
+			mod:chat_broadcast("Version 4.1.0")
 		end 
 	else
 		mutator_plus.stop()
 		mod:chat_broadcast("Loser!!!!!!!!!!!!!!!!!!!!!!!!!!!!! FUCKING LOSER FUCK YOU FUCK YOU FUCK YOU FUCK HYOYJERHEJKHEWGPWEYGHWBMJ")
 		mod:chat_broadcast("L猛已关掉")
+		mod:chat_broadcast("------------------")
+		mod:chat_broadcast("RESTART THE LOBBY IF SWITCHING ONSLAUGHT MODS")
+		mod:chat_broadcast("------------------")
 	end
 end
 
@@ -1547,40 +1573,18 @@ GenericTerrorEvents.eee = {
     {
         "continue_when",
         condition = function(t)
-            mod:chat_broadcast("A skittering cacophony rises from the metal grates beneath your feet.")
+            mod:chat_broadcast("15 seconds until doom.")
             return true
         end
     },
     {
         "delay",
-        duration = 3,
+        duration = 15,
     },
     {
         "continue_when",
         condition = function(t)
-            mod:chat_broadcast("The air grows thick with musk and malice. Your skin prickles with unnatural awareness.")
-            return true
-        end
-    },
-    {
-        "delay",
-        duration = 5,
-    },
-    {
-        "continue_when",
-        condition = function(t)
-            mod:chat_broadcast("The dim glow of lumens flickers as shadows begin to move of their own accord.")
-            return true
-        end
-    },
-    {
-        "delay",
-        duration = 3,
-    },
-    {
-        "continue_when",
-        condition = function(t)
-            mod:chat_broadcast("THE VERMINTIDE COMES! [WAVE 1]")
+            mod:chat_broadcast("WAVE 1]")
             return true
         end
     },
@@ -1600,7 +1604,7 @@ GenericTerrorEvents.eee = {
         "continue_when",
         condition = function(t)
             if (count_breed("skaven_storm_vermin") + count_breed("chaos_warrior")) < 3 then 
-                mod:chat_broadcast("The echoing war-horn shakes the walls. [WAVE 2]")
+                mod:chat_broadcast("[WAVE 2]")
 				Managers.state.conflict:start_terror_event("darktide")
                 haz_40(6, nil, nil, 6, nil, nil)
                 return true
@@ -1622,7 +1626,7 @@ GenericTerrorEvents.eee = {
         "continue_when",
         condition = function(t)
             if (count_breed("skaven_storm_vermin_commander") + count_breed("chaos_raider")) < 4 then 
-                mod:chat_broadcast("A chorus of chittering madness rises as blood-mad killers emerge. [WAVE 3]")
+                mod:chat_broadcast("[WAVE 3]")
 				Managers.state.conflict:start_terror_event("darktide")
                 haz_40_trash(0, 15)
                 haz_40(3, nil, 7, nil, 7, nil)
@@ -1646,7 +1650,7 @@ GenericTerrorEvents.eee = {
     {
         "continue_when",
         condition = function(t)
-            mod:chat_broadcast("The warpstone stench grows overwhelming as unnatural flames lick at the bulkheads, a vexing roar climbing in the horizons. [WAVE 4]")
+            mod:chat_broadcast("[WAVE 4]")
 			Managers.state.conflict:start_terror_event("darktide")
 			give_strength_pot_man()
             return true
@@ -1668,7 +1672,7 @@ GenericTerrorEvents.eee = {
         "continue_when",
         condition = function(t)
             if count_breed("skaven_rat_ogre") < 1 then
-                mod:chat_broadcast("The tide of fur and filth breaks against your resolve. Only the most fanatical remain, their beady eyes burning with dying dreams of glory. [WAVE 5]")
+                mod:chat_broadcast("[WAVE 5]")
 				Managers.state.conflict:start_terror_event("darktide")
                 haz_40_trash(10, 10)
 				haz_40(3, nil, 7, nil, 7, nil)
@@ -1686,7 +1690,7 @@ GenericTerrorEvents.eee = {
         "continue_when",
         condition = function(t)
             if (count_breed("skaven_storm_vermin_commander") + count_breed("chaos_raider")) < 5 then 
-                mod:chat_broadcast("The very walls scream as the Rat God's chosen descend upon you, drive them back with an iron will and prevail against doom. [WAVE 6]")
+                mod:chat_broadcast("[WAVE 6]")
 				Managers.state.conflict:start_terror_event("darktide")
                 haz_40(7, 5, 9, 7, 6, 5)
 

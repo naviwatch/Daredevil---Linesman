@@ -256,6 +256,8 @@ end
 
 		if mod.difficulty_level == 1 then
 			num_wanted_percentage = 1.2
+		elseif lb then 
+			num_wanted_percentage = 1.4
 		else
 			num_wanted_percentage = 1.25
 		end
@@ -263,6 +265,8 @@ end
 		-- Map overrides
 		if level_name == "dlc_termite_1" then 
 			num_wanted_percentage = 0.65
+		elseif level_name == "dlc_termite_3" then
+			num_wanted_percentage = 2
 		end
 
 		num_wanted_rats = math.round(num_wanted_rats * num_wanted_percentage)
@@ -279,13 +283,47 @@ end
 		local level_name = Managers.level_transition_handler:get_current_level_key()
 		local nocw
 		local nochaos
-		local pit 
+		local well 
 		if breed.name == "skaven_clan_rat_with_shield" then
 			nocw = {Breeds["skaven_clan_rat"]} -- To not piss people off
 		elseif breed.name == "chaos_marauder_with_shield" then
 			nochaos = {Breeds["chaos_marauder"]}
-		elseif level_name == "skaven_stronghold" and breed.name == "skaven_storm_vermin_commander" then 
-			pit = {Breeds["skaven_plague_monk"]}
+		elseif level_name == "dlc_termite_3" and breed.name == "skaven_storm_vermin_with_shield" then 
+			well = {Breeds["skaven_plague_monk"], Breeds["skaven_storm_vermin_commander"]}
+		end
+
+		-- Skaven only
+		if level_name == "skaven_stronghold" or level_name == "dlc_termite_3" then 
+			if breed.name == "chaos_raider" then
+				breed = "skaven_storm_vermin_commander"
+			elseif breed.name == "chaos_berzerker" then 
+				breed = "skaven_plague_monk"
+			elseif breed.name == "chaos_warrior" then
+				breed = "skaven_storm_vermin"
+			elseif breed.name == "chaos_marauder" then
+				breed = "skaven_clan_rat"
+			elseif breed.name == "chaos_marauder_with_shield" then
+				breed = "skaven_clan_rat_with_shield"
+			elseif breed.name == "chaos_fanatic" then
+				breed = "skaven_slave"
+			end
+		end
+
+		-- Chaos only
+		if level_name == "warcamp" then 
+			if breed.name == "skaven_storm_vermin_commander" then
+				breed = "chaos_raider"
+			elseif breed.name == "skaven_plague_monk" then 
+				breed = "chaos_berzerker"
+			elseif breed.name == "skaven_storm_vermin" then
+				breed = "chaos_warrior"
+			elseif breed.name == "skaven_clan_rat" then
+				breed = "chaos_marauder"
+			elseif breed.name == "skaven_clan_rat_with_shield" then
+				breed = "chaos_marauder_with_shield"
+			elseif breed.name == "skaven_slave" then
+				breed = "chaos_fanatic"
+			end
 		end
 
 		if nocw then
@@ -296,6 +334,8 @@ end
 			if math.random() <= 0.6 then
 				breed = nochaos[math.random(1, #nochaos)]
 			end
+		elseif well then 
+			breed = well[math.random(1, #well)]
 		end
 
 		return func(self, breed, boxed_spawn_pos, boxed_spawn_rot, spawn_category, spawn_animation, spawn_type, ...)
@@ -514,7 +554,7 @@ end
 	elseif mod.difficulty_level == 2 then
 		co = 0.11
 	elseif mod.difficulty_level == 3 then
-		co = 0.1335 -- 0.1335
+		co = 0.1338 -- 0.1335
 	end
 
 	if mod:get("lonk") then
@@ -656,7 +696,7 @@ end
 			min_hidden_spawner_dist = 5,
 			min_horde_spawner_dist = 1,
 			min_spawners = math.huge,
-			start_delay = 3.45,
+			start_delay = 5, -- 3.45
 		},
 		vector = {
 			max_size,
@@ -678,6 +718,8 @@ end
 			start_delay = 1,
 		},
 	}
+	
+	mod:echo("Intensity System DISABLED for MAN")
 
 	-- THREAT SETTINGS
 	PacingSettings.beastmen.delay_horde_threat_value = {
@@ -754,11 +796,6 @@ end
 		HordeSettings.chaos.chance_of_vector = 1
 		HordeSettings.chaos.chance_of_vector_blob = 1
 
-		mod:hook(SpawnZoneBaker, "spawn_amount_rats", function(func, self, spawns, pack_sizes, pack_rotations, pack_members, zone_data_list, nodes, num_wanted_rats, ...)
-			num_wanted_rats = math.round(num_wanted_rats *135/100) -- Normal C3
-			return func(self, spawns, pack_sizes, pack_rotations, pack_members, zone_data_list, nodes, num_wanted_rats, ...)
-		end)
-
 		mod:chat_broadcast("Unending Hordes ENABLED.")
 	end
 
@@ -799,6 +836,8 @@ end
 	mod:dofile("scripts/mods/Daredevil/linesman/events/trail")
 	-- Forsaken Temple
 	mod:dofile("scripts/mods/Daredevil/linesman/events/the_freaky_temple")
+	-- Well of Dreams
+	mod:dofile("scripts/mods/Daredevil/linesman/events/well_of_dreams")
 
 	-- Override if Beta
 	if mod:get("beta") then
@@ -884,7 +923,7 @@ end
 
 	-- Sync up stuff
 	mod:network_send("rpc_enable_white_sv", "all", true)
-	mod:network_send("bob_name_enable", "others", true)
+	mod:network_send("bob_name_enable", "all", true)
 	mod:network_send("giant_so_true", "all", true)
 	mod:network_send("c3dwlines", "others", true)
 --	mod:network_send("breed_loading_in", "all", true)
