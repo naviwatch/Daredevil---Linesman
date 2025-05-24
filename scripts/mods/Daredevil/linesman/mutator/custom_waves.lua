@@ -733,7 +733,12 @@ local special_attack = function()
     PRD_special_attack, state = PseudoRandomDistribution.flip_coin(state, sa_chances)
     if PRD_special_attack then
         conflict_director:start_terror_event("special_coordinated")
-        mod:chat_broadcast("SPECIAL WAVE!")
+
+        if not is_chinese then 
+            mod:chat_broadcast("SPECIAL WAVE!")
+        else
+            mod:chat_broadcast("特感波!")
+        end
 
         PRD_well_thought_out_waves, wtow = PseudoRandomDistribution.flip_coin(wtow, 0.5)
 
@@ -846,6 +851,38 @@ local mini_boss = function()
     end
 end
 
+local mini_boss = function()
+    local chances = 0.04
+    local english_messages = {
+        "The air tingles with a looming sense of dread.",
+        "Sand seeps into your winds, seeking to tear you asunder.",
+        "Bob is here to fix your HP!",
+        "A wave of heat washes over you as the wind grows thick with soot."
+    }
+    local chinese_messages = {
+        "空气中震颤着迫近的恐惧感。",
+        "流沙渗入伤口，似要将你彻底撕裂。",
+        "热浪翻涌而至，狂风裹挟着煤灰扑面而来。"
+    }
+
+    -- Check game language
+    local language_id = Managers.localizer:language_id()
+    local is_chinese = language_id == "zh"
+    local message_table = is_chinese and chinese_messages or english_messages
+
+    PRD_mini_boss, pmb = PseudoRandomDistribution.flip_coin(pmb, chances)
+
+    if PRD_mini_boss then
+        Managers.state.conflict:start_terror_event("mini_boss_warning")
+
+        -- Randomly select and broadcast message
+        local random_message = message_table[math.random(#message_table)]
+        mod:chat_broadcast(random_message)
+
+        Managers.state.conflict:start_terror_event("bob_the_builder")
+    end
+end
+
 -- Spooky special wave
 -- This shit is ran every wave i only realized after i did this
 mod:hook(HordeSpawner, "horde", function(func, self, horde_type, extra_data, side_id, no_fallback)
@@ -853,8 +890,8 @@ mod:hook(HordeSpawner, "horde", function(func, self, horde_type, extra_data, sid
 
     local level_name = Managers.level_transition_handler:get_current_level_key()
 
-    if mutator_plus.active and self.num_paced_hordes ~= nil then
-        if self.num_paced_hordes >= 3 then  
+    if mutator_plus.active and self.num_paced_hordes then
+        if self.num_paced_hordes >= 4 then  
             special_attack()
             custom_wave_c3()
         end
@@ -863,10 +900,20 @@ mod:hook(HordeSpawner, "horde", function(func, self, horde_type, extra_data, sid
             mini_boss()
         end
 
-        if self.num_paced_hordes == 32 and not (level_name == "mines" or level_name == "catacombs" or level_name == "skaven_stronghold" or level_name == "ground_zero" or level_name == "dlc_castle" or level_name == "dlc_bastion") then 
+        local restricted_levels = {
+            mines = true,
+            catacombs = true,
+            skaven_stronghold = true,
+            ground_zero = true,
+            dlc_castle = true,
+            dlc_bastion = true,
+            dlc_termite_3 = true
+        }
+
+        if self.num_paced_hordes == 32 and not restricted_levels[level_name] then
             Managers.state.conflict:start_terror_event("eee")
             Managers.state.conflict:start_terror_event("eee_trash")
-            self.num_paced_hordes = self.num_paced_hordes + 1
+            self.num_paced_hordes = num_hordes + 1
         end
     end
 
@@ -881,11 +928,11 @@ end)
 
 local prd_direction
 if not lb then 
-    prd_direction = 0.15
+    prd_direction = 0.1
 elseif mod.difficulty_level == 1 then 
     prd_direction = 0.05
 else
-    prd_direction = 0.1
+    prd_direction = 0.15
 end
 
 -- Both directions, from Spawn Tweaks
@@ -896,6 +943,13 @@ mod:hook(HordeSpawner, "find_good_vector_horde_pos", function(func, self, main_t
     PRD_sandwich, sandwhich = PseudoRandomDistribution.flip_coin(sandwhich, prd_direction) -- Flip 15%, every 3rd vector horde or 6th vector wave
     if PRD_sandwich and num_paced_hordes ~= nil then
         conflict_director:start_terror_event("split_wave")
+
+        if not is_chinese then 
+            mod:chat_broadcast("The waves part to tear you in two.")
+        else
+            mod:chat_broadcast("巨浪裂空而至，欲将你撕成两半。")
+        end
+
         local success, horde_spawners, found_cover_points, epicenter_pos = func(self, main_target_pos, distance,
             check_reachable)
 

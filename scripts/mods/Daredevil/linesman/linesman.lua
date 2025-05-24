@@ -279,66 +279,70 @@ end
 	end)
 
 	mod:hook(ConflictDirector, "spawn_queued_unit", function(func, self, breed, boxed_spawn_pos, boxed_spawn_rot, spawn_category, spawn_animation, spawn_type, ...)
-		-- This all could be better but idc
+		-- Ensure breed is valid before processing
+		if not breed or not breed.name then
+			return func(self, breed, boxed_spawn_pos, boxed_spawn_rot, spawn_category, spawn_animation, spawn_type, ...)
+		end
+
 		local level_name = Managers.level_transition_handler:get_current_level_key()
-		local nocw
-		local nochaos
-		local well 
-		if breed.name == "skaven_clan_rat_with_shield" then
-			nocw = {Breeds["skaven_clan_rat"]} -- To not piss people off
-		elseif breed.name == "chaos_marauder_with_shield" then
-			nochaos = {Breeds["chaos_marauder"]}
-		elseif level_name == "dlc_termite_3" and breed.name == "skaven_storm_vermin_with_shield" then 
-			well = {Breeds["skaven_plague_monk"], Breeds["skaven_storm_vermin_commander"]}
-		end
+		local new_breed = breed
 
-		-- Skaven only
-		if level_name == "skaven_stronghold" or level_name == "dlc_termite_3" then 
-			if breed.name == "chaos_raider" then
-				breed = "skaven_storm_vermin_commander"
-			elseif breed.name == "chaos_berzerker" then 
-				breed = "skaven_plague_monk"
-			elseif breed.name == "chaos_warrior" then
-				breed = "skaven_storm_vermin"
-			elseif breed.name == "chaos_marauder" then
-				breed = "skaven_clan_rat"
-			elseif breed.name == "chaos_marauder_with_shield" then
-				breed = "skaven_clan_rat_with_shield"
-			elseif breed.name == "chaos_fanatic" then
-				breed = "skaven_slave"
-			end
-		end
+		-- Define breed replacement mappings
+		local breed_replacements = {
+			-- Skaven-only levels: Replace Chaos breeds with Skaven equivalents
+			skaven_stronghold = {
+				chaos_raider = "skaven_storm_vermin_commander",
+				chaos_berzerker = "skaven_plague_monk",
+				chaos_warrior = "skaven_storm_vermin",
+				chaos_marauder = "skaven_clan_rat",
+				chaos_marauder_with_shield = "skaven_clan_rat_with_shield",
+				chaos_fanatic = "skaven_slave"
+			},
+			dlc_termite_3 = {
+				chaos_raider = "skaven_storm_vermin_commander",
+				chaos_berzerker = "skaven_plague_monk",
+				chaos_warrior = "skaven_storm_vermin",
+				chaos_marauder = "skaven_clan_rat",
+				chaos_marauder_with_shield = "skaven_clan_rat_with_shield",
+				chaos_fanatic = "skaven_slave"
+			},
+			-- Chaos-only level: Replace Skaven breeds with Chaos equivalents
+			warcamp = {
+				skaven_storm_vermin_commander = "chaos_raider",
+				skaven_plague_monk = "chaos_berzerker",
+				skaven_storm_vermin = "chaos_warrior",
+				skaven_clan_rat = "chaos_marauder",
+				skaven_clan_rat_with_shield = "chaos_marauder_with_shield",
+				skaven_slave = "chaos_fanatic"
+			}
+		}
 
-		-- Chaos only
-		if level_name == "warcamp" then 
-			if breed.name == "skaven_storm_vermin_commander" then
-				breed = "chaos_raider"
-			elseif breed.name == "skaven_plague_monk" then 
-				breed = "chaos_berzerker"
-			elseif breed.name == "skaven_storm_vermin" then
-				breed = "chaos_warrior"
-			elseif breed.name == "skaven_clan_rat" then
-				breed = "chaos_marauder"
-			elseif breed.name == "skaven_clan_rat_with_shield" then
-				breed = "chaos_marauder_with_shield"
-			elseif breed.name == "skaven_slave" then
-				breed = "chaos_fanatic"
-			end
-		end
+		-- Handle specific breed replacements with randomization
+		local random_replacements = {
+			skaven_clan_rat_with_shield = { "skaven_clan_rat" },
+			chaos_marauder_with_shield = { "chaos_marauder" },
+			skaven_storm_vermin_with_shield = { "skaven_plague_monk", "skaven_storm_vermin_commander" }
+		}
 
-		if nocw then
+		-- Apply random replacements for specific breeds
+		if random_replacements[breed.name] and (level_name ~= "dlc_termite_3" or breed.name ~= "skaven_storm_vermin_with_shield") then
 			if math.random() <= 0.6 then
-				breed = nocw[math.random(1, #nocw)]
+				local options = random_replacements[breed.name]
+				new_breed = Breeds[options[math.random(1, #options)]]
 			end
-		elseif nochaos then
-			if math.random() <= 0.6 then
-				breed = nochaos[math.random(1, #nochaos)]
-			end
-		elseif well then 
-			breed = well[math.random(1, #well)]
+		elseif level_name == "dlc_termite_3" and breed.name == "skaven_storm_vermin_with_shield" then
+			local options = random_replacements.skaven_storm_vermin_with_shield
+			new_breed = Breeds[options[math.random(1, #options)]]
 		end
 
-		return func(self, breed, boxed_spawn_pos, boxed_spawn_rot, spawn_category, spawn_animation, spawn_type, ...)
+		-- Apply level-specific breed replacements
+		local level_replacements = breed_replacements[level_name]
+		if level_replacements and level_replacements[breed.name] then
+			new_breed = Breeds[level_replacements[breed.name]]
+		end
+
+		-- Call the original function with the (possibly) modified breed
+		return func(self, new_breed, boxed_spawn_pos, boxed_spawn_rot, spawn_category, spawn_animation, spawn_type, ...)
 	end)
 
 	local mean = 1.1
@@ -679,11 +683,11 @@ end
 	IntensitySettings.default.difficulty_overrides = nil
 
 	-- HORDE SETTINGS
-	HordeSettings.default.chance_of_vector = 0.7 -- 0.75
+	HordeSettings.default.chance_of_vector = 0.8 -- 0.75
 	HordeSettings.default.chance_of_vector_blob = 0.65	
 	HordeSettings.default.chance_of_vector_termite_1 = 0.9
 
-	HordeSettings.chaos.chance_of_vector = 0.7 -- 0.9
+	HordeSettings.chaos.chance_of_vector = 0.8 -- 0.9
 	HordeSettings.chaos.chance_of_vector_blob = 0.65 -- 0.5
 	HordeSettings.chaos.chance_of_vector_termite_1 = 0.9
 
@@ -708,7 +712,7 @@ end
 			min_hidden_spawner_dist = 5,
 			min_horde_spawner_dist = 5,
 			raw_dist_from_players = 13,
-			start_delay = 4.5,
+			start_delay = 5.5,
 		},
 		vector_blob = {
 			max_size,

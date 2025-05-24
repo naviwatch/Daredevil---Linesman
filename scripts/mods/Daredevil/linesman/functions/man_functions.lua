@@ -19,7 +19,7 @@ mod:hook_origin(ConflictDirector, "update_horde_pacing", function(self, t, dt)
     if not self._next_horde_time then
         -- New Intensity stuff
         if mutator_plus.active and level_name == "dlc_termite_3" then
-            self._next_horde_time = t + ConflictUtils.random_interval(CurrentPacing.horde_frequency) + 75
+            self._next_horde_time = t + 120
         else
             self._next_horde_time = t + ConflictUtils.random_interval(CurrentPacing.horde_frequency)
         end
@@ -116,24 +116,17 @@ mod:hook_origin(ConflictDirector, "update_horde_pacing", function(self, t, dt)
             if horde_settings.mix_paced_hordes then
                 -- Map modifiers
                 if mutator_plus.active then
-                    if level_name == "dlc_termite_1" then -- Freaky Temple
-                        horde_type = math.random() < horde_settings.chance_of_vector_termite_1 and "vector" or "ambush"
-                    end
-
-                    if level_name == "dlc_termite_3" then -- Well of Shit
-                        horde_type = math.random() < horde_settings.chance_of_vector_blob and "vector_blob" or "ambush"
-                    end
-                    
-                    if self.num_paced_hordes ~= nil and self.num_paced_hordes <= 10 and not lb then 
-                        horde_type = "vector"
-                    end
-
                     im_not_gonna_sugarcoat_it, wves = PseudoRandomDistribution.flip_coin(wves, horde_settings.chance_of_vector)
 
                     if im_not_gonna_sugarcoat_it then
                         horde_type = "vector"
                     else
                         horde_type = "ambush"
+                    end
+
+                    -- Override the stuff above
+                    if self.horde_spawner.num_paced_hordes <= 10 and not lb then 
+                        horde_type = "vector"
                     end
                 else
                     if self.horde_spawner.num_paced_hordes % 2 == 0 then
@@ -172,9 +165,21 @@ mod:hook_origin(ConflictDirector, "update_horde_pacing", function(self, t, dt)
                 end
             end
 
-            if self.horde_spawner.num_paced_hordes == 0 then 
-                horde_type = "vector_blob"
+            -- Horde overrides
+            if mutator_plus.active and self.horde_spawner.num_paced_hordes ~= nil then 
+                if level_name == "dlc_termite_1" then -- Freaky Temple
+                   horde_type = math.random() < horde_settings.chance_of_vector_termite_1 and "vector" or "ambush"
+                end
+
+                if level_name == "dlc_termite_3" then -- Well of Shit
+                    horde_type = math.random() < horde_settings.chance_of_vector_blob and "vector_blob" or "ambush"
+                end
+                
+                if self.horde_spawner.num_paced_hordes <= 3 then -- Force set to vector_blob at the end because im a good person
+                    horde_type = "vector_blob"
+                end
             end
+
 
             local composition = horde_type == "vector" and horde_settings.vector_composition or
                 horde_type == "vector_blob" and horde_settings.vector_blob_composition or
@@ -344,6 +349,38 @@ mod:hook_origin(HordeSpawner, "compose_blob_horde_spawn_list", function(self, co
 
     table.shuffle(spawn_list)
     return spawn_list, #spawn_list
+end)
+
+mod:hook(HordeSpawner, "execute_vector_blob_horde", function(func, self, extra_data, side_id, fallback)
+    local settings = CurrentHordeSettings.vector_blob
+	local roll = math.random()
+	local spawn_horde_ahead 
+    
+    if self.num_paced_hordes <= 3 then
+        spawn_horde_ahead = true
+    else
+        spawn_horde_ahead = roll <= settings.main_path_chance_spawning_ahead
+    end
+
+	print("wants to spawn " .. (spawn_horde_ahead and "ahead" or "behind") .. " within distance: ", settings.main_path_dist_from_players)
+
+	local success, blob_pos, to_player_dir = self:get_pos_ahead_or_behind_players_on_mainpath(spawn_horde_ahead, settings.main_path_dist_from_players, settings.raw_dist_from_players, side_id)
+
+	if not success then
+		print("\tcould not, tries to spawn" .. (not spawn_horde_ahead and "ahead" or "behind"))
+
+		success, blob_pos, to_player_dir = self:get_pos_ahead_or_behind_players_on_mainpath(not spawn_horde_ahead, settings.main_path_dist_from_players, settings.raw_dist_from_players, side_id)
+
+		if not success then
+			local roll = math.random()
+			local spawn_horde_ahead = roll <= settings.main_path_chance_spawning_ahead
+			local distance_bonus = 20
+
+			success, blob_pos, to_player_dir = self:get_pos_ahead_or_behind_players_on_mainpath(spawn_horde_ahead, settings.main_path_dist_from_players + distance_bonus, settings.raw_dist_from_players, side_id)
+		end
+	end
+
+    return func(self, extra_data, side_id, fallback)
 end)
 
 local dialogue_system_init_data = {
