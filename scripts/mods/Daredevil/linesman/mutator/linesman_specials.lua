@@ -167,6 +167,7 @@ if mod:get("giga_specials") then
 	min_special_timer = 0
 	max_special_timer = 7
 	max_of_same = 3
+	mod:chat_broadcast("Unending Specials ENABLED.")
 else
 	special_slots = 7
 	min_special_timer = 30 -- 30

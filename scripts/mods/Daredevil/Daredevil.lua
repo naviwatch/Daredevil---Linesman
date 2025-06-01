@@ -327,9 +327,9 @@ mod:hook(IngamePlayerListUI, "_update_difficulty", function (func, self)
 		if mutator_plus.active == true and dw ~= nil then
 			if mod.difficulty_level == 1 then
 				if deathwish.active == true then
-					self:_set_difficulty_name(Localize(base_difficulty_name) .. " Linesbaby")
+					self:_set_difficulty_name(Localize(base_difficulty_name) .. " MANBABY")
 				else
-					self:_set_difficulty_name(Localize(base_difficulty_name) .. " Deathbaby")
+					self:_set_difficulty_name(Localize(base_difficulty_name) .. " Manbaby")
 				end
 			elseif mod.difficulty_level == 2 then
 				if deathwish.active == true then
@@ -350,7 +350,7 @@ mod:hook(IngamePlayerListUI, "_update_difficulty", function (func, self)
 			return func(self)
 		end
 	else 
-		if mutator_plus.active == true then
+		if mutator_plus.active then
 			self:_set_difficulty_name("MAN")
 		elseif c3dwlines then
 			self:_set_difficulty_name("MAN")
@@ -402,9 +402,9 @@ mod:hook(Presence, "set_presence", function(func, key, value)
 			elseif mutator_plus.active == true and deathwish.active == true and dw ~= nil then
 				if mod.difficulty_level == 1 then
 					if value == "cataclysm_3" then
-						func(key, "C3 Deathbaby")
+						func(key, "C3 MANBABY")
 					elseif value == "cataclysm" then
-						func(key, "C3 Deathbaby")
+						func(key, "C3 Manbaby")
 					else
 						func(key, "DELI HAM ONLY FOR 1.99")
 					end
@@ -1279,10 +1279,10 @@ mutator_plus.toggle = function()
 		end
 
 		if mod:get("beta") then
-			mod:chat_broadcast("Running Linesman BETA Version 4.1.2")
+			mod:chat_broadcast("Running Linesman BETA Version 4.1.4")
 			mod:chat_broadcast("这是Linesman BETA！")
 		else 
-			mod:chat_broadcast("Version 4.1.2")
+			mod:chat_broadcast("Version 4.1.4")
 		end 
 	else
 		mutator_plus.stop()
@@ -1388,6 +1388,24 @@ mod:command("spawn_a_bob", " spawn a bob :D", function()
 	Managers.state.conflict:start_terror_event("bob_the_builder")
 	mod:chat_broadcast("BOB is here.")
 end)
+
+--[[
+mod:command("spawn_damaged_gas", " creeding", function()
+	GenericTerrorEvents.damage_gas = {
+		{
+			"spawn_special",
+			breed_name = "skaven_poison_wind_globadier",
+			optional_data = {
+				target_selection = "least_healthy_player",
+				size_variation_range = { 2, 2 },
+				force_boss_health_ui = true,
+			}
+		}
+	}
+	Managers.state.conflict:start_terror_event("damage_gas")
+	mod:chat_broadcast("Spawned damaged GAS")
+end)
+]]
 
 mod:command("trigger_haz40", " Triggers something special", function()
 	Managers.state.conflict:start_terror_event("eee")
@@ -1661,7 +1679,8 @@ GenericTerrorEvents.eee = {
         amount = 2,
         breed_name = "skaven_rat_ogre",
         optional_data = {
-            max_health_modifier = 0.25
+            max_health_modifier = 0.25,
+			force_boss_health_ui = true
         }
     },
     {
@@ -1731,7 +1750,8 @@ GenericTerrorEvents.eee = {
         amount = 1,
         breed_name = "skaven_rat_ogre",
         optional_data = {
-            max_health_modifier = 0.25
+            max_health_modifier = 0.25,
+			force_boss_health_ui = true
         }
     },
 	{
@@ -1739,7 +1759,8 @@ GenericTerrorEvents.eee = {
         amount = 1,
         breed_name = "skaven_stormfiend",
         optional_data = {
-            max_health_modifier = 0.5
+            max_health_modifier = 0.5,
+			force_boss_health_ui = true
         }
     },
 	{

@@ -634,3 +634,11 @@ Breeds.beastmen_standard_bearer.hitzone_primary_armor_categories = { head = 3, n
     }
     BreedActions.beastmen_standard_bearer.place_standard.considerations = UtilityConsiderations.beastmen_place_standard_lines
     BeastmenStandardTemplates.healing_standard.radius = 3
+
+-- Explosive rats
+--[[
+local extension = Managers.state.entity:system("ping_system"):on_add_extension(world, "skaven_explosive_loot_rat", "PingTargetExtension", {})
+
+extension:extensions_ready(world, "skaven_explosive_loot_rat")
+mod:echo("Done")
+]]

@@ -697,7 +697,8 @@ GenericTerrorEvents.bob_the_builder = {
         --    spawned_func = AiUtils.magic_entrance_optional_spawned_func,
             enhancements = bob_pacing,
             target_selection = "least_healthy_player",
-            size_variation_range = { 2, 2 }
+            size_variation_range = { 2, 2 },
+            force_boss_health_ui = true,
         }
     }
 }
@@ -734,10 +735,10 @@ local special_attack = function()
     if PRD_special_attack then
         conflict_director:start_terror_event("special_coordinated")
 
-        if not is_chinese then 
-            mod:chat_broadcast("SPECIAL WAVE!")
-        else
+        if is_chinese then 
             mod:chat_broadcast("特感波!")
+        else
+            mod:chat_broadcast("SPECIAL WAVE!")
         end
 
         PRD_well_thought_out_waves, wtow = PseudoRandomDistribution.flip_coin(wtow, 0.5)
@@ -910,13 +911,17 @@ mod:hook(HordeSpawner, "horde", function(func, self, horde_type, extra_data, sid
             dlc_termite_3 = true
         }
 
-        if self.num_paced_hordes == 32 and not restricted_levels[level_name] then
+        if self.num_paced_hordes == 30 then 
+            mod:chat_broadcast("2 hordes away from doom.")
+        elseif self.num_paced_hordes == 31 then 
+            mod:chat_broadcast("Time is ticking.")
+        elseif self.num_paced_hordes == 32 and not restricted_levels[level_name] then
             Managers.state.conflict:start_terror_event("eee")
             Managers.state.conflict:start_terror_event("eee_trash")
-            self.num_paced_hordes = num_hordes + 1
+            self.num_paced_hordes = self.num_paced_hordes + 1
         end
     end
-
+ 
     if horde_type == "vector" then
         self:execute_vector_horde(extra_data, side_id, no_fallback)
     elseif horde_type == "vector_blob" then
@@ -944,10 +949,10 @@ mod:hook(HordeSpawner, "find_good_vector_horde_pos", function(func, self, main_t
     if PRD_sandwich and num_paced_hordes ~= nil then
         conflict_director:start_terror_event("split_wave")
 
-        if not is_chinese then 
-            mod:chat_broadcast("The waves part to tear you in two.")
-        else
+        if is_chinese then 
             mod:chat_broadcast("巨浪裂空而至，欲将你撕成两半。")
+        else
+            mod:chat_broadcast("The waves part to tear you in two.")
         end
 
         local success, horde_spawners, found_cover_points, epicenter_pos = func(self, main_target_pos, distance,

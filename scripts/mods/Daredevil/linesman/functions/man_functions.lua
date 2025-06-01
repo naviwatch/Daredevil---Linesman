@@ -306,7 +306,7 @@ mod:hook_origin(HordeSpawner, "compose_blob_horde_spawn_list", function(self, co
         local num_paced_hordes = horde_spawner.num_paced_hordes
 
         if mutator_plus.active then
-            if num_paced_hordes <= 2 and not mod.difficulty_level == 1 then -- If its the first two hordes, lower difficulty by spawning less
+            if num_paced_hordes <= 2 and not mod.difficulty_level == 1 and not mod:get("testers") then -- If its the first two hordes, lower difficulty by spawning less
                 for j = start, start + num_to_spawn - 3 do
                     spawn_list[j] = breed_name
                 end
@@ -436,7 +436,7 @@ mod:hook_origin(ConflictDirector, "_spawn_unit", function(self, breed, spawn_pos
 	if health then
 		local max_health_modifier = optional_data.max_health_modifier or 1
 
-		health = health * max_health_modifier
+		health = health * max_health_modifier 
 	end
 
     -- Modifications start
@@ -537,4 +537,3 @@ mod:hook_origin(ConflictDirector, "_spawn_unit", function(self, breed, spawn_pos
 
 	return ai_unit, go_id
 end)
-

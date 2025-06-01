@@ -1,12 +1,12 @@
 return {
 	mod_description = {
-		en = "Version 4.1.2",
+		en = "Version 4.1.4",
 	},
 	giga_specials = {
-		en = "Unrelenting Specials"
+		en = "Unending Specials"
 	},
 	giga_specials_tooltip = {
-		en = "Why"
+		en = "Sets special spawn to extremely low timers. Enables automatically with /linesman if checked. Cannot be enabled mid-run."
 	},
 	friendly_dr = {
 		en = "50%% DR",
@@ -28,7 +28,7 @@ return {
 		en = "Unending Hordes"
 	},
 	testers_tooltip = {
-		en = "Suffer"
+		en = "Hordes will come infinitely, with 20-25s breaks in-between. Enables automatically with /linesman if checked. Cannot be enabled mid-run."
 	},
 	difficulty_level = {
 		en = "Scaling"
@@ -51,7 +51,7 @@ return {
 	},
 	beta = {
 		en = "Linesman Beta",
-		zh = "别开别开别开别开别开别开别开别开别开别开别开别开别开别开别开别开别开别开别开别开别开别开别开别开别开别开别开别开别开别开别开别开别开别开别开别开别开别开别开别开别开别开别开"
+		zh = "L平beta"
 	},
 	beta_tooltip = {
 		en = "Beta version of Linesman, includes stuff that will be included into main (or not)"
@@ -60,7 +60,7 @@ return {
 		en = "Ambient Dynamic Scaling"
 	},
 	scaling_tooltip = {
-		en = "Scales ambience by 20-40%% based on how many players are in the lobby. 4 players will result in default values."
+		en = "Scales ambience by 20-40%% based on how many players are in the lobby. 4 players will result in default values. Currently deprecated."
 	},
 	lonk = {
 		en = "TWENTY EIGHT STAB WOUNDS"

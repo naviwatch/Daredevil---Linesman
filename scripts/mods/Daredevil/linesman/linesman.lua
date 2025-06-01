@@ -558,7 +558,7 @@ end
 	elseif mod.difficulty_level == 2 then
 		co = 0.11
 	elseif mod.difficulty_level == 3 then
-		co = 0.1338 -- 0.1335
+		co = 0.1335 -- 0.1335
 	end
 
 	if mod:get("lonk") then
@@ -723,7 +723,7 @@ end
 		},
 	}
 	
-	mod:echo("Intensity System DISABLED for MAN")
+	mod:echo("Intensity System DISABLED.")
 
 	-- THREAT SETTINGS
 	PacingSettings.beastmen.delay_horde_threat_value = {
@@ -787,10 +787,10 @@ end
 
 	-- Multiple hordes thing 
 	if mod:get("testers") then
-		PacingSettings.default.multiple_horde_frequency = math.huge
-		PacingSettings.chaos.multiple_horde_frequency = math.huge
-		PacingSettings.default.multiple_hordes = { 20, 25 }
-		PacingSettings.chaos.multiple_hordes = { 20, 25 }
+		PacingSettings.default.multiple_hordes = math.huge
+		PacingSettings.chaos.multiple_hordes = math.huge
+		PacingSettings.default.multiple_horde_frequency = { 20, 25 }
+		PacingSettings.chaos.multiple_horde_frequency = { 20, 25 }
 		mod:dofile("scripts/mods/Daredevil/linesman/mutator/nonstop/nonstop_hordes")
 		mod:dofile("scripts/mods/Daredevil/linesman/mutator/nonstop/nonstop_breed_pack")
 
