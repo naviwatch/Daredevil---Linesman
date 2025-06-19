@@ -175,7 +175,7 @@ mod:hook_origin(ConflictDirector, "update_horde_pacing", function(self, t, dt)
                     horde_type = math.random() < horde_settings.chance_of_vector_blob and "vector_blob" or "ambush"
                 end
                 
-                if self.horde_spawner.num_paced_hordes <= 3 then -- Force set to vector_blob at the end because im a good person
+                if self.horde_spawner.num_paced_hordes <= 2 then -- Force set to vector_blob at the end because im a good person
                     horde_type = "vector_blob"
                 end
             end

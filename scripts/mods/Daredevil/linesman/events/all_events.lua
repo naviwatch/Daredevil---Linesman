@@ -535,16 +535,9 @@ end
 			composition_type = "skaven_shields"
 		},
 		{
-			"event_horde",
-			limit_spawners = 4,
-			spawner_id = "onslaught_courtyard_roof_right",
-			composition_type = "skaven_shields"
-		},
-		{
-			"event_horde",
-			limit_spawners = 4,
-			spawner_id = "onslaught_courtyard_roof_right",
-			composition_type = "skaven_shields"
+			"spawn_special",
+			amount = 1,
+			breed_name = "skaven_explosive_loot_rat"
 		},
 		{
 			"event_horde",
@@ -8707,15 +8700,10 @@ end
 		},
 	]]
 		{
-			"spawn_at_raw",
-			spawner_id = "stronghold_horde_water_wheels",
-			breed_name = "chaos_exalted_champion_warcamp",
-		},
-		{
 			"event_horde",
 			spawner_id = "stronghold_horde_water_wheels",
 			composition_type = "onslaught_skaven_double_wave"
-		},
+		},	
 		{
 			"delay",
 			duration = 5
@@ -8723,15 +8711,30 @@ end
 		{
 			"continue_when",
 			condition = function (t)
-				return count_event_breed("skaven_slave") < 12 and count_event_breed("skaven_clan_rat_with_shield") < 8 and count_event_breed("skaven_storm_vermin_with_shield") < 4 and count_event_breed("skaven_storm_vermin") < 8 and count_breed("skaven_storm_vermin_commander") < 6
+				return count_event_breed("skaven_slave") < 12 and count_event_breed("skaven_clan_rat_with_shield") < 8 and count_event_breed("skaven_storm_vermin_with_shield") < 2 and count_event_breed("skaven_storm_vermin") < 5 and count_breed("skaven_storm_vermin_commander") < 4
+			end
+		},
+		{
+			"control_specials",
+			enable = true
+		},
+		{
+			"spawn_special",
+			amount = 2,
+			breed_name = "skaven_rat_ogre",
+			optional_data = {
+				max_health_modifier = 0.25
+			}
+		},
+		{
+			"continue_when",
+			duration = 60,
+			condition = function (t)
+				return count_event_breed("skaven_rat_ogre") < 1
 			end
 		},
 		{
 			"control_hordes",
-			enable = true
-		},
-		{
-			"control_specials",
 			enable = true
 		},
 		{
@@ -9224,8 +9227,11 @@ end
 			composition_type = "apocalypse_wave"
 		},
 		{
-			"delay",
-			duration = 45
+			"continue_when",
+			duration = 60,
+			condition = function (t)
+				return count_event_breed("chaos_raider") < 5 and count_event_breed("skaven_storm_vermin_commander") < 5
+			end
 		},
 		{
 			"event_horde",

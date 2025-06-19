@@ -255,7 +255,7 @@ end
 		local num_wanted_percentage
 
 		if mod.difficulty_level == 1 then
-			num_wanted_percentage = 1.2
+			num_wanted_percentage = 1
 		elseif lb then 
 			num_wanted_percentage = 1.4
 		else
@@ -554,11 +554,11 @@ end
    ]]
 
 	if mod.difficulty_level == 1 then
-		co = 0.08
-	elseif mod.difficulty_level == 2 then
 		co = 0.11
+	elseif mod.difficulty_level == 2 then
+		co = 0.12
 	elseif mod.difficulty_level == 3 then
-		co = 0.1335 -- 0.1335
+		co = 0.1338 -- 0.1335
 	end
 
 	if mod:get("lonk") then

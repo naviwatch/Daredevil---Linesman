@@ -1279,17 +1279,17 @@ mutator_plus.toggle = function()
 		end
 
 		if mod:get("beta") then
-			mod:chat_broadcast("Running Linesman BETA Version 4.1.4")
+			mod:chat_broadcast("Running Linesman BETA Version 4.2.0")
 			mod:chat_broadcast("这是Linesman BETA！")
 		else 
-			mod:chat_broadcast("Version 4.1.4")
+			mod:chat_broadcast("Version 4.2.0")
 		end 
 	else
 		mutator_plus.stop()
 		mod:chat_broadcast("Loser!!!!!!!!!!!!!!!!!!!!!!!!!!!!! FUCKING LOSER FUCK YOU FUCK YOU FUCK YOU FUCK HYOYJERHEJKHEWGPWEYGHWBMJ")
 		mod:chat_broadcast("L猛已关掉")
 		mod:chat_broadcast("------------------")
-		mod:chat_broadcast("RESTART THE LOBBY IF SWITCHING ONSLAUGHT MODS")
+		mod:chat_broadcast("RESTART THE LOBBY IF SWITCHING ONSLAUGHT MODS, THIS INCLUDES LINESMAN > LINESBABY, VICE VERSA")
 		mod:chat_broadcast("------------------")
 	end
 end

@@ -693,7 +693,7 @@ GenericTerrorEvents.bob_the_builder = {
         "spawn_special",
         breed_name = "skaven_dummy_clan_rat",
         optional_data = {
-            max_health_modifier = 5,
+            max_health_modifier = 7,
         --    spawned_func = AiUtils.magic_entrance_optional_spawned_func,
             enhancements = bob_pacing,
             target_selection = "least_healthy_player",
@@ -828,32 +828,6 @@ end
 
 local mini_boss = function()
     local chances = 0.04
-
-    PRD_mini_boss, pmb = PseudoRandomDistribution.flip_coin(pmb, chances)
-
-    local message = {
-        "The air tingles with a looming sense of dread.",
-        "Sand seeps into your winds, seeking to tear you asunder.",
-        "Bob is here to fix your HP!",
-        "A wave of heat washes over you as the wind grows thick with soot."
-    }
-
-    if PRD_mini_boss then
-        
-        Managers.state.conflict:start_terror_event("mini_boss_warning")
-
-        PRD_bob_or_ogre, boo = PseudoRandomDistribution.flip_coin(boo, 1)
-
-        if PRD_bob_or_ogre then 
-            mod:chat_broadcast(mod:localize("bob_message"))
-            
-            Managers.state.conflict:start_terror_event("bob_the_builder")
-        end
-    end
-end
-
-local mini_boss = function()
-    local chances = 0.04
     local english_messages = {
         "The air tingles with a looming sense of dread.",
         "Sand seeps into your winds, seeking to tear you asunder.",
@@ -890,15 +864,22 @@ mod:hook(HordeSpawner, "horde", function(func, self, horde_type, extra_data, sid
     print("horde requested: ", horde_type)
 
     local level_name = Managers.level_transition_handler:get_current_level_key()
+    local persistent_data = mod:persistent_table("horde_spawner")
+    persistent_data.bob_counter = persistent_data.bob_counter or 0
 
     if mutator_plus.active and self.num_paced_hordes then
+        if self.num_paced_hordes == 1 then
+            persistent_data.bob_counter = 0
+        end
+
         if self.num_paced_hordes >= 4 then  
             special_attack()
             custom_wave_c3()
         end
 
-        if self.num_paced_hordes >= 6 then 
+        if self.num_paced_hordes >= 6 and persistent_data.bob_counter <= 2 then 
             mini_boss()
+            persistent_data.bob_counter = persistent_data.bob_counter + 1
         end
 
         local restricted_levels = {
