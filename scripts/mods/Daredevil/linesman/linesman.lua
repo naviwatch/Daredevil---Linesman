@@ -760,7 +760,11 @@ end
 
 	mod:dofile("scripts/mods/Daredevil/linesman/mutator/linesman_skaven_horde")
 	mod:dofile("scripts/mods/Daredevil/linesman/mutator/linesman_chaos_horde")
-	mod:dofile("scripts/mods/Daredevil/linesman/mutator/linesman_specials")
+	if lb then
+		mod:dofile("scripts/mods/Daredevil/linesman/mutator/lb_specific/linesman_specials")
+	else
+		mod:dofile("scripts/mods/Daredevil/linesman/mutator/linesman_specials")
+	end
 	mod:dofile("scripts/mods/Daredevil/linesman/mutator/linesman_triggers")
 	mod:dofile("scripts/mods/Daredevil/linesman/mutator/linesman_event_comp")
 
@@ -823,7 +827,11 @@ end
 	}
 
 	-- Custom waves
-	mod:dofile("scripts/mods/Daredevil/linesman/mutator/custom_waves")
+	if lb then
+		mod:dofile("scripts/mods/Daredevil/linesman/mutator/lb_specific/custom_waves")
+	else
+		mod:dofile("scripts/mods/Daredevil/linesman/mutator/custom_waves")
+	end
 	-- Events
 	mod:dofile("scripts/mods/Daredevil/linesman/events/all_events")
 	-- Mission of Mercy
@@ -851,7 +859,7 @@ end
 	-- CN specific events 
 	if lb then
 		mod:dofile("scripts/mods/Daredevil/linesman/events/cn_righteous")
-		mod:dofile("scripts/mods/Daredevil/linesman/mutator/lb_override_temp")
+		mod:dofile("scripts/mods/Daredevil/linesman/mutator/lb_specific/lb_override_temp")
 	end
 
 	-- Linesman specific events

@@ -1279,10 +1279,10 @@ mutator_plus.toggle = function()
 		end
 
 		if mod:get("beta") then
-			mod:chat_broadcast("Running Linesman BETA Version 4.2.0")
+			mod:chat_broadcast("Running Linesman BETA Version 4.2.5")
 			mod:chat_broadcast("这是Linesman BETA！")
 		else 
-			mod:chat_broadcast("Version 4.2.0")
+			mod:chat_broadcast("Version 4.2.5")
 		end 
 	else
 		mutator_plus.stop()
@@ -1602,7 +1602,7 @@ GenericTerrorEvents.eee = {
     {
         "continue_when",
         condition = function(t)
-            mod:chat_broadcast("WAVE 1]")
+            mod:chat_broadcast("[WAVE 1]")
             return true
         end
     },

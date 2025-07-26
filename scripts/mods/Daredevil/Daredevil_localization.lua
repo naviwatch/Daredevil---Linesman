@@ -1,6 +1,6 @@
 return {
 	mod_description = {
-		en = "Version 4.2.0",
+		en = "Version 4.2.5",
 	},
 	giga_specials = {
 		en = "Unending Specials"

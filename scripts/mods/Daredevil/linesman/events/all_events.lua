@@ -6336,7 +6336,7 @@ end
 		{
 			"event_horde",
 			spawner_id = "canyon_bell_event",
-			composition_type = "onslaught_custom_specials_heavy_denial"
+			composition_type = "onslaught_custom_special_denial"
 		},
 		{
 			"continue_when",
@@ -6352,7 +6352,7 @@ end
 		{
 			"event_horde",
 			spawner_id = "canyon_bell_event",
-			composition_type = "onslaught_custom_specials_heavy_denial"
+			composition_type = "onslaught_custom_special_denial"
 		},
 		{
 			"delay",
@@ -6372,7 +6372,7 @@ end
 		{
 			"event_horde",
 			spawner_id = "canyon_bell_event",
-			composition_type = "onslaught_custom_specials_heavy_denial"
+			composition_type = "onslaught_custom_special_denial"
 		},
 		{
 			"delay",
@@ -6392,7 +6392,7 @@ end
 		{
 			"event_horde",
 			spawner_id = "canyon_bell_event",
-			composition_type = "onslaught_custom_specials_heavy_denial"
+			composition_type = "onslaught_custom_special_denial"
 		},
 		{
 			"delay",
@@ -6412,7 +6412,7 @@ end
 		{
 			"event_horde",
 			spawner_id = "canyon_bell_event",
-			composition_type = "onslaught_custom_specials_heavy_denial"
+			composition_type = "onslaught_custom_special_denial"
 		},
 		{
 			"delay",
@@ -6432,7 +6432,7 @@ end
 		{
 			"event_horde",
 			spawner_id = "canyon_bell_event",
-			composition_type = "onslaught_custom_specials_heavy_denial"
+			composition_type = "onslaught_custom_special_denial"
 		},
 		{
 			"delay",
@@ -6452,7 +6452,7 @@ end
 		{
 			"event_horde",
 			spawner_id = "canyon_bell_event",
-			composition_type = "onslaught_custom_specials_heavy_denial"
+			composition_type = "onslaught_custom_special_denial"
 		},
 		{
 			"delay",
@@ -6472,7 +6472,7 @@ end
 		{
 			"event_horde",
 			spawner_id = "canyon_bell_event",
-			composition_type = "onslaught_custom_specials_heavy_denial"
+			composition_type = "onslaught_custom_special_denial"
 		},
 		{
 			"delay",
@@ -6492,7 +6492,7 @@ end
 		{
 			"event_horde",
 			spawner_id = "canyon_bell_event",
-			composition_type = "onslaught_custom_specials_heavy_denial"
+			composition_type = "onslaught_custom_special_denial"
 		},
 		{
 			"delay",
@@ -6512,7 +6512,7 @@ end
 		{
 			"event_horde",
 			spawner_id = "canyon_bell_event",
-			composition_type = "onslaught_custom_specials_heavy_denial"
+			composition_type = "onslaught_custom_special_denial"
 		},
 		{
 			"delay",
@@ -6532,7 +6532,7 @@ end
 		{
 			"event_horde",
 			spawner_id = "canyon_bell_event",
-			composition_type = "onslaught_custom_specials_heavy_denial"
+			composition_type = "onslaught_custom_special_denial"
 		},
 		{
 			"delay",

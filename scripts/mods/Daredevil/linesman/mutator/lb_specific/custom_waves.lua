@@ -350,7 +350,7 @@ GenericTerrorEvents.spam_ratling = {
     },
     {
         "spawn_special",
-        amount = 3,
+        amount = 2,
         breed_name = "skaven_ratling_gunner",
         optional_data = {
             target_selection = "healthy_players"
@@ -377,7 +377,7 @@ GenericTerrorEvents.spam_ratling = {
 GenericTerrorEvents.spam_warpfire = {
     {
         "spawn_special",
-        amount = 3,
+        amount = 2,
         breed_name = "skaven_warpfire_thrower",
         optional_data = {
             target_selection = "least_healthy_player"
@@ -389,7 +389,7 @@ GenericTerrorEvents.spam_warpfire = {
     },
     {
         "spawn_special",
-        amount = 3,
+        amount = 2,
         breed_name = "skaven_warpfire_thrower",
         optional_data = {
             target_selection = "healthy_players"
@@ -401,7 +401,7 @@ GenericTerrorEvents.spam_warpfire = {
     },
     {
         "spawn_special",
-        amount = 3,
+        amount = 2,
         breed_name = "skaven_warpfire_thrower",
         optional_data = {
             target_selection = "least_healthy_player"
@@ -538,7 +538,7 @@ GenericTerrorEvents.spam_assassin = { -- 3 rotations
 GenericTerrorEvents.fuck_you = {
     {
         "spawn_special",
-        amount = 2,
+        amount = 1,
         breed_name = "skaven_gutter_runner",
         optional_data = {
             target_selection = "healthy_players"
@@ -546,7 +546,7 @@ GenericTerrorEvents.fuck_you = {
     },
     {
         "spawn_special",
-        amount = 3,
+        amount = 2,
         breed_name = "skaven_ratling_gunner",
         optional_data = {
             target_selection = "least_healthy_player"
@@ -563,7 +563,7 @@ GenericTerrorEvents.fuck_you = {
     },
     {
         "spawn_special",
-        amount = 3,
+        amount = 2,
         breed_name = "skaven_poison_wind_globadier",
         optional_data = {
             target_selection = "furthest_player"
@@ -575,7 +575,7 @@ GenericTerrorEvents.fuck_you = {
     },
     {
         "spawn_special",
-        amount = 2,
+        amount = 1,
         breed_name = "skaven_gutter_runner",
         optional_data = {
             target_selection = "healthy_players"
@@ -583,7 +583,7 @@ GenericTerrorEvents.fuck_you = {
     },
     {
         "spawn_special",
-        amount = 3,
+        amount = 2,
         breed_name = "skaven_ratling_gunner",
         optional_data = {
             target_selection = "least_healthy_player"
@@ -600,7 +600,7 @@ GenericTerrorEvents.fuck_you = {
     },
     {
         "spawn_special",
-        amount = 3,
+        amount = 1,
         breed_name = "skaven_poison_wind_globadier",
         optional_data = {
             target_selection = "furthest_player"
@@ -612,7 +612,7 @@ GenericTerrorEvents.fuck_you = {
     },
     {
         "spawn_special",
-        amount = 2,
+        amount = 1,
         breed_name = "skaven_gutter_runner",
         optional_data = {
             target_selection = "healthy_players"
@@ -620,7 +620,7 @@ GenericTerrorEvents.fuck_you = {
     },
     {
         "spawn_special",
-        amount = 3,
+        amount = 2,
         breed_name = "skaven_ratling_gunner",
         optional_data = {
             target_selection = "least_healthy_player"
@@ -637,7 +637,7 @@ GenericTerrorEvents.fuck_you = {
     },
     {
         "spawn_special",
-        amount = 3,
+        amount = 2,
         breed_name = "skaven_poison_wind_globadier",
         optional_data = {
             target_selection = "furthest_player"
@@ -755,24 +755,12 @@ local special_attack = function()
                 end
             end
         else
-            PRD_scrambler, scram = PseudoRandomDistribution.flip_coin(scram, 0.5)
+            abcdefg, an242 = PseudoRandomDistribution.flip_coin(an242, 0.5)
 
-            if PRD_scrambler then 
-                abcdefg, an242 = PseudoRandomDistribution.flip_coin(an242, 0.5)
-
-                if abcdefg then 
-                    Managers.state.conflict:start_terror_event("spam_ratling")
-                else
-                    Managers.state.conflict:start_terror_event("spam_warpfire")
-                end
+            if abcdefg then
+                Managers.state.conflict:start_terror_event("spam_ratling")
             else
-                which_disabler, wdwegnwe = PseudoRandomDistribution.flip_coin(wdwegnwe, 0.5)
-
-                if which_disabler then 
-                    Managers.state.conflict:start_terror_event("spam_assassin")
-                else
-                    Managers.state.conflict:start_terror_event("spam_leech")
-                end
+                Managers.state.conflict:start_terror_event("spam_warpfire")
             end
         end
     end

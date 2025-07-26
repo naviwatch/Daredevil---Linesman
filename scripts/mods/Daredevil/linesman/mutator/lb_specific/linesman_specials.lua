@@ -14,17 +14,17 @@ if mod:get("giga_specials") then
 	max_special_timer = 7
 	max_of_same = 3
 	mod:chat_broadcast("Unending Specials ENABLED.")
-elseif not lb then
+else
 	special_slots = 7
-	min_special_timer = 30 -- 30
-	max_special_timer = 45 
+	min_special_timer = 35
+	max_special_timer = 47
 	max_of_same = 3
 end
 
 -- Timer overrides for difficulties
 if mod.difficulty_level == 1 then -- baby
 	min_special_timer = 37
-	max_special_timer = 47
+	max_special_timer = 50
 end
 
 -- n/120*(max+min) ~ specials per min
@@ -122,7 +122,7 @@ SpecialsSettings.skaven.breeds = {
 	"skaven_ratling_gunner",
 	"skaven_warpfire_thrower",
 	"skaven_poison_wind_globadier",
-	"skaven_gutter_runner",
+--	"skaven_gutter_runner",
 --	"skaven_pack_master",
 	"skaven_ratling_gunner",
 	"skaven_poison_wind_globadier",
@@ -194,6 +194,9 @@ SpecialsSettings.chaos_beastmen = SpecialsSettings.beastmen
 -------------------------------------------------------------
 -- Custom fast timer
 local new_slot_timers = { 15, 20 } -- gaslighting time
+if lb then
+	new_slot_timers = { 20, 25 }
+end
 
 -- New surge stuff
 local surge_timer_range = {15, 15}          -- Range for special respawn timers during surge (seconds)
@@ -329,9 +332,11 @@ mod:hook_origin(SpecialsPacing, "specials_by_slots", function(self, t, specials_
         -- Group slots by breed
         local breed_groups = {}
         for _, slot in ipairs(slots_to_spawn) do
-            local breed = slot.breed
-            breed_groups[breed] = breed_groups[breed] or {}
-            table.insert(breed_groups[breed], slot)
+			if slot.breed ~= "skaven_gutter_runner" and slot.breed ~= "chaos_vortex_sorcerer" then
+				local breed = slot.breed
+				breed_groups[breed] = breed_groups[breed] or {}
+				table.insert(breed_groups[breed], slot)
+			end
         end
 
         -- Process each breed group
