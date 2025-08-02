@@ -26,6 +26,7 @@ menu.options.widgets = {
 			{text = "level_one", value = 1},
 		--	{text = "level_two", value = 2},
 			{text = "level_three", value = 3},
+			{text = "level_four", value = 4}
 		},
 	},
 	{

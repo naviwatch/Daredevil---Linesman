@@ -3,6 +3,8 @@ local mutator_plus = mod:persistent_table("Daredevil+")
 local lb = get_mod("LinesmanBalance")
 local conflict_director = Managers.state.conflict
 
+mod.difficulty_level = mod:get("difficulty_level")
+
 local dlc_termite_delay_horde = { 160, 200 }
 
 -- holy mother of kino
@@ -115,7 +117,7 @@ mod:hook_origin(ConflictDirector, "update_horde_pacing", function(self, t, dt)
         if not horde_type then
             if horde_settings.mix_paced_hordes then
                 -- Map modifiers
-                if mutator_plus.active then
+                if mutator_plus.active and not mod.difficulty_level == 4 then
                     im_not_gonna_sugarcoat_it, wves = PseudoRandomDistribution.flip_coin(wves, horde_settings.chance_of_vector)
 
                     if im_not_gonna_sugarcoat_it then
@@ -148,7 +150,7 @@ mod:hook_origin(ConflictDirector, "update_horde_pacing", function(self, t, dt)
 				end
 				]]
 
-            if mutator_plus.active then
+            if mutator_plus.active and not mod.difficulty_level == 4 then
                 if lb then
                     blob_blob_blob, bbb = PseudoRandomDistribution.flip_coin(bbb, horde_settings.chance_of_vector_blob)
                     if bbb then
@@ -166,7 +168,7 @@ mod:hook_origin(ConflictDirector, "update_horde_pacing", function(self, t, dt)
             end
 
             -- Horde overrides
-            if mutator_plus.active and self.horde_spawner.num_paced_hordes ~= nil then 
+            if mutator_plus.active and self.horde_spawner.num_paced_hordes ~= nil and not mod.difficulty_level == 4 then 
                 if level_name == "dlc_termite_1" then -- Freaky Temple
                    horde_type = math.random() < horde_settings.chance_of_vector_termite_1 and "vector" or "ambush"
                 end
@@ -179,7 +181,6 @@ mod:hook_origin(ConflictDirector, "update_horde_pacing", function(self, t, dt)
                     horde_type = "vector_blob"
                 end
             end
-
 
             local composition = horde_type == "vector" and horde_settings.vector_composition or
                 horde_type == "vector_blob" and horde_settings.vector_blob_composition or
@@ -306,38 +307,16 @@ mod:hook_origin(HordeSpawner, "compose_blob_horde_spawn_list", function(self, co
         local num_paced_hordes = horde_spawner.num_paced_hordes
 
         if mutator_plus.active then
-            if num_paced_hordes <= 2 and not mod.difficulty_level == 1 and not mod:get("testers") then -- If its the first two hordes, lower difficulty by spawning less
+            if (mod.difficulty_level ~= 1 or mod.difficulty_level ~= 4) and num_paced_hordes <= 2 and not mod:get("testers") then -- If its the first two hordes, lower difficulty by spawning less
                 for j = start, start + num_to_spawn - 3 do
                     spawn_list[j] = breed_name
                 end
             else
-                if not lb then -- if TBT then apply intensity system
-                    if total_intensity <= 30 then
-                        if mod:get("debug") then
-                            mod:chat_broadcast("LOW Intensity HORDE NUMBERS")
-                        end
-                        for j = start, start + num_to_spawn - 1 do
-                            spawn_list[j] = breed_name
-                        end
-                    elseif total_intensity <= 70 then
-                        if mod:get("debug") then
-                            mod:chat_broadcast("MED Intensity HORDE NUMBERS")
-                        end
-                        for j = start, start + num_to_spawn - 1 do -- Subtract the extra one
-                            spawn_list[j] = breed_name
-                        end
-                    elseif total_intensity <= 100 then
-                        if mod:get("debug") then
-                            mod:chat_broadcast("HI Intensity HORDE NUMBERS")
-                        end
-                        for j = start, start + num_to_spawn - 1 do -- Subtract two
-                            spawn_list[j] = breed_name
-                        end
-                    end
-                else -- if LB then don't and use defualt
-                    for j = start, start + num_to_spawn - 1 do
-                        spawn_list[j] = breed_name
-                    end
+                if mod:get("debug") then
+                    mod:chat_broadcast("LOW Intensity HORDE NUMBERS")
+                end
+                for j = start, start + num_to_spawn - 1 do
+                    spawn_list[j] = breed_name
                 end
             end
         else

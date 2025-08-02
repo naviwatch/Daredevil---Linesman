@@ -210,8 +210,8 @@ end
 		mod.gain = 0.6
 	elseif mod.difficulty_level == 2 then
 		mod.gain = 0.77
-	elseif mod.difficulty_level == 3 then
-		mod.gain = 1
+	else
+		mod.gain = 1 -- 3 & 4
 	end
 
 	-- Pacing
@@ -256,6 +256,8 @@ end
 
 		if mod.difficulty_level == 1 then
 			num_wanted_percentage = 1
+		elseif mod.difficulty_level == 4 then
+			num_wanted_percentage = 1.3
 		elseif lb then 
 			num_wanted_percentage = 1.4
 		else
@@ -557,8 +559,8 @@ end
 		co = 0.11
 	elseif mod.difficulty_level == 2 then
 		co = 0.12
-	elseif mod.difficulty_level == 3 then
-		co = 0.1338 -- 0.1335
+	else
+		co = 0.1338 -- 0.1335, 3 & 4
 	end
 
 	if mod:get("lonk") then
@@ -623,12 +625,12 @@ end
 	PacingSettings.default.peak_fade_threshold = 5000
 	PacingSettings.default.peak_intensity_threshold = 5000
 	PacingSettings.default.sustain_peak_duration = { 5, 10 }
-	PacingSettings.default.relax_duration = { 7, 10 }                     -- 10/13
+	PacingSettings.default.relax_duration = { 7, 10 }                -- 10/13
 	PacingSettings.default.horde_frequency = { 35, 50 }
-	PacingSettings.default.multiple_horde_frequency = { 4, 5 }            -- 7/8, 6/7
-	PacingSettings.default.max_delay_until_next_horde = { 74, 76 }        -- 70/75 
+	PacingSettings.default.multiple_horde_frequency = { 4, 5 }       -- 7/8, 6/7
+	PacingSettings.default.max_delay_until_next_horde = { 74, 76 }   -- 70/75
 	PacingSettings.default.horde_startup_time = { 12, 15 }
-	PacingSettings.default.multiple_hordes = 3							  -- Came from Dense 
+	PacingSettings.default.multiple_hordes = 3                       -- Came from Dense
 
 	PacingSettings.default.mini_patrol.only_spawn_above_intensity = 0
 	PacingSettings.default.mini_patrol.only_spawn_below_intensity = 900
@@ -640,10 +642,10 @@ end
 	PacingSettings.chaos.peak_fade_threshold = 5000
 	PacingSettings.chaos.peak_intensity_threshold = 5000
 	PacingSettings.chaos.sustain_peak_duration = { 5, 10 }
-	PacingSettings.chaos.relax_duration = { 10, 13 }					  -- 13/15
-	PacingSettings.chaos.horde_frequency = { 35, 50 } 					  -- Base 30/45
-	PacingSettings.chaos.multiple_horde_frequency = { 6, 7 } 			  -- Base 7/10
-	PacingSettings.chaos.max_delay_until_next_horde = { 77, 79 }		  -- 74/78
+	PacingSettings.chaos.relax_duration = { 10, 13 }               -- 13/15
+	PacingSettings.chaos.horde_frequency = { 35, 50 }              -- Base 30/45
+	PacingSettings.chaos.multiple_horde_frequency = { 6, 7 }       -- Base 7/10
+	PacingSettings.chaos.max_delay_until_next_horde = { 77, 79 }   -- 74/78
 	PacingSettings.chaos.horde_startup_time = { 13, 15 }
 	PacingSettings.chaos.multiple_hordes = 3
 
@@ -654,7 +656,7 @@ end
 	PacingSettings.chaos.difficulty_overrides = nil
 	PacingSettings.chaos.delay_specials_threat_value = nil
 
-	PacingSettings.beastmen.peak_fade_threshold = 5000					  -- I'm not touching beastmen they suck
+	PacingSettings.beastmen.peak_fade_threshold = 5000   -- I'm not touching beastmen they suck
 	PacingSettings.beastmen.peak_intensity_threshold = 5000
 	PacingSettings.beastmen.sustain_peak_duration = { 5, 10 }
 	PacingSettings.beastmen.relax_duration = { 10, 15 }
@@ -662,7 +664,7 @@ end
 	PacingSettings.beastmen.multiple_horde_frequency = { 6, 7 }
 	PacingSettings.beastmen.max_delay_until_next_horde = { 77, 79 }
 	PacingSettings.beastmen.horde_startup_time = { 10, 20 }
-	PacingSettings.beastmen.multiple_hordes = math.huge -- 无限
+	PacingSettings.beastmen.multiple_hordes = math.huge   -- 无限
 
 	PacingSettings.beastmen.mini_patrol.only_spawn_above_intensity = 0
 	PacingSettings.beastmen.mini_patrol.only_spawn_below_intensity = 900
@@ -672,7 +674,7 @@ end
 	PacingSettings.beastmen.delay_specials_threat_value = nil
 
 	-- INTENSITY
-	IntensitySettings.default.intensity_add_per_percent_dmg_taken = 0.2	
+	IntensitySettings.default.intensity_add_per_percent_dmg_taken = 0.2
 	IntensitySettings.default.decay_delay = 4
 	IntensitySettings.default.decay_per_second = 3
 	IntensitySettings.default.intensity_add_knockdown = 50
@@ -683,12 +685,12 @@ end
 	IntensitySettings.default.difficulty_overrides = nil
 
 	-- HORDE SETTINGS
-	HordeSettings.default.chance_of_vector = 0.8 -- 0.75
-	HordeSettings.default.chance_of_vector_blob = 0.65	
+	HordeSettings.default.chance_of_vector = 0.8   -- 0.75
+	HordeSettings.default.chance_of_vector_blob = 0.65
 	HordeSettings.default.chance_of_vector_termite_1 = 0.9
 
-	HordeSettings.chaos.chance_of_vector = 0.8 -- 0.9
-	HordeSettings.chaos.chance_of_vector_blob = 0.65 -- 0.5
+	HordeSettings.chaos.chance_of_vector = 0.8         -- 0.9
+	HordeSettings.chaos.chance_of_vector_blob = 0.65   -- 0.5
 	HordeSettings.chaos.chance_of_vector_termite_1 = 0.9
 
 	HordeSettingsBasics = {
@@ -860,6 +862,12 @@ end
 	if lb then
 		mod:dofile("scripts/mods/Daredevil/linesman/events/cn_righteous")
 		mod:dofile("scripts/mods/Daredevil/linesman/mutator/lb_specific/lb_override_temp")
+	end
+
+	-- Linesboomer override
+	if mod.difficulty_level == 4 then
+		mod:dofile("scripts/mods/Daredevil/linesman/mutator/linesboomer/boomer_hordes")
+		mod:dofile("scripts/mods/Daredevil/linesman/mutator/linesboomer/boomer_pacing")
 	end
 
 	-- Linesman specific events

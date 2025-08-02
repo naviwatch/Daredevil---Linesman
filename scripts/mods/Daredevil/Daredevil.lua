@@ -1276,13 +1276,15 @@ mutator_plus.toggle = function()
 			mod:chat_broadcast("L猛已启动")
 		elseif mod.difficulty_level == 3 then
 			mod:chat_broadcast(mod:localize("linesman"))
+		else 
+			mod:chat_broadcast("LinesBOOMER Onslaught ENABLED.")
 		end
 
 		if mod:get("beta") then
-			mod:chat_broadcast("Running Linesman BETA Version 4.2.5")
+			mod:chat_broadcast("Running Linesman BETA Version 4.3.2")
 			mod:chat_broadcast("这是Linesman BETA！")
 		else 
-			mod:chat_broadcast("Version 4.2.5")
+			mod:chat_broadcast("Version 4.3.2")
 		end 
 	else
 		mutator_plus.stop()
@@ -1389,23 +1391,38 @@ mod:command("spawn_a_bob", " spawn a bob :D", function()
 	mod:chat_broadcast("BOB is here.")
 end)
 
---[[
-mod:command("spawn_damaged_gas", " creeding", function()
-	GenericTerrorEvents.damage_gas = {
-		{
-			"spawn_special",
-			breed_name = "skaven_poison_wind_globadier",
-			optional_data = {
-				target_selection = "least_healthy_player",
-				size_variation_range = { 2, 2 },
-				force_boss_health_ui = true,
-			}
-		}
-	}
-	Managers.state.conflict:start_terror_event("damage_gas")
-	mod:chat_broadcast("Spawned damaged GAS")
+-- Tourney stuff
+-- plasma why do you love trolls so much man
+mod:command("seeded_maps", " Applies seeded maps for the Linesman tournament.", function()
+	mod:hook_origin(LevelTransitionHandler, "create_level_seed", function()
+		local level_name = Managers.level_transition_handler:get_current_level_key()
+		local time_since_start = os.clock() * 10000 % 961748927
+		local date_time = os.time()
+		local low_time = tonumber(tostring(string.format("%d", date_time)):reverse():sub(1, 6))
+		local seed = (time_since_start + low_time) % 15485867
+
+		seed = math.floor(seed)
+
+		-- i hate myself but this will have to do
+		if level_name == "magnus" then
+			seed = 3060692
+			mod:echo("Seed applied")
+		elseif level_name == "ground_zero" then
+			seed = 3501558
+			mod:echo("Seed applied")
+		elseif level_name == "mines" then
+			seed = 3079501
+			mod:echo("Seed applied")
+		elseif level_name == "ussingen" then
+			seed = 8785129
+			mod:echo("Seed applied")
+		end
+
+		return seed
+	end)
+
+	mod:chat_broadcast("Tournament seeds applied.")
 end)
-]]
 
 mod:command("trigger_haz40", " Triggers something special", function()
 	Managers.state.conflict:start_terror_event("eee")

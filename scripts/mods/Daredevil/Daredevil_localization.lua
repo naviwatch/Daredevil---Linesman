@@ -1,6 +1,6 @@
 return {
 	mod_description = {
-		en = "Version 4.2.5",
+		en = "Version 4.3.2",
 	},
 	giga_specials = {
 		en = "Unending Specials"
@@ -45,6 +45,10 @@ return {
 		en = "Linesman (Default)",
 		zh = "正常"
 	},
+	level_four = {
+		en = "Linesboomer",
+		zh = "/"
+	},
 	difficulty_level_tooltip = {
 		en = "Rescales horde and ambience. Intention is for players to adapt to the new frontline experience.",
 		zh = "将大规模敌人和环境调整为其他猛攻版本，让玩家适应全新的前线体验。"
@@ -76,11 +80,11 @@ return {
 		zh = "一股热浪扑面而来，风裹挟着厚厚的煤灰。"
 	},
 	linesman = {
-		en = "Linesman Onslaught ENABLED.",
+		en = "LinesMAN Onslaught ENABLED.",
 		zh = "L猛已启动"
 	},
 	linesbaby = {
-		en = "Linesbaby Onslaught ENABLED.",
+		en = "LinesBABY Onslaught ENABLED.",
 		zh = "L猛(baby)已启动"
 	}
 }

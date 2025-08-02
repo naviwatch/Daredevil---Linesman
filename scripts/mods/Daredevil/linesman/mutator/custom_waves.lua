@@ -860,12 +860,14 @@ mod:hook(HordeSpawner, "horde", function(func, self, horde_type, extra_data, sid
             Managers.state.conflict:start_terror_event("boss_check")
         end
 
-        if self.num_paced_hordes >= 5 then
-            custom_wave_c3()
-        end
+        if mod.difficulty_level ~= 4 then
+            if self.num_paced_hordes >= 5 then
+                custom_wave_c3()
+            end
 
-        if self.num_paced_hordes >= 6 and persistent_data.bob_counter <= 2 then 
-            mini_boss()
+            if self.num_paced_hordes >= 6 and persistent_data.bob_counter <= 2 then 
+                mini_boss()
+            end
         end
 
         local restricted_levels = {

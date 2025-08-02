@@ -332,11 +332,9 @@ mod:hook_origin(SpecialsPacing, "specials_by_slots", function(self, t, specials_
         -- Group slots by breed
         local breed_groups = {}
         for _, slot in ipairs(slots_to_spawn) do
-			if slot.breed ~= "skaven_gutter_runner" and slot.breed ~= "chaos_vortex_sorcerer" then
-				local breed = slot.breed
-				breed_groups[breed] = breed_groups[breed] or {}
-				table.insert(breed_groups[breed], slot)
-			end
+			local breed = slot.breed
+			breed_groups[breed] = breed_groups[breed] or {}
+			table.insert(breed_groups[breed], slot)
         end
 
         -- Process each breed group

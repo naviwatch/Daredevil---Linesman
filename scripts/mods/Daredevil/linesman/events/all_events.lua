@@ -4040,7 +4040,7 @@ end
 		},
 		{
 			"control_specials",
-			enable = false
+			enable = true
 		},
 		{
 			"spawn_at_raw",
@@ -4100,8 +4100,6 @@ end
 				},
 				"chaos_warrior",
 				1,
-				"chaos_corruptor_sorcerer",
-				2
 			}
 		},
 		{
@@ -4130,8 +4128,6 @@ end
 				},
 				"chaos_warrior",
 				1,
-				"chaos_corruptor_sorcerer",
-				2
 			}
 		},
 		{
@@ -4153,8 +4149,6 @@ end
 					2,
 					3
 				},
-				"chaos_corruptor_sorcerer",
-				2
 			}
 		},
 		{
@@ -4178,8 +4172,6 @@ end
 				},
 				"chaos_warrior",
 				1,
-				"chaos_corruptor_sorcerer",
-				2
 			}
 		},
 		{
@@ -4198,8 +4190,6 @@ end
 				},
 				"chaos_warrior",
 				1,
-				"chaos_corruptor_sorcerer",
-				2
 			}
 		},
 		start_time = 0
@@ -13116,7 +13106,7 @@ end
 		{
 			"event_horde",
 			limit_spawners = 3,
-			spawner_id = "onslaught_camp_boss_top",
+			spawner_id = "onslaught_camp_boss_top_behind",
 			composition_type = "chaos_warriors"
 		},
 		{

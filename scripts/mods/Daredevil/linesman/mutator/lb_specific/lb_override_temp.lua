@@ -372,3 +372,383 @@ HordeCompositionsPacing.chaos_mini_patrol = {
 	}
 }
 ----------------
+	TerrorEventBlueprints.magnus.magnus_end_event = {
+		{
+			"control_pacing",
+			enable = false
+		},
+		{
+			"control_specials",
+			enable = true
+		},
+		{
+			"set_master_event_running",
+			name = "magnus_end_event"
+		},
+		{
+			"flow_event",
+			flow_event_name = "magnus_horn_crescendo_starting"
+		},
+		{
+			"event_horde",
+			limit_spawners = 2,
+			spawner_id = "magnus_tower_horn_first",
+			composition_type = "event_large"
+		},
+		{
+			"play_stinger",
+			stinger_name = "enemy_horde_stinger"
+		},
+		{
+			"event_horde",
+			limit_spawners = 2,
+			spawner_id = "magnus_tower_horn",
+			composition_type = "event_extra_spice_medium"
+		},
+		{
+			"event_horde",
+			limit_spawners = 2,
+			spawner_id = "magnus_tower_horn",
+			composition_type = "onslaught_storm_vermin_medium"
+		},
+		{
+			"event_horde",
+			limit_spawners = 2,
+			spawner_id = "magnus_tower_horn",
+			composition_type = "onslaught_plague_monks_medium"
+		},
+		{
+			"delay",
+			duration = 10
+		},
+		{
+			"continue_when",
+			duration = 60,
+			condition = function (t)
+				return (count_event_breed("skaven_clan_rat") + count_event_breed("skaven_clan_rat_with_shield")) < 18 and count_event_breed("skaven_slave") < 25 and count_event_breed("skaven_storm_vermin_commander") < 6 and count_event_breed("skaven_plague_monk") < 5
+			end
+		},
+		{
+			"flow_event",
+			flow_event_name = "magnus_end_event_first_wave_killed"
+		},
+		{
+			"event_horde",
+			limit_spawners = 4,
+			spawner_id = "magnus_tower_horn",
+			composition_type = "event_extra_spice_large"
+		},
+		{
+			"disable_kick"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"spawn_special",
+			breed_name = "skaven_dummy_clan_rat",
+			amount = {
+				3,
+				3
+			},
+		},
+		{
+			"event_horde",
+			limit_spawners = 2,
+			spawner_id = "magnus_tower_horn",
+			composition_type = "onslaught_storm_vermin_medium"
+		},
+		{
+			"event_horde",
+			limit_spawners = 2,
+			spawner_id = "magnus_tower_horn",
+			composition_type = "onslaught_storm_vermin_medium"
+		},
+		{
+			"event_horde",
+			limit_spawners = 2,
+			spawner_id = "magnus_tower_horn",
+			composition_type = "onslaught_plague_monks_medium"
+		},
+		{
+			"delay",
+			duration = 10
+		},
+		{
+			"continue_when",
+			duration = 60,
+			condition = function (t)
+				return (count_event_breed("skaven_clan_rat") + count_event_breed("skaven_clan_rat_with_shield")) < 18 and count_event_breed("skaven_slave") < 25 and count_event_breed("skaven_storm_vermin_commander") < 6 and count_event_breed("skaven_plague_monk") < 5
+			end
+		},
+		{
+			"play_stinger",
+			stinger_name = "enemy_horde_chaos_stinger"
+		},
+		{
+			"spawn_special",
+			breed_name = "skaven_stormfiend",
+			amount = {
+				2,
+				2
+			},
+			optional_data = {
+				size_variation_range = { 1.45, 1.45 },
+				max_health_modifier = 0.5
+			}
+		},
+		{
+			"event_horde",
+			spawner_id = "magnus_tower_chaos",
+			composition_type = "dn_warpfire_spam"
+		},
+		{
+			"delay",
+			duration = 3
+		},
+		{
+			"event_horde",
+			limit_spawners = 1,
+			spawner_id = "magnus_tower_chaos",
+			composition_type = "onslaught_event_small_fanatics"
+		},
+		{
+			"event_horde",
+			limit_spawners = 2,
+			spawner_id = "magnus_tower_chaos",
+			composition_type = "event_maulers_medium"
+		},
+		{
+			"event_horde",
+			limit_spawners = 2,
+			spawner_id = "magnus_tower_chaos",
+			composition_type = "event_maulers_medium"
+		},
+		{
+			"delay",
+			duration = 1
+		},
+		{
+			"event_horde",
+			limit_spawners = 1,
+			spawner_id = "magnus_tower_chaos",
+			composition_type = "onslaught_event_small_fanatics"
+		},
+		{
+			"delay",
+			duration = 30
+		},
+		{
+			"event_horde",
+			limit_spawners = 2,
+			spawner_id = "magnus_tower_chaos",
+			composition_type = "onslaught_chaos_warriors"
+		},
+		{
+			"event_horde",
+			limit_spawners = 2,
+			spawner_id = "magnus_tower_chaos",
+			composition_type = "onslaught_chaos_warriors"
+		},
+		{
+			"delay",
+			duration = 10
+		},
+		{
+			"continue_when",
+			duration = 60,
+			condition = function (t)
+				return (count_event_breed("chaos_marauder") + count_event_breed("chaos_marauder_with_shield")) < 10 and count_event_breed("chaos_fanatic") < 18 and count_event_breed("chaos_raider") < 6 and count_event_breed("chaos_berzerker") < 6 and count_event_breed("chaos_warrior") < 3
+			end
+		},
+		{
+			"delay",
+			duration = 4
+		},
+		{
+			"play_stinger",
+			stinger_name = "enemy_horde_stinger"
+		},
+		{
+			"spawn_special",
+			breed_name = "skaven_ratling_gunner",
+			amount = 4,
+		},
+		{
+			"event_horde",
+			limit_spawners = 4,
+			spawner_id = "magnus_tower_horn",
+			composition_type = "event_extra_spice_large"
+		},
+		{
+			"delay",
+			duration = 10
+		},
+		{
+			"event_horde",
+			limit_spawners = 4,
+			spawner_id = "magnus_tower_horn",
+			composition_type = "event_stormvermin_shielders"
+		},
+		{
+			"spawn_special",
+			breed_name = "skaven_gutter_runner",
+			amount = 2,
+		},
+		{
+			"event_horde",
+			limit_spawners = 4,
+			spawner_id = "magnus_tower_horn",
+			composition_type = "event_stormvermin_shielders"
+		},
+		{
+			"delay",
+			duration = 10
+		},
+		{
+			"event_horde",
+			limit_spawners = 1,
+			spawner_id = "magnus_tower_horn",
+			composition_type = "onslaught_plague_monks_medium"
+		},
+		{
+			"event_horde",
+			limit_spawners = 1,
+			spawner_id = "magnus_tower_horn",
+			composition_type = "onslaught_plague_monks_medium"
+		},
+		{
+			"delay",
+			duration = 10
+		},
+		{
+			"continue_when",
+			duration = 60,
+			condition = function (t)
+				return (count_event_breed("skaven_clan_rat") + count_event_breed("skaven_clan_rat_with_shield")) < 18 and count_event_breed("skaven_slave") < 25 and count_event_breed("skaven_storm_vermin_commander") < 6 and count_event_breed("skaven_plague_monk") < 5
+			end
+		},
+		{
+			"control_specials",
+			enable = true
+		},
+		{
+			"event_horde",
+			limit_spawners = 2,
+			spawner_id = "magnus_tower_horn",
+			composition_type = "event_extra_spice_large"
+		},
+		{
+			"spawn_special",
+			breed_name = "skaven_poison_wind_globadier",
+			amount = 3,
+		},
+		{
+			"spawn_special",
+			breed_name = "skaven_ratling_gunner",
+			amount = 1,
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"event_horde",
+			limit_spawners = 2,
+			spawner_id = "magnus_tower_horn",
+			composition_type = "onslaught_storm_vermin_medium"
+		},
+		{
+			"event_horde",
+			limit_spawners = 2,
+			spawner_id = "magnus_tower_horn",
+			composition_type = "onslaught_storm_vermin_medium"
+		},
+		{
+			"event_horde",
+			limit_spawners = 2,
+			spawner_id = "magnus_tower_horn",
+			composition_type = "onslaught_storm_vermin_white_medium"
+		},
+		{
+			"delay",
+			duration = 10
+		},
+		{
+			"continue_when",
+			duration = 60,
+			condition = function (t)
+				return (count_event_breed("skaven_clan_rat") + count_event_breed("skaven_clan_rat_with_shield")) < 18 and count_event_breed("skaven_slave") < 25 and count_event_breed("skaven_storm_vermin_commander") < 6 and count_event_breed("skaven_plague_monk") < 5
+			end
+		},
+		{
+			"delay",
+			duration = 3
+		},
+		{
+			"event_horde",
+			spawner_id = "magnus_tower_chaos",
+			composition_type = "apocalypse_wave"
+		},
+		{
+			"delay",
+			duration = 10
+		},
+		{
+			"continue_when",
+			duration = 60,
+			condition = function (t)
+				return (count_event_breed("chaos_marauder") + count_event_breed("chaos_marauder_with_shield")) < 10 and count_event_breed("chaos_fanatic") < 18 and count_event_breed("chaos_raider") < 6 and count_event_breed("chaos_berzerker") < 6 and count_event_breed("chaos_warrior") < 3
+			end
+		},
+		{
+			"event_horde",
+			limit_spawners = 4,
+			spawner_id = "magnus_tower_horn",
+			composition_type = "event_extra_spice_large"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"event_horde",
+			limit_spawners = 4,
+			spawner_id = "magnus_tower_horn",
+			composition_type = "event_small"
+		},
+		{
+			"continue_when",
+			duration = 60,
+			condition = function (t)
+				return (count_event_breed("skaven_clan_rat") + count_event_breed("skaven_clan_rat_with_shield")) < 18 and count_event_breed("skaven_slave") < 25 and count_event_breed("skaven_storm_vermin_commander") < 6 and count_event_breed("skaven_plague_monk") < 5
+			end
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"event_horde",
+			spawner_id = "magnus_tower_horn",
+			composition_type = "event_large"
+		},
+		{
+			"delay",
+			duration = 10
+		},
+		{
+			"flow_event",
+			flow_event_name = "magnus_horn_event_done"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"control_pacing",
+			enable = true
+		}
+	}
+----

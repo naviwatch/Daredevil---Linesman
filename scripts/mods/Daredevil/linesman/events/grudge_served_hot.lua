@@ -387,7 +387,7 @@ local mod = get_mod("Daredevil")
 		},
 		{
 			"flow_event",
-			flow_event_name = "TerrorEventBlueprints.dlc_dwarf_exterior.dwarf_exterior_courtyard_event_specials_done",
+			flow_event_name = "dwarf_exterior_courtyard_event_specials_done",
 		},
 	}
 	TerrorEventBlueprints.dlc_dwarf_exterior.dwarf_exterior_courtyard_event_specials_05 = {
