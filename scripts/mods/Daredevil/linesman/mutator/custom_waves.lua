@@ -702,7 +702,12 @@ local spawn_trash_wave = function()
     Managers.state.conflict.horde_spawner:execute_custom_horde(spawn_list, true, side_id)
 end
 
-local sa_chances = 0.1
+local sa_chances
+if mod.difficulty_level == 0 then
+    sa_chances = 0.05
+else
+    sa_chances = 0.1
+end
 
 local special_attack = function()
     PRD_special_attack, state = PseudoRandomDistribution.flip_coin(state, sa_chances)
@@ -856,18 +861,42 @@ mod:hook(HordeSpawner, "horde", function(func, self, horde_type, extra_data, sid
             persistent_data.special_attack_wave_cooldown = 0
         end
 
-        if self.num_paced_hordes >= 5 and self.num_paced_hordes >= persistent_data.special_attack_wave_cooldown + 2 then  
+        if self.num_paced_hordes >= 9 and self.num_paced_hordes >= persistent_data.special_attack_wave_cooldown + 2 then  -- 3rd horde, 2 wave cd
             Managers.state.conflict:start_terror_event("boss_check")
         end
 
         if mod.difficulty_level ~= 4 then
-            if self.num_paced_hordes >= 5 then
+            if self.num_paced_hordes >= 15 then -- 5th horde
                 custom_wave_c3()
             end
 
-            if self.num_paced_hordes >= 6 and persistent_data.bob_counter <= 2 then 
+            if self.num_paced_hordes >= 30 and persistent_data.bob_counter <= 2 then -- 10th horde
                 mini_boss()
             end
+
+            if self.num_paced_hordes == 60 and persistent_data.bob_counter <= 2 then -- 20th horde guarantees bob
+                local english_messages = {
+                    "Bob is going to fucking kill you."
+                }
+                local chinese_messages = {
+                    "空气中震颤着迫近的恐惧感。",
+                    "流沙渗入伤口，似要将你彻底撕裂。",
+                    "热浪翻涌而至，狂风裹挟着煤灰扑面而来。"
+                }
+
+                local language_id = Managers.localizer:language_id()
+                local is_chinese = language_id == "zh"
+                local message_table = is_chinese and chinese_messages or english_messages
+                Managers.state.conflict:start_terror_event("mini_boss_warning")
+
+                local random_message = message_table[math.random(#message_table)]
+                mod:chat_broadcast(random_message)
+
+                Managers.state.conflict:start_terror_event("bob_the_builder")
+                persistent_data.bob_counter = persistent_data.bob_counter + 1
+            end
+        else
+            mod:chat_broadcast("Bob is tired coming after you. Donate Bob coffee.")
         end
 
         local restricted_levels = {
@@ -893,7 +922,7 @@ end)
 local prd_direction
 if not lb then 
     prd_direction = 0.1
-elseif mod.difficulty_level == 1 then 
+elseif mod.difficulty_level == 1 or mod.difficulty_level == 0 then 
     prd_direction = 0.05
 else
     prd_direction = 0.15
@@ -905,7 +934,7 @@ mod:hook(HordeSpawner, "find_good_vector_horde_pos", function(func, self, main_t
     local num_paced_hordes = horde_spawner.num_paced_hordes
 
     PRD_sandwich, sandwhich = PseudoRandomDistribution.flip_coin(sandwhich, prd_direction) -- Flip 15%, every 3rd vector horde or 6th vector wave
-    if PRD_sandwich and num_paced_hordes ~= nil then
+    if PRD_sandwich and num_paced_hordes ~= nil and num_paced_hordes >= 21 then -- 7th horde
         conflict_director:start_terror_event("split_wave")
 
         if is_chinese then 

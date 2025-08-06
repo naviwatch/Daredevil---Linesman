@@ -2,6 +2,9 @@ local mod = get_mod("Daredevil")
 local mutator_plus = mod:persistent_table("Daredevil+")
 local lb = get_mod("LinesmanBalance")
 local conflict_director = Managers.state.conflict
+local man = mod.difficulty_level == 3
+local baby = mod.difficulty_level == 0
+local boy = mod.difficulty_level == 1
 
 -- Special Settings
 local special_slots
@@ -22,7 +25,7 @@ elseif not lb then
 end
 
 -- Timer overrides for difficulties
-if mod.difficulty_level == 1 then -- baby
+if mod.difficulty_level == 1 or mod.difficulty_level == 0 then -- baby
 	min_special_timer = 37
 	max_special_timer = 47
 end
@@ -161,7 +164,7 @@ SpecialsSettings.chaos.breeds = {
 	"skaven_ratling_gunner",
 	"skaven_poison_wind_globadier",
 	"skaven_warpfire_thrower",
-	"chaos_vortex_sorcerer",
+--	"chaos_vortex_sorcerer",
 	"chaos_corruptor_sorcerer",
 }
 
@@ -193,7 +196,12 @@ SpecialsSettings.chaos_beastmen = SpecialsSettings.beastmen
 
 -------------------------------------------------------------
 -- Custom fast timer
-local new_slot_timers = { 15, 20 } -- gaslighting time
+local new_slot_timers
+if not baby then
+	new_slot_timers = { 15, 20 } -- gaslighting time
+else
+	new_slot_timers = { 20, 25 }
+end
 
 -- New surge stuff
 local surge_timer_range = {15, 15}          -- Range for special respawn timers during surge (seconds)
@@ -278,6 +286,11 @@ mod:hook_origin(SpecialsPacing, "specials_by_slots", function(self, t, specials_
 
         if slot.state == "alive" and not HEALTH_ALIVE[slot.unit] then
             local breed_name, health_modifier = SpecialsPacing.select_breed_functions[method_data.select_next_breed](slots, specials_settings, method_data, self._state_data)
+			-- replace blights on hunger
+            if level_name == "mines" and breed_name == "chaos_vortex_sorcerer" then
+                local replacement_breeds = {"skaven_gutter_runner", "skaven_poison_wind_globadier", "skaven_pack_master", "chaos_corruptor_sorcerer"}
+                breed_name = replacement_breeds[Math.random(1, #replacement_breeds)]
+            end
             local breed = Breeds[breed_name]
             local cooldown_range = (mutator_plus.active and self._surge_active) and surge_timer_range or method_data.spawn_cooldown
             local time = use_fixed_cooldown and (t + ConflictUtils.random_interval(new_slot_timers)) or (t + ConflictUtils.random_interval(cooldown_range))
@@ -409,6 +422,10 @@ mod:hook_origin(SpecialsPacing, "specials_by_slots", function(self, t, specials_
             for i = 1, num_slots do
                 local slot = slots[i]
                 local breed_name, health_modifier = SpecialsPacing.select_breed_functions[method_data.select_next_breed](slots, specials_settings, method_data, state_data, do_coordinated)
+				if level_name == "mines" and breed_name == "chaos_vortex_sorcerer" then
+					local replacement_breeds = { "skaven_gutter_runner", "skaven_poison_wind_globadier", "skaven_pack_master", "chaos_corruptor_sorcerer" }
+					breed_name = replacement_breeds[Math.random(1, #replacement_breeds)]
+				end
                 local breed = Breeds[breed_name]
                 local time = coordinated_time + (method_data.coordinated_trickle_time and i * method_data.coordinated_trickle_time or i * 2)
                 

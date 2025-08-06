@@ -1,6 +1,6 @@
 return {
 	mod_description = {
-		en = "Version 4.3.2",
+		en = "Version 4.3.5",
 	},
 	giga_specials = {
 		en = "Unending Specials"
@@ -33,13 +33,13 @@ return {
 	difficulty_level = {
 		en = "Scaling"
 	},
-	level_one = {
+	level_zero = {
 		en = "Linesbaby",
-		zh = "等同plus"
+		zh = "等同ons-plus"
 	},
-	level_two = {
-		en = "Linesboy (Dutch Tourney equivalent)",
-		zh = "等同荷兰"
+	level_one = {
+		en = "Linesboy",
+		zh = "等同plus-荷兰"
 	},
 	level_three = {
 		en = "Linesman (Default)",
@@ -83,9 +83,9 @@ return {
 		en = "LinesMAN Onslaught ENABLED.",
 		zh = "L猛已启动"
 	},
-	linesbaby = {
-		en = "LinesBABY Onslaught ENABLED.",
-		zh = "L猛(baby)已启动"
+	linesboy = {
+		en = "LinesBOY Onslaught ENABLED.",
+		zh = "L猛(boy)已启动"
 	}
 }
 

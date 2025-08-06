@@ -4,6 +4,7 @@ local lb = get_mod("LinesmanBalance")
 local conflict_director = Managers.state.conflict
 
 mod.difficulty_level = mod:get("difficulty_level")
+local man = mod.difficulty_level == 3
 
 local dlc_termite_delay_horde = { 160, 200 }
 
@@ -127,8 +128,10 @@ mod:hook_origin(ConflictDirector, "update_horde_pacing", function(self, t, dt)
                     end
 
                     -- Override the stuff above
-                    if self.horde_spawner.num_paced_hordes <= 10 and not lb then 
-                        horde_type = "vector"
+                    if not lb then
+                        if man and self.horde_spawner.num_paced_hordes <= 6 or self.horde_spawner.num_paced_hordes <= 18 then -- 6th horde ambush starts
+                            horde_type = "vector"
+                        end
                     end
                 else
                     if self.horde_spawner.num_paced_hordes % 2 == 0 then
@@ -177,7 +180,7 @@ mod:hook_origin(ConflictDirector, "update_horde_pacing", function(self, t, dt)
                     horde_type = math.random() < horde_settings.chance_of_vector_blob and "vector_blob" or "ambush"
                 end
                 
-                if self.horde_spawner.num_paced_hordes <= 2 then -- Force set to vector_blob at the end because im a good person
+                if man and self.horde_spawner.num_paced_hordes <= 3 or self.horde_spawner.num_paced_hordes <= 6 then -- Force set to vector_blob at the end because im a good person
                     horde_type = "vector_blob"
                 end
             end
@@ -305,9 +308,11 @@ mod:hook_origin(HordeSpawner, "compose_blob_horde_spawn_list", function(self, co
         local total_intensity = Managers.state.conflict.pacing:get_pacing_intensity()
         local horde_spawner = Managers.state.conflict.horde_spawner
         local num_paced_hordes = horde_spawner.num_paced_hordes
+        local valid_difficulty = man
+        local horde_limit = num_paced_hordes <= 6
 
         if mutator_plus.active then
-            if (mod.difficulty_level ~= 1 or mod.difficulty_level ~= 4) and num_paced_hordes <= 2 and not mod:get("testers") then -- If its the first two hordes, lower difficulty by spawning less
+            if valid_difficulty and horde_limit and not mod:get("testers") then -- If its the first two hordes, lower difficulty by spawning less
                 for j = start, start + num_to_spawn - 3 do
                     spawn_list[j] = breed_name
                 end
@@ -335,7 +340,7 @@ mod:hook(HordeSpawner, "execute_vector_blob_horde", function(func, self, extra_d
 	local roll = math.random()
 	local spawn_horde_ahead 
     
-    if self.num_paced_hordes <= 3 then
+    if man and self.num_paced_hordes <= 3 or self.num_paced_hordes <= 6 then
         spawn_horde_ahead = true
     else
         spawn_horde_ahead = roll <= settings.main_path_chance_spawning_ahead

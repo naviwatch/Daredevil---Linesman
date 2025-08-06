@@ -206,7 +206,9 @@ end
 
 	mod.difficulty_level = mod:get("difficulty_level")
 	mod.gain = 1
-	if mod.difficulty_level == 1 then
+	if mod.difficulty_level == 0 then
+		mod.gain = 0.5
+	elseif mod.difficulty_level == 1 then
 		mod.gain = 0.6
 	elseif mod.difficulty_level == 2 then
 		mod.gain = 0.77
@@ -254,7 +256,7 @@ end
 		local level_name = Managers.level_transition_handler:get_current_level_key()
 		local num_wanted_percentage
 
-		if mod.difficulty_level == 1 then
+		if mod.difficulty_level == 1 or mod.difficulty_level == 0 then
 			num_wanted_percentage = 1
 		elseif mod.difficulty_level == 4 then
 			num_wanted_percentage = 1.3
@@ -316,7 +318,12 @@ end
 				skaven_clan_rat = "chaos_marauder",
 				skaven_clan_rat_with_shield = "chaos_marauder_with_shield",
 				skaven_slave = "chaos_fanatic"
+			},
+			--[[
+			mines = {
+				chaos_vortex_sorcerer = { "skaven_gutter_runner", "skaven_poison_wind_globadier", "skaven_pack_master", "chaos_corruptor_sorcerer" }
 			}
+			]]
 		}
 
 		-- Handle specific breed replacements with randomization
@@ -346,6 +353,39 @@ end
 		-- Call the original function with the (possibly) modified breed
 		return func(self, new_breed, boxed_spawn_pos, boxed_spawn_rot, spawn_category, spawn_animation, spawn_type, ...)
 	end)
+
+	-- Tourney seed
+	-- Seed
+	mod:hook_origin(LevelTransitionHandler, "create_level_seed", function()
+		local level_name = Managers.level_transition_handler:get_current_level_key()
+		local time_since_start = os.clock() * 10000 % 961748927
+		local date_time = os.time()
+		local low_time = tonumber(tostring(string.format("%d", date_time)):reverse():sub(1, 6))
+		local seed = (time_since_start + low_time) % 15485867
+		local level_name = Managers.level_transition_handler:get_current_level_key()
+
+		seed = math.floor(seed)
+		local new_seed = seed
+
+		-- i hate myself but this will have to do
+		if level_name == "magnus" then
+			new_seed = 3060692
+			mod:echo("Seed applied")
+		elseif level_name == "ground_zero" then
+			new_seed = 3501558
+			mod:echo("Seed applied")
+		elseif level_name == "mines" then
+			new_seed = 3079501
+			mod:echo("Seed applied")
+		elseif level_name == "ussingen" then
+			new_seed = 8785129
+			mod:echo("Seed applied")
+		end
+
+		return new_seed
+	end)
+
+	mod:chat_broadcast("Tournament seeds applied.")
 
 	local mean = 1.1
 	local range = 0.01
@@ -531,31 +571,10 @@ end
 
 	-- Stuff to change for specific maps
 	local co
-	local new_co
-
-	--[[
-	if mod:get("scaling") then
-		local players = Managers.player:human_and_bot_players()
-	   
-	   if mod.difficulty_level == 1 then 
-		   co = 0.05
-	   elseif mod.difficulty_level == 2 then 
-		   co = 0.084
-	   elseif mod.difficulty_level == 3 then 
-		   co = 0.094
-	   elseif mod.difficulty_level == 3 and lb then
-		   co = 0.0938
-	   end
-
-	   new_co = co 
-
-	   for _, player in pairs(players) do
-		   new_co = new_co + 0.01
-	   end
-   end
-   ]]
-
-	if mod.difficulty_level == 1 then
+	
+   	if mod.difficulty_level == 0 then
+		co = 0.09
+	elseif mod.difficulty_level == 1 then
 		co = 0.11
 	elseif mod.difficulty_level == 2 then
 		co = 0.12

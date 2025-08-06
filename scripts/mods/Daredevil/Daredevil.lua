@@ -1270,21 +1270,20 @@ mutator_plus.toggle = function()
 		mutator_plus.start()
 
 		if mod.difficulty_level == 1 then
-			mod:chat_broadcast(mod:localize("linesbaby"))
-		elseif mod.difficulty_level == 2 then
-			mod:chat_broadcast("Linesboy Onslaught ENABLED.")
-			mod:chat_broadcast("L猛已启动")
+			mod:chat_broadcast(mod:localize("linesboy"))
 		elseif mod.difficulty_level == 3 then
 			mod:chat_broadcast(mod:localize("linesman"))
-		else 
+		elseif mod.difficulty_level == 4 then 
 			mod:chat_broadcast("LinesBOOMER Onslaught ENABLED.")
+		else
+			mod:chat_broadcast("LinesBABY Onslaught ENABLED.") -- 0	
 		end
 
 		if mod:get("beta") then
-			mod:chat_broadcast("Running Linesman BETA Version 4.3.2")
+			mod:chat_broadcast("Running Linesman BETA Version 4.3.5")
 			mod:chat_broadcast("这是Linesman BETA！")
 		else 
-			mod:chat_broadcast("Version 4.3.2")
+			mod:chat_broadcast("Version 4.3.5")
 		end 
 	else
 		mutator_plus.stop()
@@ -1394,34 +1393,7 @@ end)
 -- Tourney stuff
 -- plasma why do you love trolls so much man
 mod:command("seeded_maps", " Applies seeded maps for the Linesman tournament.", function()
-	mod:hook_origin(LevelTransitionHandler, "create_level_seed", function()
-		local level_name = Managers.level_transition_handler:get_current_level_key()
-		local time_since_start = os.clock() * 10000 % 961748927
-		local date_time = os.time()
-		local low_time = tonumber(tostring(string.format("%d", date_time)):reverse():sub(1, 6))
-		local seed = (time_since_start + low_time) % 15485867
-
-		seed = math.floor(seed)
-
-		-- i hate myself but this will have to do
-		if level_name == "magnus" then
-			seed = 3060692
-			mod:echo("Seed applied")
-		elseif level_name == "ground_zero" then
-			seed = 3501558
-			mod:echo("Seed applied")
-		elseif level_name == "mines" then
-			seed = 3079501
-			mod:echo("Seed applied")
-		elseif level_name == "ussingen" then
-			seed = 8785129
-			mod:echo("Seed applied")
-		end
-
-		return seed
-	end)
-
-	mod:chat_broadcast("Tournament seeds applied.")
+	mod:echo("Seeded maps already built into the mod. Enable /linesman for them.")
 end)
 
 mod:command("trigger_haz40", " Triggers something special", function()
