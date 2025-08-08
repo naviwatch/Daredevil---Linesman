@@ -794,12 +794,24 @@ local custom_wave_c3 = function()
         Managers.state.conflict:start_terror_event("grunt_rush")
 
         trash, eot = PseudoRandomDistribution.flip_coin(eot, 1)
+        
+        local english_messages = {
+            "Banner spotted, don't get close!",
+            "I WANT THAT COW DEAD AT A DISTANCE",
+            "MOOOOOOOOOOOOOOOOOOOOO"
+        }
+        local chinese_messages = {
+            "插旗牛！"
+        }
+
+        local language_id = Managers.localizer:language_id()
+        local is_chinese = language_id == "zh"
+        local message_table = is_chinese and chinese_messages or english_messages
 
         if trash then
             spawn_trash_wave()
-            if mod:get("debug") then
-                mod:chat_broadcast("Spawning banner")
-            end
+            local random_message = message_table[math.random(#message_table)]
+            mod:chat_broadcast(random_message)
         end 
     end
 end

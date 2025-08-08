@@ -1280,10 +1280,10 @@ mutator_plus.toggle = function()
 		end
 
 		if mod:get("beta") then
-			mod:chat_broadcast("Running Linesman BETA Version 4.3.5")
+			mod:chat_broadcast("Running Linesman BETA Version 4.3.6")
 			mod:chat_broadcast("这是Linesman BETA！")
 		else 
-			mod:chat_broadcast("Version 4.3.5")
+			mod:chat_broadcast("Version 4.3.6")
 		end 
 	else
 		mutator_plus.stop()
@@ -1393,7 +1393,7 @@ end)
 -- Tourney stuff
 -- plasma why do you love trolls so much man
 mod:command("seeded_maps", " Applies seeded maps for the Linesman tournament.", function()
-	mod:echo("Seeded maps already built into the mod. Enable /linesman for them.")
+	mod:echo("Seeded maps already built into the mod. Enable /linesman, and remember to /restart to apply the seed proper when in-game. A pop-up will appear when the seed has been successfully applied.")
 end)
 
 mod:command("trigger_haz40", " Triggers something special", function()

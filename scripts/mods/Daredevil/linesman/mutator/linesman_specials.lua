@@ -218,17 +218,19 @@ local stagger_time = 5                     -- Stagger time between same-breed sp
 -- Horde-spawning specials
 local horde_spawn_specials = 0.15           -- Probability of a slot being turned into a "horde special", ie spawned using horde mechanics
 
-local spawn_custom_horde = function(slot)
-    local num_to_spawn = math.random(1, 1) -- Customizable number for the future 
-    local spawn_list = {}
-    for i = 1, num_to_spawn do
-        table.insert(spawn_list, slot.breed) 
-    end
-    local side = Managers.state.conflict.default_enemy_side_id
-    Managers.state.conflict.horde_spawner:execute_custom_horde(spawn_list, false, side)
-end
-
 local level_name = Managers.level_transition_handler:get_current_level_key()
+
+local spawn_custom_horde = function(slot)
+	if level_name == "mines" and slot.breed ~= "chaos_vortex_sorcerer" then
+		local num_to_spawn = math.random(1, 1) -- Customizable number for the future 
+		local spawn_list = {}
+		for i = 1, num_to_spawn do
+			table.insert(spawn_list, slot.breed) 
+		end
+		local side = Managers.state.conflict.default_enemy_side_id
+		Managers.state.conflict.horde_spawner:execute_custom_horde(spawn_list, false, side)
+	end
+end
 
 mod:hook_origin(SpecialsPacing, "specials_by_slots", function(self, t, specials_settings, method_data, slots, spawn_queue)
     local num_slots = #slots

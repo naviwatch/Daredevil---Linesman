@@ -354,39 +354,6 @@ end
 		return func(self, new_breed, boxed_spawn_pos, boxed_spawn_rot, spawn_category, spawn_animation, spawn_type, ...)
 	end)
 
-	-- Tourney seed
-	-- Seed
-	mod:hook_origin(LevelTransitionHandler, "create_level_seed", function()
-		local level_name = Managers.level_transition_handler:get_current_level_key()
-		local time_since_start = os.clock() * 10000 % 961748927
-		local date_time = os.time()
-		local low_time = tonumber(tostring(string.format("%d", date_time)):reverse():sub(1, 6))
-		local seed = (time_since_start + low_time) % 15485867
-		local level_name = Managers.level_transition_handler:get_current_level_key()
-
-		seed = math.floor(seed)
-		local new_seed = seed
-
-		-- i hate myself but this will have to do
-		if level_name == "magnus" then
-			new_seed = 3060692
-			mod:echo("Seed applied")
-		elseif level_name == "ground_zero" then
-			new_seed = 3501558
-			mod:echo("Seed applied")
-		elseif level_name == "mines" then
-			new_seed = 3079501
-			mod:echo("Seed applied")
-		elseif level_name == "ussingen" then
-			new_seed = 8785129
-			mod:echo("Seed applied")
-		end
-
-		return new_seed
-	end)
-
-	mod:chat_broadcast("Tournament seeds applied.")
-
 	local mean = 1.1
 	local range = 0.01
 
@@ -887,6 +854,11 @@ end
 	if mod.difficulty_level == 4 then
 		mod:dofile("scripts/mods/Daredevil/linesman/mutator/linesboomer/boomer_hordes")
 		mod:dofile("scripts/mods/Daredevil/linesman/mutator/linesboomer/boomer_pacing")
+	end
+
+	-- Seeded shit directly ripped from janoti
+	if not lb then
+		mod:dofile("scripts/mods/Daredevil/linesman/functions/seeded")
 	end
 
 	-- Linesman specific events

@@ -217,6 +217,7 @@ end
 ---------------
 
 	-- HORDE SETTINGS
+	--[[
 	HordeSettings.default.chance_of_vector = 0.6 -- 0.75
 	HordeSettings.default.chance_of_vector_blob = 0.65
 	HordeSettings.default.chance_of_vector_termite_1 = 0.9
@@ -224,153 +225,16 @@ end
 	HordeSettings.chaos.chance_of_vector = 0.8 -- 0.9
 	HordeSettings.chaos.chance_of_vector_blob = 0.9 -- 0.5
 	HordeSettings.chaos.chance_of_vector_termite_1 = 0.9
+	]]
 
 ----------------
 
-    HordeSettingsBasics = {
-        ambush = {
-            max_spawners = math.huge,
-            max_size,
-            max_hidden_spawner_dist = 40,
-            max_horde_spawner_dist = 35,
-            min_hidden_spawner_dist = 5,
-            min_horde_spawner_dist = 1,
-            min_spawners = math.huge,
-            start_delay = 3.45,
-        },
-        vector = {
-            max_size,
-            main_path_chance_spawning_ahead = 0.67,
-            main_path_dist_from_players = 30,
-            max_hidden_spawner_dist = 30,
-            max_horde_spawner_dist = 20,
-            max_spawners = 12,
-            min_hidden_spawner_dist = 0,
-            min_horde_spawner_dist = 0,
-            raw_dist_from_players = 13,
-            start_delay = 4,
-        },
-        vector_blob = {
-            max_size,
-            main_path_chance_spawning_ahead = 0.67,
-            main_path_dist_from_players = 60,
-            raw_dist_from_players = 13,
-            start_delay = 1,
-        },
-    }
+PacingSettings.default.mini_patrol.frequency = { 20, 30 }
 
+PacingSettings.chaos.mini_patrol.frequency = { 20, 30 }
+
+PacingSettings.beastmen.mini_patrol.frequency = { 20, 30 }
 ----------------
-HordeCompositionsPacing.mini_patrol = {
-	{
-		name = "few_clanrats",
-		weight = 2,
-		breeds = {
-			"skaven_clan_rat_with_shield",
-			{
-				4,
-				5
-			},
-			"skaven_storm_vermin_commander",
-			{
-				1,
-				2
-			},
-			"skaven_plague_monk",
-			{
-				2,
-				2
-			}
-		}
-	},
-	{
-		name = "few_clanrats",
-		weight = 2,
-		breeds = {
-			"skaven_clan_rat",
-			{
-				3,
-				4
-			},
-			"skaven_plague_monk",
-			{
-				3,
-				4
-			}
-		}
-	},
-	{
-		name = "storm_clanrats",
-		weight = 2,
-		breeds = {
-			"skaven_clan_rat",
-			{
-				2,
-				3
-			},
-			"skaven_storm_vermin_commander",
-			{
-				3,
-				4
-			}
-		}
-	}
-}
-
-HordeCompositionsPacing.chaos_mini_patrol = {
-	{
-		name = "few_marauders",
-		weight = 10,
-		breeds = {
-			"chaos_marauder",
-			{
-				2,
-				3
-			},
-			"chaos_raider",
-			{
-				1,
-				1
-			},
-			"chaos_berzerker",
-			{
-				2,
-				2
-			}
-		}
-	},
-	{
-		name = "few_clanrats",
-		weight = 2,
-		breeds = {
-			"chaos_marauder",
-			{
-				3,
-				4
-			},
-			"chaos_berzerker",
-			{
-				3,
-				4
-			}
-		}
-	},
-	{
-		name = "storm_clanrats",
-		weight = 2,
-		breeds = {
-			"chaos_marauder",
-			{
-				2,
-				3
-			},
-			"chaos_raider",
-			{
-				3,
-				4
-			}
-		}
-	}
-}
 ----------------
 	TerrorEventBlueprints.magnus.magnus_end_event = {
 		{
