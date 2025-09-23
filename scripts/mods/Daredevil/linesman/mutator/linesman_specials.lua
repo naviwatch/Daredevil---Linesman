@@ -5,12 +5,14 @@ local conflict_director = Managers.state.conflict
 local man = mod.difficulty_level == 3
 local baby = mod.difficulty_level == 0
 local boy = mod.difficulty_level == 1
+local boomer = mod.difficulty_level == 4
 
 -- Special Settings
 local special_slots
 local min_special_timer
 local max_special_timer
 local max_of_same
+local coca
 if mod:get("giga_specials") then
 	special_slots = 6
 	min_special_timer = 0
@@ -24,10 +26,22 @@ elseif not lb then
 	max_of_same = 3
 end
 
+if lb then
+	special_slots = 7
+	min_special_timer = 35 -- 30
+	max_special_timer = 47 
+	max_of_same = 3
+end
 -- Timer overrides for difficulties
-if mod.difficulty_level == 1 or mod.difficulty_level == 0 then -- baby
+if boy or baby then -- baby
 	min_special_timer = 37
-	max_special_timer = 47
+	max_special_timer = 50
+end
+
+if not boomer then 
+	coca = 0.5
+else
+	coca = 0
 end
 
 -- n/120*(max+min) ~ specials per min
@@ -38,8 +52,8 @@ SpecialsSettings.default.spawn_method = "specials_by_slots"
 SpecialsSettings.default.methods = {}
 SpecialsSettings.default.methods.specials_by_slots = {
 	max_of_same = max_of_same,
-	coordinated_attack_cooldown_multiplier = 0.5,
-	chance_of_coordinated_attack = 1,
+	coordinated_attack_cooldown_multiplier = 0.3,
+	chance_of_coordinated_attack = coca,
 	select_next_breed = "get_random_breed",
 	after_safe_zone_delay = {
 		20,
@@ -50,6 +64,10 @@ SpecialsSettings.default.methods.specials_by_slots = {
 		max_special_timer -- 60
 	},
 }
+
+if boomer then
+	SpecialsSettings.default.methods.specials_by_slots.after_safe_zone_delay = { 10, 15 }
+end
 
 SpecialsSettings.default.breeds = {
 	"skaven_gutter_runner",
@@ -198,7 +216,7 @@ SpecialsSettings.chaos_beastmen = SpecialsSettings.beastmen
 -- Custom fast timer
 local new_slot_timers
 if not baby then
-	new_slot_timers = { 15, 20 } -- gaslighting time
+	new_slot_timers = { 10, 25 } -- gaslighting time
 else
 	new_slot_timers = { 20, 25 }
 end
@@ -216,7 +234,7 @@ local same_breed_chance = 0.3              -- Chance for same-breed slots to spa
 local stagger_time = 5                     -- Stagger time between same-breed spawns (seconds)
 
 -- Horde-spawning specials
-local horde_spawn_specials = 0.15           -- Probability of a slot being turned into a "horde special", ie spawned using horde mechanics
+local horde_spawn_specials = 0           -- Probability of a slot being turned into a "horde special", ie spawned using horde mechanics
 
 local level_name = Managers.level_transition_handler:get_current_level_key()
 

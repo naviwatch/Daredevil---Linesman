@@ -6,6 +6,7 @@ local horde_spawner = Managers.state.conflict.horde_spawner
 local num_paced_hordes = horde_spawner.num_paced_hordes
 local language_id = Managers.localizer:language_id()
 local is_chinese = language_id == "zh"
+local boomer = mod.difficulty_level == 4
 
 local enhancement_list = {
 	["regenerating"] = true,
@@ -696,8 +697,8 @@ local spawn_trash_wave = function()
         table.insert(spawn_list, "beastmen_standard_bearer")
     end
 
-    local side = Managers.state.conflict.default_enemy_side_id
-    local side_id = side
+    local side = Managers.state.side:get_side_from_name("dark_pact")
+	local side_id = side.side_id
 
     Managers.state.conflict.horde_spawner:execute_custom_horde(spawn_list, true, side_id)
 end
@@ -707,6 +708,10 @@ if mod.difficulty_level == 0 then
     sa_chances = 0.05
 else
     sa_chances = 0.1
+end
+
+if boomer then
+    sa_chances = 0.15
 end
 
 local special_attack = function()
@@ -796,8 +801,7 @@ local custom_wave_c3 = function()
         trash, eot = PseudoRandomDistribution.flip_coin(eot, 1)
         
         local english_messages = {
-            "Banner spotted, don't get close!",
-            "I WANT THAT COW DEAD AT A DISTANCE",
+            "KILL THAT COW",
             "MOOOOOOOOOOOOOOOOOOOOO"
         }
         local chinese_messages = {
@@ -873,7 +877,9 @@ mod:hook(HordeSpawner, "horde", function(func, self, horde_type, extra_data, sid
             persistent_data.special_attack_wave_cooldown = 0
         end
 
-        if self.num_paced_hordes >= 9 and self.num_paced_hordes >= persistent_data.special_attack_wave_cooldown + 2 then  -- 3rd horde, 2 wave cd
+        if boomer then
+            Managers.state.conflict:start_terror_event("boss_check")
+        elseif self.num_paced_hordes >= 9 and self.num_paced_hordes >= persistent_data.special_attack_wave_cooldown + 2 then  -- 3rd horde, 2 wave cd
             Managers.state.conflict:start_terror_event("boss_check")
         end
 
@@ -908,7 +914,7 @@ mod:hook(HordeSpawner, "horde", function(func, self, horde_type, extra_data, sid
                 persistent_data.bob_counter = persistent_data.bob_counter + 1
             end
         else
-            mod:chat_broadcast("Bob is tired coming after you. Donate Bob coffee.")
+        --    mod:chat_broadcast("Bob is tired coming after you. Donate Bob coffee.")
         end
 
         local restricted_levels = {
@@ -946,7 +952,7 @@ mod:hook(HordeSpawner, "find_good_vector_horde_pos", function(func, self, main_t
     local num_paced_hordes = horde_spawner.num_paced_hordes
 
     PRD_sandwich, sandwhich = PseudoRandomDistribution.flip_coin(sandwhich, prd_direction) -- Flip 15%, every 3rd vector horde or 6th vector wave
-    if PRD_sandwich and num_paced_hordes ~= nil and num_paced_hordes >= 21 then -- 7th horde
+    if PRD_sandwich and not lb and num_paced_hordes ~= nil and num_paced_hordes >= 21 then -- 7th horde
         conflict_director:start_terror_event("split_wave")
 
         if is_chinese then 
@@ -1030,8 +1036,8 @@ local haz_40 = function(num_to_sv, num_to_white_sv, num_to_monk, num_to_mauler, 
         table.insert(spawn_list, "beastmen_bestigor")
     end
 
-    local side = Managers.state.conflict.default_enemy_side_id
-    local side_id = side
+    local side = Managers.state.side:get_side_from_name("dark_pact")
+	local side_id = side.side_id
 
     Managers.state.conflict.horde_spawner:execute_custom_horde(spawn_list, true, side_id) -- only spawn front so force players to push back and to avoid speedrunning
 end
@@ -1053,8 +1059,8 @@ local haz_40_trash = function(num_to_spawn_enhanced, num_to_spawn) -- trash are 
         table.insert(spawn_list, "chaos_fanatic")
     end
 
-    local side = Managers.state.conflict.default_enemy_side_id
-    local side_id = side
+    local side = Managers.state.side:get_side_from_name("dark_pact")
+	local side_id = side.side_id
 
     Managers.state.conflict.horde_spawner:execute_custom_horde(spawn_list, true, side_id) -- only spawn front so force players to push back and to avoid speedrunning
 end

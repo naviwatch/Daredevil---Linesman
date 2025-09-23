@@ -181,8 +181,8 @@ local mod = get_mod("Daredevil")
 				},
 				"skaven_warpfire_thrower",
 				{
-					1,
-					1
+					2,
+					2
 				},
 				"skaven_poison_wind_globadier",
 				{
@@ -294,13 +294,13 @@ local mod = get_mod("Daredevil")
 				},
 				"skaven_warpfire_thrower",
 				{
-					1,
-					1
+					2,
+					2
 				},
 				"skaven_ratling_gunner",
 				{
-					1,
-					1
+					2,
+					2
 				},
 				"skaven_pack_master",
 				{
@@ -312,155 +312,241 @@ local mod = get_mod("Daredevil")
 					1,
 					1
 				},
-				"chaos_plague_sorcerer",
-				{
-					1,
-					1
-				}
 			}
 		},
 		sound_settings = HordeCompositionsSoundSettings.skaven
 	}
 	HordeCompositionsPacing.huge = {
-		{
-			name = "plain",
-			weight = 5,
-			breeds = {
-				"skaven_slave",
-				{
-					22,
-					28
-				},
-				"skaven_clan_rat",
-				{
-					20,
-					30
-				},
-				"skaven_plague_monk",
-				{
-					5,
-					6
-				},
-				"skaven_storm_vermin_commander",
-				{
-					4,
-					4
-				},
-				"skaven_warpfire_thrower",
-				{
-					1,
-					1
-				}
-			--	"skaven_poison_wind_globadier",
-			--	{
-			--		1,
-			--		1
-			--	}
-			}
+	{
+		name = "mixed",
+		weight = 7,
+		breeds = {
+			"chaos_marauder",
+			{
+				9,
+				9,
+			},
+			"chaos_fanatic",
+			{
+				10,
+				12,
+			},
+			"skaven_clan_rat",
+			{
+				10,
+				12,
+			},
+			"skaven_slave",
+			{
+				17,
+				18,
+			},
+			"skaven_plague_monk",
+			{
+				2,
+				2,
+			},
+			"chaos_berzerker",
+			{
+				2,
+				2,
+			},
+			"chaos_raider",
+			{
+				2,
+				2,
+			},
+			"skaven_storm_vermin_commander",
+			{
+				2,
+				3,
+			},
 		},
-		{
-			name = "shielders",
-			weight = 7,
-			breeds = {
-				"skaven_slave",
-				{
-					12,
-					16
-				},
-				"skaven_clan_rat",
-				{
-					20,
-					25
-				},
-				"skaven_clan_rat_with_shield",
-				{
-					18,
-					20
-				},
-				"skaven_storm_vermin_commander",
-				{
-					5,
-					5
-				},
-				"skaven_plague_monk",
-				{
-					4,
-					5
-				},
-				"skaven_warpfire_thrower",
-				{
-					1,
-					1
-				}
-			}
+	},
+	{
+		name = "monks",
+		weight = 5,
+		breeds = {
+			"chaos_marauder",
+			{
+				9,
+				9,
+			},
+			"chaos_fanatic",
+			{
+				10,
+				12,
+			},
+			"skaven_clan_rat",
+			{
+				10,
+				12,
+			},
+			"skaven_slave",
+			{
+				17,
+				18,
+			},
+			"skaven_plague_monk",
+			{
+				4,
+				4,
+			},
+			"chaos_berzerker",
+			{
+				2,
+				2,
+			},
+			"chaos_raider",
+			{
+				1,
+				1,
+			},
+			"skaven_storm_vermin_commander",
+			{
+				2,
+				2,
+			},
 		},
-		{
-			name = "leader",
-			weight = 6,
-			breeds = {
-				"skaven_slave",
-				{
-					20,
-					22
-				},
-				"skaven_clan_rat",
-				{
-					30,
-					35
-				},
-				"skaven_storm_vermin_commander",
-				{
-					6,
-					7
-				},
-				"skaven_storm_vermin",
-				{
-					2,
-					2
-				},
-				"skaven_warpfire_thrower",
-				{
-					1,
-					1
-				}
-			--	"skaven_pack_master",
-			--	{
-			--		1,
-			--		1
-			--	}
-			}
+	},
+	{
+		name = "stormvermins",
+		weight = 5,
+		breeds = {
+			"chaos_marauder",
+			{
+				9,
+				9,
+			},
+			"chaos_fanatic",
+			{
+				10,
+				12,
+			},
+			"skaven_clan_rat",
+			{
+				10,
+				12,
+			},
+			"skaven_slave",
+			{
+				17,
+				18,
+			},
+			"skaven_plague_monk",
+			{
+				2,
+				2,
+			},
+			"chaos_berzerker",
+			{
+				1,
+				1,
+			},
+			"chaos_raider",
+			{
+				2,
+				2,
+			},
+			"skaven_storm_vermin_commander",
+			{
+				4,
+				4,
+			},
 		},
-		{
-			name = "shielders_heavy",
-			weight = 2,
-			breeds = {
-				"skaven_slave",
-				{
-					22,
-					28
-				},
-				"skaven_clan_rat",
-				{
-					20,
-					22
-				},
-				"skaven_clan_rat_with_shield",
-				{
-					8,
-					10
-				},
-				"skaven_storm_vermin_with_shield",
-				{
-					2,
-					2
-				},
-				"skaven_plague_monk",
-				{
-					9,
-					10
-				}
-			}
+	},
+	{
+		name = "chaoszerkers",
+		weight = 3,
+		breeds = {
+			"chaos_marauder",
+			{
+				9,
+				9,
+			},
+			"chaos_fanatic",
+			{
+				10,
+				12,
+			},
+			"skaven_clan_rat",
+			{
+				10,
+				12,
+			},
+			"skaven_slave",
+			{
+				17,
+				18,
+			},
+			"skaven_plague_monk",
+			{
+				2,
+				2,
+			},
+			"chaos_berzerker",
+			{
+				4,
+				4,
+			},
+			"chaos_raider",
+			{
+				2,
+				2,
+			},
+			"skaven_storm_vermin_commander",
+			{
+				1,
+				1,
+			},
 		},
+	},
+	{
+		name = "maulers",
+		weight = 3,
+		breeds = {
+			"chaos_marauder",
+			{
+				9,
+				9,
+			},
+			"chaos_fanatic",
+			{
+				10,
+				12,
+			},
+			"skaven_clan_rat",
+			{
+				10,
+				12,
+			},
+			"skaven_slave",
+			{
+				17,
+				18,
+			},
+			"skaven_plague_monk",
+			{
+				1,
+				1,
+			},
+			"chaos_berzerker",
+			{
+				2,
+				2,
+			},
+			"chaos_raider",
+			{
+				4,
+				4,
+			},
+			"skaven_storm_vermin_commander",
+			{
+				2,
+				2,
+			},
+		},
+	},
 		sound_settings = HordeCompositionsSoundSettings.skaven
 	}
 	HordeCompositionsPacing.huge_shields = {
@@ -494,6 +580,11 @@ local mod = get_mod("Daredevil")
 					5
 				},
 				"chaos_corruptor_sorcerer",
+				{
+					1,
+					1
+				},
+				"skaven_pack_master",
 				{
 					1,
 					1
@@ -533,7 +624,12 @@ local mod = get_mod("Daredevil")
 				{
 					1,
 					1
-				}
+				},
+				"skaven_warpfire_thrower",
+				{
+					1,
+					1
+				},
 			}
 		},
 		{
@@ -567,8 +663,8 @@ local mod = get_mod("Daredevil")
 				},
 				"skaven_warpfire_thrower",
 				{
-					1,
-					1
+					2,
+					2
 				}
 			}
 		},
@@ -605,6 +701,11 @@ local mod = get_mod("Daredevil")
 				{
 					1,
 					1
+				},
+				"skaven_pack_master",
+				{
+					1,
+					1
 				}
 			}
 		},
@@ -636,6 +737,11 @@ local mod = get_mod("Daredevil")
 					2
 				},
 				"skaven_ratling_gunner",
+				{
+					1,
+					1
+				},
+				"skaven_warpfire_thrower",
 				{
 					1,
 					1
@@ -675,6 +781,11 @@ local mod = get_mod("Daredevil")
 				{
 					2,
 					2
+				},
+				"skaven_pack_master",
+				{
+					1,
+					1
 				}
 			}
 		},
@@ -703,6 +814,11 @@ local mod = get_mod("Daredevil")
 					2
 				},
 				"skaven_warpfire_thrower",
+				{
+					2,
+					2
+				},
+				"skaven_gutter_runner",
 				{
 					1,
 					1
@@ -742,6 +858,11 @@ local mod = get_mod("Daredevil")
 				{
 					2,
 					2
+				},
+				"skaven_gutter_runner",
+				{
+					1,
+					1
 				}
 			}
 		},
@@ -774,8 +895,8 @@ local mod = get_mod("Daredevil")
 				},
 				"skaven_warpfire_thrower",
 				{
-					1,
-					1
+					2,
+					2
 				}
 			}
 		},
@@ -963,8 +1084,13 @@ local mod = get_mod("Daredevil")
 				},
 				"chaos_raider",
 				{
-					5,
-					6
+					3,
+					4
+				},
+				"beastmen_bestigor",
+				{
+					2,
+					2
 				},
 				"chaos_berzerker",
 				{
@@ -973,8 +1099,8 @@ local mod = get_mod("Daredevil")
 				},
 				"skaven_ratling_gunner",
 				{
-					1,
-					1
+					2,
+					2
 				},
 				"chaos_warrior",
 				{
@@ -1043,6 +1169,11 @@ local mod = get_mod("Daredevil")
 					6,
 					7	
 				},
+				"beastmen_bestigor",
+				{
+					2,
+					2
+				},
 				"chaos_corruptor_sorcerer",
 				{
 					1,
@@ -1078,8 +1209,8 @@ local mod = get_mod("Daredevil")
 				},
 				"skaven_warpfire_thrower",
 				{
-					1,
-					1
+					2,
+					2
 				},
 				"chaos_warrior",
 				1
@@ -1114,196 +1245,241 @@ local mod = get_mod("Daredevil")
 		sound_settings = HordeCompositionsSoundSettings.chaos
 	}
 	HordeCompositionsPacing.chaos_huge = {
-		{
-			name = "plain",
-			weight = 7,
-			breeds = {
-				"chaos_fanatic",
-				{
-					18,
-					20
-				},
-				"chaos_marauder",
-				{
-					24,
-					26
-				},
-				"chaos_raider",
-				{
-					4,
-					5
-				},
-				"chaos_berzerker",
-				{
-					4,
-					5
-				},
-				"skaven_ratling_gunner",
-				{
-					1,
-					1
-				},
-				"chaos_warrior",
-				{
-					1,
-					1
-				}
-			}
+	{
+		name = "mixed",
+		weight = 7,
+		breeds = {
+			"chaos_marauder",
+			{
+				12,
+				12,
+			},
+			"chaos_raider",
+			{
+				2,
+				2,
+			},
+			"chaos_fanatic",
+			{
+				16,
+				18,
+			},
+			"skaven_clan_rat",
+			{
+				7,
+				9,
+			},
+			"skaven_plague_monk",
+			{
+				2,
+				2,
+			},
+			"chaos_berzerker",
+			{
+				2,
+				2,
+			},
+			"skaven_slave",
+			{
+				11,
+				12,
+			},
+			"skaven_storm_vermin_commander",
+			{
+				2,
+				3,
+			},
 		},
-		{
-			name = "zerker",
-			weight = 5,
-			breeds = {
-				"chaos_fanatic",
-				{
-					24,
-					26
-				},
-				"chaos_marauder",
-				{
-					14,
-					16
-				},
-				"chaos_berzerker",
-				{
-					8,
-					8
-				},
-				"chaos_raider",
-				{
-					2,
-					2
-				},
-				"chaos_warrior",
-				{
-					1,
-					1
-				},
-				"chaos_corruptor_sorcerer",
-				{
-					1,
-					1
-				}
-			}
+	},
+	{
+		name = "monks",
+		weight = 3,
+		breeds = {
+			"chaos_marauder",
+			{
+				12,
+				12,
+			},
+			"chaos_fanatic",
+			{
+				16,
+				18,
+			},
+			"skaven_clan_rat",
+			{
+				7,
+				9,
+			},
+			"skaven_slave",
+			{
+				11,
+				12,
+			},
+			"skaven_plague_monk",
+			{
+				4,
+				4,
+			},
+			"chaos_berzerker",
+			{
+				2,
+				2,
+			},
+			"chaos_raider",
+			{
+				1,
+				1,
+			},
+			"skaven_storm_vermin_commander",
+			{
+				2,
+				2,
+			},
 		},
-		{
-			name = "shielders",
-			weight = 2,
-			breeds = {
-				"chaos_fanatic",
-				{
-					10,
-					12
-				},
-				"chaos_marauder",
-				{
-					8,
-					10
-				},
-				"chaos_marauder_with_shield",
-				{
-					9,
-					10
-				},
-				"chaos_raider",
-				{
-					5,
-					6
-				},
-				"chaos_berzerker",
-				{
-					4,
-					4
-				},
-				"skaven_ratling_gunner",
-				{
-					1,
-					1
-				},
-				"chaos_warrior",
-				{
-					1,
-					1
-				}
-			}
+	},
+	{
+		name = "stormvermins", 
+		weight = 3,
+		breeds = {
+			"chaos_fanatic",
+			{
+				16,
+				18,
+			},
+			"skaven_clan_rat",
+			{
+				7,
+				9,
+			},
+			"chaos_raider",
+			{
+				2,
+				2,
+			},
+			"skaven_slave",
+			{
+				11,
+				12,
+			},
+			"chaos_berzerker",
+			{
+				1,
+				1,
+			},
+			"skaven_plague_monk",
+			{
+				2,
+				2,
+			},
+			"skaven_storm_vermin_commander",
+			{
+				4,
+				4,
+			},
+			"chaos_marauder",
+			{
+				12,
+				12,
+			},
+		}
+	},
+	{
+		name = "chaoszerkers",
+		weight = 5,
+		breeds = {
+			"chaos_marauder",
+			{
+				12,
+				12,
+			},
+			"chaos_fanatic",
+			{
+				16,
+				18,
+			},
+			"skaven_clan_rat",
+			{
+				7,
+				9,
+			},
+			"skaven_slave",
+			{
+				11,
+				12,
+			},
+			"skaven_plague_monk",
+			{
+				2,
+				2,
+			},
+			"chaos_berzerker",
+			{
+				3,
+				3,
+			},
+			"beastmen_bestigor",
+			{
+				1,
+				1
+			},
+			"chaos_raider",
+			{
+				2,
+				2,
+			},
+			"skaven_storm_vermin_commander",
+			{
+				1,
+				1,
+			},
 		},
-		{
-			name = "leader",
-			weight = 4,
-			breeds = {
-				"chaos_fanatic",
-				{
-					12,
-					14
-				},
-				"chaos_marauder",
-				{
-					18,
-					20
-				},
-				"chaos_raider",
-				{
-					5,
-					5
-				},
-				"skaven_pack_master",
-				{
-					1,
-					1 
-				},
-				"skaven_gutter_runner",
-				{
-					1,
-					1
-				},
-				"chaos_warrior",
-				{
-					1,
-					1
-				}
-			}
-		},
-		{
-			name = "frenzy",
-			weight = 2,
-			breeds = {
-				"chaos_fanatic",
-				{
-					10,
-					12
-				},
-				"chaos_marauder",
-				{
-					12,
-					14
-				},
-				"chaos_raider",
-				{
-					3,
-					4
-				},
-				"chaos_berzerker",
-				{
-					5,
-					5
-				},
-				"chaos_marauder_with_shield",
-				{
-					8,
-					10
-				},
-				"chaos_warrior",
-				{
-					1,
-					1
-				},
-				"skaven_ratling_gunner",
-				{
-					1,
-					1
-				}
-			}
-		},
+	},
+	{
+		name = "maulers",
+		weight = 5,
+		breeds = {
+			"skaven_plague_monk",
+			{
+				1,
+				1,
+			},
+			"chaos_raider",
+			{
+				4,
+				4,
+			},
+			"skaven_clan_rat",
+			{
+				10,
+				12,
+			},
+			"chaos_marauder",
+			{
+				9,
+				9,
+			},
+			"skaven_storm_vermin_commander",
+			{
+				2,
+				2,
+			},
+			"chaos_fanatic",
+			{
+				10,
+				12,
+			},
+			"skaven_slave",
+			{
+				17,
+				18,
+			},
+			"chaos_berzerker",
+			{
+				2,
+				2,
+			},
+		}
+	},
 		sound_settings = HordeCompositionsSoundSettings.chaos
 	}
 	HordeCompositionsPacing.chaos_huge_shields = {
@@ -1331,6 +1507,11 @@ local mod = get_mod("Daredevil")
 					6,
 					7	
 				},
+				"beastmen_bestigor",
+				{
+					2,
+					2
+				},
 				"chaos_corruptor_sorcerer",
 				{
 					1,
@@ -1356,18 +1537,23 @@ local mod = get_mod("Daredevil")
 				},
 				"chaos_berzerker",
 				{
-					5,
-					5
+					3,
+					3
 				},
 				"chaos_raider",
 				{
 					3,
 					4
 				},
+				"beastmen_bestigor",
+				{
+					2,
+					2
+				},
 				"skaven_ratling_gunner",
 				{
-					1,
-					1
+					2,
+					2
 				},
 				"chaos_warrior",
 				{
@@ -1397,8 +1583,8 @@ local mod = get_mod("Daredevil")
 				},
 				"skaven_warpfire_thrower",
 				{
-					1,
-					1
+					2,
+					2
 				},
 				"chaos_warrior",
 				{
@@ -1438,8 +1624,8 @@ local mod = get_mod("Daredevil")
 				},
 				"skaven_warpfire_thrower",
 				{
-					1,
-					1
+					2,
+					2
 				},
 				"chaos_warrior",
 				1
@@ -1500,10 +1686,20 @@ local mod = get_mod("Daredevil")
 				},
 				"chaos_berzerker",
 				{
-					5,
-					5
+					3,
+					3
+				},
+				"beastmen_bestigor",
+				{
+					2,
+					2
 				},
 				"chaos_warrior",
+				{
+					1,
+					1
+				},
+				"skaven_pack_master",
 				{
 					1,
 					1
@@ -1531,8 +1727,8 @@ local mod = get_mod("Daredevil")
 				},
 				"skaven_ratling_gunner",
 				{
-					1,
-					1
+					2,
+					2
 				},
 				"chaos_warrior",
 				1
@@ -1574,8 +1770,8 @@ local mod = get_mod("Daredevil")
 				},
 				"skaven_ratling_gunner",
 				{
-					1,
-					1
+					2,
+					2
 				}
 			}
 		},
@@ -1593,10 +1789,15 @@ local mod = get_mod("Daredevil")
 					14,
 					16
 				},
+				"beastmen_bestigor",
+				{
+					2,
+					2
+				},
 				"chaos_raider",
 				{
-					4,
-					5
+					2,
+					3
 				},
 				"chaos_berzerker",
 				{
@@ -1604,6 +1805,11 @@ local mod = get_mod("Daredevil")
 					4
 				},
 				"skaven_warpfire_thrower",
+				{
+					2,
+					2
+				},
+				"skaven_pack_master",
 				{
 					1,
 					1
@@ -1667,6 +1873,11 @@ local mod = get_mod("Daredevil")
 					2,
 					2
 				},
+				"skaven_pack_master",
+				{
+					1,
+					1
+				},
 				"chaos_corruptor_sorcerer",
 				{
 					1,
@@ -1700,8 +1911,8 @@ local mod = get_mod("Daredevil")
 				},
 				"skaven_ratling_gunner",
 				{
-					1,
-					1
+					2,
+					2
 				},
 				"chaos_warrior",
 				1
@@ -1731,15 +1942,20 @@ local mod = get_mod("Daredevil")
 					5,
 					5
 				},
+				"beastmen_bestigor",
+				{
+					2,
+					2
+				},
 				"chaos_raider",
 				{
-					3,
-					4
+					2,
+					3
 				},
 				"skaven_warpfire_thrower",
 				{
-					1,
-					1
+					2,
+					2
 				},
 				"chaos_warrior",
 				1
@@ -1766,8 +1982,8 @@ local mod = get_mod("Daredevil")
 				},
 				"skaven_warpfire_thrower",
 				{
-					1,
-					1
+					2,
+					2
 				},
 				"chaos_warrior",
 				{
@@ -1804,6 +2020,11 @@ local mod = get_mod("Daredevil")
 				{
 					3,
 					4
+				},
+				"skaven_pack_master",
+				{
+					1,
+					1
 				},
 				"chaos_warrior",
 				1

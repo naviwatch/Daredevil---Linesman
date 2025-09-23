@@ -335,6 +335,53 @@ mod:hook_origin(HordeSpawner, "compose_blob_horde_spawn_list", function(self, co
     return spawn_list, #spawn_list
 end)
 
+mod:hook_origin(HordeSpawner, "compose_blob_horde_spawn_list", function(self, composition_type)
+    --mod:echo("Blob Horde Spawning")
+    local composition = CurrentHordeSettings.compositions_pacing[composition_type]
+    local index = LoadedDice.roll_easy(composition.loaded_probs)
+    local variant = composition[index]
+    local i = 1
+    local spawn_list = spawn_list_a
+
+    table.clear_array(spawn_list_a, #spawn_list_a)
+
+    local breeds = variant.breeds
+
+    for i = 1, #breeds, 2 do
+        local breed_name = breeds[i]
+        local amount = breeds[i + 1]
+        local num_to_spawn = ConflictUtils.random_interval(amount)
+        local start = #spawn_list + 1
+        local total_intensity = Managers.state.conflict.pacing:get_pacing_intensity()
+        local horde_spawner = Managers.state.conflict.horde_spawner
+        local num_paced_hordes = horde_spawner.num_paced_hordes
+        local valid_difficulty = man
+        local horde_limit = num_paced_hordes <= 6
+
+        if mutator_plus.active then
+            if valid_difficulty and horde_limit and not mod:get("testers") then -- If its the first two hordes, lower difficulty by spawning less
+                for j = start, start + num_to_spawn - 3 do
+                    spawn_list[j] = breed_name
+                end
+            else
+                if mod:get("debug") then
+                    mod:chat_broadcast("LOW Intensity HORDE NUMBERS")
+                end
+                for j = start, start + num_to_spawn - 1 do
+                    spawn_list[j] = breed_name
+                end
+            end
+        else
+            for j = start, start + num_to_spawn - 1 do
+                spawn_list[j] = breed_name
+            end
+        end
+    end
+
+    table.shuffle(spawn_list)
+    return spawn_list, #spawn_list
+end)
+
 mod:hook(HordeSpawner, "execute_vector_blob_horde", function(func, self, extra_data, side_id, fallback)
     local settings = CurrentHordeSettings.vector_blob
 	local roll = math.random()

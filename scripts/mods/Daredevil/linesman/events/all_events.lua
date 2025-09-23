@@ -9,6 +9,12 @@ local function count_breed(breed_name)
 	return Managers.state.conflict:count_units_by_breed(breed_name)
 end
 
+local function num_spawned_enemies()
+	local spawned_enemies = Managers.state.conflict:spawned_enemies()
+
+	return #spawned_enemies
+end
+
 local function spawned_during_event()
 	return Managers.state.conflict:enemies_spawned_during_event()
 end
@@ -3119,7 +3125,7 @@ end
 		},
 		{
 			"control_specials",
-			enable = false
+			enable = true
 		},
 		{
 			"play_stinger",
@@ -3130,6 +3136,11 @@ end
 			limit_spawners = 4,
 			spawner_id = "end_event",
 			composition_type = "event_large"
+		},
+		{
+			"spawn_special",
+			amount = 5,
+			breed_name = "skaven_warpfire_thrower"
 		},
 		{
 			"spawn_at_raw",
@@ -3169,7 +3180,7 @@ end
 		},
 		{
 			"continue_when",
-			duration = 30,
+			duration = 15,
 			condition = function (t)
 				return (count_event_breed("skaven_clan_rat") + count_event_breed("skaven_clan_rat_with_shield")) < 30 and count_event_breed("skaven_slave") < 30 and (count_event_breed("skaven_storm_vermin") + count_event_breed("skaven_storm_vermin_with_shield")) < 12
 			end
@@ -3212,11 +3223,11 @@ end
 			"event_horde",
 			limit_spawners = 2,
 			spawner_id = "onslaught_mines_horde_front",
-			composition_type = "event_small_chaos"
+			composition_type = "event_medium_chaos"
 		},
 		{
 			"delay",
-			duration = 30
+			duration = 20
 		},
 		{
 			"delay",
@@ -3258,7 +3269,7 @@ end
 		},
 		{
 			"continue_when",
-			duration = 45,
+			duration = 25,
 			condition = function (t)
 				return (count_event_breed("skaven_clan_rat") + count_event_breed("skaven_clan_rat_with_shield")) < 25 and count_event_breed("skaven_slave") < 25 and (count_event_breed("skaven_storm_vermin") + count_event_breed("skaven_storm_vermin_with_shield")) < 10 and count_event_breed("chaos_raider") < 12
 			end
@@ -3283,7 +3294,7 @@ end
 			"event_horde",
 			limit_spawners = 2,
 			spawner_id = "end_event_chaos",
-			composition_type = "event_small_chaos"
+			composition_type = "event_medium_chaos"
 		},
 		{
 			"event_horde",
@@ -3303,7 +3314,7 @@ end
 		},
 		{
 			"continue_when",
-			duration = 45,
+			duration = 30,
 			condition = function (t)
 				return (count_event_breed("chaos_marauder") + count_event_breed("chaos_marauder_with_shield")) < 20 and count_event_breed("chaos_fanatic") < 25 and count_event_breed("chaos_raider") < 10 and count_event_breed("chaos_berzerker") < 12
 			end
@@ -3356,7 +3367,7 @@ end
 		},
 		{
 			"continue_when",
-			duration = 45,
+			duration = 30,
 			condition = function (t)
 				return count_event_breed("skaven_plague_monk") < 12 and (count_event_breed("skaven_clan_rat") + count_event_breed("skaven_clan_rat_with_shield")) < 20 and count_event_breed("skaven_slave") < 25 and (count_event_breed("skaven_storm_vermin") + count_event_breed("skaven_storm_vermin_with_shield")) < 12
 			end
@@ -3406,7 +3417,7 @@ end
 		},
 		{
 			"continue_when",
-			duration = 60,
+			duration = 20,
 			condition = function (t)
 				return (count_event_breed("chaos_marauder") + count_event_breed("chaos_marauder_with_shield")) < 20 and count_event_breed("chaos_fanatic") < 25 and count_event_breed("chaos_raider") < 10 and count_event_breed("chaos_berzerker") < 10 and count_event_breed("chaos_warrior") < 6
 			end
@@ -3433,7 +3444,7 @@ end
 			"event_horde",
 			limit_spawners = 2,
 			spawner_id = "onslaught_mines_horde_front",
-			composition_type = "onslaught_storm_vermin_small"
+			composition_type = "onslaught_storm_vermin_medium"
 		},
 		{
 			"delay",
@@ -3451,7 +3462,7 @@ end
 		},
 		{
 			"continue_when",
-			duration = 45,
+			duration = 25,
 			condition = function (t)
 				return (count_event_breed("skaven_clan_rat") + count_event_breed("skaven_clan_rat_with_shield")) < 20 and count_event_breed("skaven_slave") < 25 and (count_event_breed("skaven_storm_vermin") + count_event_breed("skaven_storm_vermin_with_shield")) < 10
 			end
@@ -3470,7 +3481,7 @@ end
 			"event_horde",
 			limit_spawners = 2,
 			spawner_id = "onslaught_mines_horde_front",
-			composition_type = "event_maulers_small"
+			composition_type = "event_maulers_medium"
 		},
 		{
 			"spawn_at_raw",
@@ -3484,7 +3495,7 @@ end
 			"event_horde",
 			limit_spawners = 2,
 			spawner_id = "end_event_chaos",
-			composition_type = "event_maulers_small"
+			composition_type = "event_maulers_medium"
 		},
 		{
 			"delay",
@@ -3492,7 +3503,7 @@ end
 		},
 		{
 			"continue_when",
-			duration = 45,
+			duration = 30,
 			condition = function (t)
 				return (count_event_breed("chaos_marauder") + count_event_breed("chaos_marauder_with_shield")) < 20 and count_event_breed("chaos_fanatic") < 25 and count_event_breed("chaos_raider") < 10 and count_event_breed("chaos_berzerker") < 12 and count_event_breed("chaos_warrior") < 6
 			end
@@ -3523,7 +3534,7 @@ end
 		},
 		{
 			"continue_when",
-			duration = 45,
+			duration = 30,
 			condition = function (t)
 				return count_event_breed("skaven_plague_monk") < 10 and (count_event_breed("skaven_clan_rat") + count_event_breed("skaven_clan_rat_with_shield")) < 20 and count_event_breed("skaven_slave") < 25 and (count_event_breed("skaven_storm_vermin") + count_event_breed("skaven_storm_vermin_with_shield")) < 9
 			end
@@ -9989,6 +10000,13 @@ end
 				return count_event_breed("chaos_berzerker") < 12 and count_event_breed("chaos_raider") < 7 and (count_event_breed("chaos_marauder") + count_event_breed("chaos_marauder_with_shield")) < 24 and count_event_breed("chaos_fanatic") < 26 and count_event_breed("chaos_warrior") < 5
 			end
 		},
+		-- Max grunt check
+		{
+			"continue_when",
+			condition = function (t)
+				return num_spawned_enemies() < 80
+			end
+		},
 		{
 			"delay",
 			duration = 5
@@ -10057,6 +10075,12 @@ end
 			end
 		},
 		{
+			"continue_when",
+			condition = function (t)
+				return num_spawned_enemies() < 80
+			end
+		},
+		{
 			"delay",
 			duration = 5
 		},
@@ -10100,6 +10124,12 @@ end
 			end
 		},
 		{
+			"continue_when",
+			condition = function (t)
+				return num_spawned_enemies() < 80
+			end
+		},
+		{
 			"delay",
 			duration = 6
 		},
@@ -10149,6 +10179,12 @@ end
 			duration = 70,
 			condition = function (t)
 				return count_event_breed("chaos_berzerker") < 10 and count_event_breed("chaos_raider") < 8 and (count_event_breed("chaos_marauder") + count_event_breed("chaos_marauder_with_shield")) < 22 and count_event_breed("chaos_fanatic") < 24 and count_event_breed("chaos_warrior") < 6
+			end
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return num_spawned_enemies() < 80
 			end
 		},
 		{
@@ -10207,6 +10243,12 @@ end
 			end
 		},
 		{
+			"continue_when",
+			condition = function (t)
+				return num_spawned_enemies() < 80
+			end
+		},
+		{
 			"delay",
 			duration = 6
 		},
@@ -10247,6 +10289,12 @@ end
 			duration = 70,
 			condition = function (t)
 				return count_event_breed("chaos_berzerker") < 10 and count_event_breed("chaos_raider") < 8 and (count_event_breed("chaos_marauder") + count_event_breed("chaos_marauder_with_shield")) < 22 and count_event_breed("chaos_fanatic") < 24 and count_event_breed("chaos_warrior") < 6
+			end
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return num_spawned_enemies() < 80
 			end
 		},
 		{
@@ -10293,6 +10341,12 @@ end
 			duration = 70,
 			condition = function (t)
 				return count_event_breed("chaos_berzerker") < 10 and count_event_breed("chaos_raider") < 8 and (count_event_breed("chaos_marauder") + count_event_breed("chaos_marauder_with_shield")) < 22 and count_event_breed("chaos_fanatic") < 24 and count_event_breed("chaos_warrior") < 6
+			end
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return num_spawned_enemies() < 80
 			end
 		},
 		{
@@ -10350,6 +10404,12 @@ end
 			end
 		},
 		{
+			"continue_when",
+			condition = function (t)
+				return num_spawned_enemies() < 80
+			end
+		},
+		{
 			"delay",
 			duration = 6
 		},
@@ -10397,6 +10457,12 @@ end
 			end
 		},
 		{
+			"continue_when",
+			condition = function (t)
+				return num_spawned_enemies() < 80
+			end
+		},
+		{
 			"delay",
 			duration = 6
 		},
@@ -10438,6 +10504,12 @@ end
 			end
 		},
 		{
+			"continue_when",
+			condition = function (t)
+				return num_spawned_enemies() < 80
+			end
+		},
+		{
 			"delay",
 			duration = 6
 		},
@@ -10493,6 +10565,12 @@ end
 			end
 		},
 		{
+			"continue_when",
+			condition = function (t)
+				return num_spawned_enemies() < 80
+			end
+		},
+		{
 			"delay",
 			duration = 6
 		},
@@ -10539,6 +10617,12 @@ end
 			duration = 70,
 			condition = function (t)
 				return count_event_breed("chaos_berzerker") < 10 and count_event_breed("chaos_raider") < 8 and (count_event_breed("chaos_marauder") + count_event_breed("chaos_marauder_with_shield")) < 22 and count_event_breed("chaos_fanatic") < 24 and count_event_breed("chaos_warrior") < 6
+			end
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return num_spawned_enemies() < 80
 			end
 		},
 		{
@@ -10588,6 +10672,12 @@ end
 			end
 		},
 		{
+			"continue_when",
+			condition = function (t)
+				return num_spawned_enemies() < 80
+			end
+		},
+		{
 			"delay",
 			duration = 6
 		},
@@ -10637,6 +10727,12 @@ end
 			end
 		},
 		{
+			"continue_when",
+			condition = function (t)
+				return num_spawned_enemies() < 80
+			end
+		},
+		{
 			"delay",
 			duration = 6
 		},
@@ -10671,6 +10767,12 @@ end
 			duration = 70,
 			condition = function (t)
 				return count_event_breed("chaos_berzerker") < 10 and count_event_breed("chaos_raider") < 8 and (count_event_breed("chaos_marauder") + count_event_breed("chaos_marauder_with_shield")) < 22 and count_event_breed("chaos_fanatic") < 24 and count_event_breed("chaos_warrior") < 6
+			end
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return num_spawned_enemies() < 80
 			end
 		},
 		{
@@ -10715,6 +10817,12 @@ end
 			end
 		},
 		{
+			"continue_when",
+			condition = function (t)
+				return num_spawned_enemies() < 80
+			end
+		},
+		{
 			"delay",
 			duration = 6
 		},
@@ -10764,6 +10872,12 @@ end
 			end
 		},
 		{
+			"continue_when",
+			condition = function (t)
+				return num_spawned_enemies() < 80
+			end
+		},
+		{
 			"delay",
 			duration = 6
 		},
@@ -10798,6 +10912,12 @@ end
 			duration = 70,
 			condition = function (t)
 				return count_event_breed("chaos_berzerker") < 10 and count_event_breed("chaos_raider") < 8 and (count_event_breed("chaos_marauder") + count_event_breed("chaos_marauder_with_shield")) < 22 and count_event_breed("chaos_fanatic") < 24 and count_event_breed("chaos_warrior") < 6
+			end
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return num_spawned_enemies() < 80
 			end
 		},
 		{
@@ -10842,6 +10962,12 @@ end
 			end
 		},
 		{
+			"continue_when",
+			condition = function (t)
+				return num_spawned_enemies() < 80
+			end
+		},
+		{
 			"delay",
 			duration = 6
 		},
@@ -10891,6 +11017,12 @@ end
 			end
 		},
 		{
+			"continue_when",
+			condition = function (t)
+				return num_spawned_enemies() < 80
+			end
+		},
+		{
 			"delay",
 			duration = 6
 		},
@@ -10925,6 +11057,12 @@ end
 			duration = 70,
 			condition = function (t)
 				return count_event_breed("chaos_berzerker") < 10 and count_event_breed("chaos_raider") < 8 and (count_event_breed("chaos_marauder") + count_event_breed("chaos_marauder_with_shield")) < 22 and count_event_breed("chaos_fanatic") < 24 and count_event_breed("chaos_warrior") < 6
+			end
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return num_spawned_enemies() < 80
 			end
 		},
 		{
@@ -10966,6 +11104,12 @@ end
 			duration = 70,
 			condition = function (t)
 				return count_event_breed("chaos_berzerker") < 10 and count_event_breed("chaos_raider") < 8 and (count_event_breed("chaos_marauder") + count_event_breed("chaos_marauder_with_shield")) < 22 and count_event_breed("chaos_fanatic") < 24 and count_event_breed("chaos_warrior") < 6
+			end
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return num_spawned_enemies() < 80
 			end
 		},
 		{
@@ -11029,6 +11173,12 @@ end
 			duration = 70,
 			condition = function (t)
 				return count_event_breed("chaos_berzerker") < 10 and count_event_breed("chaos_raider") < 8 and (count_event_breed("chaos_marauder") + count_event_breed("chaos_marauder_with_shield")) < 22 and count_event_breed("chaos_fanatic") < 24 and count_event_breed("chaos_warrior") < 6
+			end
+		},
+		{
+			"continue_when",
+			condition = function (t)
+				return num_spawned_enemies() < 80
 			end
 		},
 	}
@@ -16083,7 +16233,7 @@ end
 			"event_horde",
 			limit_spawners = 2,
 			spawner_id = "magnus_tower_horn",
-			composition_type = "event_extra_spice_medium"
+			composition_type = "apocalypse_wave"
 		},
 		{
 			"event_horde",
@@ -16116,21 +16266,21 @@ end
 			"event_horde",
 			limit_spawners = 4,
 			spawner_id = "magnus_tower_horn",
-			composition_type = "event_extra_spice_large"
+			composition_type = "apocalypse_wave"
 		},
 		{
 			"disable_kick"
 		},
 		{
 			"delay",
-			duration = 5
+			duration = 45
 		},
 		{
 			"spawn_special",
 			breed_name = "skaven_dummy_clan_rat",
 			amount = {
-				3,
-				3
+				4,
+				4
 			},
 		},
 		{
@@ -16170,8 +16320,8 @@ end
 			"spawn_special",
 			breed_name = "skaven_stormfiend",
 			amount = {
-				2,
-				2
+				4,
+				4
 			},
 			optional_data = {
 				size_variation_range = { 1.45, 1.45 },
@@ -16179,6 +16329,11 @@ end
 			}
 		},
 		{
+			"event_horde",
+			spawner_id = "magnus_tower_chaos",
+			composition_type = "dn_warpfire_spam"
+		},
+				{
 			"event_horde",
 			spawner_id = "magnus_tower_chaos",
 			composition_type = "dn_warpfire_spam"
@@ -16207,7 +16362,7 @@ end
 		},
 		{
 			"delay",
-			duration = 1
+			duration = 20
 		},
 		{
 			"event_horde",
@@ -16217,7 +16372,7 @@ end
 		},
 		{
 			"delay",
-			duration = 30
+			duration = 20
 		},
 		{
 			"event_horde",
@@ -16253,7 +16408,7 @@ end
 		{
 			"spawn_special",
 			breed_name = "skaven_ratling_gunner",
-			amount = 4,
+			amount = 8,
 		},
 		{
 			"event_horde",
@@ -16274,7 +16429,7 @@ end
 		{
 			"spawn_special",
 			breed_name = "skaven_gutter_runner",
-			amount = 2,
+			amount = 3,
 		},
 		{
 			"event_horde",
@@ -16285,6 +16440,11 @@ end
 		{
 			"delay",
 			duration = 10
+		},
+		{
+			"spawn_special",
+			breed_name = "skaven_pack_master",
+			amount = 3,
 		},
 		{
 			"event_horde",
@@ -16327,7 +16487,7 @@ end
 		{
 			"spawn_special",
 			breed_name = "skaven_ratling_gunner",
-			amount = 1,
+			amount = 3,
 		},
 		{
 			"delay",
@@ -16386,7 +16546,7 @@ end
 			"event_horde",
 			limit_spawners = 4,
 			spawner_id = "magnus_tower_horn",
-			composition_type = "event_extra_spice_large"
+			composition_type = "apocalypse_wave"
 		},
 		{
 			"delay",

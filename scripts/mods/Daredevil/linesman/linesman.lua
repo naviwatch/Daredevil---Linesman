@@ -240,7 +240,7 @@ end
 
 	--Non-event settings and compositions
 	RecycleSettings = {
-		ai_stuck_check_start_time = 5,
+		ai_stuck_check_start_time = 10,
 		destroy_los_distance_squared = 8100,
 		destroy_no_path_found_time = 5,
 		destroy_no_path_only_behind = true,
@@ -748,11 +748,7 @@ end
 
 	mod:dofile("scripts/mods/Daredevil/linesman/mutator/linesman_skaven_horde")
 	mod:dofile("scripts/mods/Daredevil/linesman/mutator/linesman_chaos_horde")
-	if lb then
-		mod:dofile("scripts/mods/Daredevil/linesman/mutator/lb_specific/linesman_specials")
-	else
-		mod:dofile("scripts/mods/Daredevil/linesman/mutator/linesman_specials")
-	end
+	mod:dofile("scripts/mods/Daredevil/linesman/mutator/linesman_specials")
 	mod:dofile("scripts/mods/Daredevil/linesman/mutator/linesman_triggers")
 	mod:dofile("scripts/mods/Daredevil/linesman/mutator/linesman_event_comp")
 
@@ -815,11 +811,7 @@ end
 	}
 
 	-- Custom waves
-	if lb then
-		mod:dofile("scripts/mods/Daredevil/linesman/mutator/lb_specific/custom_waves")
-	else
-		mod:dofile("scripts/mods/Daredevil/linesman/mutator/custom_waves")
-	end
+	mod:dofile("scripts/mods/Daredevil/linesman/mutator/custom_waves")
 	-- Events
 	mod:dofile("scripts/mods/Daredevil/linesman/events/all_events")
 	-- Mission of Mercy
@@ -857,8 +849,8 @@ end
 	end
 
 	-- Seeded shit directly ripped from janoti
-	if not lb then
-		mod:dofile("scripts/mods/Daredevil/linesman/functions/seeded")
+	if not lb and mod.difficulty_level ~= 4 then
+	--	mod:dofile("scripts/mods/Daredevil/linesman/functions/seeded")
 	end
 
 	-- Linesman specific events

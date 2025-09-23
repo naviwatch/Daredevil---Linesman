@@ -211,7 +211,7 @@ local same_breed_chance = 0.3              -- Chance for same-breed slots to spa
 local stagger_time = 5                     -- Stagger time between same-breed spawns (seconds)
 
 -- Horde-spawning specials
-local horde_spawn_specials = 0.15           -- Probability of a slot being turned into a "horde special", ie spawned using horde mechanics
+local horde_spawn_specials = 0           -- Probability of a slot being turned into a "horde special", ie spawned using horde mechanics
 
 local spawn_custom_horde = function(slot)
     local num_to_spawn = math.random(1, 1) -- Customizable number for the future 

@@ -261,8 +261,21 @@ PacingSettings.beastmen.mini_patrol.frequency = { 8, 10 }
 
 PacingSettings.beastmen.difficulty_overrides = nil
 PacingSettings.beastmen.delay_specials_threat_value = nil
-PacingSettings.beastmen.delay_horde_threat_value.cataclysm_2 = tt
-PacingSettings.beastmen.delay_horde_threat_value.cataclysm_3 = tt
+
+	-- THREAT SETTINGS
+	PacingSettings.beastmen.delay_horde_threat_value = {
+		cataclysm = 85, -- 80
+		cataclysm_2 = 85, -- 100
+		cataclysm_3 = 85, -- 100
+		easy = 40,
+		hard = 50,
+		harder = 60,
+		hardest = 60,
+		normal = 40,
+		versus_base = 60,
+	}
+	PacingSettings.chaos.delay_horde_threat_value = PacingSettings.beastmen.delay_horde_threat_value
+	PacingSettings.default.delay_horde_threat_value = PacingSettings.beastmen.delay_horde_threat_value
 
 -- INTENSITY
 IntensitySettings.default.intensity_added_per_percent_damage_taken = 0
