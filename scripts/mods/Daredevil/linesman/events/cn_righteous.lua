@@ -589,7 +589,7 @@ HordeCompositions.ons_bile_troll = {
 			"event_horde",
 			limit_spawners = 2,
 			spawner_id = "onslaught_courtyard_roof_left",
-			composition_type = "onslaught_custom_specials_heavy_disabler"
+			composition_type = "onslaught_custom_specials_heavy_denial"
 		},
 		{
 			"delay",
@@ -614,7 +614,7 @@ HordeCompositions.ons_bile_troll = {
 			"event_horde",
 			limit_spawners = 2,
 			spawner_id = "onslaught_courtyard_roof_right",
-			composition_type = "onslaught_custom_specials_heavy_disabler"
+			composition_type = "onslaught_custom_specials_heavy_denial"
 		},
 		{
 			"delay",

@@ -4,7 +4,7 @@ local function count_event_breed(breed_name)
 	return Managers.state.conflict:count_units_by_breed_during_event(breed_name)
 end
 
-local function num_spawned_enemies()
+local function spawned_during_event()
 	local spawned_enemies = Managers.state.conflict:spawned_enemies()
 
 	return #spawned_enemies
@@ -162,7 +162,7 @@ TerrorEventBlueprints.dlc_wizards_trail.trail_mid_event_01 = {
 		"continue_when",
 		duration = 45,
 		condition = function (t)
-			return num_spawned_enemies() < 15
+			return spawned_during_event() < 15
 		end
 	},
 	{
@@ -300,7 +300,7 @@ TerrorEventBlueprints.dlc_wizards_trail.trail_mid_event_01 = {
 		"continue_when",
 		duration = 40,
 		condition = function (t)
-			return num_spawned_enemies() < 8
+			return spawned_during_event() < 8
 		end
 	},
 	{
@@ -406,7 +406,7 @@ TerrorEventBlueprints.dlc_wizards_trail.trail_mid_event_01 = {
 			"continue_when",
 			duration = 35,
 			condition = function (t)
-				return num_spawned_enemies() < 20
+				return spawned_during_event() < 20
 			end
 		},
 		{
@@ -423,7 +423,7 @@ TerrorEventBlueprints.dlc_wizards_trail.trail_mid_event_01 = {
 			"continue_when",
 			duration = 30,
 			condition = function (t)
-				return num_spawned_enemies() < 21
+				return spawned_during_event() < 21
 			end
 		},
 		{
@@ -489,7 +489,7 @@ TerrorEventBlueprints.dlc_wizards_trail.trail_mid_event_01 = {
 		{
 			"continue_when",
 			condition = function (t)
-				return num_spawned_enemies() < 1
+				return spawned_during_event() < 1
 			end
 		},
 		{
@@ -540,7 +540,7 @@ TerrorEventBlueprints.dlc_wizards_trail.trail_mid_event_01 = {
 			"continue_when",
 			duration = 30,
 			condition = function (t)
-				return num_spawned_enemies() < 12
+				return spawned_during_event() < 12
 			end
 		},
 		{
@@ -640,7 +640,7 @@ TerrorEventBlueprints.dlc_wizards_trail.trail_mid_event_01 = {
 			"continue_when",
 			duration = 30,
 			condition = function (t)
-				return num_spawned_enemies() < 18
+				return spawned_during_event() < 18
 			end
 		},
 		{
@@ -680,7 +680,7 @@ TerrorEventBlueprints.dlc_wizards_trail.trail_mid_event_01 = {
 			"continue_when",
 			duration = 30,
 			condition = function (t)
-				return num_spawned_enemies() < 18
+				return spawned_during_event() < 18
 			end
 		},
 		{
@@ -717,7 +717,7 @@ TerrorEventBlueprints.dlc_wizards_trail.trail_mid_event_01 = {
 			"continue_when",
 			duration = 30,
 			condition = function (t)
-				return num_spawned_enemies() < 18 and count_event_breed("chaos_warrior") < 3
+				return spawned_during_event() < 18 and count_event_breed("chaos_warrior") < 3
 			end
 		},
 		{
@@ -733,7 +733,7 @@ TerrorEventBlueprints.dlc_wizards_trail.trail_mid_event_01 = {
 			"continue_when",
 			duration = 30,
 			condition = function (t)
-				return num_spawned_enemies() < 30 and count_event_breed("chaos_warrior") < 2
+				return spawned_during_event() < 30 and count_event_breed("chaos_warrior") < 2
 			end
 		},
 		{
@@ -749,7 +749,7 @@ TerrorEventBlueprints.dlc_wizards_trail.trail_mid_event_01 = {
 			"continue_when",
 			duration = 30,
 			condition = function (t)
-				return num_spawned_enemies() < 30 and count_event_breed("chaos_warrior") < 2
+				return spawned_during_event() < 30 and count_event_breed("chaos_warrior") < 2
 			end
 		},
 		{
@@ -765,7 +765,7 @@ TerrorEventBlueprints.dlc_wizards_trail.trail_mid_event_01 = {
 			"continue_when",
 			duration = 30,
 			condition = function (t)
-				return num_spawned_enemies() < 30 and count_event_breed("chaos_warrior") < 2
+				return spawned_during_event() < 30 and count_event_breed("chaos_warrior") < 2
 			end
 		},
 		{
@@ -781,7 +781,7 @@ TerrorEventBlueprints.dlc_wizards_trail.trail_mid_event_01 = {
 			"continue_when",
 			duration = 30,
 			condition = function (t)
-				return num_spawned_enemies() < 30 and count_event_breed("chaos_warrior") < 2
+				return spawned_during_event() < 30 and count_event_breed("chaos_warrior") < 2
 			end
 		},
 		{
@@ -797,7 +797,7 @@ TerrorEventBlueprints.dlc_wizards_trail.trail_mid_event_01 = {
 			"continue_when",
 			duration = 30,
 			condition = function (t)
-				return num_spawned_enemies() < 30 and count_event_breed("chaos_warrior") < 2
+				return spawned_during_event() < 30 and count_event_breed("chaos_warrior") < 2
 			end
 		},
 		{
@@ -813,7 +813,7 @@ TerrorEventBlueprints.dlc_wizards_trail.trail_mid_event_01 = {
 			"continue_when",
 			duration = 30,
 			condition = function (t)
-				return num_spawned_enemies() < 30 and count_event_breed("chaos_warrior") < 2
+				return spawned_during_event() < 30 and count_event_breed("chaos_warrior") < 2
 			end
 		},
 		{
@@ -829,7 +829,7 @@ TerrorEventBlueprints.dlc_wizards_trail.trail_mid_event_01 = {
 			"continue_when",
 			duration = 30,
 			condition = function (t)
-				return num_spawned_enemies() < 30 and count_event_breed("chaos_warrior") < 2
+				return spawned_during_event() < 30 and count_event_breed("chaos_warrior") < 2
 			end
 		},
 		{
@@ -845,7 +845,7 @@ TerrorEventBlueprints.dlc_wizards_trail.trail_mid_event_01 = {
 			"continue_when",
 			duration = 30,
 			condition = function (t)
-				return num_spawned_enemies() < 30 and count_event_breed("chaos_warrior") < 2
+				return spawned_during_event() < 30 and count_event_breed("chaos_warrior") < 2
 			end
 		},
 		{
@@ -861,7 +861,7 @@ TerrorEventBlueprints.dlc_wizards_trail.trail_mid_event_01 = {
 			"continue_when",
 			duration = 30,
 			condition = function (t)
-				return num_spawned_enemies() < 30 and count_event_breed("chaos_warrior") < 2
+				return spawned_during_event() < 30 and count_event_breed("chaos_warrior") < 2
 			end
 		},
 		{

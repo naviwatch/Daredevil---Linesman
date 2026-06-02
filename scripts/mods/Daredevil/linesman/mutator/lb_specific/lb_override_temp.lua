@@ -236,4 +236,110 @@ PacingSettings.chaos.mini_patrol.frequency = { 20, 30 }
 PacingSettings.beastmen.mini_patrol.frequency = { 20, 30 }
 ----------------
 ----------------
-----
+-- PACING
+PacingSettings.default.peak_fade_threshold = 110
+PacingSettings.default.peak_intensity_threshold = 120
+PacingSettings.default.sustain_peak_duration = { 5, 10 }
+PacingSettings.default.relax_duration = { 10, 13 }
+PacingSettings.default.horde_frequency = { 30, 45 }
+PacingSettings.default.multiple_horde_frequency = { 7, 9 }
+PacingSettings.default.max_delay_until_next_horde = { 70, 75 }
+PacingSettings.default.horde_startup_time = { 12, 20 }
+PacingSettings.default.multiple_hordes = 3   -- Came from Dense
+
+PacingSettings.default.mini_patrol.only_spawn_above_intensity = 0
+PacingSettings.default.mini_patrol.only_spawn_below_intensity = 900
+PacingSettings.default.mini_patrol.frequency = { 9, 10 }
+
+PacingSettings.default.difficulty_overrides = nil
+PacingSettings.default.delay_specials_threat_value = nil
+
+PacingSettings.chaos.peak_fade_threshold = 110
+PacingSettings.chaos.peak_intensity_threshold = 120
+PacingSettings.chaos.sustain_peak_duration = { 5, 10 }
+PacingSettings.chaos.relax_duration = { 13, 15 }
+PacingSettings.chaos.horde_frequency = { 30, 45 }           -- Base 30/45
+PacingSettings.chaos.multiple_horde_frequency = { 7, 10 }   -- Base 7/10
+PacingSettings.chaos.max_delay_until_next_horde = { 74, 78 }
+PacingSettings.chaos.horde_startup_time = { 15, 20 }
+PacingSettings.chaos.multiple_hordes = 3
+
+PacingSettings.chaos.mini_patrol.only_spawn_above_intensity = 0
+PacingSettings.chaos.mini_patrol.only_spawn_below_intensity = 900
+PacingSettings.chaos.mini_patrol.frequency = { 9, 10 }
+
+PacingSettings.chaos.difficulty_overrides = nil
+PacingSettings.chaos.delay_specials_threat_value = nil
+
+PacingSettings.beastmen.peak_fade_threshold = 110   -- I'm not touching beastmen they suck
+PacingSettings.beastmen.peak_intensity_threshold = 120
+PacingSettings.beastmen.sustain_peak_duration = { 5, 10 }
+PacingSettings.beastmen.relax_duration = { 10, 13 }
+PacingSettings.beastmen.horde_frequency = { 35, 50 }
+PacingSettings.beastmen.multiple_horde_frequency = { 6, 9 }
+PacingSettings.beastmen.max_delay_until_next_horde = { 75, 95 }
+PacingSettings.beastmen.horde_startup_time = { 10, 20 }
+
+PacingSettings.beastmen.mini_patrol.only_spawn_above_intensity = 0
+PacingSettings.beastmen.mini_patrol.only_spawn_below_intensity = 900
+PacingSettings.beastmen.mini_patrol.frequency = { 8, 10 }
+
+PacingSettings.beastmen.difficulty_overrides = nil
+PacingSettings.beastmen.delay_specials_threat_value = nil
+
+	-- THREAT SETTINGS
+	PacingSettings.beastmen.delay_horde_threat_value = {
+		cataclysm = 85, -- 80
+		cataclysm_2 = 85, -- 100
+		cataclysm_3 = 85, -- 100
+		easy = 40,
+		hard = 50,
+		harder = 60,
+		hardest = 60,
+		normal = 40,
+		versus_base = 60,
+	}
+	PacingSettings.chaos.delay_horde_threat_value = PacingSettings.beastmen.delay_horde_threat_value
+	PacingSettings.default.delay_horde_threat_value = PacingSettings.beastmen.delay_horde_threat_value
+
+-- HORDE SETTINGS
+HordeSettings.default.chance_of_vector = 0.7
+HordeSettings.default.chance_of_vector_blob = 0.65
+--	HordeSettings.default.difficulty_overrides.cataclysm.ambush_composition = "medium"
+--	HordeSettings.default.difficulty_overrides.cataclysm_2.ambush_composition = "medium"
+--	HordeSettings.default.difficulty_overrides.cataclysm_3.ambush_composition = "medium"
+
+HordeSettings.chaos.chance_of_vector = 0.8
+HordeSettings.chaos.chance_of_vector_blob = 0.5
+
+HordeSettingsBasics = {
+    ambush = {
+        max_spawners = math.huge,
+        max_size,
+        max_hidden_spawner_dist = 40,
+        max_horde_spawner_dist = 35,
+        min_hidden_spawner_dist = 5,
+        min_horde_spawner_dist = 1,
+        min_spawners = math.huge,
+        start_delay = 3.45,
+    },
+    vector = {
+        max_size,
+        main_path_chance_spawning_ahead = 0.67,
+        main_path_dist_from_players = 30,
+        max_hidden_spawner_dist = 30,
+        max_horde_spawner_dist = 20,
+        max_spawners = 10,
+        min_hidden_spawner_dist = 0,
+        min_horde_spawner_dist = 0,
+        raw_dist_from_players = 13,
+        start_delay = 4,
+    },
+    vector_blob = {
+        max_size,
+        main_path_chance_spawning_ahead = 0.67,
+        main_path_dist_from_players = 60,
+        raw_dist_from_players = 13,
+        start_delay = 1,
+    },
+}

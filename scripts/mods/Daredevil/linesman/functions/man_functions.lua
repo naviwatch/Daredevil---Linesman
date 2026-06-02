@@ -311,54 +311,7 @@ mod:hook_origin(HordeSpawner, "compose_blob_horde_spawn_list", function(self, co
         local valid_difficulty = man
         local horde_limit = num_paced_hordes <= 6
 
-        if mutator_plus.active then
-            if valid_difficulty and horde_limit and not mod:get("testers") then -- If its the first two hordes, lower difficulty by spawning less
-                for j = start, start + num_to_spawn - 3 do
-                    spawn_list[j] = breed_name
-                end
-            else
-                if mod:get("debug") then
-                    mod:chat_broadcast("LOW Intensity HORDE NUMBERS")
-                end
-                for j = start, start + num_to_spawn - 1 do
-                    spawn_list[j] = breed_name
-                end
-            end
-        else
-            for j = start, start + num_to_spawn - 1 do
-                spawn_list[j] = breed_name
-            end
-        end
-    end
-
-    table.shuffle(spawn_list)
-    return spawn_list, #spawn_list
-end)
-
-mod:hook_origin(HordeSpawner, "compose_blob_horde_spawn_list", function(self, composition_type)
-    --mod:echo("Blob Horde Spawning")
-    local composition = CurrentHordeSettings.compositions_pacing[composition_type]
-    local index = LoadedDice.roll_easy(composition.loaded_probs)
-    local variant = composition[index]
-    local i = 1
-    local spawn_list = spawn_list_a
-
-    table.clear_array(spawn_list_a, #spawn_list_a)
-
-    local breeds = variant.breeds
-
-    for i = 1, #breeds, 2 do
-        local breed_name = breeds[i]
-        local amount = breeds[i + 1]
-        local num_to_spawn = ConflictUtils.random_interval(amount)
-        local start = #spawn_list + 1
-        local total_intensity = Managers.state.conflict.pacing:get_pacing_intensity()
-        local horde_spawner = Managers.state.conflict.horde_spawner
-        local num_paced_hordes = horde_spawner.num_paced_hordes
-        local valid_difficulty = man
-        local horde_limit = num_paced_hordes <= 6
-
-        if mutator_plus.active then
+        if mutator_plus.active and not lb then
             if valid_difficulty and horde_limit and not mod:get("testers") then -- If its the first two hordes, lower difficulty by spawning less
                 for j = start, start + num_to_spawn - 3 do
                     spawn_list[j] = breed_name
@@ -568,3 +521,301 @@ mod:hook_origin(ConflictDirector, "_spawn_unit", function(self, breed, spawn_pos
 
 	return ai_unit, go_id
 end)
+
+
+-- Ambience hooks
+if lb or mod:get("ubercharge") then
+	local function array_copy(source, dest, size)
+		for i = 1, size do
+			dest[i] = source[i]
+		end
+	end
+
+	local function array_remove_element(array, index, size)
+		local element = array[index]
+
+		array[index] = array[size]
+		array[size] = nil
+
+		return element
+	end
+
+	local work_list = {}
+	local lookup = {}
+
+	mod:hook_origin(SpawnZoneBaker, "generate_spawns", function(self, spawn_cycle_length, goal_density, area_density_coefficient, length_density_coefficient, conflict_director_name, mutator_list)
+		if not InterestPointUnitsLookup then
+			ConflictUtils.generate_spawn_point_lookup(self.world)
+		end
+
+		if not self.spawn_zones_available then
+			print("No spawn zones where found, can't generate spawns")
+		end
+
+		self._all_hi_data = {}
+		self._count_up = 0
+
+		local difficulty, difficulty_tweak = Managers.state.difficulty:get_difficulty()
+
+		self.composition_difficulty = DifficultyTweak.converters.composition(difficulty, difficulty_tweak)
+
+		local zones = self.zones
+		local num_main_zones = self.num_main_zones
+		local zone_convert = self.zone_convert
+
+		conflict_director_name = conflict_director_name or "default"
+
+		local conflict_director = ConflictDirectors[conflict_director_name]
+		local seed = self._initial_seed
+		local great_cycles = MainPathSpawningGenerator.generate_great_cycles(conflict_director, mutator_list, zones, zone_convert, num_main_zones, spawn_cycle_length, seed)
+		local spawns, pack_sizes, pack_rotations, pack_members, zone_data_list = {}, {}, {}, {}, {}
+		local distribution = "random" -- PackSpawningDistribution.standard.distribution_method -- set to periodical at base
+		local dist_data = PackDistributions[distribution]
+		local num_great_cycles = #great_cycles
+
+		for i = 1, num_great_cycles do
+			local cycle = great_cycles[i]
+			local cycle_zones = cycle.zones
+			local num_cycle_zones = #cycle_zones
+			local sum_density, num_hi = 0, 0
+			local zone
+
+			if distribution == "random" then
+				for j = 1, num_cycle_zones do
+					zone = cycle_zones[j]
+
+					local density = PackDistributions.linesman.min_density + self:_random() * (PackDistributions.linesman.max_density - PackDistributions.linesman.min_density) -- self:_random() / min + self:random() * (max - min)
+
+					zone.density = density
+					sum_density = sum_density + density
+				end
+			elseif distribution == "periodical" then
+				local len, density, period_end
+				local hi = self:_random() > 0.5
+
+				len, density, hi = self:periodical(hi, dist_data)
+				zone = cycle_zones[1]
+				zone.period_length = len
+				zone.hi = hi
+
+				local hi_data = self:create_hi_data(zone, zone.pack_type)
+
+				period_end = len
+				num_hi = hi and 1 or 0
+
+				local period_counter, second_part
+
+				for j = 1, num_cycle_zones do
+					zone = cycle_zones[j]
+					zone.hi_data = hi_data
+
+					if period_end < j then
+						len, density, hi = self:periodical(hi, dist_data)
+						second_part = false
+						period_end = j + len - 1
+
+						if num_cycle_zones < period_end then
+							len = num_cycle_zones - j
+							period_end = num_cycle_zones
+						end
+
+						zone.period_length = len
+						zone.hi_data = hi_data
+						zone.hi = hi
+						hi_data = self:create_hi_data(zone, zone.pack_type)
+						num_hi = num_hi + (hi and 1 or 0)
+					elseif dist_data.random_distribution then
+						if hi then
+							density = dist_data.min_hi_density + self:_random() * (dist_data.max_hi_density - dist_data.min_hi_density)
+						else
+							density = dist_data.min_low_density + self:_random() * (dist_data.max_low_density - dist_data.min_low_density)
+						end
+					elseif period_counter == dist_data.zero_clamp_max_dist and not hi then
+						second_part = true
+						density = dist_data.min_low_density + self:_random() * (dist_data.max_low_density - dist_data.min_low_density)
+					end
+
+					period_counter = zone.period_length and 1 or period_counter + 1
+
+					if density < dist_data.zero_density_below and not second_part then
+						density = 0
+					end
+
+					zone.density = density
+					zone.hi = hi
+					sum_density = sum_density + density
+				end
+			end
+
+			local average_goal_density, pack_spawning_setting, goal_density = 0
+
+			for j = 1, num_cycle_zones do
+				local cycle_zone = cycle_zones[j]
+
+				if pack_spawning_setting ~= cycle_zone.pack_spawning_setting then
+					goal_density = PackDistributions.linesman.goal_density -- 0.45
+				end
+
+				average_goal_density = average_goal_density + goal_density
+			end
+
+			if sum_density > 0 then
+				local normalizer = average_goal_density / sum_density
+				local remainder = 0
+
+				print("-------------> JOW Perfect-density", average_goal_density, "Sum density", sum_density, "Normalized coefficient:", normalizer)
+
+				if mod:get("debug") then
+					mod:echo("JOW Perfect-density: " .. average_goal_density .. " Sum density: " .. sum_density .. " Normalized coefficient: " .. normalizer)
+				end
+
+				for j = 1, num_cycle_zones do
+					local cycle_zone = cycle_zones[j]
+
+					cycle_zone.density = cycle_zone.density * normalizer
+
+					if remainder > 0 then
+						cycle_zone.density = cycle_zone.density + remainder
+						remainder = 0
+					end
+
+					if cycle_zone.density > 1 then
+						remainder = remainder + cycle_zone.density - 1
+						cycle_zone.density = 1
+					end
+				end
+
+				if distribution == "periodical" then
+				--	self:inject_special_packs(num_hi, cycle_zones)
+				end
+
+				local kept = 1
+
+				for j = 1, num_cycle_zones do
+					local center_zone = cycle_zones[j]
+					local center_density = center_zone.density
+					local outer = center_zone.outer
+					local density = center_density
+
+					for k = 1, #outer do
+						local cycle_zone = outer[k]
+
+						density = math.clamp(density * kept + (1 - kept) * (2 * self:_random() - 1), 0, 1)
+						cycle_zone.density = density
+						cycle_zone.hi_data = center_zone.hi_data
+						cycle_zone.hi = center_zone.hi
+					end
+				end
+
+				self:populate_spawns_by_rats(pack_spawning_setting, spawns, pack_sizes, pack_rotations, pack_members, zone_data_list, cycle_zones, pack_spawning_setting, length_density_coefficient, nil, true, nil)
+
+				for j = 1, num_cycle_zones do
+					local center_zone = cycle_zones[j]
+					local outer_zones = center_zone.outer
+					local pack_spawning_setting = center_zone.pack_spawning_setting
+					local num_zones_to_clamp = pack_spawning_setting.basics.clamp_outer_zones_used
+
+					if num_zones_to_clamp then
+						local num_zones = #outer_zones
+						local num_to_remove = num_zones - num_zones_to_clamp
+
+						if num_to_remove > 0 then
+							array_copy(outer_zones, work_list, num_zones)
+
+							local work_list_size = #outer_zones
+
+							for k = 1, num_to_remove do
+								array_remove_element(work_list, self:_random(1, work_list_size), work_list_size)
+
+								work_list_size = work_list_size - 1
+							end
+
+							outer_zones = work_list
+						end
+					end
+					
+					self:populate_spawns_by_rats(pack_spawning_setting, spawns, pack_sizes, pack_rotations, pack_members, zone_data_list, outer_zones, area_density_coefficient, 0, center_zone.pack_type, nil, center_zone)
+				end
+			else
+				print(sprintf("Spawn density in great_cycle %d is 0, num cycle zones: %d ", i, num_cycle_zones))
+			end
+		end
+
+		local island_zones = {}
+
+		for i = num_main_zones + 1, #zones do
+			local zone = zones[i]
+			local parent_zone_index = zone.parent_zone_id
+
+			if not parent_zone_index then
+				print("Missing parent zone id for island-zone", i)
+				table.dump(zone, "ISLAND ZONE", 2)
+			end
+
+			local parent_zone = parent_zone_index and self.level_analyzer:get_zone_from_unique_id(zone_convert, parent_zone_index)
+
+			if parent_zone then
+				local conflict_setting = parent_zone.conflict_setting
+				local pack_spawning_setting = parent_zone.pack_spawning_setting
+				local pack_type = parent_zone.pack_type
+				local area_density_coefficient = pack_spawning_setting.area_density_coefficient
+				local ok_to_spawn = not zone.on_roof or BreedPacks[pack_type].roof_spawning_allowed
+
+				if ok_to_spawn then
+					local sub_zones = zone.sub
+					local sub_areas = zone.sub_areas
+
+					for j = 1, #sub_zones do
+						local nodes = sub_zones[j]
+						local area = sub_areas[j]
+						local density = self:_random()
+						local num_wanted_rats = math.floor(area * density * area_density_coefficient)
+						local island_zone = {
+							total_area = 0,
+							nodes = nodes,
+							area = area,
+							outer = {},
+							pack_type = pack_type,
+							pack_spawning_setting = pack_spawning_setting,
+							conflict_setting = conflict_setting,
+							unique_zone_id = zone.unique_zone_id,
+						}
+
+						island_zone.period_length = 1
+						island_zone.hi = false
+						island_zone.island = true
+						island_zone.density = density
+						island_zone.parent_zone = parent_zone
+
+						self:create_hi_data(island_zone, pack_type)
+
+						island_zones[#island_zones + 1] = island_zone
+						island_zone.unique_zone_id = #island_zones
+
+						local child_islands = parent_zone.islands
+
+						if not child_islands then
+							child_islands = {}
+							parent_zone.islands = child_islands
+						end
+
+						child_islands[#child_islands + 1] = island_zone.unique_zone_id
+
+						if num_wanted_rats > 0 then
+							self:spawn_amount_rats(spawns, pack_sizes, pack_rotations, pack_members, zone_data_list, nodes, num_wanted_rats, pack_type, area, island_zone)
+						end
+					end
+				end
+			end
+		end
+
+		fassert(#spawns == #pack_sizes, "Mismatching sizes!")
+
+		self.great_cycles = great_cycles
+		self.island_zones = island_zones
+
+		table.clear(lookup)
+
+		return spawns, pack_sizes, pack_rotations, pack_members, zone_data_list
+	end)
+end

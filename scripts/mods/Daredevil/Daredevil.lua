@@ -4,6 +4,7 @@ local mutator_plus = mod:persistent_table("Daredevil+")
 local lb = get_mod("LinesmanBalance")
 local language_id = Managers.localizer:language_id()
 local is_chinese = language_id == "zh"
+local btmp = mod:get("btmp")
 
 --[[
 	Functions
@@ -586,6 +587,8 @@ mod:hook(StateIngame, "on_enter", function (func, self)
 
 			local behindhut = World.spawn_unit(self.world, "units/hub_elements/empty", Vector3(21.3014, 138.127, 32.8669), Quaternion.identity())
 			setup_custom_horde_spawner(behindhut, "behindhut", true)
+		elseif level_key == "dlc_reikwald_river" then
+			setup_custom_raw_spawner(self.world, "right_ship_ambush_corner", Vector3(-360.795, 47.7065, 3.87094), Quaternion.from_elements(0, 0, 0.862179, -0.506603))
 		end
 
 		local entity_manager = Managers.state.entity
@@ -838,6 +841,21 @@ mod:hook(BTGreySeerGroundCombatAction, "update_regular_spells", function (func, 
 	return ready_to_summon
 end)
 
+-- Mid-game mini bosses
+local skittergate_minis = function()
+	local choice = math.random(4)
+
+	if choice == 1 then
+		Managers.state.conflict:start_terror_event("rat_ogre_special")
+	elseif choice == 2 then
+		Managers.state.conflict:start_terror_event("chaos_spawn_special")
+	elseif choice == 3 then
+		Managers.state.conflict:start_terror_event("troll_special")
+	elseif choice == 4 then
+		Managers.state.conflict:start_terror_event("mino_special")
+	end
+end
+
 mod:hook(AiBreedSnippets, "on_grey_seer_update", function (func, unit, blackboard, t)
 	local breed = blackboard.breed
 	local mounted_data = blackboard.mounted_data
@@ -883,6 +901,7 @@ mod:hook(AiBreedSnippets, "on_grey_seer_update", function (func, unit, blackboar
 			local event_data = FrameTable.alloc_table()
 
 			dialogue_input:trigger_networked_dialogue_event("egs_stormfiend_dead", event_data)
+			Managers.state.conflict:start_terror_event("ohmygodareyoufr")
 		end
 
 		blackboard.current_phase = 4
@@ -951,13 +970,14 @@ mod:hook(AiBreedSnippets, "on_grey_seer_update", function (func, unit, blackboar
 			timer = timer * 0.5
 		end
 
-		if conflict_director:count_units_by_breed("skaven_slave") < 60 then
+		if conflict_director:count_units_by_breed("skaven_slave") < 35 then
 			local strictly_not_close_to_players = true
 			local silent = true
 			local composition_type = "skittergate_grey_seer_trickle"
 			local limit_spawners, terror_event_id = nil
 
 			conflict_director.horde_spawner:execute_event_horde(t, terror_event_id, composition_type, limit_spawners, silent, nil, strictly_not_close_to_players)
+			Managers.state.conflict:start_terror_event("skittergate_minis")
 
 			blackboard.trickle_timer = t + timer
 		else
@@ -1097,100 +1117,13 @@ mod:network_register("giant_so_false", function (sender, enable)
 	Breeds.skaven_dummy_slave = mod.deepcopy(Breeds.skaven_dummy_slave)
 end)
 
-mod:network_register("breed_loading_in", function (sender, enable)
-	EnemyPackageLoaderSettings.categories = {
-		{
-			id = "bosses",
-			dynamic_loading = false,
-			limit = math.huge,
-			breeds = {
-				"chaos_spawn",
-				"chaos_troll",
-				"skaven_rat_ogre",
-				"skaven_stormfiend",
-				"beastmen_minotaur"
-			}
-		},
-		{
-			id = "specials",
-			dynamic_loading = false,
-			limit = math.huge,
-			breeds = {
-				"chaos_corruptor_sorcerer",
-				"skaven_gutter_runner",
-				"skaven_pack_master",
-				"skaven_poison_wind_globadier",
-				"skaven_ratling_gunner",
-				"skaven_warpfire_thrower",
-				"chaos_vortex_sorcerer",
-				"beastmen_standard_bearer"
-			}
-		},
-		{
-			id = "level_specific",
-			dynamic_loading = true,
-			limit = math.huge,
-			breeds = {
-				"chaos_dummy_sorcerer",
-				"chaos_exalted_champion_warcamp",
-				"chaos_exalted_sorcerer",
-				"skaven_storm_vermin_warlord",
-				"skaven_storm_vermin_champion",
-				"chaos_plague_wave_spawner",
-				"skaven_stormfiend_boss",
-				"skaven_grey_seer"
-			}
-		},
-		{
-			id = "debug",
-			dynamic_loading = true,
-			forbidden_in_build = "release",
-			limit = math.huge,
-			breeds = {
-				"chaos_zombie",
-				"chaos_tentacle",
-				"chaos_tentacle_sorcerer",
-				"skaven_stormfiend_demo"
-			}
-		},
-		{
-			id = "always_loaded",
-			dynamic_loading = false,
-			breeds = {
-				"chaos_vortex",
-				"critter_rat",
-				"critter_pig",
-				"critter_nurgling",
-				"beastmen_gor",
-				"beastmen_bestigor",
-				"beastmen_ungor",
-				"chaos_warrior",
-				"chaos_raider",
-				"skaven_clan_rat",
-				"skaven_clan_rat_with_shield",
-				"skaven_plague_monk",
-				"skaven_slave",
-				"chaos_marauder",
-				"chaos_marauder_with_shield",
-				"chaos_berzerker",
-				"skaven_storm_vermin",
-				"skaven_storm_vermin_with_shield",
-				"chaos_fanatic",
-				"skaven_storm_vermin_warlord",
-				"chaos_exalted_sorcerer_drachenfels",
-				"chaos_exalted_sorcerer",
-				"skaven_storm_vermin_champion",
-				"chaos_bulwark"
-			}
-		}
-	}
-end)
-
 mod:hook_safe("ChatManager", "_add_message_to_list", function (self, channel_id, message_sender, local_player_id, message, is_system_message, pop_chat, is_dev, message_type, link, data)
 	if message == JOIN_MESSAGE and not mutator_plus.active then
-		mod:network_send("rpc_enable_white_sv", "local", true)
-		mod:network_send("bob_name_enable", "local", true)
-		mod:network_send("giant_so_true", "local", true)
+		if not btmp then
+			mod:network_send("rpc_enable_white_sv", "local", true)
+			mod:network_send("bob_name_enable", "local", true)
+			mod:network_send("giant_so_true", "local", true)
+		end
 		mod:network_send("c3dwlines", "local", true)
 --		mod:network_send("breed_loading_in", "local", true)
 --		mod:network_send("linesman_ost", "local", true)
@@ -1199,9 +1132,11 @@ end)
 
 mod.on_user_joined = function (player)
 	if mutator_plus.active then
-		mod:network_send("rpc_enable_white_sv", "others", true)
-		mod:network_send("bob_name_enable", "others", true)
-		mod:network_send("giant_so_true", "others", true)
+		if not btmp then
+			mod:network_send("rpc_enable_white_sv", "others", true)
+			mod:network_send("bob_name_enable", "others", true)
+			mod:network_send("giant_so_true", "others", true)
+		end
 		mod:network_send("c3dwlines", "others", true)
 --		mod:network_send("breed_loading_in", "others", true)
 --		mod:network_send("linesman_ost", "others", true)
@@ -1232,10 +1167,12 @@ mutator_plus.stop = function()
     ExplosionTemplates.standard_bearer_explosion.explosion.player_push_speed = 10
 
 	-- Only send rpc if host disables mutator
-	mod:network_send("rpc_disable_white_sv", "all", true)
-	mod:network_send("bob_name_disable", "all", true)
-	mod:network_send("c3dwlines", "others", false)
-	mod:network_send("giant_so_false", "all", true)
+	if not btmp then
+		mod:network_send("rpc_disable_white_sv", "all", true)
+		mod:network_send("c3dwlines", "others", false)
+		mod:network_send("bob_name_disable", "all", true)
+		mod:network_send("giant_so_false", "all", true)
+	end
 
 
 	---------------------
@@ -1259,7 +1196,7 @@ mutator_plus.toggle = function()
 	if mod:get("giga_specials") then
 		mod:chat_broadcast("are you ok???")
 	end
-	if mod:get("lonk") then
+	if mod:get("ubercharge") then
 		mod:chat_broadcast("die")
 	end
 	if not mutator_plus.active then
@@ -1280,10 +1217,10 @@ mutator_plus.toggle = function()
 		end
 
 		if mod:get("beta") then
-			mod:chat_broadcast("Running Linesman BETA Version 4.3.13")
+			mod:chat_broadcast("Running Linesman BETA Version 4.7.0")
 			mod:chat_broadcast("这是Linesman BETA！")
 		else 
-			mod:chat_broadcast("Version 4.3.13")
+			mod:chat_broadcast("Version 4.7.0")
 		end 
 	else
 		mutator_plus.stop()

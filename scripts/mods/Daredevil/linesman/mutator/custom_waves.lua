@@ -1,5 +1,5 @@
 local mod = get_mod("Daredevil")
-local mutator_plus = mod:persistent_table("Daredevil+")
+local mutator = mod:persistent_table("Daredevil+")
 local lb = get_mod("LinesmanBalance")
 local conflict_director = Managers.state.conflict
 local horde_spawner = Managers.state.conflict.horde_spawner
@@ -7,6 +7,7 @@ local num_paced_hordes = horde_spawner.num_paced_hordes
 local language_id = Managers.localizer:language_id()
 local is_chinese = language_id == "zh"
 local boomer = mod.difficulty_level == 4
+local btmp = mod:get("btmp")
 
 local enhancement_list = {
 	["regenerating"] = true,
@@ -676,6 +677,94 @@ GenericTerrorEvents.bob_the_builder = {
     }
 }
 
+GenericTerrorEvents.rat_ogre_special = {
+    {
+        "spawn_special",
+        breed_name = "skaven_rat_ogre",
+        optional_data = {
+            max_health_modifier = 0.25,
+            target_selection = "least_healthy_player",
+            force_boss_health_ui = true,
+        }
+    }
+}
+
+GenericTerrorEvents.chaos_spawn_special = {
+    {
+        "spawn_special",
+        breed_name = "chaos_spawn",
+        optional_data = {
+            max_health_modifier = 0.25,
+            target_selection = "least_healthy_player",
+            force_boss_health_ui = true,
+        }
+    }
+}
+
+GenericTerrorEvents.troll_special = {
+    {
+        "spawn_special",
+        breed_name = "chaos_troll",
+        optional_data = {
+            max_health_modifier = 0.25,
+            target_selection = "least_healthy_player",
+            force_boss_health_ui = true,
+        }
+    }
+}
+
+GenericTerrorEvents.mino_special = {
+    {
+        "spawn_special",
+        breed_name = "beastmen_minotaur",
+        optional_data = {
+            max_health_modifier = 0.25,
+            target_selection = "least_healthy_player",
+            force_boss_health_ui = true,
+        }
+    }
+}
+
+-- custom events 
+GenericTerrorEvents.ohmygodareyoufr = {
+    {
+        "spawn_special",
+        breed_name = "beastmen_minotaur",
+        optional_data = {
+            max_health_modifier = 0.1,
+            target_selection = "least_healthy_player",
+            force_boss_health_ui = true,
+        }
+    },
+    {
+        "spawn_special",
+        breed_name = "chaos_troll",
+        optional_data = {
+            max_health_modifier = 0.1,
+            target_selection = "least_healthy_player",
+            force_boss_health_ui = true,
+        }
+    },
+    {
+        "spawn_special",
+        breed_name = "chaos_spawn",
+        optional_data = {
+            max_health_modifier = 0.1,
+            target_selection = "least_healthy_player",
+            force_boss_health_ui = true,
+        }
+    },
+    {
+        "spawn_special",
+        breed_name = "skaven_rat_ogre",
+        optional_data = {
+            max_health_modifier = 0.1,
+            target_selection = "least_healthy_player",
+            force_boss_health_ui = true,
+        }
+    }
+}
+
 -- ========================
 -- Wave functions
 -- ========================
@@ -714,16 +803,20 @@ if boomer then
     sa_chances = 0.15
 end
 
+-- Special Waves
 local special_attack = function()
     PRD_special_attack, state = PseudoRandomDistribution.flip_coin(state, sa_chances)
     if PRD_special_attack then
         Managers.state.conflict:start_terror_event("special_coordinated")
 
-        if is_chinese then 
-            mod:chat_broadcast("特感波!")
-        else
-            mod:chat_broadcast("SPECIAL WAVE!")
+        if not btmp then
+            if is_chinese then 
+                mod:chat_broadcast("特感波!")
+            else
+                mod:chat_broadcast("SPECIAL WAVE!")
+            end
         end
+        
         persistent_data.special_attack_wave_cooldown = Managers.state.conflict.horde_spawner.num_paced_hordes
 
         PRD_well_thought_out_waves, wtow = PseudoRandomDistribution.flip_coin(wtow, 0.5)
@@ -788,6 +881,7 @@ local special_attack = function()
     end
 end
 
+-- Banners
 local custom_wave_c3 = function()
     local difficulty_settings = Managers.state.difficulty:get_difficulty_settings()
     local base_difficulty_name = difficulty_settings.display_name
@@ -814,12 +908,15 @@ local custom_wave_c3 = function()
 
         if trash then
             spawn_trash_wave()
-            local random_message = message_table[math.random(#message_table)]
-            mod:chat_broadcast(random_message)
+            if not btmp then
+                local random_message = message_table[math.random(#message_table)]
+                mod:chat_broadcast(random_message)
+            end
         end 
     end
 end
 
+-- Bob the builder
 local mini_boss = function()
     local chances = 0.04
     local english_messages = {
@@ -843,13 +940,59 @@ local mini_boss = function()
     if PRD_mini_boss then
         Managers.state.conflict:start_terror_event("mini_boss_warning")
 
-        local random_message = message_table[math.random(#message_table)]
-        mod:chat_broadcast(random_message)
+        if not btmp then
+            local random_message = message_table[math.random(#message_table)]
+            mod:chat_broadcast(random_message)
+        end
 
         Managers.state.conflict:start_terror_event("bob_the_builder")
         persistent_data.bob_counter = persistent_data.bob_counter + 1
     end
 end
+
+-- Mid-game mini bosses
+local mini_boss_wave = function()
+    local chances = 0.04
+    local english_messages = {
+        "HOW MANY FUCKING BOSSES ARE THERE",
+        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "Be nice to mageck",
+        "monster!!!!",
+    }
+    local chinese_messages = {
+        "空气中震颤着迫近的恐惧感。",
+        "流沙渗入伤口，似要将你彻底撕裂。",
+        "热浪翻涌而至，狂风裹挟着煤灰扑面而来。"
+    }
+
+    local language_id = Managers.localizer:language_id()
+    local is_chinese = language_id == "zh"
+    local message_table = is_chinese and chinese_messages or english_messages
+
+    PRD_mini_boss, pmb = PseudoRandomDistribution.flip_coin(pmb, chances)
+
+    if PRD_mini_boss then
+        Managers.state.conflict:start_terror_event("mini_boss_warning")
+
+        if not btmp then
+            local random_message = message_table[math.random(#message_table)]
+            mod:chat_broadcast(random_message)
+        end
+
+        local choice = math.random(4)
+
+        if choice == 1 then
+            Managers.state.conflict:start_terror_event("rat_ogre_special")
+        elseif choice == 2 then
+            Managers.state.conflict:start_terror_event("chaos_spawn_special")
+        elseif choice == 3 then
+            Managers.state.conflict:start_terror_event("troll_special")
+        elseif choice == 4 then
+            Managers.state.conflict:start_terror_event("mino_special")
+        end
+    end
+end
+
 
 GenericTerrorEvents.boss_check = {
     {
@@ -871,15 +1014,15 @@ mod:hook(HordeSpawner, "horde", function(func, self, horde_type, extra_data, sid
 
     local level_name = Managers.level_transition_handler:get_current_level_key()
 
-    if mutator_plus.active and self.num_paced_hordes then
+    if mutator.active and self.num_paced_hordes then
         if self.num_paced_hordes == 1 then
             persistent_data.bob_counter = 0
             persistent_data.special_attack_wave_cooldown = 0
         end
 
-        if boomer then
+        if boomer or lb then
             Managers.state.conflict:start_terror_event("boss_check")
-        elseif self.num_paced_hordes >= 9 and self.num_paced_hordes >= persistent_data.special_attack_wave_cooldown + 2 then  -- 3rd horde, 2 wave cd
+        elseif self.num_paced_hordes >= 9 and self.num_paced_hordes >= persistent_data.special_attack_wave_cooldown + 1 then  -- 3rd horde, 1 wave cd
             Managers.state.conflict:start_terror_event("boss_check")
         end
 
@@ -915,6 +1058,10 @@ mod:hook(HordeSpawner, "horde", function(func, self, horde_type, extra_data, sid
             end
         else
         --    mod:chat_broadcast("Bob is tired coming after you. Donate Bob coffee.")
+        end
+
+        if (mod:get("midmonster") and self.num_paced_hordes >= 15) or (level_name == "dlc_bastion" and self.num_paced_hordes >= 18) then
+            mini_boss_wave()
         end
 
         local restricted_levels = {

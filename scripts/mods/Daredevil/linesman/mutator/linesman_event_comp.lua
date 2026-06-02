@@ -1047,6 +1047,31 @@ local mod = get_mod("Daredevil")
 			}
 		},
 	}
+	
+	HordeCompositions.onslaught_custom_special_denial_no_vortex = {
+		{
+			name = "gasrat",
+			weight = 10,
+			breeds = {
+				"skaven_poison_wind_globadier",
+				{
+					1,
+					1
+				}
+			}
+		},
+		{
+			name = "gunner",
+			weight = 10,
+			breeds = {
+				"skaven_ratling_gunner",
+				{
+					1,
+					1
+				}
+			}
+		},
+	}
 
 	HordeCompositions.onslaught_custom_specials_heavy_denial = {
 		{
@@ -1112,6 +1137,41 @@ local mod = get_mod("Daredevil")
 				}
 			}
 		},
+	}
+
+	HordeCompositions.onslaught_custom_specials_heavy_denial_no_vortex = {
+		{
+			name = "gasrat",
+			weight = 10,
+			breeds = {
+				"skaven_poison_wind_globadier",
+				{
+					2,
+					2
+				},
+				"skaven_ratling_gunner",
+				{
+					1,
+					1
+				},
+			}
+		},
+		{
+			name = "gunner",
+			weight = 10,
+			breeds = {
+				"skaven_poison_wind_globadier",
+				{
+					1,
+					1
+				},
+				"skaven_ratling_gunner",
+				{
+					2,
+					2
+				},
+			},
+		}
 	}
 
 	HordeCompositions.onslaught_custom_special_disabler = {
@@ -2277,6 +2337,76 @@ HordeCompositions.linesman_mixed_horde = {
 	}
 }
 
+HordeCompositions.linesman_skaven_horde = {
+	{
+		name = "skaven",
+		weight = 10,
+		breeds = {
+			"skaven_clan_rat",
+			{
+				15,
+				18,
+			},
+			"skaven_slave",
+			{
+				20,
+				22,
+			},
+			"skaven_plague_monk",
+			{
+				4,
+				4,
+			},
+			"skaven_storm_vermin_commander",
+			{
+				4,
+				4,
+			},
+		},
+	}
+}
+
+HordeCompositions.linesman_chaos_horde = {
+	{
+		name = "plain",
+		weight = 7,
+		breeds = {
+			"beastmen_bestigor",
+			{
+				2,
+				2
+			},
+			"chaos_raider",
+			{
+				2,
+				2
+			},
+			"chaos_fanatic",
+			{
+				23,
+				24
+			},
+			"chaos_marauder",
+			{
+				15,
+				16
+			},
+			"chaos_marauder_with_shield",
+			{
+				10,
+				12
+			},
+			"chaos_berzerker",
+			{
+				4,
+				4	
+			},
+			"chaos_warrior",
+			1
+		}
+	},
+}
+
 HordeCompositions.apocalypse_wave = {
 	{
         name = "mixed",
@@ -2466,6 +2596,21 @@ HordeCompositions.event_large_beastmen = {
 			{
 				16,
 				17
+			},
+			"skaven_storm_vermin_commander",
+			{
+				2,
+				2
+			},
+			"chaos_raider",
+			{
+				1,
+				1
+			},
+			"beastmen_bestigor",
+			{
+				2,
+				2
 			}
 		}
 	},
@@ -2475,13 +2620,28 @@ HordeCompositions.event_large_beastmen = {
 		breeds = {
 			"beastmen_gor",
 			{
-				22,
-				23
+				18,
+				19
 			},
 			"beastmen_ungor",
 			{
-				14,
-				15
+				16,
+				17
+			},
+			"skaven_storm_vermin_commander",
+			{
+				1,
+				1
+			},
+			"chaos_raider",
+			{
+				2,
+				2
+			},
+			"beastmen_bestigor",
+			{
+				2,
+				2
 			}
 		}
 	}

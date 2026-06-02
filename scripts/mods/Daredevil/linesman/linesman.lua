@@ -252,31 +252,37 @@ end
 
 	-- Ambient density multiplied by 125% instead of 200
 	mod:hook(SpawnZoneBaker, "spawn_amount_rats", function(func, self, spawns, pack_sizes, pack_rotations, pack_members, zone_data_list, nodes, num_wanted_rats, ...)
-		local total_intensity = Managers.state.conflict.pacing:get_pacing_intensity()
-		local level_name = Managers.level_transition_handler:get_current_level_key()
-		local num_wanted_percentage
+		local level_transition = Managers.level_transition_handler
+		local level_name = level_transition:get_current_level_key()
 
-		if mod.difficulty_level == 1 or mod.difficulty_level == 0 then
-			num_wanted_percentage = 1
-		elseif mod.difficulty_level == 4 then
-			num_wanted_percentage = 1.3
-		elseif lb then 
-			num_wanted_percentage = 1.4
-		else
-			num_wanted_percentage = 1.25
+		local difficulty_multipliers = {
+			[0] = 1.0,  -- baby
+			[1] = 1.0,  -- boy
+			[2] = 1.25, 
+			[3] = 1.25, -- man
+			[4] = 1.3   -- boomer
+		}
+
+		local multiplier = difficulty_multipliers[mod.difficulty_level] or 1.25
+		if lb or mod:get("ubercharge") then
+			multiplier = 1.4
 		end
 
-		-- Map overrides
-		if level_name == "dlc_termite_1" then 
-			num_wanted_percentage = 0.65
-		elseif level_name == "dlc_termite_3" then
-			num_wanted_percentage = 2
-		end
+		-- Map-specific overrides
+		local map_multipliers = {
+			dlc_termite_1 = 0.65,
+			dlc_termite_3 = 2.0,
+			dlc_bastion = 0.8,
+			dlc_reikwald_river = 1.0,
+			skittergate = 2,
+		}
+		multiplier = map_multipliers[level_name] or multiplier
 
-		num_wanted_rats = math.round(num_wanted_rats * num_wanted_percentage)
+		-- Apply base multiplier
+		num_wanted_rats = math.round(num_wanted_rats * multiplier)
 
 		if mod:get("lonk") then
-			num_wanted_rats = math.round(num_wanted_rats * 200/100)
+			num_wanted_rats = math.round(num_wanted_rats * 2)
 		end
 
 		return func(self, spawns, pack_sizes, pack_rotations, pack_members, zone_data_list, nodes, num_wanted_rats, ...)
@@ -319,6 +325,10 @@ end
 				skaven_clan_rat_with_shield = "chaos_marauder_with_shield",
 				skaven_slave = "chaos_fanatic"
 			},
+			crater = {
+				beastmen_gor = "chaos_fanatic",
+				beastmen_ungor = "skaven_clan_rat",
+			}
 			--[[
 			mines = {
 				chaos_vortex_sorcerer = { "skaven_gutter_runner", "skaven_poison_wind_globadier", "skaven_pack_master", "chaos_corruptor_sorcerer" }
@@ -357,6 +367,7 @@ end
 	local mean = 1.1
 	local range = 0.01
 
+	-- the only thing relevant here is the linesman distribution, see man_functions.lua for the actual density changes
 	PackDistributions = {
 		periodical = {
 			max_low_density = mean,
@@ -371,7 +382,12 @@ end
 			min_low_dist = 7,
 			zero_clamp_max_dist = 5
 		},
-		random = {}
+		random = {},
+		linesman = {
+			min_density = 0.5,
+			max_density = 0.8,
+			goal_density = 0.6
+		}
 	}
 
 	PackSpawningDistribution = {
@@ -383,7 +399,7 @@ end
 			clamp_outer_zones_used = 1,
 			distribution_method = "periodical",
 			calculate_nearby_islands = false
-		}
+		},
 	}
 
 	-- Dense's breedpacks 
@@ -554,7 +570,7 @@ end
 
 		HordeSettings.default.chance_of_vector = 0.1
 		HordeSettings.default.chance_of_vector_blob = 0.65
-
+		
 		HordeSettings.chaos.chance_of_vector = 0.1
 		HordeSettings.chaos.chance_of_vector_blob = 0.65
 
@@ -830,6 +846,8 @@ end
 	mod:dofile("scripts/mods/Daredevil/linesman/events/the_freaky_temple")
 	-- Well of Dreams
 	mod:dofile("scripts/mods/Daredevil/linesman/events/well_of_dreams")
+	-- Reikland River
+	mod:dofile("scripts/mods/Daredevil/linesman/events/reikwald_river")
 
 	-- Override if Beta
 	if mod:get("beta") then
@@ -849,9 +867,11 @@ end
 	end
 
 	-- Seeded shit directly ripped from janoti
-	if not lb and mod.difficulty_level ~= 4 then
-	--	mod:dofile("scripts/mods/Daredevil/linesman/functions/seeded")
+	--[[
+	if lb then
+		mod:dofile("scripts/mods/Daredevil/linesman/functions/seeded")
 	end
+	]]
 
 	-- Linesman specific events
 	if mod.difficulty_level == 1 then 

@@ -19,28 +19,12 @@ local mod = get_mod("Daredevil")
 
 mod.temp_seed_save = 0
 mod.custom_seed_list = {
-    -- Horn of magnum icecream
-    ["magnus"] = {
-        3060692, -- Map - Chaos Spawn, Rat Ogre
-        3060692, -- items
-    },
-    -- Halescourge
-    ["ground_zero"] = {
-        3501558, -- Map - Troll Roger
-        3501558, -- items
-    },
-    -- hunger in the dork
-    ["mines"] = {
-        3079501, -- Map - Troll
-        3079501, -- items
-    },
-    -- empire in tamales
-    ["ussingen"] = {
-        8785129, -- Map - Troll
-        8785129, -- items
-    },
+    -- engines of bore
+    ["forest_ambush"] = {
+        2598835, -- double chaos spawn
+        2598835 -- item seed
+    }
 }
-
 
 --[[
     

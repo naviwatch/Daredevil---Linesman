@@ -1,6 +1,6 @@
 return {
 	mod_description = {
-		en = "Version 4.3.13",
+		en = "Version 4.7.0",
 	},
 	giga_specials = {
 		en = "Unending Specials"
@@ -86,6 +86,35 @@ return {
 	linesboy = {
 		en = "LinesBOY Onslaught ENABLED.",
 		zh = "L猛(boy)已启动"
-	}
+	},
+	btmp = {
+		en = "BTMP Friendly Options",
+	},
+	btmp_tooltip = {
+		en = "Changes some aspects of Linesman to accomodate for BTMP."
+	},
+	mutators_title = {
+		en = "Mutators",
+		zh = "变异选项"
+	},
+	mutators_tooltip = {
+		en = "Fun modifiers to make the gamer easier/harder",
+		zh = "变异选项是一些特殊的修改器，可以改变游戏的行为。它们可以根据你的游戏风格使游戏变得更容易或更难。"
+	},
+	debug_stuff_title = {
+		en = "DEBUG",
+	},
+	midmonster = {
+		en = "Random Monster Spawns",
+	},
+	midmonster_tooltip = {
+		en = "5%% chance to spawn a 25%% HP monster every wave.",
+	},
+	ubercharge = {
+		en = "Ubercharged Ambience",
+	},
+	ubercharge_tooltip = {
+		en = "Applies LinesmanBalance ambience to your game, increasing ambience spawns SIGNIFICANTLY (i am not responsible for crashes)",
+	},
 }
 

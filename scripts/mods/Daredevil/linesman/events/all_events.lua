@@ -8070,7 +8070,7 @@ end
 		{
 			"event_horde",
 			spawner_id = "fort_horde_gate",
-			composition_type = "event_medium_chaos"
+			composition_type = "event_large_chaos"
 		},
 		{
 			"event_horde",
@@ -8115,17 +8115,24 @@ end
 		{
 			"event_horde",
 			spawner_id = "fort_horde_cannon",
+			composition_type = "event_fort_pestilen"
+		},
+		{
+			"event_horde",
+			spawner_id = "fort_horde_cannon",
+			composition_type = "event_fort_pestilen"
+		},
+		{
+			"event_horde",
+			spawner_id = "fort_horde_cannon",
 			composition_type = "event_extra_spice_medium"
 		},
 		{
 			"spawn_at_raw",
+			amount = 3,
 			spawner_id = "manual_special_spawners",
 			breed_name = {
 				"skaven_poison_wind_globadier",
-				"skaven_pack_master",
-				"skaven_gutter_runner",
-				"skaven_ratling_gunner",
-				"skaven_warpfire_thrower"
 			},
 		},
 		{
@@ -8171,13 +8178,10 @@ end
 		},
 		{
 			"spawn_at_raw",
+			amount = 3,
 			spawner_id = "manual_special_spawners",
 			breed_name = {
 				"skaven_poison_wind_globadier",
-				"skaven_pack_master",
-				"skaven_gutter_runner",
-				"skaven_ratling_gunner",
-				"skaven_warpfire_thrower"
 			},
 		},
 		{
@@ -8223,13 +8227,10 @@ end
 		},
 		{
 			"spawn_at_raw",
+			amount = 3,
 			spawner_id = "manual_special_spawners",
 			breed_name = {
 				"skaven_poison_wind_globadier",
-				"skaven_pack_master",
-				"skaven_gutter_runner",
-				"skaven_ratling_gunner",
-				"skaven_warpfire_thrower"
 			},
 		},
 		{
@@ -8275,13 +8276,10 @@ end
 		},
 		{
 			"spawn_at_raw",
+			amount = 3,
 			spawner_id = "manual_special_spawners",
 			breed_name = {
 				"skaven_poison_wind_globadier",
-				"skaven_pack_master",
-				"skaven_gutter_runner",
-				"skaven_ratling_gunner",
-				"skaven_warpfire_thrower"
 			},
 		},
 		{
@@ -8339,13 +8337,11 @@ end
 		},
 		{
 			"spawn_at_raw",
+			amount = 3,
 			spawner_id = "manual_special_spawners",
 			breed_name = {
-				"chaos_corruptor_sorcerer",
-				"skaven_gutter_runner",
-				"skaven_ratling_gunner",
-				"skaven_warpfire_thrower"
-			}
+				"skaven_poison_wind_globadier",
+			},
 		},
 		{
 			"delay",
@@ -8390,13 +8386,11 @@ end
 		},
 		{
 			"spawn_at_raw",
+			amount = 3,
 			spawner_id = "manual_special_spawners",
 			breed_name = {
-				"chaos_corruptor_sorcerer",
-				"skaven_gutter_runner",
-				"skaven_ratling_gunner",
-				"skaven_warpfire_thrower"
-			}
+				"skaven_poison_wind_globadier",
+			},
 		},
 		{
 			"delay",
@@ -8441,13 +8435,11 @@ end
 		},
 		{
 			"spawn_at_raw",
+			amount = 3,
 			spawner_id = "manual_special_spawners",
 			breed_name = {
-				"chaos_corruptor_sorcerer",
-				"skaven_gutter_runner",
-				"skaven_ratling_gunner",
-				"skaven_warpfire_thrower"
-			}
+				"skaven_poison_wind_globadier",
+			},
 		},
 		{
 			"delay",
@@ -8492,13 +8484,11 @@ end
 		},
 		{
 			"spawn_at_raw",
+			amount = 3,
 			spawner_id = "manual_special_spawners",
 			breed_name = {
-				"chaos_corruptor_sorcerer",
-				"skaven_gutter_runner",
-				"skaven_ratling_gunner",
-				"skaven_warpfire_thrower"
-			}
+				"skaven_poison_wind_globadier",
+			},
 		},
 		{
 			"delay",
@@ -8721,7 +8711,7 @@ end
 		},
 		{
 			"spawn_special",
-			amount = 2,
+			amount = 1,
 			breed_name = "skaven_rat_ogre",
 			optional_data = {
 				max_health_modifier = 0.25
@@ -13369,6 +13359,14 @@ end
 			breed_name = "chaos_exalted_champion_norsca"
 		},
 		{
+			"spawn_at_raw",
+			spawner_id = "skittergate_chaos_boss",
+			breed_name = "chaos_spawn",
+			optional_data = {
+				max_health_modifier = 0.5,
+			}
+		},
+		{
 			"continue_when",
 			condition = function (t)
 				return count_event_breed("chaos_exalted_champion_norsca") == 1
@@ -14262,6 +14260,10 @@ end
 			enable = false
 		},
 		{
+			"control_specials",
+			enable = true
+		},
+		{
 			"event_horde",
 			spawner_id = "sewer_start",
 			composition_type = "event_medium"
@@ -14281,14 +14283,19 @@ end
 			composition_type = "onslaught_plague_monks_medium"
 		},
 		{
-			"event_horde",
-			spawner_id = "sewer_start",
-			composition_type = "onslaught_plague_monks_medium"
+			"spawn_special",
+			amount = 5,
+			breed_name = "skaven_ratling_gunner"
 		},
 		{
 			"event_horde",
 			spawner_id = "sewer_start",
-			composition_type = "onslaught_plague_monks_medium"
+			composition_type = "crackaddicts"
+		},
+		{
+			"event_horde",
+			spawner_id = "sewer_start",
+			composition_type = "crackaddicts"
 		},
 		{
 			"continue_when",
@@ -14316,7 +14323,7 @@ end
 			"event_horde",
 			limit_spawners = 2,
 			spawner_id = "sewer_spice",
-			composition_type = "event_extra_spice_unshielded"
+			composition_type = "apocalypse_wave"
 		},
 		{
 			"event_horde",
@@ -15260,7 +15267,7 @@ end
 			"event_horde",
 			limit_spawners = 2,
 			spawner_id = "temple_event_button4",
-			composition_type = "highasf"
+			composition_type = "crackaddicts"
 		},
 		{
 			"delay",
@@ -16220,6 +16227,11 @@ end
 			flow_event_name = "magnus_horn_crescendo_starting"
 		},
 		{
+			"spawn_special",
+			breed_name = "skaven_poison_wind_globadier",
+			amount = 4,
+		},
+		{
 			"event_horde",
 			limit_spawners = 2,
 			spawner_id = "magnus_tower_horn_first",
@@ -16233,13 +16245,13 @@ end
 			"event_horde",
 			limit_spawners = 2,
 			spawner_id = "magnus_tower_horn",
-			composition_type = "apocalypse_wave"
+			composition_type = "linesman_skaven_horde"
 		},
 		{
 			"event_horde",
 			limit_spawners = 2,
 			spawner_id = "magnus_tower_horn",
-			composition_type = "onslaught_storm_vermin_medium"
+			composition_type = "linesman_skaven_horde"
 		},
 		{
 			"event_horde",
@@ -16266,7 +16278,13 @@ end
 			"event_horde",
 			limit_spawners = 4,
 			spawner_id = "magnus_tower_horn",
-			composition_type = "apocalypse_wave"
+			composition_type = "linesman_skaven_horde"
+		},
+		{
+			"event_horde",
+			limit_spawners = 2,
+			spawner_id = "magnus_tower_horn",
+			composition_type = "linesman_skaven_horde"
 		},
 		{
 			"disable_kick"
@@ -16279,8 +16297,8 @@ end
 			"spawn_special",
 			breed_name = "skaven_dummy_clan_rat",
 			amount = {
-				4,
-				4
+				8,
+				8
 			},
 		},
 		{
@@ -16309,7 +16327,7 @@ end
 			"continue_when",
 			duration = 60,
 			condition = function (t)
-				return (count_event_breed("skaven_clan_rat") + count_event_breed("skaven_clan_rat_with_shield")) < 18 and count_event_breed("skaven_slave") < 25 and count_event_breed("skaven_storm_vermin_commander") < 6 and count_event_breed("skaven_plague_monk") < 5
+				return (count_event_breed("skaven_clan_rat") + count_event_breed("skaven_clan_rat_with_shield")) < 18 and count_event_breed("skaven_slave") < 25 and count_event_breed("skaven_storm_vermin_commander") < 3 and count_event_breed("skaven_plague_monk") < 3
 			end
 		},
 		{
@@ -16325,7 +16343,8 @@ end
 			},
 			optional_data = {
 				size_variation_range = { 1.45, 1.45 },
-				max_health_modifier = 0.1
+				max_health_modifier = 0.1,
+				enhancements = enhancement_3
 			}
 		},
 		{
@@ -16344,21 +16363,9 @@ end
 		},
 		{
 			"event_horde",
-			limit_spawners = 1,
-			spawner_id = "magnus_tower_chaos",
-			composition_type = "onslaught_event_small_fanatics"
-		},
-		{
-			"event_horde",
 			limit_spawners = 2,
-			spawner_id = "magnus_tower_chaos",
-			composition_type = "event_maulers_medium"
-		},
-		{
-			"event_horde",
-			limit_spawners = 2,
-			spawner_id = "magnus_tower_chaos",
-			composition_type = "event_maulers_medium"
+			spawner_id = "magnus_tower_horn",
+			composition_type = "linesman_skaven_horde"
 		},
 		{
 			"delay",
@@ -16367,7 +16374,7 @@ end
 		{
 			"event_horde",
 			limit_spawners = 1,
-			spawner_id = "magnus_tower_chaos",
+			spawner_id = "magnus_tower_horn",
 			composition_type = "onslaught_event_small_fanatics"
 		},
 		{
@@ -16377,14 +16384,14 @@ end
 		{
 			"event_horde",
 			limit_spawners = 2,
-			spawner_id = "magnus_tower_chaos",
-			composition_type = "onslaught_chaos_warriors"
+			spawner_id = "magnus_tower_horn",
+			composition_type = "linesman_skaven_horde"
 		},
 		{
 			"event_horde",
 			limit_spawners = 2,
-			spawner_id = "magnus_tower_chaos",
-			composition_type = "onslaught_chaos_warriors"
+			spawner_id = "magnus_tower_horn",
+			composition_type = "linesman_skaven_horde"
 		},
 		{
 			"delay",
@@ -16394,7 +16401,7 @@ end
 			"continue_when",
 			duration = 60,
 			condition = function (t)
-				return (count_event_breed("chaos_marauder") + count_event_breed("chaos_marauder_with_shield")) < 10 and count_event_breed("chaos_fanatic") < 18 and count_event_breed("chaos_raider") < 6 and count_event_breed("chaos_berzerker") < 6 and count_event_breed("chaos_warrior") < 3
+				return (count_event_breed("skaven_clan_rat") + count_event_breed("skaven_clan_rat_with_shield")) < 18 and count_event_breed("skaven_slave") < 25 and count_event_breed("skaven_storm_vermin_commander") < 3 and count_event_breed("skaven_plague_monk") < 3
 			end
 		},
 		{
@@ -16411,6 +16418,16 @@ end
 			amount = 8,
 		},
 		{
+			"spawn_special",
+			breed_name = "skaven_warpfire_thrower",
+			amount = 6,
+		},
+		{
+			"spawn_special",
+			breed_name = "skaven_poison_wind_globadier",
+			amount = 4,
+		},
+		{
 			"event_horde",
 			limit_spawners = 4,
 			spawner_id = "magnus_tower_horn",
@@ -16418,7 +16435,7 @@ end
 		},
 		{
 			"delay",
-			duration = 10
+			duration = 20
 		},
 		{
 			"event_horde",
@@ -16429,7 +16446,7 @@ end
 		{
 			"spawn_special",
 			breed_name = "skaven_gutter_runner",
-			amount = 3,
+			amount = 6,
 		},
 		{
 			"event_horde",
@@ -16439,12 +16456,16 @@ end
 		},
 		{
 			"delay",
-			duration = 10
+			duration = 20
 		},
 		{
 			"spawn_special",
 			breed_name = "skaven_pack_master",
 			amount = 3,
+		},
+		{
+			"control_specials",
+			enable = true
 		},
 		{
 			"event_horde",
@@ -16464,14 +16485,10 @@ end
 		},
 		{
 			"continue_when",
-			duration = 60,
+			duration = 45,
 			condition = function (t)
 				return (count_event_breed("skaven_clan_rat") + count_event_breed("skaven_clan_rat_with_shield")) < 18 and count_event_breed("skaven_slave") < 25 and count_event_breed("skaven_storm_vermin_commander") < 6 and count_event_breed("skaven_plague_monk") < 5
 			end
-		},
-		{
-			"control_specials",
-			enable = true
 		},
 		{
 			"event_horde",
@@ -16528,8 +16545,13 @@ end
 		},
 		{
 			"event_horde",
-			spawner_id = "magnus_tower_chaos",
-			composition_type = "apocalypse_wave"
+			spawner_id = "magnus_tower_horn",
+			composition_type = "linesman_skaven_horde"
+		},
+		{
+			"event_horde",
+			spawner_id = "magnus_tower_horn",
+			composition_type = "linesman_skaven_horde"
 		},
 		{
 			"delay",
@@ -16539,24 +16561,14 @@ end
 			"continue_when",
 			duration = 60,
 			condition = function (t)
-				return (count_event_breed("chaos_marauder") + count_event_breed("chaos_marauder_with_shield")) < 10 and count_event_breed("chaos_fanatic") < 18 and count_event_breed("chaos_raider") < 6 and count_event_breed("chaos_berzerker") < 6 and count_event_breed("chaos_warrior") < 3
+				return (count_event_breed("skaven_clan_rat") + count_event_breed("skaven_clan_rat_with_shield")) < 18 and count_event_breed("skaven_slave") < 25 and count_event_breed("skaven_storm_vermin_commander") < 3 and count_event_breed("skaven_plague_monk") < 3
 			end
 		},
 		{
 			"event_horde",
 			limit_spawners = 4,
 			spawner_id = "magnus_tower_horn",
-			composition_type = "apocalypse_wave"
-		},
-		{
-			"delay",
-			duration = 5
-		},
-		{
-			"event_horde",
-			limit_spawners = 4,
-			spawner_id = "magnus_tower_horn",
-			composition_type = "event_small"
+			composition_type = "linesman_skaven_horde"
 		},
 		{
 			"continue_when",
@@ -18112,18 +18124,18 @@ end
 		},
 		{
 			"event_horde",
-			spawner_id = "forest_end_event",
-			composition_type = "onslaught_storm_vermin_shields_small"
+			spawner_id = "forest_end_event_chaos",
+			composition_type = "onslaught_chaos_warriors"
 		},
 		{
 			"event_horde",
-			spawner_id = "forest_end_event",
-			composition_type = "onslaught_storm_vermin_shields_small"
+			spawner_id = "forest_end_event_chaos",
+			composition_type = "onslaught_chaos_berzerkers_medium"
 		},
 		{
 			"event_horde",
-			spawner_id = "forest_end_event",
-			composition_type = "onslaught_storm_vermin_shields_small"
+			spawner_id = "forest_end_event_chaos",
+			composition_type = "onslaught_chaos_berzerkers_medium"
 		},
 		{
 			"delay",
@@ -18145,60 +18157,6 @@ end
 		},
 		{
 			"event_horde",
-			spawner_id = "forest_end_event",
-			composition_type = "onslaught_plague_monks_medium"
-		},
-		{
-			"event_horde",
-			spawner_id = "forest_end_event",
-			composition_type = "onslaught_plague_monks_medium"
-		},
-		{
-			"event_horde",
-			spawner_id = "forest_end_event_specials",
-			composition_type = "onslaught_plague_monks_medium"
-		},
-		{
-			"delay",
-			duration = {
-				30,
-				34
-			}
-		},
-		{
-			"flow_event",
-			flow_event_name = "forest_end_event_restart"
-		}
-	}
-
-	TerrorEventBlueprints.forest_ambush.forest_end_event_b = {
-		{
-			"set_master_event_running",
-			name = "forest_finale"
-		},
-		{
-			"disable_kick"
-		},
-		{
-			"control_pacing",
-			enable = false
-		},
-		{
-			"play_stinger",
-			stinger_name = "enemy_horde_chaos_stinger"
-		},
-		{
-			"event_horde",
-			spawner_id = "forest_end_event_chaos",
-			composition_type = "event_medium_chaos"
-		},
-		{
-			"event_horde",
-			spawner_id = "forest_end_event_chaos",
-			composition_type = "event_maulers_medium"
-		},
-		{
-			"event_horde",
 			spawner_id = "forest_end_event_chaos",
 			composition_type = "onslaught_chaos_shields"
 		},
@@ -18214,67 +18172,9 @@ end
 		},
 		{
 			"delay",
-			duration = 10
-		},
-		{
-			"event_horde",
-			spawner_id = "forest_end_event_chaos",
-			composition_type = "event_small_chaos"
-		},
-		{
-			"event_horde",
-			spawner_id = "forest_end_event_chaos",
-			composition_type = "onslaught_event_small_fanatics"
-		},
-		{
-			"event_horde",
-			spawner_id = "forest_end_event_chaos",
-			composition_type = "onslaught_event_small_fanatics"
-		},
-		{
-			"event_horde",
-			spawner_id = "forest_end_event_chaos",
-			composition_type = "onslaught_chaos_warriors"
-		},
-		{
-			"event_horde",
-			spawner_id = "forest_end_event_chaos",
-			composition_type = "onslaught_chaos_berzerkers_medium"
-		},
-		{
-			"event_horde",
-			spawner_id = "forest_end_event_chaos",
-			composition_type = "onslaught_chaos_berzerkers_medium"
-		},
-		{
-			"delay",
-			duration = 10
-		},
-		{
-			"event_horde",
-			spawner_id = "forest_end_event_chaos",
-			composition_type = "onslaught_chaos_warriors"
-		},
-		{
-			"event_horde",
-			spawner_id = "forest_end_event_chaos",
-			composition_type = "onslaught_chaos_warriors"
-		},
-		{
-			"event_horde",
-			spawner_id = "forest_end_event_chaos",
-			composition_type = "onslaught_chaos_warriors"
-		},
-		{
-			"event_horde",
-			spawner_id = "forest_end_event_chaos",
-			composition_type = "event_maulers_small"
-		},
-		{
-			"delay",
 			duration = {
-				40,
-				45
+				30,
+				34
 			}
 		},
 		{
@@ -18283,101 +18183,9 @@ end
 		}
 	}
 
-	TerrorEventBlueprints.forest_ambush.forest_end_event_c = {
-		{
-			"set_master_event_running",
-			name = "forest_finale"
-		},
-		{
-			"disable_kick"
-		},
-		{
-			"control_pacing",
-			enable = false
-		},
-		{
-			"play_stinger",
-			stinger_name = "enemy_horde_stinger"
-		},
-		{
-			"event_horde",
-			spawner_id = "forest_end_event",
-			composition_type = "onslaught_plague_monks_medium"
-		},
-		{
-			"delay",
-			duration = 5
-		},
-		{
-			"event_horde",
-			spawner_id = "forest_end_event",
-			composition_type = "event_large"
-		},
-		{
-			"delay",
-			duration = 1
-		},
-		{
-			"event_horde",
-			spawner_id = "forest_end_event_chaos",
-			composition_type = "onslaught_storm_vermin_medium"
-		},
-		{
-			"event_horde",
-			spawner_id = "forest_end_event_chaos",
-			composition_type = "onslaught_storm_vermin_medium"
-		},
-		{
-			"event_horde",
-			spawner_id = "forest_end_event_chaos",
-			composition_type = "onslaught_storm_vermin_medium"
-		},
-		{
-			"event_horde",
-			spawner_id = "forest_end_event_chaos",
-			composition_type = "onslaught_storm_vermin_medium"
-		},
-		{
-			"event_horde",
-			spawner_id = "forest_end_event_chaos",
-			composition_type = "onslaught_custom_boss_spawn"
-		},
-		{
-			"delay",
-			duration = 15
-		},
-		{
-			"event_horde",
-			spawner_id = "forest_end_event",
-			composition_type = "event_large"
-		},
-		{
-			"event_horde",
-			spawner_id = "forest_end_event",
-			composition_type = "event_extra_spice_small"
-		},
-		{
-			"event_horde",
-			spawner_id = "forest_end_event_chaos",
-			composition_type = "onslaught_storm_vermin_medium"
-		},
-		{
-			"event_horde",
-			spawner_id = "forest_end_event_chaos",
-			composition_type = "onslaught_plague_monks_medium"
-		},
-		{
-			"delay",
-			duration = {
-				38,
-				42
-			}
-		},
-		{
-			"flow_event",
-			flow_event_name = "forest_end_event_restart"
-		}
-	}
+	TerrorEventBlueprints.forest_ambush.forest_end_event_b = TerrorEventBlueprints.forest_ambush.forest_skaven_camp_a
+
+	TerrorEventBlueprints.forest_ambush.forest_end_event_c = TerrorEventBlueprints.forest_ambush.forest_skaven_camp_a
 
 	TerrorEventBlueprints.forest_ambush.forest_end_finale = {
 		{
@@ -18497,7 +18305,7 @@ end
 	}
 
 	local function num_spawned_enemies()
-		local spawned_enemies = Managers.state.conflict:spawned_units()
+		local spawned_enemies = Managers.state.conflict:spawned_enemies()
 
 		return #spawned_enemies
 	end
@@ -18507,6 +18315,25 @@ end
 
 		return #alive_standards
 	end
+
+	TerrorEventBlueprints.crater.crater_detour_specials = {
+		{
+			"event_horde",
+			composition_type = "crater_detour",
+			limit_spawners = 6,
+			spawner_id = "crater_detour_specials",
+		},
+		{
+			"event_horde",
+			composition_type = "crackaddicts",
+			spawner_id = "crater_detour_specials",
+		},
+		{
+			"event_horde",
+			composition_type = "crackaddicts",
+			spawner_id = "crater_detour_specials",
+		},
+	}
 
 	TerrorEventBlueprints.crater.crater_mid_event = {
 		{
@@ -18548,15 +18375,13 @@ end
 		},
 		{
 			"event_horde",
-			limit_spawners = 3,
 			spawner_id = "crater_mid_event_door_horde_01",
 			composition_type = "crackaddicts",
 		},
 		{
 			"event_horde",
-			limit_spawners = 3,
 			spawner_id = "crater_mid_event_door_horde_02",
-			composition_type = "highasf",
+			composition_type = "crackaddicts",
 		},
 		{
 			"continue_when",
@@ -18609,7 +18434,7 @@ end
 			"event_horde",
 			limit_spawners = 1,
 			spawner_id = "crater_mid_event_door_elite_02",
-			composition_type = "crater_bestigor_medium",
+			composition_type = "apocalypse_wave",
 			sound_settings = horde_sound_settings.beastmen
 		},
 		{
@@ -18619,7 +18444,7 @@ end
 		{
 			"continue_when",
 			condition = function (t)
-				return count_event_breed("beastmen_bestigor") < 1
+				return count_event_breed("skaven_storm_vermin_commander") < 1
 			end
 		},
 		{
@@ -18706,7 +18531,7 @@ end
 			"spawn_at_raw",
 			spawner_id = "crater_end_event_manual_spawn_15",
 			breed_name = "beastmen_bestigor"
-		}
+		},
 	}
 
 	TerrorEventBlueprints.crater.crater_end_event_intro_wave = {
@@ -18730,6 +18555,10 @@ end
 			enable = false
 		},
 		{
+			"control_specials",
+			enable = true
+		},
+		{
 			"event_horde",
 			limit_spawners = 4,
 			spawner_id = "crater_end_event_intro_wave",
@@ -18749,7 +18578,7 @@ end
 			"continue_when",
 			duration = 55,
 			condition = function (t)
-				return count_event_breed("beastmen_gor") < 4 and count_breed("beastmen_ungor") < 4
+				return count_event_breed("chaos_fanatic") < 4 and count_breed("skaven_clan_rat") < 4
 			end
 		},
 		{
@@ -18818,7 +18647,7 @@ end
 			"continue_when",
 			duration = 90,
 			condition = function (t)
-				return num_alive_standards() < 1 and count_event_breed("beastmen_gor") < 8 and count_event_breed("beastmen_ungor") < 8
+				return num_alive_standards() < 1 and count_event_breed("chaos_fanatic") < 8 and count_event_breed("skaven_clan_rat") < 8
 			end
 		},
 		{
@@ -18861,9 +18690,9 @@ end
 			composition_type = "event_large_beastmen"
 		},
 		{
-			"spawn_special",
-			breed_name = "beastmen_bestigor",
-			amount = 14
+			"event_horde",
+			spawner_id = "crater_end_event",
+			composition_type = "crackaddicts"
 		},
 		{
 			"delay",
@@ -18883,15 +18712,19 @@ end
 		},
 		{
 			"event_horde",
-			limit_spawners = 4,
 			spawner_id = "crater_end_event",
-			composition_type = "event_large_beastmen"
+			composition_type = "highasf"
+		},
+		{
+			"spawn_special",
+			amount = 5,
+			breed_name = "skaven_ratling_gunner",
 		},
 		{
 			"continue_when",
 			duration = 180,
 			condition = function (t)
-				return num_alive_standards() < 1 and count_event_breed("beastmen_gor") < 8 and count_event_breed("beastmen_ungor") < 8
+				return num_alive_standards() < 1 and count_event_breed("chaos_fanatic") < 8 and count_event_breed("skaven_clan_rat") < 8
 			end
 		},
 		{
@@ -18954,7 +18787,7 @@ end
 			"continue_when",
 			duration = 180,
 			condition = function (t)
-				return num_alive_standards() < 1 and count_event_breed("beastmen_gor") < 8 and count_event_breed("beastmen_ungor") < 8
+				return num_alive_standards() < 1 and count_event_breed("chaos_fanatic") < 8 and count_event_breed("skaven_clan_rat") < 8
 			end
 		},
 		{
@@ -19021,7 +18854,7 @@ end
 			"continue_when",
 			duration = 180,
 			condition = function (t)
-				return num_alive_standards() < 1 and count_event_breed("beastmen_gor") < 5 and count_event_breed("beastmen_ungor") < 5
+				return num_alive_standards() < 1 and count_event_breed("chaos_fanatic") < 5 and count_event_breed("skaven_clan_rat") < 5
 			end
 		},
 		{
@@ -19977,16 +19810,19 @@ end
 			stinger_name = "enemy_horde_stinger"
 		},
 		{
-			"event_horde",
-			limit_spawners = 8,
-			spawner_id = "bastion_gate_event",
-			composition_type = "event_large"
+			"spawn_at_raw",
+			amount = 1,
+			breed_name = "skaven_rat_ogre",
+			spawner_id = "bastion_gate_event_special",
+			optional_data = {
+				max_health_modifier = 0.1 -- 640
+			}
 		},
 		{
 			"event_horde",
 			limit_spawners = 8,
 			spawner_id = "bastion_gate_event",
-			composition_type = "onslaught_storm_vermin_medium"
+			composition_type = "event_medium"
 		},
 		{
 			"event_horde",
@@ -20012,10 +19848,13 @@ end
 			end
 		},
 		{
-			"event_horde",
-			limit_spawners = 8,
-			spawner_id = "bastion_gate_event",
-			composition_type = "event_medium"
+			"spawn_at_raw",
+			amount = 2,
+			breed_name = "skaven_rat_ogre",
+			spawner_id = "bastion_gate_event_special",
+			optional_data = {
+				max_health_modifier = 0.05 -- 320
+			}
 		},
 		{
 			"event_horde",
@@ -20034,14 +19873,6 @@ end
 			duration = 5
 		},
 		{
-			"spawn_at_raw",
-			breed_name = "skaven_rat_ogre",
-			spawner_id = "bastion_gate_event_special",
-			optional_data = {
-				enhancements = relentless
-			}
-		},
-		{
 			"continue_when",
 			duration = 40,
 			condition = function (t)
@@ -20049,10 +19880,13 @@ end
 			end
 		},
 		{
-			"event_horde",
-			limit_spawners = 8,
-			spawner_id = "bastion_gate_event",
-			composition_type = "event_medium"
+			"spawn_at_raw",
+			amount = 5,
+			breed_name = "skaven_rat_ogre",
+			spawner_id = "bastion_gate_event_special",
+			optional_data = {
+				max_health_modifier = 0.01 -- 64
+			}
 		},
 		{
 			"event_horde",
@@ -20075,93 +19909,96 @@ end
 			spawner_id = "bastion_gate_event_special",
 		},
 		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			duration = 40,
+			condition = function (t)
+				return (count_event_breed("skaven_clan_rat") + count_event_breed("skaven_clan_rat_with_shield") < 24) and count_event_breed("skaven_slave") < 32 and count_event_breed("skaven_storm_vermin_commander") < 8
+			end
+		},
+		{
+			"event_horde",
+			limit_spawners = 8,
+			spawner_id = "bastion_gate_event",
+			composition_type = "linesman_mixed_horde"
+		},
+		{
 			"spawn_at_raw",
-			breed_name = "skaven_poison_wind_globadier",
+			breed_name = "skaven_pack_master",
+			spawner_id = "bastion_gate_event_special",
+		},
+		{
+			"spawn_at_raw",
+			breed_name = "skaven_pack_master",
+			spawner_id = "bastion_gate_event_special",
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			duration = 40,
+			condition = function(t)
+				if (count_event_breed("skaven_clan_rat") + count_event_breed("skaven_clan_rat_with_shield") < 24) and count_event_breed("skaven_slave") < 32 and count_event_breed("skaven_storm_vermin_commander") < 8 then
+
+					-- Give purple pot buff + healing
+					local players = Managers.player:human_and_bot_players()
+
+					for _, player in pairs(players) do
+						local unit = player.player_unit
+
+						if Unit.alive(unit) then
+							local buff_system = Managers.state.entity:system("buff_system")
+							local server_controlled = false
+
+							buff_system:add_buff(unit, "twitch_cooldown_reduction_boost", unit, server_controlled)
+							buff_system:add_buff(unit, "twitch_damage_boost", unit, server_controlled)
+							buff_system:add_buff(unit, "twitch_health_regen", unit, server_controlled)
+						end
+					end
+
+					return true
+				else
+					return false
+				end
+			end
+		},
+		{
+			"spawn_at_raw",
+			amount = 5,
+			breed_name = "skaven_rat_ogre",
 			spawner_id = "bastion_gate_event_special",
 			optional_data = {
-				spawned_func = tzeentch_buff_spawn_function
+				max_health_modifier = 0.005
 			}
 		},
 		{
 			"delay",
-			duration = 5
-		},
-		{
-			"continue_when",
-			duration = 40,
-			condition = function (t)
-				return (count_event_breed("skaven_clan_rat") + count_event_breed("skaven_clan_rat_with_shield") < 24) and count_event_breed("skaven_slave") < 32 and count_event_breed("skaven_storm_vermin_commander") < 8
-			end
-		},
-		{
-			"event_horde",
-			limit_spawners = 8,
-			spawner_id = "bastion_gate_event",
-			composition_type = "event_large"
+			duration = 10
 		},
 		{
 			"spawn_at_raw",
-			breed_name = "skaven_pack_master",
-			spawner_id = "bastion_gate_event_special",
-		},
-		{
-			"spawn_at_raw",
-			breed_name = "skaven_pack_master",
-			spawner_id = "bastion_gate_event_special",
-		},
-		{
-			"event_horde",
-			limit_spawners = 8,
-			spawner_id = "bastion_gate_event",
-			composition_type = "event_medium_shield"
-		},
-		{
-			"delay",
-			duration = 5
-		},
-		{
-			"continue_when",
-			duration = 40,
-			condition = function (t)
-				return (count_event_breed("skaven_clan_rat") + count_event_breed("skaven_clan_rat_with_shield") < 24) and count_event_breed("skaven_slave") < 32 and count_event_breed("skaven_storm_vermin_commander") < 8
-			end
-		},
-		{
-			"spawn_at_raw",
+			amount = 2,
 			breed_name = "skaven_gutter_runner",
 			spawner_id = "bastion_gate_event_special",
 		},
 		{
-			"event_horde",
-			limit_spawners = 8,
-			spawner_id = "bastion_gate_event",
-			composition_type = "event_large"
-		},
-		{
-			"event_horde",
-			limit_spawners = 8,
-			spawner_id = "bastion_gate_event",
-			composition_type = "plague_monks_medium"
-		},
-		{
-			"event_horde",
-			limit_spawners = 8,
-			spawner_id = "bastion_gate_event",
-			composition_type = "event_stormvermin_shielders"
-		},
-		{
-			"event_horde",
-			limit_spawners = 8,
-			spawner_id = "bastion_gate_event",
-			composition_type = "event_stormvermin_shielders"
-		},
+			"spawn_at_raw",
+			amount = 4,
+			breed_name = "skaven_poison_wind_globadier",
+			spawner_id = "bastion_gate_event_special",
+		},		
 		{
 			"delay",
 			duration = 5
 		},
 		{
 			"continue_when",
-			duration = 30,
+			duration = 70,
 			condition = function (t)
 				return (count_event_breed("skaven_clan_rat") + count_event_breed("skaven_clan_rat_with_shield") < 24) and count_event_breed("skaven_slave") < 32 and count_event_breed("skaven_storm_vermin_commander") < 8
 			end
@@ -20204,12 +20041,6 @@ end
 			end
 		},
 		{
-			"event_horde",
-			limit_spawners = 8,
-			spawner_id = "bastion_gate_event",
-			composition_type = "event_medium_shield"
-		},
-		{
 			"spawn_at_raw",
 			breed_name = "skaven_gutter_runner",
 			spawner_id = "bastion_gate_event_special",
@@ -20217,17 +20048,6 @@ end
 		{
 			"delay",
 			duration = 1
-		},
-		{
-			"spawn_at_raw",
-			breed_name = "skaven_gutter_runner",
-			spawner_id = "bastion_gate_event_special",
-		},
-		{
-			"event_horde",
-			limit_spawners = 8,
-			spawner_id = "bastion_gate_event",
-			composition_type = "plague_monks_medium"
 		},
 		{
 			"event_horde",
@@ -20283,39 +20103,11 @@ end
 			composition_type = "chaos_warriors_small"
 		},
 		{
-			"delay",
-			duration = 5
-		},
-		{
-			"spawn_at_raw",
-			breed_name = "skaven_stormfiend",
-			spawner_id = "bastion_gate_event_special",
-		},
-		{
-			"delay",
-			duration = 2
-		},
-		{
-			"spawn_at_raw",
-			breed_name = "chaos_spawn",
-			spawner_id = "bastion_gate_event_special",
-		},
-		{
 			"continue_when",
 			duration = 60,
 			condition = function (t)
 				return count_event_breed("chaos_marauder") < 20 and count_event_breed("chaos_fanatic") < 22 and count_event_breed("chaos_warrior") < 10
 			end
-		},
-		{
-			"spawn_at_raw",
-			breed_name = "chaos_troll",
-			spawner_id = "bastion_gate_event_special",
-		},
-		{
-			"spawn_at_raw",
-			breed_name = "chaos_troll",
-			spawner_id = "bastion_gate_event_special",
 		},
 		{
 			"event_horde",
@@ -20408,9 +20200,9 @@ end
 		{
 			"spawn_at_raw",
 			spawner_id = "bastion_finale_event_boss",
-			breed_name = "chaos_warrior",
+			breed_name = "skaven_rat_ogre",
 			optional_data = {
-				spawned_func = tzeentch_buff_spawn_function
+				max_health_modifier = 0.05
 			}
 		},
 		{
@@ -20441,6 +20233,15 @@ end
 			limit_spawners = 5,
 			spawner_id = "bastion_finale_event",
 			composition_type = "storm_vermin_medium"
+		},
+		{
+			"spawn_at_raw",
+			amount = 3,
+			spawner_id = "bastion_finale_event_boss",
+			breed_name = "skaven_stormfiend",
+			optional_data = {
+				max_health_modifier = 0.01
+			}
 		},
 		{
 			"delay",
@@ -20482,16 +20283,7 @@ end
 		},
 		{
 			"delay",
-			duration = 1
-		},
-		{
-			"spawn_at_raw",
-			breed_name = "skaven_pack_master",
-			spawner_id = "bastion_finale_event_boss",
-		},
-		{
-			"delay",
-			duration = 1
+			duration = 10
 		},
 		{
 			"spawn_at_raw",
@@ -20543,64 +20335,17 @@ end
 			"event_horde",
 			limit_spawners = 5,
 			spawner_id = "bastion_finale_event",
-			composition_type = "event_small"
-		},
-		{
-			"event_horde",
-			limit_spawners = 5,
-			spawner_id = "bastion_finale_event",
-			composition_type = "storm_vermin_small"
-		},
-		{
-			"event_horde",
-			limit_spawners = 5,
-			spawner_id = "bastion_finale_event",
-			composition_type = "storm_vermin_small"
-		},
-		{
-			"event_horde",
-			limit_spawners = 5,
-			spawner_id = "bastion_finale_event",
-			composition_type = "onslaught_storm_vermin_white_medium"
-		},
-		{
-			"event_horde",
-			limit_spawners = 5,
-			spawner_id = "bastion_finale_event",
-			composition_type = "onslaught_plague_monks_medium"
-		},
-		{
-			"event_horde",
-			limit_spawners = 5,
-			spawner_id = "bastion_finale_event",
-			composition_type = "onslaught_plague_monks_medium"
+			composition_type = "apocalypse_wave"
 		},
 		{
 			"delay",
-			duration = 3
+			duration = 15
 		},
 		{
 			"spawn_at_raw",
+			amount = 7,
 			spawner_id = "bastion_finale_event_boss",
-			breed_name = {
-				"skaven_ratling_gunner",
-				"skaven_warpfire_thrower",
-				"skaven_poison_wind_globadier",
-				"skaven_poison_wind_globadier"
-			},
-			optional_data = {
-				spawned_func = tzeentch_buff_spawn_function
-			}
-		},
-		{
-			"spawn_at_raw",
-			spawner_id = "bastion_finale_event_boss",
-			breed_name = {
-				"skaven_ratling_gunner",
-				"skaven_warpfire_thrower",
-				"skaven_poison_wind_globadier",
-				"skaven_poison_wind_globadier"
-			},
+			breed_name = "skaven_ratling_gunner",
 		},
 		{
 			"delay",
@@ -20621,19 +20366,7 @@ end
 			"event_horde",
 			limit_spawners = 5,
 			spawner_id = "bastion_finale_event",
-			composition_type = "event_medium_shield"
-		},
-		{
-			"event_horde",
-			limit_spawners = 5,
-			spawner_id = "bastion_finale_event",
-			composition_type = "onslaught_plague_monks_medium"
-		},
-		{
-			"event_horde",
-			limit_spawners = 5,
-			spawner_id = "bastion_finale_event",
-			composition_type = "onslaught_plague_monks_medium"
+			composition_type = "mass_trash_skaven"
 		},
 		{
 			"delay",
@@ -20641,7 +20374,38 @@ end
 		},
 		{
 			"spawn_at_raw",
+			amount = 5,
 			spawner_id = "bastion_finale_event_boss",
+			breed_name = {
+				"skaven_ratling_gunner",
+				"skaven_warpfire_thrower",
+				"skaven_poison_wind_globadier",
+				"skaven_poison_wind_globadier"
+			},
+		},
+		{
+			"delay",
+			duration = 7
+		},
+		{
+			"spawn_at_raw",
+			amount = 3,
+			spawner_id = "bastion_finale_event_boss",
+			breed_name = {
+				"skaven_ratling_gunner",
+				"skaven_warpfire_thrower",
+				"skaven_poison_wind_globadier",
+				"skaven_poison_wind_globadier"
+			},
+		},
+		{
+			"delay",
+			duration = 7
+		},
+		{
+			"spawn_at_raw",
+			spawner_id = "bastion_finale_event_boss",
+			amount = 2,
 			breed_name = {
 				"skaven_ratling_gunner",
 				"skaven_warpfire_thrower",
@@ -20652,37 +20416,7 @@ end
 		},
 		{
 			"delay",
-			duration = 3
-		},
-		{
-			"spawn_at_raw",
-			spawner_id = "bastion_finale_event_boss",
-			breed_name = {
-				"skaven_ratling_gunner",
-				"skaven_warpfire_thrower",
-				"skaven_pack_master",
-				"skaven_poison_wind_globadier",
-				"skaven_poison_wind_globadier"
-			},
-		},
-		{
-			"delay",
-			duration = 3
-		},
-		{
-			"spawn_at_raw",
-			spawner_id = "bastion_finale_event_boss",
-			breed_name = {
-				"skaven_ratling_gunner",
-				"skaven_warpfire_thrower",
-				"skaven_pack_master",
-				"skaven_poison_wind_globadier",
-				"skaven_poison_wind_globadier"
-			},
-		},
-		{
-			"delay",
-			duration = 3
+			duration = 7
 		},
 		{
 			"spawn_at_raw",
@@ -20696,7 +20430,7 @@ end
 		},
 		{
 			"delay",
-			duration = 3
+			duration = 7
 		},
 		{
 			"spawn_at_raw",
@@ -20710,7 +20444,7 @@ end
 		},
 		{
 			"delay",
-			duration = 3
+			duration = 7
 		},
 		{
 			"spawn_at_raw",
@@ -20724,7 +20458,7 @@ end
 		},
 		{
 			"delay",
-			duration = 3
+			duration = 7
 		},
 		{
 			"spawn_at_raw",
@@ -20738,72 +20472,7 @@ end
 		},
 		{
 			"delay",
-			duration = 3
-		},
-		{
-			"spawn_at_raw",
-			spawner_id = "bastion_finale_event_boss",
-			breed_name = {
-				"skaven_ratling_gunner",
-				"skaven_warpfire_thrower",
-				"skaven_poison_wind_globadier",
-				"skaven_poison_wind_globadier"
-			},
-		},
-		{
-			"delay",
-			duration = 3
-		},
-		{
-			"spawn_at_raw",
-			spawner_id = "bastion_finale_event_boss",
-			breed_name = {
-				"skaven_ratling_gunner",
-				"skaven_warpfire_thrower",
-				"skaven_poison_wind_globadier",
-				"skaven_poison_wind_globadier"
-			},
-			optional_data = {
-				spawned_func = tzeentch_buff_spawn_function
-			}
-		},
-		{
-			"delay",
-			duration = 5
-		},
-		{
-			"continue_when",
-			duration = 25,
-			condition = function (t)
-				return count_event_breed("skaven_warpfire_thrower") < 3 and count_event_breed("skaven_warpfire_thrower") < 3 and count_event_breed("skaven_pack_master") < 3 and count_event_breed("skaven_poison_wind_globadier") < 3 and count_event_breed("skaven_gutter_runner") < 3
-			end
-		},
-		{
-			"delay",
-			duration = 5
-		},
-		{
-			"event_horde",
-			limit_spawners = 5,
-			spawner_id = "bastion_finale_event",
-			composition_type = "event_large"
-		},
-		{
-			"event_horde",
-			limit_spawners = 5,
-			spawner_id = "bastion_finale_event",
-			composition_type = "storm_vermin_small"
-		},
-		{
-			"delay",
-			duration = 5
-		},
-		{
-			"continue_when",
-			duration = 60,
-			condition = function (t)
-				return count_event_breed("skaven_clan_rat") < 20 and count_event_breed("skaven_slave") < 28 and count_event_breed("skaven_storm_vermin_commander") < 6 and count_event_breed("skaven_storm_vermin_with_shield") < 6 and count_event_breed("skaven_plague_monk") < 8
-			end
+			duration = 20
 		},
 		{
 			"flow_event",
@@ -20833,94 +20502,45 @@ end
 			name = "bastion_event_boss"
 		},
 		{
-			"event_horde",
-			limit_spawners = 5,
+			"spawn_at_raw",
+			amount = 1,
+			breed_name = "skaven_rat_ogre",
 			spawner_id = "bastion_finale_event_escape",
-			composition_type = "chaos_warriors"
-		},
-		{
-			"event_horde",
-			limit_spawners = 5,
-			spawner_id = "bastion_finale_event_escape",
-			composition_type = "chaos_warriors"
-		},
-		{
-			"event_horde",
-			limit_spawners = 5,
-			spawner_id = "bastion_finale_event_escape",
-			composition_type = "chaos_warriors"
-		},
-		{
-			"delay",
-			duration = 5
-		},
-		{
-			"event_horde",
-			limit_spawners = 5,
-			spawner_id = "bastion_finale_event_escape",
-			composition_type = "event_maulers_medium"
-		},
-		{
-			"event_horde",
-			limit_spawners = 5,
-			spawner_id = "bastion_finale_event_escape",
-			composition_type = "event_maulers_medium"
-		},
-		{
-			"event_horde",
-			limit_spawners = 5,
-			spawner_id = "bastion_finale_event_escape",
-			composition_type = "chaos_warriors"
-		},
-		{
-			"delay",
-			duration = 10
+			optional_data = {
+				max_health_modifier = 0.1 -- 640
+			}
 		},
 		{
 			"spawn_at_raw",
-			breed_name = "skaven_pack_master",
-			spawner_id = "bastion_finale_event_boss",
-		},
-		{
-			"delay",
-			duration = 1
-		},
-		{
-			"spawn_at_raw",
-			breed_name = "skaven_pack_master",
-			spawner_id = "bastion_finale_event_boss",
-		},
-		{
-			"delay",
-			duration = 1
+			amount = 1,
+			breed_name = "chaos_spawn",
+			spawner_id = "bastion_finale_event_escape",
+			optional_data = {
+				max_health_modifier = 0.1 -- 640
+			}
 		},
 		{
 			"spawn_at_raw",
-			breed_name = "skaven_pack_master",
-			spawner_id = "bastion_finale_event_boss",
-		},
-		{
-			"delay",
-			duration = 1
-		},
-		{
-			"spawn_at_raw",
-			breed_name = "skaven_pack_master",
-			spawner_id = "bastion_finale_event_boss",
-		},
-		{
-			"delay",
-			duration = 5
+			amount = 1,
+			breed_name = "chaos_troll",
+			spawner_id = "bastion_finale_event_escape",
+			optional_data = {
+				max_health_modifier = 0.1 -- 640
+			}
 		},
 		{
 			"spawn_at_raw",
-			breed_name = "skaven_gutter_runner",
-			spawner_id = "bastion_finale_event_boss",
+			amount = 1,
+			breed_name = "beastmen_minotaur",
+			spawner_id = "bastion_finale_event_escape",
+			optional_data = {
+				max_health_modifier = 0.1 -- 640
+			}
 		},
 		{
 			"continue_when",
 			condition = function (t)
-				return count_event_breed("chaos_warrior") < 8 and count_event_breed("chaos_raider") < 8 and count_event_breed("chaos_berzerker") < 6
+				return count_event_breed("skaven_rat_ogre") < 1 and count_event_breed("chaos_spawn") < 1 and count_event_breed("beastmen_minotaur") < 1 and count_event_breed("chaos_troll") < 1
 			end
 		},
 		{
@@ -20929,282 +20549,142 @@ end
 		}
 	}
 
-	TerrorEventBlueprints.dlc_bastion.bastion_event_storm_fiend = {
-		{
-			"set_master_event_running",
-			name = "bastion_event_boss"
-		},
-		{
-			"event_horde",
-			limit_spawners = 5,
-			spawner_id = "bastion_finale_event_escape",
-			composition_type = "chaos_warriors"
-		},
-		{
-			"event_horde",
-			limit_spawners = 5,
-			spawner_id = "bastion_finale_event_escape",
-			composition_type = "chaos_warriors"
-		},
-		{
-			"event_horde",
-			limit_spawners = 5,
-			spawner_id = "bastion_finale_event_escape",
-			composition_type = "chaos_warriors"
-		},
-		{
-			"delay",
-			duration = 5
-		},
-		{
-			"event_horde",
-			limit_spawners = 5,
-			spawner_id = "bastion_finale_event_escape",
-			composition_type = "event_maulers_medium"
-		},
-		{
-			"event_horde",
-			limit_spawners = 5,
-			spawner_id = "bastion_finale_event_escape",
-			composition_type = "event_maulers_medium"
-		},
-		{
-			"event_horde",
-			limit_spawners = 5,
-			spawner_id = "bastion_finale_event_escape",
-			composition_type = "onslaught_chaos_berzerkers_medium"
-		},
-		{
-			"event_horde",
-			limit_spawners = 5,
-			spawner_id = "bastion_finale_event_escape",
-			composition_type = "onslaught_chaos_berzerkers_medium"
-		},
-		{
-			"delay",
-			duration = 10
-		},
-		{
-			"spawn_at_raw",
-			breed_name = "skaven_pack_master",
-			spawner_id = "bastion_finale_event_boss",
-		},
-		{
-			"delay",
-			duration = 1
-		},
-		{
-			"spawn_at_raw",
-			breed_name = "skaven_pack_master",
-			spawner_id = "bastion_finale_event_boss",
-		},
-		{
-			"delay",
-			duration = 1
-		},
-		{
-			"spawn_at_raw",
-			breed_name = "skaven_pack_master",
-			spawner_id = "bastion_finale_event_boss",
-		},
-		{
-			"delay",
-			duration = 1
-		},
-		{
-			"spawn_at_raw",
-			breed_name = "skaven_pack_master",
-			spawner_id = "bastion_finale_event_boss",
-		},
-		{
-			"delay",
-			duration = 5
-		},
-		{
-			"spawn_at_raw",
-			breed_name = "skaven_gutter_runner",
-			spawner_id = "bastion_finale_event_boss",
-		},
-		{
-			"continue_when",
-			condition = function (t)
-				return count_event_breed("chaos_warrior") < 8 and count_event_breed("chaos_raider") < 8 and count_event_breed("chaos_berzerker") < 6
-			end
-		},
-		{
-			"flow_event",
-			flow_event_name = "bastion_finale_event_escape"
-		}
-	}
+	TerrorEventBlueprints.dlc_bastion.bastion_event_storm_fiend = table.clone(TerrorEventBlueprints.dlc_bastion.bastion_event_rat_ogre)
 
-	TerrorEventBlueprints.dlc_bastion.bastion_event_chaos_spawn = {
-		{
-			"set_master_event_running",
-			name = "bastion_event_boss"
-		},
-		{
-			"event_horde",
-			limit_spawners = 5,
-			spawner_id = "bastion_finale_event_escape",
-			composition_type = "chaos_warriors"
-		},
-		{
-			"event_horde",
-			limit_spawners = 5,
-			spawner_id = "bastion_finale_event_escape",
-			composition_type = "chaos_warriors"
-		},
-		{
-			"event_horde",
-			limit_spawners = 5,
-			spawner_id = "bastion_finale_event_escape",
-			composition_type = "chaos_warriors"
-		},
-		{
-			"delay",
-			duration = 5
-		},
-		{
-			"event_horde",
-			limit_spawners = 5,
-			spawner_id = "bastion_finale_event_escape",
-			composition_type = "event_maulers_medium"
-		},
-		{
-			"event_horde",
-			limit_spawners = 5,
-			spawner_id = "bastion_finale_event_escape",
-			composition_type = "event_maulers_medium"
-		},
-		{
-			"event_horde",
-			limit_spawners = 5,
-			spawner_id = "bastion_finale_event_escape",
-			composition_type = "event_maulers_medium"
-		},
-		{
-			"event_horde",
-			limit_spawners = 5,
-			spawner_id = "bastion_finale_event_escape",
-			composition_type = "event_maulers_medium"
-		},
-		{
-			"delay",
-			duration = 10
-		},
-		{
-			"spawn_at_raw",
-			breed_name = "skaven_pack_master",
-			spawner_id = "bastion_finale_event_boss",
-		},
-		{
-			"delay",
-			duration = 1
-		},
-		{
-			"spawn_at_raw",
-			breed_name = "skaven_pack_master",
-			spawner_id = "bastion_finale_event_boss",
-		},
-		{
-			"delay",
-			duration = 1
-		},
-		{
-			"spawn_at_raw",
-			breed_name = "skaven_pack_master",
-			spawner_id = "bastion_finale_event_boss",
-		},
-		{
-			"delay",
-			duration = 1
-		},
-		{
-			"spawn_at_raw",
-			breed_name = "skaven_pack_master",
-			spawner_id = "bastion_finale_event_boss",
-		},
-		{
-			"delay",
-			duration = 5
-		},
-		{
-			"spawn_at_raw",
-			breed_name = "skaven_gutter_runner",
-			spawner_id = "bastion_finale_event_boss",
-		},
-		{
-			"continue_when",
-			condition = function (t)
-				return count_event_breed("chaos_warrior") < 8 and count_event_breed("chaos_raider") < 8 and count_event_breed("chaos_berzerker") < 6
-			end
-		},
-		{
-			"flow_event",
-			flow_event_name = "bastion_finale_event_escape"
-		}
-	}
+	TerrorEventBlueprints.dlc_bastion.bastion_event_chaos_spawn = table.clone(TerrorEventBlueprints.dlc_bastion.bastion_event_rat_ogre)
 
 	TerrorEventBlueprints.dlc_bastion.bastion_finale_event_gauntlet = {
 		{
 			"event_horde",
 			limit_spawners = 5,
 			spawner_id = "bastion_finale_event_escape",
-			composition_type = "event_stormvermin_shielders"
+			composition_type = "mass_trash_skaven"
 		},
 		{
 			"event_horde",
 			limit_spawners = 5,
 			spawner_id = "bastion_finale_event_escape",
-			composition_type = "event_stormvermin_shielders"
+			composition_type = "dn_warpfire_spam"
 		},
 		{
 			"event_horde",
 			limit_spawners = 5,
 			spawner_id = "bastion_finale_event_escape",
-			composition_type = "event_stormvermin_shielders"
-		},
-		{
-			"delay",
-			duration = 2
+			composition_type = "dn_warpfire_spam"
 		},
 		{
 			"event_horde",
 			limit_spawners = 5,
 			spawner_id = "bastion_finale_event_escape",
-			composition_type = "storm_vermin_medium"
+			composition_type = "dn_warpfire_spam"
 		},
 		{
 			"event_horde",
 			limit_spawners = 5,
 			spawner_id = "bastion_finale_event_escape",
-			composition_type = "storm_vermin_medium"
-		},
-		{
-			"event_horde",
-			limit_spawners = 5,
-			spawner_id = "bastion_finale_event_escape",
-			composition_type = "storm_vermin_medium"
-		},
-		{
-			"event_horde",
-			limit_spawners = 5,
-			spawner_id = "bastion_finale_event_escape",
-			composition_type = "onslaught_storm_vermin_white_medium"
-		},
-		{
-			"delay",
-			duration = 7
-		},
-		{
-			"event_horde",
-			limit_spawners = 5,
-			spawner_id = "bastion_finale_event_escape",
-			composition_type = "event_large"
+			composition_type = "dn_warpfire_spam"
 		},
 		{
 			"delay",
 			duration = 5
+		},
+		{
+			"continue_when",
+			duration = 30,
+			condition = function (t)
+				return count_event_breed("skaven_warpfire") < 5
+			end
+		},
+		{
+			"event_horde",
+			limit_spawners = 5,
+			spawner_id = "bastion_finale_event_escape",
+			composition_type = "dn_warpfire_spam"
+		},
+		{
+			"event_horde",
+			limit_spawners = 5,
+			spawner_id = "bastion_finale_event_escape",
+			composition_type = "dn_warpfire_spam"
+		},
+		{
+			"event_horde",
+			limit_spawners = 5,
+			spawner_id = "bastion_finale_event_escape",
+			composition_type = "dn_warpfire_spam"
+		},
+		{
+			"event_horde",
+			limit_spawners = 5,
+			spawner_id = "bastion_finale_event_escape",
+			composition_type = "dn_warpfire_spam"
+		},
+		{
+			"delay",
+			duration = 5
+		},
+		{
+			"continue_when",
+			duration = 30,
+			condition = function (t)
+				return count_event_breed("skaven_warpfire") < 5
+			end
+		},
+		{
+			"event_horde",
+			limit_spawners = 5,
+			spawner_id = "bastion_finale_event_escape",
+			composition_type = "dn_warpfire_spam"
+		},
+		{
+			"event_horde",
+			limit_spawners = 5,
+			spawner_id = "bastion_finale_event_escape",
+			composition_type = "dn_warpfire_spam"
+		},
+		{
+			"event_horde",
+			limit_spawners = 5,
+			spawner_id = "bastion_finale_event_escape",
+			composition_type = "dn_warpfire_spam"
+		},
+		{
+			"event_horde",
+			limit_spawners = 5,
+			spawner_id = "bastion_finale_event_escape",
+			composition_type = "dn_warpfire_spam"
+		},
+		{
+			"delay",
+			duration = 15
+		},
+		{
+			"event_horde",
+			limit_spawners = 5,
+			spawner_id = "bastion_finale_event_escape",
+			composition_type = "dn_warpfire_spam"
+		},
+		{
+			"event_horde",
+			limit_spawners = 5,
+			spawner_id = "bastion_finale_event_escape",
+			composition_type = "dn_warpfire_spam"
+		},
+		{
+			"event_horde",
+			limit_spawners = 5,
+			spawner_id = "bastion_finale_event_escape",
+			composition_type = "dn_warpfire_spam"
+		},
+		{
+			"event_horde",
+			limit_spawners = 5,
+			spawner_id = "bastion_finale_event_escape",
+			composition_type = "dn_warpfire_spam"
+		},
+		{
+			"delay",
+			duration = 15
 		},
 		{
 			"continue_when",
