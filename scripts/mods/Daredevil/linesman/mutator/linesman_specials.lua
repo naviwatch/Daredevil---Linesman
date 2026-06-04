@@ -308,7 +308,7 @@ mod:hook_origin(SpecialsPacing, "specials_by_slots", function(self, t, specials_
         if slot.state == "alive" and not HEALTH_ALIVE[slot.unit] then
             local breed_name, health_modifier = SpecialsPacing.select_breed_functions[method_data.select_next_breed](slots, specials_settings, method_data, self._state_data)
 			-- replace blights on hunger
-            if level_name == "mines" and breed_name == "chaos_vortex_sorcerer" then
+            if (level_name == "mines" or level_name == "dlc_castle") and breed_name == "chaos_vortex_sorcerer" then
                 local replacement_breeds = {"skaven_gutter_runner", "skaven_poison_wind_globadier", "skaven_pack_master", "chaos_corruptor_sorcerer"}
                 breed_name = replacement_breeds[math.random(1, #replacement_breeds)]
             end

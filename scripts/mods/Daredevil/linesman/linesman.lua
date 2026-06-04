@@ -299,7 +299,6 @@ end
 
 		-- Define breed replacement mappings
 		local breed_replacements = {
-			-- Skaven-only levels: Replace Chaos breeds with Skaven equivalents
 			skaven_stronghold = {
 				chaos_raider = "skaven_storm_vermin_commander",
 				chaos_berzerker = "skaven_plague_monk",
@@ -316,7 +315,6 @@ end
 				chaos_marauder_with_shield = "skaven_clan_rat_with_shield",
 				chaos_fanatic = "skaven_slave"
 			},
-			-- Chaos-only level: Replace Skaven breeds with Chaos equivalents
 			warcamp = {
 				skaven_storm_vermin_commander = "chaos_raider",
 				skaven_plague_monk = "chaos_berzerker",
@@ -328,12 +326,7 @@ end
 			crater = {
 				beastmen_gor = "chaos_fanatic",
 				beastmen_ungor = "skaven_clan_rat",
-			}
-			--[[
-			mines = {
-				chaos_vortex_sorcerer = { "skaven_gutter_runner", "skaven_poison_wind_globadier", "skaven_pack_master", "chaos_corruptor_sorcerer" }
-			}
-			]]
+			},
 		}
 
 		-- Handle specific breed replacements with randomization
@@ -354,13 +347,11 @@ end
 			new_breed = Breeds[options[math.random(1, #options)]]
 		end
 
-		-- Apply level-specific breed replacements
 		local level_replacements = breed_replacements[level_name]
 		if level_replacements and level_replacements[breed.name] then
 			new_breed = Breeds[level_replacements[breed.name]]
 		end
 
-		-- Call the original function with the (possibly) modified breed
 		return func(self, new_breed, boxed_spawn_pos, boxed_spawn_rot, spawn_category, spawn_animation, spawn_type, ...)
 	end)
 
@@ -636,7 +627,7 @@ end
 
 	PacingSettings.default.mini_patrol.only_spawn_above_intensity = 0
 	PacingSettings.default.mini_patrol.only_spawn_below_intensity = 900
-	PacingSettings.default.mini_patrol.frequency = { 0, 1 }
+	PacingSettings.default.mini_patrol.frequency = { 15, 20 }
 
 	PacingSettings.default.difficulty_overrides = nil
 	PacingSettings.default.delay_specials_threat_value = nil
@@ -653,7 +644,7 @@ end
 
 	PacingSettings.chaos.mini_patrol.only_spawn_above_intensity = 0
 	PacingSettings.chaos.mini_patrol.only_spawn_below_intensity = 900
-	PacingSettings.chaos.mini_patrol.frequency = { 0, 1 }
+	PacingSettings.chaos.mini_patrol.frequency = { 15, 20 }
 
 	PacingSettings.chaos.difficulty_overrides = nil
 	PacingSettings.chaos.delay_specials_threat_value = nil
