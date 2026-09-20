@@ -1,61 +1,86 @@
 local mod = get_mod("Daredevil")
-local mutator_plus = mod:persistent_table("Daredevil+")
+local mutator = mod:persistent_table("Daredevil+")
 local lb = get_mod("LinesmanBalance")
 local conflict_director = Managers.state.conflict
 local horde_spawner = Managers.state.conflict.horde_spawner
 local num_paced_hordes = horde_spawner.num_paced_hordes
-local language_id = Managers.localizer:language_id()
-local is_chinese = language_id == "zh"
+local btmp = mod:get("btmp")
 
-local enhancement_list = {
-	["regenerating"] = true,
-	["unstaggerable"] = true
+-- ========================
+-- Difficulty Flags
+-- ========================
+local DIFFICULTY = {
+	BABY = 0,
+	BOY = 1,
+	MAN = 3,
+	BOOMER = 4
 }
-local enhancement_1 = TerrorEventUtils.generate_enhanced_breed_from_set(enhancement_list)
 
-local enhancement_list = {
-	["unstaggerable"] = true
-}
-local relentless = TerrorEventUtils.generate_enhanced_breed_from_set(enhancement_list)
+local current_difficulty = mod.difficulty_level
+local is_baby = current_difficulty == DIFFICULTY.BABY
+local is_boy = current_difficulty == DIFFICULTY.BOY
+local is_man = current_difficulty == DIFFICULTY.MAN
+local is_boomer = current_difficulty == DIFFICULTY.BOOMER
 
-local enhancement_list = {
-	["intangible"] = true
-}
-local enhancement_3 = TerrorEventUtils.generate_enhanced_breed_from_set(enhancement_list)
+-- Early exit for BABY difficulty - no custom waves
+if is_baby then
+	return
+end
 
-local enhancement_list = {
-	["ranged_immune"] = true
-}
-local enhancement_4 = TerrorEventUtils.generate_enhanced_breed_from_set(enhancement_list)
-local enhancement_list = {
-	["commander"] = true
-}
-local enhancement_5 = TerrorEventUtils.generate_enhanced_breed_from_set(enhancement_list)
+-- ========================
+-- Localization Helpers
+-- ========================
+local function get_localized_messages(english_msgs, chinese_msgs)
+	local language_id = Managers.localizer:language_id()
+	local is_chinese = language_id == "zh"
+	return is_chinese and chinese_msgs or english_msgs
+end
 
-local enhancement_list = {
-	["regenerating"] = true
+local function broadcast_message(message)
+	if not btmp then
+		mod:chat_broadcast(message)
+	end
+end
+
+-- ========================
+-- Enhancement Definitions
+-- ========================
+local ENHANCEMENTS = {
+	regen_unstaggerable = TerrorEventUtils.generate_enhanced_breed_from_set({
+		["regenerating"] = true,
+		["unstaggerable"] = true
+	}),
+	relentless = TerrorEventUtils.generate_enhanced_breed_from_set({
+		["unstaggerable"] = true
+	}),
+	intangible = TerrorEventUtils.generate_enhanced_breed_from_set({
+		["intangible"] = true
+	}),
+	ranged_immune = TerrorEventUtils.generate_enhanced_breed_from_set({
+		["ranged_immune"] = true
+	}),
+	commander = TerrorEventUtils.generate_enhanced_breed_from_set({
+		["commander"] = true
+	}),
+	regenerating = TerrorEventUtils.generate_enhanced_breed_from_set({
+		["regenerating"] = true
+	}),
+	warping_crushing = TerrorEventUtils.generate_enhanced_breed_from_set({
+		["warping"] = true,
+		["crushing"] = true
+	}),
+	shield_shatter = TerrorEventUtils.generate_enhanced_breed_from_set({
+		["crushing"] = true
+	}),
+	bob = TerrorEventUtils.generate_enhanced_breed_from_set({
+		["crushing"] = true,
+		["unstaggerable"] = true
+	}),
+	bob_pacing = TerrorEventUtils.generate_enhanced_breed_from_set({
+		["commander"] = true,
+		["unstaggerable"] = true
+	})
 }
-local enhancement_6 = TerrorEventUtils.generate_enhanced_breed_from_set(enhancement_list)
-local enhancement_list = {
-	["warping"] = true,
-	["crushing"] = true
-}
-local enhancement_7 = TerrorEventUtils.generate_enhanced_breed_from_set(enhancement_list)
-local enhancement_list = {
-	["crushing"] = true
-}
-local shield_shatter = TerrorEventUtils.generate_enhanced_breed_from_set(enhancement_list)
-local enhancement_list = {
-	["crushing"] = true,
---	["intangible"] = true,
-	["unstaggerable"] = true
-}
-local bob = TerrorEventUtils.generate_enhanced_breed_from_set(enhancement_list)
-local enhancement_list = {
-    ["commander"] = true,
-    ["unstaggerable"] = true
-}
-local bob_pacing = TerrorEventUtils.generate_enhanced_breed_from_set(enhancement_list)
 
 local function count_event_breed(breed_name)
 	return Managers.state.conflict:count_units_by_breed_during_event(breed_name)
@@ -160,7 +185,7 @@ local give_strength_pot_man = function()
     for i = 1, #PLAYER_AND_BOT_UNITS do
         local player_unit = PLAYER_AND_BOT_UNITS[i]
         if Unit.alive(player_unit) then
-            add_item(is_server, unit, "damage_boost_potion")
+            add_item(is_server, player_unit, "damage_boost_potion")
         end
     end
 end
@@ -350,7 +375,7 @@ GenericTerrorEvents.spam_ratling = {
     },
     {
         "spawn_special",
-        amount = 2,
+        amount = 3,
         breed_name = "skaven_ratling_gunner",
         optional_data = {
             target_selection = "healthy_players"
@@ -377,7 +402,7 @@ GenericTerrorEvents.spam_ratling = {
 GenericTerrorEvents.spam_warpfire = {
     {
         "spawn_special",
-        amount = 2,
+        amount = 3,
         breed_name = "skaven_warpfire_thrower",
         optional_data = {
             target_selection = "least_healthy_player"
@@ -389,7 +414,7 @@ GenericTerrorEvents.spam_warpfire = {
     },
     {
         "spawn_special",
-        amount = 2,
+        amount = 3,
         breed_name = "skaven_warpfire_thrower",
         optional_data = {
             target_selection = "healthy_players"
@@ -401,7 +426,7 @@ GenericTerrorEvents.spam_warpfire = {
     },
     {
         "spawn_special",
-        amount = 2,
+        amount = 3,
         breed_name = "skaven_warpfire_thrower",
         optional_data = {
             target_selection = "least_healthy_player"
@@ -538,7 +563,7 @@ GenericTerrorEvents.spam_assassin = { -- 3 rotations
 GenericTerrorEvents.fuck_you = {
     {
         "spawn_special",
-        amount = 1,
+        amount = 2,
         breed_name = "skaven_gutter_runner",
         optional_data = {
             target_selection = "healthy_players"
@@ -546,7 +571,7 @@ GenericTerrorEvents.fuck_you = {
     },
     {
         "spawn_special",
-        amount = 2,
+        amount = 3,
         breed_name = "skaven_ratling_gunner",
         optional_data = {
             target_selection = "least_healthy_player"
@@ -563,7 +588,7 @@ GenericTerrorEvents.fuck_you = {
     },
     {
         "spawn_special",
-        amount = 2,
+        amount = 3,
         breed_name = "skaven_poison_wind_globadier",
         optional_data = {
             target_selection = "furthest_player"
@@ -575,7 +600,7 @@ GenericTerrorEvents.fuck_you = {
     },
     {
         "spawn_special",
-        amount = 1,
+        amount = 2,
         breed_name = "skaven_gutter_runner",
         optional_data = {
             target_selection = "healthy_players"
@@ -583,7 +608,7 @@ GenericTerrorEvents.fuck_you = {
     },
     {
         "spawn_special",
-        amount = 2,
+        amount = 3,
         breed_name = "skaven_ratling_gunner",
         optional_data = {
             target_selection = "least_healthy_player"
@@ -600,7 +625,7 @@ GenericTerrorEvents.fuck_you = {
     },
     {
         "spawn_special",
-        amount = 1,
+        amount = 3,
         breed_name = "skaven_poison_wind_globadier",
         optional_data = {
             target_selection = "furthest_player"
@@ -612,7 +637,7 @@ GenericTerrorEvents.fuck_you = {
     },
     {
         "spawn_special",
-        amount = 1,
+        amount = 2,
         breed_name = "skaven_gutter_runner",
         optional_data = {
             target_selection = "healthy_players"
@@ -620,7 +645,7 @@ GenericTerrorEvents.fuck_you = {
     },
     {
         "spawn_special",
-        amount = 2,
+        amount = 3,
         breed_name = "skaven_ratling_gunner",
         optional_data = {
             target_selection = "least_healthy_player"
@@ -637,7 +662,7 @@ GenericTerrorEvents.fuck_you = {
     },
     {
         "spawn_special",
-        amount = 2,
+        amount = 3,
         breed_name = "skaven_poison_wind_globadier",
         optional_data = {
             target_selection = "furthest_player"
@@ -650,7 +675,7 @@ GenericTerrorEvents.mini_ogre = {
         "spawn_special",
         breed_name = "skaven_clan_rat",
         optional_data = {
-            enhancements = enhancement_5,
+            enhancements = ENHANCEMENTS.commander,
             perception = "perception_all_seeing",
             detection_radius = math.huge,
             target_selection = "pick_closest_target_infinte_range",
@@ -667,9 +692,97 @@ GenericTerrorEvents.bob_the_builder = {
         optional_data = {
             max_health_modifier = 7,
         --    spawned_func = AiUtils.magic_entrance_optional_spawned_func,
-            enhancements = bob_pacing,
+            enhancements = ENHANCEMENTS.bob_pacing,
             target_selection = "least_healthy_player",
             size_variation_range = { 2, 2 },
+            force_boss_health_ui = true,
+        }
+    }
+}
+
+GenericTerrorEvents.rat_ogre_special = {
+    {
+        "spawn_special",
+        breed_name = "skaven_rat_ogre",
+        optional_data = {
+            max_health_modifier = 0.25,
+            target_selection = "least_healthy_player",
+            force_boss_health_ui = true,
+        }
+    }
+}
+
+GenericTerrorEvents.chaos_spawn_special = {
+    {
+        "spawn_special",
+        breed_name = "chaos_spawn",
+        optional_data = {
+            max_health_modifier = 0.25,
+            target_selection = "least_healthy_player",
+            force_boss_health_ui = true,
+        }
+    }
+}
+
+GenericTerrorEvents.troll_special = {
+    {
+        "spawn_special",
+        breed_name = "chaos_troll",
+        optional_data = {
+            max_health_modifier = 0.25,
+            target_selection = "least_healthy_player",
+            force_boss_health_ui = true,
+        }
+    }
+}
+
+GenericTerrorEvents.mino_special = {
+    {
+        "spawn_special",
+        breed_name = "beastmen_minotaur",
+        optional_data = {
+            max_health_modifier = 0.25,
+            target_selection = "least_healthy_player",
+            force_boss_health_ui = true,
+        }
+    }
+}
+
+-- custom events 
+GenericTerrorEvents.ohmygodareyoufr = {
+    {
+        "spawn_special",
+        breed_name = "beastmen_minotaur",
+        optional_data = {
+            max_health_modifier = 0.1,
+            target_selection = "least_healthy_player",
+            force_boss_health_ui = true,
+        }
+    },
+    {
+        "spawn_special",
+        breed_name = "chaos_troll",
+        optional_data = {
+            max_health_modifier = 0.1,
+            target_selection = "least_healthy_player",
+            force_boss_health_ui = true,
+        }
+    },
+    {
+        "spawn_special",
+        breed_name = "chaos_spawn",
+        optional_data = {
+            max_health_modifier = 0.1,
+            target_selection = "least_healthy_player",
+            force_boss_health_ui = true,
+        }
+    },
+    {
+        "spawn_special",
+        breed_name = "skaven_rat_ogre",
+        optional_data = {
+            max_health_modifier = 0.1,
+            target_selection = "least_healthy_player",
             force_boss_health_ui = true,
         }
     }
@@ -696,24 +809,22 @@ local spawn_trash_wave = function()
         table.insert(spawn_list, "beastmen_standard_bearer")
     end
 
-    local side = Managers.state.conflict.default_enemy_side_id
-    local side_id = side
+    local side = Managers.state.side:get_side_from_name("dark_pact")
+	local side_id = side.side_id
 
     Managers.state.conflict.horde_spawner:execute_custom_horde(spawn_list, true, side_id)
 end
 
-local sa_chances = 0.1
+local sa_chances = is_boomer and 0.15 or (current_difficulty == DIFFICULTY.BOY and 0.05 or 0.1)
 
+-- Special Waves
 local special_attack = function()
     PRD_special_attack, state = PseudoRandomDistribution.flip_coin(state, sa_chances)
     if PRD_special_attack then
         Managers.state.conflict:start_terror_event("special_coordinated")
 
-        if is_chinese then 
-            mod:chat_broadcast("特感波!")
-        else
-            mod:chat_broadcast("SPECIAL WAVE!")
-        end
+        broadcast_message(get_localized_messages({"SPECIAL WAVE!"}, {"特感波!"}))
+        
         persistent_data.special_attack_wave_cooldown = Managers.state.conflict.horde_spawner.num_paced_hordes
 
         PRD_well_thought_out_waves, wtow = PseudoRandomDistribution.flip_coin(wtow, 0.5)
@@ -755,20 +866,31 @@ local special_attack = function()
                 end
             end
         else
-            abcdefg, an242 = PseudoRandomDistribution.flip_coin(an242, 0.5)
+            PRD_scrambler, scram = PseudoRandomDistribution.flip_coin(scram, 0.5)
 
-            if abcdefg then
-                Managers.state.conflict:start_terror_event("spam_ratling")
+            if PRD_scrambler then 
+                abcdefg, an242 = PseudoRandomDistribution.flip_coin(an242, 0.5)
+
+                if abcdefg then 
+                    Managers.state.conflict:start_terror_event("spam_ratling")
+                else
+                    Managers.state.conflict:start_terror_event("spam_warpfire")
+                end
             else
-                Managers.state.conflict:start_terror_event("spam_warpfire")
+                which_disabler, wdwegnwe = PseudoRandomDistribution.flip_coin(wdwegnwe, 0.5)
+
+                if which_disabler then 
+                    Managers.state.conflict:start_terror_event("spam_assassin")
+                else
+                    Managers.state.conflict:start_terror_event("spam_leech")
+                end
             end
         end
     end
 end
 
+-- Banners
 local custom_wave_c3 = function()
-    local difficulty_settings = Managers.state.difficulty:get_difficulty_settings()
-    local base_difficulty_name = difficulty_settings.display_name
     local chances = 0.08
 
     PRD_custom_wave, w = PseudoRandomDistribution.flip_coin(w, chances)
@@ -777,46 +899,64 @@ local custom_wave_c3 = function()
         Managers.state.conflict:start_terror_event("grunt_rush")
 
         trash, eot = PseudoRandomDistribution.flip_coin(eot, 1)
-
+        
         if trash then
             spawn_trash_wave()
-            if mod:get("debug") then
-                mod:chat_broadcast("Spawning banner")
-            end
+            broadcast_message(get_localized_messages(
+                {"KILL THAT COW", "MOOOOOOOOOOOOOOOOOOOOO"},
+                {"插旗牛！"}
+            )[math.random(2)])
         end 
     end
 end
 
+-- Bob the builder
 local mini_boss = function()
     local chances = 0.04
-    local english_messages = {
-        "The air tingles with a looming sense of dread.",
-        "Sand seeps into your winds, seeking to tear you asunder.",
-        "Bob is here to fix your HP!",
-        "A wave of heat washes over you as the wind grows thick with soot."
-    }
-    local chinese_messages = {
-        "空气中震颤着迫近的恐惧感。",
-        "流沙渗入伤口，似要将你彻底撕裂。",
-        "热浪翻涌而至，狂风裹挟着煤灰扑面而来。"
-    }
-
-    local language_id = Managers.localizer:language_id()
-    local is_chinese = language_id == "zh"
-    local message_table = is_chinese and chinese_messages or english_messages
 
     PRD_mini_boss, pmb = PseudoRandomDistribution.flip_coin(pmb, chances)
 
     if PRD_mini_boss then
         Managers.state.conflict:start_terror_event("mini_boss_warning")
 
-        local random_message = message_table[math.random(#message_table)]
-        mod:chat_broadcast(random_message)
+        broadcast_message(get_localized_messages(
+            {"The air tingles with a looming sense of dread.", "Sand seeps into your winds, seeking to tear you asunder.", "Bob is here to fix your HP!", "A wave of heat washes over you as the wind grows thick with soot."},
+            {"空气中震颤着迫近的恐惧感。", "流沙渗入伤口，似要将你彻底撕裂。", "热浪翻涌而至，狂风裹挟着煤灰扑面而来。"}
+        )[math.random(4)])
 
         Managers.state.conflict:start_terror_event("bob_the_builder")
         persistent_data.bob_counter = persistent_data.bob_counter + 1
     end
 end
+
+-- Mid-game mini bosses
+local mini_boss_wave = function()
+    local chances = 0.04
+
+    PRD_mini_boss, pmb = PseudoRandomDistribution.flip_coin(pmb, chances)
+
+    if PRD_mini_boss then
+        Managers.state.conflict:start_terror_event("mini_boss_warning")
+
+        broadcast_message(get_localized_messages(
+            {"HOW MANY FUCKING BOSSES ARE THERE", "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "Be nice to mageck", "monster!!!!"},
+            {"空气中震颤着迫近的恐惧感。", "流沙渗入伤口，似要将你彻底撕裂。", "热浪翻涌而至，狂风裹挟着煤灰扑面而来。"}
+        )[math.random(4)])
+
+        local choice = math.random(4)
+
+        if choice == 1 then
+            Managers.state.conflict:start_terror_event("rat_ogre_special")
+        elseif choice == 2 then
+            Managers.state.conflict:start_terror_event("chaos_spawn_special")
+        elseif choice == 3 then
+            Managers.state.conflict:start_terror_event("troll_special")
+        elseif choice == 4 then
+            Managers.state.conflict:start_terror_event("mino_special")
+        end
+    end
+end
+
 
 GenericTerrorEvents.boss_check = {
     {
@@ -838,33 +978,41 @@ mod:hook(HordeSpawner, "horde", function(func, self, horde_type, extra_data, sid
 
     local level_name = Managers.level_transition_handler:get_current_level_key()
 
-    if mutator_plus.active and self.num_paced_hordes then
+    if mutator.active and self.num_paced_hordes then
         if self.num_paced_hordes == 1 then
             persistent_data.bob_counter = 0
             persistent_data.special_attack_wave_cooldown = 0
         end
 
-        if self.num_paced_hordes >= 5 and self.num_paced_hordes >= persistent_data.special_attack_wave_cooldown + 2 then  
+        if is_boomer or lb then
+            Managers.state.conflict:start_terror_event("boss_check")
+        elseif self.num_paced_hordes >= 9 and self.num_paced_hordes >= persistent_data.special_attack_wave_cooldown + 1 then
             Managers.state.conflict:start_terror_event("boss_check")
         end
 
-        if self.num_paced_hordes >= 5 then
-            custom_wave_c3()
+        if not is_boomer then
+            if self.num_paced_hordes >= 15 then
+                custom_wave_c3()
+            end
+
+            if self.num_paced_hordes >= 30 and persistent_data.bob_counter <= 2 then
+                mini_boss()
+            end
+
+            if self.num_paced_hordes == 60 and persistent_data.bob_counter <= 2 then
+                Managers.state.conflict:start_terror_event("mini_boss_warning")
+                broadcast_message(get_localized_messages(
+                    {"Bob is going to fucking kill you."},
+                    {"空气中震颤着迫近的恐惧感。", "流沙渗入伤口，似要将你彻底撕裂。", "热浪翻涌而至，狂风裹挟着煤灰扑面而来。"}
+                )[math.random(3)])
+                Managers.state.conflict:start_terror_event("bob_the_builder")
+                persistent_data.bob_counter = persistent_data.bob_counter + 1
+            end
         end
 
-        if self.num_paced_hordes >= 6 and persistent_data.bob_counter <= 2 then 
-            mini_boss()
+        if (mod:get("midmonster") and self.num_paced_hordes >= 15) or (level_name == "dlc_bastion" and self.num_paced_hordes >= 18) then
+            mini_boss_wave()
         end
-
-        local restricted_levels = {
-            mines = true,
-            catacombs = true,
-            skaven_stronghold = true,
-            ground_zero = true,
-            dlc_castle = true,
-            dlc_bastion = true,
-            dlc_termite_3 = true
-        }
     end
  
     if horde_type == "vector" then
@@ -876,29 +1024,21 @@ mod:hook(HordeSpawner, "horde", function(func, self, horde_type, extra_data, sid
     end
 end)
 
-local prd_direction
-if not lb then 
-    prd_direction = 0.1
-elseif mod.difficulty_level == 1 then 
-    prd_direction = 0.05
-else
-    prd_direction = 0.15
-end
+local prd_direction = not lb and 0.1 or (current_difficulty <= DIFFICULTY.BOY and 0.05 or 0.15)
 
 -- Both directions, from Spawn Tweaks
 mod:hook(HordeSpawner, "find_good_vector_horde_pos", function(func, self, main_target_pos, distance, check_reachable)
     local horde_spawner = Managers.state.conflict.horde_spawner
     local num_paced_hordes = horde_spawner.num_paced_hordes
 
-    PRD_sandwich, sandwhich = PseudoRandomDistribution.flip_coin(sandwhich, prd_direction) -- Flip 15%, every 3rd vector horde or 6th vector wave
-    if PRD_sandwich and num_paced_hordes ~= nil then
+    PRD_sandwich, sandwhich = PseudoRandomDistribution.flip_coin(sandwhich, prd_direction)
+    if PRD_sandwich and not lb and num_paced_hordes ~= nil and num_paced_hordes >= 21 then
         conflict_director:start_terror_event("split_wave")
 
-        if is_chinese then 
-            mod:chat_broadcast("巨浪裂空而至，欲将你撕成两半。")
-        else
-            mod:chat_broadcast("The waves part to tear you in two.")
-        end
+        broadcast_message(get_localized_messages(
+            {"The waves part to tear you in two."},
+            {"巨浪裂空而至，欲将你撕成两半。"}
+        ))
 
         local success, horde_spawners, found_cover_points, epicenter_pos = func(self, main_target_pos, distance,
             check_reachable)
@@ -952,7 +1092,7 @@ local haz_40 = function(num_to_sv, num_to_white_sv, num_to_monk, num_to_mauler, 
     end
 
     for i = 1, num_to_white_sv do 
-        table.isnert(spawn_list, "skaven_storm_vermin")
+        table.insert(spawn_list, "skaven_storm_vermin")
     end
 
     for i = 1, num_to_monk do
@@ -975,8 +1115,8 @@ local haz_40 = function(num_to_sv, num_to_white_sv, num_to_monk, num_to_mauler, 
         table.insert(spawn_list, "beastmen_bestigor")
     end
 
-    local side = Managers.state.conflict.default_enemy_side_id
-    local side_id = side
+    local side = Managers.state.side:get_side_from_name("dark_pact")
+	local side_id = side.side_id
 
     Managers.state.conflict.horde_spawner:execute_custom_horde(spawn_list, true, side_id) -- only spawn front so force players to push back and to avoid speedrunning
 end
@@ -998,8 +1138,8 @@ local haz_40_trash = function(num_to_spawn_enhanced, num_to_spawn) -- trash are 
         table.insert(spawn_list, "chaos_fanatic")
     end
 
-    local side = Managers.state.conflict.default_enemy_side_id
-    local side_id = side
+    local side = Managers.state.side:get_side_from_name("dark_pact")
+	local side_id = side.side_id
 
     Managers.state.conflict.horde_spawner:execute_custom_horde(spawn_list, true, side_id) -- only spawn front so force players to push back and to avoid speedrunning
 end

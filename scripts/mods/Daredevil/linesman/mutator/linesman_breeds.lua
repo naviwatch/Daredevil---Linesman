@@ -1,6 +1,6 @@
 local mod = get_mod("Daredevil")
 local mutator_plus = mod:persistent_table("Daredevil+")
-local lb = get_mod("LinesmanBalance")
+local lb = get_mod("LinesmanBalance") or get_mod("Dream Balance") or get_mod("Dream Onslaught")
 local conflict_director = Managers.state.conflict
 local btmp = mod:get("btmp")
 

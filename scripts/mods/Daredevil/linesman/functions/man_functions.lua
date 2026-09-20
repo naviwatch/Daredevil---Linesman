@@ -1,6 +1,6 @@
 local mod = get_mod("Daredevil")
 local mutator_plus = mod:persistent_table("Daredevil+")
-local lb = get_mod("LinesmanBalance")
+local lb = get_mod("LinesmanBalance") or get_mod("Dream Balance") or get_mod("Dream Onslaught")
 local conflict_director = Managers.state.conflict
 
 mod.difficulty_level = mod:get("difficulty_level")
@@ -288,6 +288,7 @@ local ok_spawner_breeds = {
 	end)
 	--]]
 
+--[[
 mod:hook_origin(HordeSpawner, "compose_blob_horde_spawn_list", function(self, composition_type)
     --mod:echo("Blob Horde Spawning")
     local composition = CurrentHordeSettings.compositions_pacing[composition_type]
@@ -309,31 +310,17 @@ mod:hook_origin(HordeSpawner, "compose_blob_horde_spawn_list", function(self, co
         local horde_spawner = Managers.state.conflict.horde_spawner
         local num_paced_hordes = horde_spawner.num_paced_hordes
         local valid_difficulty = man
-        local horde_limit = num_paced_hordes <= 6
+        local horde_limit = num_paced_hordes <= 3
 
-        if mutator_plus.active and not lb then
-            if valid_difficulty and horde_limit and not mod:get("testers") then -- If its the first two hordes, lower difficulty by spawning less
-                for j = start, start + num_to_spawn - 3 do
-                    spawn_list[j] = breed_name
-                end
-            else
-                if mod:get("debug") then
-                    mod:chat_broadcast("LOW Intensity HORDE NUMBERS")
-                end
-                for j = start, start + num_to_spawn - 1 do
-                    spawn_list[j] = breed_name
-                end
-            end
-        else
-            for j = start, start + num_to_spawn - 1 do
-                spawn_list[j] = breed_name
-            end
-        end
+		for j = start, start + num_to_spawn - 1 do
+			spawn_list[j] = breed_name
+		end
     end
 
     table.shuffle(spawn_list)
     return spawn_list, #spawn_list
 end)
+]]
 
 mod:hook(HordeSpawner, "execute_vector_blob_horde", function(func, self, extra_data, side_id, fallback)
     local settings = CurrentHordeSettings.vector_blob

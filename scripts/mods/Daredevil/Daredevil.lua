@@ -1,7 +1,7 @@
 local mod = get_mod("Daredevil")
 local mutator = mod:persistent_table("Daredevil")
 local mutator_plus = mod:persistent_table("Daredevil+")
-local lb = get_mod("LinesmanBalance")
+local lb = get_mod("LinesmanBalance") or get_mod("Dream Balance") or get_mod("Dream Onslaught")
 local language_id = Managers.localizer:language_id()
 local is_chinese = language_id == "zh"
 local btmp = mod:get("btmp")
@@ -589,6 +589,10 @@ mod:hook(StateIngame, "on_enter", function (func, self)
 			setup_custom_horde_spawner(behindhut, "behindhut", true)
 		elseif level_key == "dlc_reikwald_river" then
 			setup_custom_raw_spawner(self.world, "right_ship_ambush_corner", Vector3(-360.795, 47.7065, 3.87094), Quaternion.from_elements(0, 0, 0.862179, -0.506603))
+		elseif level_key == "fort" then
+			setup_custom_raw_spawner(self.world, "fort_boss_top", Vector3(-16.6084, 16.0826, 15.501), Quaternion.from_elements(0, 0, 0.922739, -0.385425))
+
+
 		end
 
 		local entity_manager = Managers.state.entity
@@ -1217,10 +1221,10 @@ mutator_plus.toggle = function()
 		end
 
 		if mod:get("beta") then
-			mod:chat_broadcast("Running Linesman BETA Version 4.7.1")
+			mod:chat_broadcast("Running Linesman BETA Version 4.7.11")
 			mod:chat_broadcast("这是Linesman BETA！")
 		else 
-			mod:chat_broadcast("Version 4.7.1")
+			mod:chat_broadcast("Version 4.7.11")
 		end 
 	else
 		mutator_plus.stop()

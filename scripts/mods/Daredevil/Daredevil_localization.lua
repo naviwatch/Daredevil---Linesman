@@ -1,9 +1,9 @@
 return {
 	mod_description = {
-		en = "Version 4.7.1",
+		en = "Version 4.7.11",
 	},
 	giga_specials = {
-		en = "Unending Specials"
+		en = "Infinite Specials"
 	},
 	giga_specials_tooltip = {
 		en = "Sets special spawn to extremely low timers. Enables automatically with /linesman if checked. Cannot be enabled mid-run."
@@ -25,7 +25,7 @@ return {
 		zh = "给予你和只有你80%%的减伤。允许经验较少的玩家玩这个难度，不用感到羞愧！爱你哦 :D"
 	},
 	testers = {
-		en = "Unending Hordes"
+		en = "Infinite Hordes"
 	},
 	testers_tooltip = {
 		en = "Hordes will come infinitely, with 20-25s breaks in-between. Enables automatically with /linesman if checked. Cannot be enabled mid-run."

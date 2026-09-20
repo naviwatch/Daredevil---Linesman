@@ -1,6 +1,6 @@
 local mod = get_mod("Daredevil")
 local mutator_plus = mod:persistent_table("Daredevil+")
-local lb = get_mod("LinesmanBalance")
+local lb = get_mod("LinesmanBalance") or get_mod("Dream Balance") or get_mod("Dream Onslaught")
 local conflict_director = Managers.state.conflict
 
 -- https://github.com/Aussiemon/Vermintide-2-Source-Code/blob/1bd09637f5786e97fe47b1c7e2d37d35aecff6aa/scripts/unit_extensions/human/ai_player_unit/target_selection_utils.lua

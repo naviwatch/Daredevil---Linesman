@@ -4234,7 +4234,7 @@ end
 		},
 		{
 			"control_specials",
-			enable = true
+			enable = false
 		},
 		{
 			"play_stinger",
@@ -4245,7 +4245,7 @@ end
 		},
 		{
 			"spawn_special",
-			amount = 3,
+			amount = 5,
 			breed_name = "skaven_ratling_gunner"
 		},
 		{
@@ -4278,7 +4278,7 @@ end
 			"event_horde",
 			limit_spawners = 3,
 			spawner_id = "elven_ruins_toptier",
-			composition_type = "event_medium"
+			composition_type = "event_large"
 		},
 		{
 			"event_horde",
@@ -4296,7 +4296,7 @@ end
 		{
 			"event_horde",
 			spawner_id = "elven_ruins_bottomtier",
-			composition_type = "event_medium"
+			composition_type = "onslaught_custom_special_disabler"
 		},
 		{
 			"continue_when",
@@ -4316,6 +4316,12 @@ end
 			limit_spawners = 2,
 			spawner_id = "onslaught_mines_horde_front",
 			composition_type = "event_extra_spice_medium"
+		},
+		{
+			"event_horde",
+			limit_spawners = 2,
+			spawner_id = "onslaught_mines_horde_front",
+			composition_type = "athel_assassin_fire_combo"
 		},
 		{
 			"event_horde",
@@ -4375,13 +4381,14 @@ end
 			"continue_when",
 			duration = 15,
 			condition = function (t)
-				return count_event_breed("skaven_clan_rat") < 30 and count_event_breed("skaven_slave") < 40 and count_event_breed("skaven_clan_rat_with_shield") < 20 and count_event_breed("skaven_storm_vermin_commander") < 2 and count_event_breed("skaven_storm_vermin_with_shield") < 2
+				return count_event_breed("skaven_clan_rat") < 20 and count_event_breed("skaven_slave") < 30 and count_event_breed("skaven_clan_rat_with_shield") < 10 and count_event_breed("skaven_storm_vermin_commander") < 2 and count_event_breed("skaven_storm_vermin_with_shield") < 2
 			end
 		},
 		{
-			"spawn_special",
-			amount = 1,
-			breed_name = "skaven_warpfire_thrower"
+			"event_horde",
+			limit_spawners = 2,
+			spawner_id = "onslaught_mines_horde_front",
+			composition_type = "athel_assassin_fire_combo"
 		},
 		{
 			"delay",
@@ -4391,13 +4398,13 @@ end
 			"event_horde",
 			limit_spawners = 3,
 			spawner_id = "elven_ruins_toptier",
-			composition_type = "event_extra_spice_medium"
+			composition_type = "dn_skaven_pursuit"
 		},
 		{
 			"event_horde",
 			limit_spawners = 3,
 			spawner_id = "elven_ruins_toptier",
-			composition_type = "onslaught_plague_monks_small"
+			composition_type = "dn_skaven_pursuit"
 		},
 		{
 			"delay",
@@ -4497,6 +4504,15 @@ end
 			"event_horde",
 			spawner_id = "elven_ruins_bottomtier",
 			composition_type = "onslaught_custom_special_denial"
+		},
+		{
+			"spawn_special",
+			breed_name = "skaven_dummy_clan_rat",
+			optional_data = {
+				enhancements = better_bob,
+				max_health_modifier = 30,
+				target_selection = "least_healthy_player"
+			}
 		},
 		{
 			"delay",
@@ -6183,20 +6199,13 @@ end
 			stinger_name = "enemy_horde_stinger"
 		},
 		{
-			"event_horde",
+			"spawn_at_raw",
+			amount = 10,
+			breed_name = "skaven_stormfiend",
 			spawner_id = "elven_ruins_toptier",
-			composition_type = "onslaught_custom_boss_ogre"
-		},
-		{
-			"event_horde",
-			limit_spawners = 2,
-			spawner_id = "elven_ruins_toptier",
-			composition_type = "onslaught_custom_boss_spawn"
-		},
-		{
-			"event_horde",
-			spawner_id = "elven_ruins_toptier",
-			composition_type = "onslaught_custom_boss_stormfiend"
+			optional_data = {
+				max_health_modifier = 0.01 -- 64
+			}
 		},
 		{
 			"delay",
@@ -8106,6 +8115,36 @@ end
 			max_active_enemies = 100
 		},
 		{
+			"spawn_at_raw",
+			spawner_id = "fort_boss_top",
+			breed_name = "skaven_stormfiend",
+			optional_data = {
+				enhancements = shield_shatter,
+				max_health_modifier = 0.1,
+				target_selection = "least_healthy_player"
+			}
+		},
+		{
+			"spawn_at_raw",
+			spawner_id = "fort_boss_top",
+			breed_name = "skaven_stormfiend",
+			optional_data = {
+				enhancements = shield_shatter,
+				max_health_modifier = 0.1,
+				target_selection = "least_healthy_player"
+			}
+		},
+		{
+			"spawn_at_raw",
+			spawner_id = "fort_boss_top",
+			breed_name = "skaven_stormfiend",
+			optional_data = {
+				enhancements = shield_shatter,
+				max_health_modifier = 0.1,
+				target_selection = "least_healthy_player"
+			}
+		},
+		{
 			"event_horde",
 			spawner_id = "fort_horde_cannon",
 			composition_type = "event_fort_pestilen"
@@ -8322,6 +8361,36 @@ end
 		{
 			"set_freeze_condition",
 			max_active_enemies = 100
+		},
+		{
+			"spawn_at_raw",
+			spawner_id = "fort_boss_top",
+			breed_name = "skaven_stormfiend",
+			optional_data = {
+				enhancements = shield_shatter,
+				max_health_modifier = 0.1,
+				target_selection = "least_healthy_player"
+			}
+		},
+		{
+			"spawn_at_raw",
+			spawner_id = "fort_boss_top",
+			breed_name = "skaven_stormfiend",
+			optional_data = {
+				enhancements = shield_shatter,
+				max_health_modifier = 0.1,
+				target_selection = "least_healthy_player"
+			}
+		},
+		{
+			"spawn_at_raw",
+			spawner_id = "fort_boss_top",
+			breed_name = "skaven_stormfiend",
+			optional_data = {
+				enhancements = shield_shatter,
+				max_health_modifier = 0.1,
+				target_selection = "least_healthy_player"
+			}
 		},
 		{
 			"event_horde",
@@ -18048,14 +18117,42 @@ end
 			name = "forest_finale"
 		},
 		{
+			"disable_kick"
+		},
+		{
+			"control_pacing",
+			enable = false
+		},
+		{
+			"control_specials",
+			enable = true
+		},
+		{
+			"play_stinger",
+			stinger_name = "enemy_horde_stinger"
+		},
+		{
 			"event_horde",
-			limit_spawners = 2,
 			spawner_id = "forest_end_event",
-			composition_type = "event_extra_spice_small"
+			composition_type = "event_medium"
+		},
+		{
+			"spawn_at_raw",
+			amount = 3,
+			spawner_id = "forest_end_event",
+			breed_name = "skaven_warpfire_thrower",
+			optional_data = {
+				enhancements = enhancement_3
+			},
+		},
+		{
+			"spawn_special",
+			amount = 2,
+			breed_name = "skaven_poison_wind_globadier",
 		},
 		{
 			"delay",
-			duration = 3
+			duration = 5
 		},
 		{
 			"continue_when",
@@ -18067,8 +18164,8 @@ end
 		{
 			"delay",
 			duration = {
-				10,
-				15
+				15,
+				20
 			}
 		},
 		{
@@ -18088,6 +18185,10 @@ end
 		{
 			"control_pacing",
 			enable = false
+		},
+		{
+			"control_specials",
+			enable = true
 		},
 		{
 			"play_stinger",
@@ -18119,6 +18220,11 @@ end
 			"event_horde",
 			spawner_id = "forest_end_event_specials",
 			composition_type = "onslaught_plague_monks_medium"
+		},
+		{
+			"event_horde",
+			spawner_id = "forest_end_event_chaos",
+			composition_type = "onslaught_chaos_warriors"
 		},
 		{
 			"event_horde",
@@ -18169,10 +18275,15 @@ end
 			composition_type = "onslaught_chaos_warriors"
 		},
 		{
+			"event_horde",
+			spawner_id = "forest_end_event_chaos",
+			composition_type = "onslaught_chaos_warriors"
+		},
+		{
 			"delay",
 			duration = {
-				30,
-				34
+				15,
+				25
 			}
 		},
 		{
@@ -18181,9 +18292,9 @@ end
 		}
 	}
 
-	TerrorEventBlueprints.forest_ambush.forest_end_event_b = TerrorEventBlueprints.forest_ambush.forest_skaven_camp_a
+	TerrorEventBlueprints.forest_ambush.forest_end_event_b = table.clone(TerrorEventBlueprints.forest_ambush.forest_skaven_camp_a)
 
-	TerrorEventBlueprints.forest_ambush.forest_end_event_c = TerrorEventBlueprints.forest_ambush.forest_skaven_camp_a
+	TerrorEventBlueprints.forest_ambush.forest_end_event_c = table.clone(TerrorEventBlueprints.forest_ambush.forest_skaven_camp_a)
 
 	TerrorEventBlueprints.forest_ambush.forest_end_finale = {
 		{
@@ -18195,6 +18306,10 @@ end
 		},
 		{
 			"control_pacing",
+			enable = false
+		},
+		{
+			"control_specials",
 			enable = false
 		},
 		{
@@ -18230,6 +18345,14 @@ end
 			"event_horde",
 			spawner_id = "forest_end_event_chaos",
 			composition_type = "onslaught_custom_boss_minotaur"
+		},
+		{
+			"spawn_at_raw",
+			spawner_id = "forest_end_event_chaos",
+			breed_name = "skaven_dummy_clan_rat",
+			optional_data = {
+				enhancements = enhancement_3
+			},
 		},
 		{
 			"delay",

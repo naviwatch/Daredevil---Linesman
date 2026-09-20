@@ -4,11 +4,32 @@ local lb = get_mod("LinesmanBalance")
 local conflict_director = Managers.state.conflict
 local horde_spawner = Managers.state.conflict.horde_spawner
 local num_paced_hordes = horde_spawner.num_paced_hordes
-local language_id = Managers.localizer:language_id()
-local is_chinese = language_id == "zh"
-local boomer = mod.difficulty_level == 4
 local btmp = mod:get("btmp")
 
+-- ========================
+-- Difficulty Flags
+-- ========================
+local DIFFICULTY = {
+	BABY = 0,
+	BOY = 1,
+	MAN = 3,
+	BOOMER = 4
+}
+
+local current_difficulty = mod.difficulty_level
+local is_baby = current_difficulty == DIFFICULTY.BABY
+local is_boy = current_difficulty == DIFFICULTY.BOY
+local is_man = current_difficulty == DIFFICULTY.MAN
+local is_boomer = current_difficulty == DIFFICULTY.BOOMER
+
+-- Early exit for baby 
+if is_baby then
+	return
+end
+
+-- ========================
+-- Enhancement Definitions
+-- ========================
 local enhancement_list = {
 	["regenerating"] = true,
 	["unstaggerable"] = true
@@ -30,7 +51,7 @@ local enhancement_list = {
 }
 local enhancement_4 = TerrorEventUtils.generate_enhanced_breed_from_set(enhancement_list)
 local enhancement_list = {
-	["commander"] = true
+	["commander"] = true,
 }
 local enhancement_5 = TerrorEventUtils.generate_enhanced_breed_from_set(enhancement_list)
 
@@ -54,10 +75,21 @@ local enhancement_list = {
 }
 local bob = TerrorEventUtils.generate_enhanced_breed_from_set(enhancement_list)
 local enhancement_list = {
-    ["commander"] = true,
-    ["unstaggerable"] = true
+	["crushing"] = true,
+	["intangible"] = true,
+	["unstaggerable"] = true
 }
-local bob_pacing = TerrorEventUtils.generate_enhanced_breed_from_set(enhancement_list)
+local better_bob = TerrorEventUtils.generate_enhanced_breed_from_set(enhancement_list)
+local enhancement_list = {
+	["commander"] = true,
+	["unstaggerable"] = true
+}
+local warchief = TerrorEventUtils.generate_enhanced_breed_from_set(enhancement_list)
+local enhancement_list = {
+	["intangible"] = true,
+	["unstaggerable"] = true
+}
+local grain = TerrorEventUtils.generate_enhanced_breed_from_set(enhancement_list)
 
 local function count_event_breed(breed_name)
 	return Managers.state.conflict:count_units_by_breed_during_event(breed_name)
@@ -162,7 +194,7 @@ local give_strength_pot_man = function()
     for i = 1, #PLAYER_AND_BOT_UNITS do
         local player_unit = PLAYER_AND_BOT_UNITS[i]
         if Unit.alive(player_unit) then
-            add_item(is_server, unit, "damage_boost_potion")
+            add_item(is_server, player_unit, "damage_boost_potion")
         end
     end
 end
@@ -257,7 +289,7 @@ GenericTerrorEvents.skaven_mix = {
     },
     {
         "delay",
-        duration = 10
+        duration = 15
     },
     {
         "spawn_special",
@@ -326,13 +358,8 @@ GenericTerrorEvents.skaven_spam = {
 GenericTerrorEvents.skaven_gas = {
     {
         "spawn_special",
-        amount = 2,
+        amount = 3,
         breed_name = "skaven_poison_wind_globadier"
-    },
-    {
-        "spawn_special",
-        amount = 1,
-        breed_name = "chaos_vortex_sorcerer"
     },
 }
 
@@ -497,7 +524,7 @@ GenericTerrorEvents.spam_assassin = { -- 3 rotations
     },
     {
         "delay",
-        duration = 25
+        duration = 30
     },
     {
         "spawn_special",
@@ -602,7 +629,7 @@ GenericTerrorEvents.fuck_you = {
     },
     {
         "spawn_special",
-        amount = 3,
+        amount = 2,
         breed_name = "skaven_poison_wind_globadier",
         optional_data = {
             target_selection = "furthest_player"
@@ -622,27 +649,10 @@ GenericTerrorEvents.fuck_you = {
     },
     {
         "spawn_special",
-        amount = 3,
+        amount = 2,
         breed_name = "skaven_ratling_gunner",
         optional_data = {
             target_selection = "least_healthy_player"
-        }
-    },
-    {
-        "delay",
-        duration = 15,
-    },
-    {
-        "spawn_special",
-        amount = 1,
-        breed_name = "skaven_pack_master"
-    },
-    {
-        "spawn_special",
-        amount = 3,
-        breed_name = "skaven_poison_wind_globadier",
-        optional_data = {
-            target_selection = "furthest_player"
         }
     },
 }
@@ -669,7 +679,7 @@ GenericTerrorEvents.bob_the_builder = {
         optional_data = {
             max_health_modifier = 7,
         --    spawned_func = AiUtils.magic_entrance_optional_spawned_func,
-            enhancements = bob_pacing,
+            enhancements = bob, -- Fixed variable name from bob_pacing to bob
             target_selection = "least_healthy_player",
             size_variation_range = { 2, 2 },
             force_boss_health_ui = true,

@@ -1,4 +1,6 @@
 local mod = get_mod("Daredevil")
+local lb = get_mod("LinesmanBalance") or get_mod("Dream Balance") or get_mod("Dream Onslaught")
+local sbp = get_mod("simple_balance_patch")
 
 local faction = "chaos"
 
@@ -8,6 +10,8 @@ local elite_scale = 1
 local shield_elite_scale = 1
 local berzerker_scale = 1
 local super_armor_scale = 1
+local lb_scale = 1.2
+local sbp = 0.8
 
 local trash_entities = { "skaven_slave", "chaos_fanatic" }
 local elite_trash_entities = { "skaven_clan_rat", "chaos_marauder" }
@@ -31,19 +35,19 @@ local scaling_data = {
 		breeds = shield_trash_entities,
 	},
 	{
-		scale_factor = elite_scale * mod.gain,
+		scale_factor = elite_scale * mod.gain * lb_scale,
 		breeds = elite_entities,
 	},
 	{
-		scale_factor = shield_elite_scale * mod.gain,
+		scale_factor = shield_elite_scale * mod.gain * lb_scale,
 		breeds = shield_elite_entities,
 	},
 	{
-		scale_factor = berzerker_scale * mod.gain,
+		scale_factor = berzerker_scale * mod.gain * lb_scale,
 		breeds = berzerker_entities,
 	},
 	{
-		scale_factor = super_armor_scale * mod.gain,
+		scale_factor = super_armor_scale * mod.gain * lb_scale,
 		breeds = super_armor_entities,
 	},
 }
