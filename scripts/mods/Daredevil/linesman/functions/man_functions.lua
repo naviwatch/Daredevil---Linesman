@@ -8,6 +8,382 @@ local man = mod.difficulty_level == 3
 
 local dlc_termite_delay_horde = { 160, 200 }
 
+local function random_setting_value(value)
+    if type(value) == "table" then
+        return ConflictUtils.random_interval(value)
+    end
+
+    return value
+end
+
+local function conditions_pass(conditions, self, t)
+    if not conditions then
+        return true
+    end
+
+    for i = 1, #conditions do
+        if not conditions[i](self, t) then
+            return false
+        end
+    end
+
+    return true
+end
+
+local function pack_results(...)
+    return {
+        n = select("#", ...),
+        ...,
+    }
+end
+
+local function with_prefered_horde_direction(func, self, extra_data, side_id, fallback, horde_type)
+    local prefered_direction = extra_data and (extra_data.prefered_direction or extra_data.preferred_direction)
+
+    if not prefered_direction then
+        return func(self, extra_data, side_id, fallback)
+    end
+
+    fassert(prefered_direction == "ahead" or prefered_direction == "behind", "Invalid coordinated horde prefered_direction %s", tostring(prefered_direction))
+
+    local settings = CurrentHordeSettings[horde_type]
+    local original_chance = settings.main_path_chance_spawning_ahead
+    settings.main_path_chance_spawning_ahead = prefered_direction == "ahead" and 1 or 0
+
+    local results = pack_results(xpcall(function()
+        return func(self, extra_data, side_id, fallback)
+    end, debug.traceback))
+
+    settings.main_path_chance_spawning_ahead = original_chance
+
+    if not results[1] then
+        error(results[2])
+    end
+
+    return unpack(results, 2, results.n)
+end
+
+mod:hook(HordeSpawner, "execute_vector_horde", function(func, self, extra_data, side_id, fallback)
+    return with_prefered_horde_direction(func, self, extra_data, side_id, fallback, "vector")
+end)
+
+mod:hook(HordeSpawner, "execute_vector_blob_horde", function(func, self, extra_data, side_id, fallback)
+    return with_prefered_horde_direction(func, self, extra_data, side_id, fallback, "vector_blob")
+end)
+
+local function initialize_coordinated_horde_strikes(self, level_name)
+    if self._coordinated_horde_strike_level == level_name then
+        return
+    end
+
+    fassert(type(CoordinatedHordeStrikeChance) == "number" and CoordinatedHordeStrikeChance >= 0 and CoordinatedHordeStrikeChance <= 1, "Invalid coordinated horde strike chance")
+
+    local remaining = {}
+
+    for name, setting in pairs(CoordinatedHordeStrikeSettings) do
+        local weight = setting.weight or setting.chance or 1
+
+        fassert(type(weight) == "number" and weight >= 0, "Invalid coordinated horde strike weight for %s", name)
+        fassert(type(setting.horde_setup) == "table" and #setting.horde_setup > 0, "Coordinated horde strike %s requires at least one setup", name)
+
+        remaining[name] = setting.total_num_allowed and random_setting_value(setting.total_num_allowed) or math.huge
+    end
+
+    self._coordinated_horde_strike_level = level_name
+    self._coordinated_horde_strikes_remaining = remaining
+    self._coordinated_horde_strike = nil
+end
+
+local function choose_coordinated_horde_strike(self, t)
+    local candidates = {}
+    local remaining = self._coordinated_horde_strikes_remaining
+    local total_weight = 0
+
+    for name, setting in pairs(CoordinatedHordeStrikeSettings) do
+        if remaining[name] > 0 and conditions_pass(setting.conditions, self, t) then
+            local weight = setting.weight or setting.chance or 1
+
+            if setting.high_weight and setting.high_weight_conditions and conditions_pass(setting.high_weight_conditions, self, t) then
+                weight = setting.high_weight
+            elseif setting.high_chance and setting.high_chance_conditions and conditions_pass(setting.high_chance_conditions, self, t) then
+                weight = setting.high_chance
+            end
+
+            fassert(type(weight) == "number" and weight >= 0, "Invalid coordinated horde strike weight for %s", name)
+
+            if weight > 0 then
+                total_weight = total_weight + weight
+                candidates[#candidates + 1] = {
+                    name = name,
+                    setting = setting,
+                    weight = weight,
+                }
+            end
+        end
+    end
+
+    if #candidates == 0 or math.random() >= CoordinatedHordeStrikeChance then
+        return
+    end
+
+    local selection = math.random() * total_weight
+    local cumulative_weight = 0
+
+    for i = 1, #candidates do
+        local candidate = candidates[i]
+        cumulative_weight = cumulative_weight + candidate.weight
+
+        if selection < cumulative_weight then
+            remaining[candidate.name] = remaining[candidate.name] - 1
+
+            return candidate.name, candidate.setting
+        end
+    end
+
+    local candidate = candidates[#candidates]
+    remaining[candidate.name] = remaining[candidate.name] - 1
+
+    return candidate.name, candidate.setting
+end
+
+local function create_coordinated_horde_strike(name, setting, t)
+    fassert(type(setting.horde_setup) == "table" and #setting.horde_setup > 0, "Coordinated horde strike %s requires at least one setup", name)
+
+    local strike = {
+        name = name,
+        setup_index = 1,
+        start_together = setting.start_together,
+        setups = {},
+    }
+
+    local shared_start_delay
+
+    if strike.start_together then
+        shared_start_delay = random_setting_value(setting.time_to_first_wave or setting.horde_setup[1].time_to_first_wave or 0)
+    end
+
+    for i = 1, #setting.horde_setup do
+        local setup = setting.horde_setup[i]
+        local num_waves = random_setting_value(setup.num_waves or 1)
+
+        fassert(type(num_waves) == "number" and num_waves >= 1, "Invalid wave count for coordinated horde strike %s", name)
+
+        strike.setups[i] = {
+            horde_type = setup.horde_type, 
+            num_waves = num_waves,
+            time_between_waves = setup.time_between_waves,
+            time_to_first_wave = setup.time_to_first_wave,
+            composition = setup.composition,
+            no_fallback = setup.no_fallback,
+            prefered_direction = setup.prefered_direction or "ahead",
+            wave = 0,
+            next_wave_at = t + (strike.start_together and shared_start_delay or random_setting_value(setup.time_to_first_wave or 0)),
+        }
+
+        fassert(not strike.setups[i].prefered_direction or strike.setups[i].prefered_direction == "ahead" or strike.setups[i].prefered_direction == "behind", "Invalid coordinated horde prefered_direction for strike %s", name)
+    end
+
+    return strike
+end
+
+local function resolve_strike_composition(composition_name)
+    fassert(type(composition_name) == "string" and composition_name ~= "", "Coordinated horde composition must be a non-empty name")
+
+    local alias = "__daredevil_coordinated_horde_" .. composition_name
+    fassert(not HordeWaveCompositions[alias], "Coordinated horde composition alias collision for %s", composition_name)
+
+    if HordeCompositionsPacing[composition_name] then
+        local composition = CurrentHordeSettings.compositions_pacing and CurrentHordeSettings.compositions_pacing[composition_name]
+
+        fassert(composition, "HordeCompositionsPacing entry %s is not available in CurrentHordeSettings.compositions_pacing", composition_name)
+        fassert(composition.loaded_probs, "HordeCompositionsPacing entry %s is missing loaded probability data", composition_name)
+
+        return alias, composition_name
+    end
+
+    --[[
+    if HordeCompositions[composition_name] then
+        local current_compositions = CurrentHordeSettings.compositions
+        local compositions_by_difficulty = current_compositions and current_compositions[composition_name]
+
+        fassert(compositions_by_difficulty, "HordeCompositions entry %s is not available in CurrentHordeSettings.compositions", composition_name)
+
+        local difficulty_rank, difficulty_tweak = Managers.state.difficulty:get_difficulty_rank()
+        local composition_rank = DifficultyTweak.converters.composition_rank(difficulty_rank, difficulty_tweak) - 1
+        local composition = compositions_by_difficulty[composition_rank]
+
+        fassert(composition, "HordeCompositions entry %s has no composition for difficulty rank %s", composition_name, tostring(composition_rank))
+        fassert(composition.loaded_probs, "HordeCompositions entry %s is missing loaded probability data for difficulty rank %s", composition_name, tostring(composition_rank))
+
+        return alias, alias, composition
+    end
+    ]]
+
+    if HordeWaveCompositions[composition_name] then
+        return composition_name
+    end
+
+    fassert(false, "Unknown coordinated horde composition %s; expected a HordeCompositions, HordeCompositionsPacing, or HordeWaveCompositions entry", tostring(composition_name))
+end
+
+local function choose_strike_composition(setup, horde_type)
+    local composition = setup.composition
+
+    if type(composition) == "table" then
+        composition = composition[math.random(#composition)]
+    end
+
+    if not composition then
+        local composition_list = horde_type == "vector" and CurrentHordeSettings.vector_composition
+            or horde_type == "vector_blob" and CurrentHordeSettings.vector_blob_composition
+            or CurrentHordeSettings.ambush_composition
+
+        fassert(type(composition_list) == "table" and #composition_list > 0, "Missing horde composition for coordinated strike type %s", horde_type)
+
+        composition = composition_list[math.random(#composition_list)]
+    end
+
+    return resolve_strike_composition(composition)
+end
+
+local function spawn_horde_with_composition(self, horde_type, extra_data, side_id, no_fallback)
+    local alias = extra_data.optional_wave_composition
+
+    if not alias or not alias:match("^__daredevil_coordinated_horde_") then
+        return self.horde_spawner:horde(horde_type, extra_data, side_id, no_fallback)
+    end
+
+    local target_composition = extra_data.coordinated_composition_name
+    local direct_composition = extra_data.coordinated_composition
+    local pacing_compositions = CurrentHordeSettings.compositions_pacing
+
+    fassert(pacing_compositions, "CurrentHordeSettings.compositions_pacing is unavailable")
+
+    local previous_alias = HordeWaveCompositions[alias]
+    local previous_composition = pacing_compositions[alias]
+
+    HordeWaveCompositions[alias] = { target_composition }
+
+    if direct_composition then
+        pacing_compositions[alias] = direct_composition
+    end
+
+    local results = pack_results(xpcall(function()
+        return self.horde_spawner:horde(horde_type, extra_data, side_id, no_fallback)
+    end, debug.traceback))
+
+    HordeWaveCompositions[alias] = previous_alias
+    pacing_compositions[alias] = previous_composition
+
+    if not results[1] then
+        error(results[2])
+    end
+
+    return unpack(results, 2, results.n)
+end
+
+local function spawn_coordinated_horde_strike_wave(self, t, level_name)
+    local strike = self._coordinated_horde_strike
+
+    if strike.start_together then
+        local all_setups_complete = true
+        local next_wave_at
+
+        for i = 1, #strike.setups do
+            local setup = strike.setups[i]
+
+            if setup.wave < setup.num_waves then
+                if t >= setup.next_wave_at then
+                    local horde_type = setup.horde_type
+
+                    fassert(horde_type == "vector" or horde_type == "vector_blob" or horde_type == "ambush", "Unknown coordinated horde strike type %s", tostring(horde_type))
+
+                    local composition_alias, composition_name, direct_composition = choose_strike_composition(setup, horde_type)
+                    local extra_data = {
+                        optional_wave_composition = composition_alias,
+                        coordinated_composition_name = composition_name,
+                        coordinated_composition = direct_composition,
+                        prefered_direction = setup.prefered_direction,
+                    }
+
+                    self._horde_ends_at = t + 120
+                    spawn_horde_with_composition(self, horde_type, extra_data, self.default_enemy_side_id, setup.no_fallback)
+                    setup.wave = setup.wave + 1
+
+                    if setup.wave < setup.num_waves then
+                        setup.next_wave_at = t + random_setting_value(setup.time_between_waves or CurrentPacing.multiple_horde_frequency)
+                    end
+                end
+
+                if setup.wave < setup.num_waves then
+                    all_setups_complete = false
+
+                    if not next_wave_at or setup.next_wave_at < next_wave_at then
+                        next_wave_at = setup.next_wave_at
+                    end
+                end
+            end
+        end
+
+        if all_setups_complete then
+            self._coordinated_horde_strike = nil
+            self._multiple_horde_count = nil
+            self._current_wave_composition = nil
+            local delay = mutator_plus.active and level_name == "dlc_termite_3" and dlc_termite_delay_horde
+                or CurrentPacing.max_delay_until_next_horde
+
+            self._next_horde_time = t + ConflictUtils.random_interval(delay)
+        else
+            self._next_horde_time = next_wave_at
+        end
+
+        return
+    end
+
+    local setup = strike.setups[strike.setup_index]
+    local horde_type = setup.horde_type
+
+    fassert(horde_type == "vector" or horde_type == "vector_blob" or horde_type == "ambush", "Unknown coordinated horde strike type %s", tostring(horde_type))
+
+    local composition_alias, composition_name, direct_composition = choose_strike_composition(setup, horde_type)
+    local extra_data = {
+        optional_wave_composition = composition_alias,
+        coordinated_composition_name = composition_name,
+        coordinated_composition = direct_composition,
+        prefered_direction = setup.prefered_direction,
+    }
+
+    self._horde_ends_at = t + 120
+    spawn_horde_with_composition(self, horde_type, extra_data, self.default_enemy_side_id, setup.no_fallback)
+
+    setup.wave = setup.wave + 1
+
+    if setup.wave < setup.num_waves then
+        self._next_horde_time = t + random_setting_value(setup.time_between_waves or CurrentPacing.multiple_horde_frequency)
+
+        return
+    end
+
+    strike.setup_index = strike.setup_index + 1
+
+    if strike.setup_index <= #strike.setups then
+        local next_setup = strike.setups[strike.setup_index]
+        local delay = next_setup.time_to_first_wave or setup.time_between_waves or CurrentPacing.multiple_horde_frequency
+
+        self._next_horde_time = t + random_setting_value(delay)
+
+        return
+    end
+
+    self._coordinated_horde_strike = nil
+    self._multiple_horde_count = nil
+    self._current_wave_composition = nil
+    local delay = mutator_plus.active and level_name == "dlc_termite_3" and dlc_termite_delay_horde
+        or CurrentPacing.max_delay_until_next_horde
+
+    self._next_horde_time = t + ConflictUtils.random_interval(delay)
+end
+
 -- holy mother of kino
 mod:hook_origin(ConflictDirector, "update_horde_pacing", function(self, t, dt)
     local pacing = self.pacing
@@ -18,6 +394,8 @@ mod:hook_origin(ConflictDirector, "update_horde_pacing", function(self, t, dt)
 
         return
     end
+
+    initialize_coordinated_horde_strikes(self, level_name)
 
     if not self._next_horde_time then
         -- New Intensity stuff
@@ -30,6 +408,14 @@ mod:hook_origin(ConflictDirector, "update_horde_pacing", function(self, t, dt)
     end
 
     if t > self._next_horde_time and not self.delay_horde then
+        if script_data.ai_pacing_disabled and self._coordinated_horde_strike then
+            self._coordinated_horde_strike = nil
+            self._multiple_horde_count = nil
+            self._next_horde_time = math.huge
+
+            return
+        end
+
         local enemy_data = self._conflict_data_by_side[self.default_enemy_side_id]
         local num_spawned = #enemy_data.spawned
         local horde_failed
@@ -56,6 +442,12 @@ mod:hook_origin(ConflictDirector, "update_horde_pacing", function(self, t, dt)
 
                 pacing:annotate_graph("Failed horde", "red")
             end
+
+            return
+        end
+
+        if self._coordinated_horde_strike then
+            spawn_coordinated_horde_strike_wave(self, t, level_name)
 
             return
         end
@@ -212,6 +604,32 @@ mod:hook_origin(ConflictDirector, "update_horde_pacing", function(self, t, dt)
         local side_id = self.default_enemy_side_id
 
         print("HORDE: Spawning hordes while " .. #enemy_data.spawned .. " other ai are spawned")
+
+        if wave == "single_wave" or wave == "multi_first_wave" then
+            local strike_name, strike_setting = choose_coordinated_horde_strike(self, t)
+
+            if strike_setting then
+                self._coordinated_horde_strike = create_coordinated_horde_strike(strike_name, strike_setting, t)
+                self._multiple_horde_count = nil
+                self._current_wave_composition = nil
+                local first_setup = self._coordinated_horde_strike.setups[1]
+                local initial_delay = self._coordinated_horde_strike.start_together
+                    and math.max(0, first_setup.next_wave_at - t)
+                    or random_setting_value(first_setup.time_to_first_wave or 0)
+
+                if initial_delay > 0 then
+                    self._next_horde_time = t + initial_delay
+                else
+                    spawn_coordinated_horde_strike_wave(self, t, level_name)
+
+					mod:echo("Strike selected: " .. strike_name)
+					mod:echo("Strike wave: " .. strike_name .. " / " .. first_setup.horde_type)
+                end
+
+                return
+            end
+        end
+
         self.horde_spawner:horde(horde_type, extra_data, side_id, no_fallback)
     end
 end)

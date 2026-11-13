@@ -10,8 +10,8 @@ local elite_scale = 1
 local shield_elite_scale = 1
 local berzerker_scale = 1
 local super_armor_scale = 1
-local lb_scale = 1.2
-local sbp = 0.8
+local lb_scale = lb and 1.2 or 1
+local sbp_scale = sbp and 0.8 or 1
 
 local trash_entities = { "skaven_slave", "chaos_fanatic" }
 local elite_trash_entities = { "skaven_clan_rat", "chaos_marauder" }
@@ -35,19 +35,19 @@ local scaling_data = {
 		breeds = shield_trash_entities,
 	},
 	{
-		scale_factor = elite_scale * mod.gain * lb_scale,
+		scale_factor = elite_scale * mod.gain * lb_scale * sbp_scale,
 		breeds = elite_entities,
 	},
 	{
-		scale_factor = shield_elite_scale * mod.gain * lb_scale,
+		scale_factor = shield_elite_scale * mod.gain * lb_scale * sbp_scale,
 		breeds = shield_elite_entities,
 	},
 	{
-		scale_factor = berzerker_scale * mod.gain * lb_scale,
+		scale_factor = berzerker_scale * mod.gain * lb_scale * sbp_scale,
 		breeds = berzerker_entities,
 	},
 	{
-		scale_factor = super_armor_scale * mod.gain * lb_scale,
+		scale_factor = super_armor_scale * mod.gain * lb_scale * sbp_scale,
 		breeds = super_armor_entities,
 	},
 }
@@ -1214,6 +1214,74 @@ HordeCompositionsPacing.chaos_huge_berzerker = {
 		}
 	},
 	sound_settings = HordeCompositionsSoundSettings.chaos
+}
+
+HordeCompositionsPacing.chaos_ambush = {
+	{
+		name = "guh",
+		weight = 2,
+		breeds = {
+			"chaos_fanatic",
+			{
+				18,
+				20
+			},
+			"chaos_marauder",
+			{
+				20,
+				30
+			},
+			"chaos_warrior",
+			{
+				3,
+				3
+			},
+			"chaos_raider",
+			{
+				3,
+				3
+			},
+			"chaos_raider",
+			{
+				10,
+				10
+			}
+		}
+	},
+}
+
+HordeCompositionsPacing.bulwarks_lmao = {
+	{
+		name = "guh",
+		weight = 2,
+		breeds = {
+			"chaos_fanatic",
+			{
+				18,
+				20
+			},
+			"chaos_marauder",
+			{
+				20,
+				30
+			},
+			"chaos_warrior",
+			{
+				3,
+				3
+			},
+			"chaos_raider",
+			{
+				3,
+				3
+			},
+			"chaos_raider",
+			{
+				10,
+				10
+			}
+		}
+	},
 }
 
 scale_horde_composition(HordeCompositionsPacing, faction, scaling_data)

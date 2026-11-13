@@ -20,9 +20,10 @@ local is_boomer = current_difficulty == DIFFICULTY.BOOMER
 local SPECIAL_CONFIG = {
     base_slots = 7,
     max_of_same = 3,
-    coordinated_attack_cooldown = 0.3,
+    coordinated_attack_cooldown = 0.5,
     default_after_safe_zone = { 20, 45 },
     boomer_after_safe_zone = { 10, 15 },
+    vortex_slot_timeout = 10,
 }
 local TIMER_CONFIG = {
     giga_specials = {
@@ -60,13 +61,15 @@ local SURGE_CONFIG = {
 local SAME_BREED_CONFIG = {
     max_slots = 3,
     chance = 0.3,
-    stagger_time = 7,
+    stagger_time = 4,
 }
 local HORDE_CONFIG = {
-    spawn_chance = 0,
+    spawn_chance = 0.05,
 }
+local SPAWN_DELAY = 180
+local MINI_BOSS_COOLDOWN = 120
 local FIXED_COOLDOWN_TIMERS = {
-    default = { 10, 25 },
+    default = { 0, 10 },
     baby_override = { 20, 25 },
 }
 local FIXED_COOLDOWN_SLOTS = {
@@ -90,6 +93,7 @@ local function create_breed_pool(base_breeds)
     end
     return pool
 end
+
 local BREED_POOLS = {
     base = create_breed_pool({
         "skaven_gutter_runner", "skaven_pack_master", "skaven_ratling_gunner",
@@ -147,14 +151,47 @@ local function is_vortex_replacement_level(level_name)
     end
     return false
 end
+
 local function get_random_vortex_replacement()
     return VORTEX_REPLACEMENTS[math.random(1, #VORTEX_REPLACEMENTS)]
 end
+
 local function get_fixed_cooldown_slot_count(level_name)
     if level_name == "dlc_termite_3" then
         return FIXED_COOLDOWN_SLOTS.dlc_termite_3
     end
     return FIXED_COOLDOWN_SLOTS.default
+end
+
+-- Bob the builder
+local mini_boss = function(self, t)
+    local chances = 1
+    local english_messages = {
+    --    "KING BOB"
+    }
+    local chinese_messages = {
+        "空气中震颤着迫近的恐惧感。",
+        "流沙渗入伤口，似要将你彻底撕裂。",
+        "热浪翻涌而至，狂风裹挟着煤灰扑面而来。"
+    }
+
+    local language_id = Managers.localizer:language_id()
+    local is_chinese = language_id == "zh"
+    local message_table = is_chinese and chinese_messages or english_messages
+
+    PRD_mini_boss, pmb = PseudoRandomDistribution.flip_coin(pmb, chances)
+
+    if PRD_mini_boss then
+        Managers.state.conflict:start_terror_event("mini_boss_warning")
+
+        if not btmp and #message_table > 0 then
+            local random_message = message_table[math.random(#message_table)]
+            mod:chat_broadcast(random_message)
+        end
+
+        Managers.state.conflict:start_terror_event("bob_the_builder")
+        self._next_mini_boss_time = t + MINI_BOSS_COOLDOWN
+    end
 end
 -- ============================================================================
 -- SPECIAL SETTINGS INITIALIZATION
@@ -181,7 +218,7 @@ local function calculate_special_settings()
         max_timer = TIMER_CONFIG.baby_or_boy_override.max_timer
     end
     
-    local coordinated_chance = (not is_boomer or lb) and 0.5 or 0
+    local coordinated_chance = (not is_boomer or lb) and 0.7 or 0
     
     local after_safe_zone = SPECIAL_CONFIG.default_after_safe_zone
     if is_boomer then
@@ -262,12 +299,20 @@ local function replace_vortex_sorcerer(breed_name)
 end
 
 local function process_slot(self, slot, t, method_data, spawn_queue, slots_to_spawn, use_fixed_cooldown, specials_settings, slots)
+    local cooldown_range = (mutator_plus.active and self._surge_active) and SURGE_CONFIG.timer_range or method_data.spawn_cooldown
+
     if slot.state == "waiting" then
         if t > slot.time then
-            if mutator_plus.active and not use_fixed_cooldown and math.random() <= HORDE_CONFIG.spawn_chance then
+            -- 5% for bob
+            if mutator_plus.active and not use_fixed_cooldown
+                and t >= SPAWN_DELAY and t >= (self._next_mini_boss_time or 0)
+                and math.random() <= HORDE_CONFIG.spawn_chance then
+                --[[
                 spawn_custom_horde(slot)
                 local cooldown_range = (mutator_plus.active and self._surge_active) and SURGE_CONFIG.timer_range or method_data.spawn_cooldown
-                slot.time = t + ConflictUtils.random_interval(cooldown_range) + 10
+                ]]
+                mini_boss(self, t)
+                slot.time = t + ConflictUtils.random_interval(cooldown_range)
             else
                 slot.unit = nil
                 slot.state = method_data.always_coordinated and "coordinating" or "wants_to_spawn"
@@ -284,13 +329,27 @@ local function process_slot(self, slot, t, method_data, spawn_queue, slots_to_sp
         end
     end
     
-    if slot.state == "alive" and not HEALTH_ALIVE[slot.unit] then
+    local unit_alive = slot.state == "alive" and HEALTH_ALIVE[slot.unit]
+    local release_vortex_slot = false
+
+    if slot.state == "alive" and slot.breed == "chaos_vortex_sorcerer" and unit_alive then
+        if slot.vortex_slot_unit ~= slot.unit then
+            slot.vortex_slot_unit = slot.unit
+            slot.vortex_slot_started_at = t
+        elseif t - slot.vortex_slot_started_at >= SPECIAL_CONFIG.vortex_slot_timeout then
+            release_vortex_slot = true
+        end
+    else
+        slot.vortex_slot_unit = nil
+        slot.vortex_slot_started_at = nil
+    end
+
+    if slot.state == "alive" and (not unit_alive or release_vortex_slot) then
         local breed_name, health_modifier = SpecialsPacing.select_breed_functions[method_data.select_next_breed](slots, specials_settings, method_data, self._state_data)
         
         breed_name = replace_vortex_sorcerer(breed_name)
         local breed = Breeds[breed_name]
         
-        local cooldown_range = (mutator_plus.active and self._surge_active) and SURGE_CONFIG.timer_range or method_data.spawn_cooldown
         local time = use_fixed_cooldown and (t + ConflictUtils.random_interval(FIXED_COOLDOWN_TIMERS.default)) or (t + ConflictUtils.random_interval(cooldown_range))
         
         if breed.special_spawn_stinger then
@@ -307,6 +366,8 @@ local function process_slot(self, slot, t, method_data, spawn_queue, slots_to_sp
         slot.state = "waiting"
         slot.desc = ""
         slot.health_modifier = health_modifier
+        slot.vortex_slot_unit = nil
+        slot.vortex_slot_started_at = nil
     end
 end
 
@@ -354,6 +415,10 @@ local function group_same_breed_slots(slots_to_spawn, spawn_queue, t)
     end
 end
 
+mod:hook(SpecialsPacing, "delay_spawning", function(func, self, t, delay, per_unit_delay, ignore_coordinated_attack)
+    return func(self, t, delay, per_unit_delay, ignore_coordinated_attack or t < SPAWN_DELAY)
+end)
+
 mod:hook_origin(SpecialsPacing, "specials_by_slots", function(self, t, specials_settings, method_data, slots, spawn_queue)
     local num_slots = #slots
     local waiting = 0
@@ -376,7 +441,7 @@ mod:hook_origin(SpecialsPacing, "specials_by_slots", function(self, t, specials_
     
     if method_data.always_coordinated then
         local state_data = self._state_data
-        if t > state_data.coordinated_timer then
+        if t >= SPAWN_DELAY and t > state_data.coordinated_timer then
             self:set_next_coordinated_attack(t, specials_settings, method_data, slots, spawn_queue)
         end
         self._specials_timer = t + 1
@@ -400,67 +465,20 @@ mod:hook_origin(SpecialsPacing, "specials_by_slots", function(self, t, specials_
     
     group_same_breed_slots(slots_to_spawn, spawn_queue, t)
     
-    if about_to_respawn and waiting == num_slots then
+    about_to_respawn = #slots_to_spawn > 0
+    for i = 1, num_slots do
+        local slot = slots[i]
+        if slot.state == "waiting" or slot.state == "wants_to_spawn" then
+            waiting = waiting + 1
+        end
+    end
+
+    if t >= SPAWN_DELAY and about_to_respawn and waiting == num_slots then
         local do_coordinated = math.random() <= method_data.chance_of_coordinated_attack
         
         if do_coordinated then
-            print("Coordinated attack!")
-            mod:chat_broadcast("Coordinated attack!")
-            
-            local coordinated_multiplier = method_data.coordinated_attack_cooldown_multiplier or 0.5
-            
-            if mutator_plus.active then
-                local surge_cooldown_expired = t > self._last_surge_end_time + self._surge_cooldown_duration
-                local do_surge = surge_cooldown_expired and math.random() <= SURGE_CONFIG.chance
-                
-                if do_surge then
-                    self._surge_active = true
-                    self._surge_end_time = t + SURGE_CONFIG.duration
-                    coordinated_multiplier = SURGE_CONFIG.cooldown_multiplier
-                    mod:chat_broadcast("Surge activated!")
-                end
-            end
-            
-            local average_slot_time = 0
-            for i = 1, num_slots do
-                average_slot_time = average_slot_time + (slots[i].time or 0)
-            end
-            
-            local coordinated_time
-            if average_slot_time > 0 then
-                average_slot_time = average_slot_time / num_slots
-                coordinated_time = t + (average_slot_time - t) * coordinated_multiplier
-            else
-                coordinated_time = t + 20
-            end
-            
-            local state_data = self._state_data
-            for i = 1, num_slots do
-                local slot = slots[i]
-                local breed_name, health_modifier = SpecialsPacing.select_breed_functions[method_data.select_next_breed](
-                    slots, specials_settings, method_data, state_data, do_coordinated
-                )
-                
-                breed_name = replace_vortex_sorcerer(breed_name)
-                local breed = Breeds[breed_name]
-                local time = coordinated_time + (method_data.coordinated_trickle_time and 
-                    i * method_data.coordinated_trickle_time or i * 2)
-                
-                if breed.special_spawn_stinger then
-                    slot.special_spawn_stinger = breed.special_spawn_stinger
-                    slot.special_spawn_stinger_at_t = time - (breed.special_spawn_stinger_time or 6)
-                else
-                    slot.special_spawn_stinger = nil
-                    slot.special_spawn_stinger_at_t = nil
-                end
-                
-                slot.time = time
-                slot.breed = breed_name
-                slot.unit = nil
-                slot.state = "waiting"
-                slot.health_modifier = health_modifier
-                slot.desc = (mutator_plus.active and self._surge_active) and "surge attack" or "coordinated attack"
-            end
+         --   mod:echo("Coordinated attack!")
+            Managers.state.conflict:start_terror_event("boss_check")
         end
     end
     

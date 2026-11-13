@@ -717,6 +717,95 @@ HordeWaveCompositions = {
 	chaos_huge_berzerker = { "chaos_huge", "chaos_huge_berzerker", },
 }
 
+CoordinatedHordeStrikeChance = 0.5
+
+CoordinatedHordeStrikeSettings = {
+	spread_ambush = {
+		weight = 1,
+		total_num_allowed = { 9, 9 },
+		conditions = {},
+                start_together = true,
+                time_to_first_wave = { 13, 15 },
+		horde_setup = {
+                        {
+                                horde_type = "vector_blob",
+                                prefered_direction = "ahead",
+                                num_waves = { 3, 3 },
+                                time_between_waves = { 6, 8 },
+                                composition = { "chaos_ambush" }
+                        },
+			{
+				horde_type = "ambush",
+				num_waves = { 3, 3 },
+				time_between_waves = { 6, 8 },
+                                composition = { "rat_ambush" }
+			},
+		},
+	},
+        blockade = {
+                weight = 1,
+                total_num_allowed = { 9, 9 },
+                conditions = {},
+                start_together = true,
+                time_to_first_wave = { 13, 15 },
+                horde_setup = {
+                        {
+                                horde_type = "vector_blob",
+                                prefered_direction = "ahead",
+                                num_waves = { 3, 3 },
+                                time_between_waves = { 6, 8 },
+                                composition = { "rat_front" }
+                        },
+                        {
+                                horde_type = "vector_blob",
+                                prefered_direction = "behind",
+                                num_waves = { 3, 3 },
+                                time_between_waves = { 6, 8 },
+                                composition = { "rat_back" }
+                        },
+                }
+        },
+        coordinated_strike = {
+                weight = 1,
+                total_num_allowed = { 9, 9 },
+                conditions = {},
+                start_together = true,
+                time_to_first_wave = { 13, 15 },
+                horde_setup = {
+                        {
+                                horde_type = "vector",
+                                prefered_direction = "ahead",
+                                num_waves = { 3, 3 },
+                                time_between_waves = { 6, 8 },
+                                composition = { "huge", "huge_shields", "huge_armor", "huge_berzerker" }
+                        },
+                        {
+                                horde_type = "vector_blob",
+                                prefered_direction = "behind",
+                                num_waves = { 3, 3 },
+                                time_between_waves = { 6, 8 },
+                                composition = { "coordinated_rats" }
+                        },
+                }
+        },
+        mega_wave = {
+                weight = 1,
+                total_num_allowed = { 1, 2 },
+                conditions = {},
+                start_together = true,
+                time_to_first_wave = { 13, 15 },
+                horde_setup = {
+                        {
+                                horde_type = "vector",
+                                prefered_direction = "ahead",
+                                num_waves = { 3, 3 },
+                                time_between_waves = { 6, 8 },
+                                composition = { "apocalypse_wave" }
+                        },
+                }
+        },
+}
+
 -- Multiple hordes thing
 if mod:get("testers") then
 	PacingSettings.default.multiple_hordes = math.huge

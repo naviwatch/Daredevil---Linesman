@@ -10,8 +10,8 @@ local elite_scale = 1
 local shield_elite_scale = 1
 local berzerker_scale = 1
 local super_armor_scale = 1
-local lb_scale = 1.2
-local sbp = 0.8
+local lb_scale = lb and 1.2 or 1
+local sbp_scale = sbp and 0.8 or 1
 
 local trash_entities = { "skaven_slave", "chaos_fanatic" }
 local elite_trash_entities = { "skaven_clan_rat", "chaos_marauder" }
@@ -35,19 +35,19 @@ local scaling_data = {
 		breeds = shield_trash_entities,
 	},
 	{
-		scale_factor = elite_scale * mod.gain * lb_scale * sbp,
+		scale_factor = elite_scale * mod.gain * lb_scale * sbp_scale,
 		breeds = elite_entities,
 	},
 	{
-		scale_factor = shield_elite_scale * mod.gain * lb_scale * sbp,
+		scale_factor = shield_elite_scale * mod.gain * lb_scale * sbp_scale,
 		breeds = shield_elite_entities,
 	},
 	{
-		scale_factor = berzerker_scale * mod.gain * lb_scale * sbp,
+		scale_factor = berzerker_scale * mod.gain * lb_scale * sbp_scale,
 		breeds = berzerker_entities,
 	},
 	{
-		scale_factor = super_armor_scale * mod.gain * lb_scale * sbp,
+		scale_factor = super_armor_scale * mod.gain * lb_scale * sbp_scale,
 		breeds = super_armor_entities,
 	},
 }
@@ -1133,6 +1133,166 @@ HordeCompositionsPacing.huge_berzerker = {
 		}
 	},
 	sound_settings = HordeCompositionsSoundSettings.skaven
+}
+
+HordeCompositionsPacing.rat_front = {
+	{
+		name = "guh",
+		weight = 2,
+		breeds = {
+			"skaven_clan_rat",
+			{
+				25,
+				30
+			},
+			"skaven_clan_rat_with_shield",
+			{
+				20,
+				25
+			},
+			"chaos_warrior",
+			{
+				2,
+				2
+			},
+			"skaven_storm_vermin",
+			{
+				3,
+				3
+			}
+		}
+	},
+}
+
+HordeCompositionsPacing.rat_back = {
+	{
+		name = "guh",
+		weight = 2,
+		breeds = {
+			"skaven_slave",
+			{
+				27,
+				32
+			},
+			"chaos_warrior",
+			{
+				1,
+				1
+			},
+			"skaven_plague_monk",
+			{
+				3,
+				3
+			},
+			"skaven_ratling_gunner",
+			{
+				1,
+				1
+			}
+		}
+	},
+}
+
+HordeCompositionsPacing.rat_ambush = {
+	{
+		name = "guh",
+		weight = 2,
+		breeds = {
+			"skaven_slave",
+			{
+				27,
+				32
+			},
+			"skaven_clan_rat",
+			{
+				20,
+				25
+			},
+			"skaven_plague_monk",
+			{
+				4,
+				4
+			},
+			"skaven_pack_master",
+			{
+				1,
+				1
+			}
+		}
+	},
+}
+
+HordeCompositionsPacing.coordinated_rats = {
+	{
+		name = "guh",
+		weight = 2,
+		breeds = {
+			"skaven_ratling_gunner",
+			{
+				2,
+				2
+			},
+			"skaven_pack_master",
+			{
+				1,
+				1
+			}
+		}
+	},
+}
+
+HordeCompositionsPacing.apocalypse_wave = {
+	{
+        name = "mixed",
+        weight = 7,
+        breeds = {
+            "chaos_marauder",
+            {
+                12,
+                12,
+            },
+            "chaos_fanatic",
+            {
+                13,
+                15,
+            },
+            "skaven_clan_rat",
+            {
+                13,
+                15,
+            },
+            "skaven_slave",
+            {
+                20,
+                21,
+            },
+            "skaven_plague_monk",
+            {
+                3,
+                3,
+            },
+            "chaos_berzerker",
+            {
+                3,
+                3,
+            },
+            "chaos_raider",
+            {
+                3,
+                3,
+            },
+            "skaven_storm_vermin_commander",
+            {
+                3,
+                4,
+            },
+            "chaos_warrior", 
+            {
+                1,
+                1
+            }
+        },
+    },
 }
 
 scale_horde_composition(HordeCompositionsPacing, faction, scaling_data)

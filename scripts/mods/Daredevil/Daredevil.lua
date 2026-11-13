@@ -1,4 +1,14 @@
 local mod = get_mod("Daredevil")
+local chat_broadcast = mod.chat_broadcast
+mod.chat_broadcast = function(self, message, ...)
+	if type(message) ~= "string" or message == "" then
+		self:echo("Skipped invalid chat broadcast: expected a non-empty string.")
+		return
+	end
+
+	return chat_broadcast(self, message, ...)
+end
+
 local mutator = mod:persistent_table("Daredevil")
 local mutator_plus = mod:persistent_table("Daredevil+")
 local lb = get_mod("LinesmanBalance") or get_mod("Dream Balance") or get_mod("Dream Onslaught")
@@ -1100,11 +1110,10 @@ end)
 
 mod:network_register("bob_name_enable", function (sender, enable)
 	Breeds.skaven_dummy_clan_rat = mod.deepcopy(Breeds.skaven_ratling_gunner)
-	--[[
-	Breeds.skaven_dummy_clan_rat.size_variation_range = { 2, 2 }
-	Breeds.skaven_dummy_clan_rat.boss = true -- No WHC/Shade cheese fight this big man fair and square
-	]]
-	GrudgeMarkedNames.skaven = { "Bob the Builder" }
+	Breeds.skaven_dummy_clan_rat.size_variation_range = { 1.5, 1.5 }
+	Breeds.skaven_dummy_clan_rat.boss = true 
+	Breeds.skaven_dummy_clan_rat.player_locomotion_constrain_radius = 1.4
+	GrudgeMarkedNames.skaven = { "King BOB" }
 end)
 
 mod:network_register("bob_name_disable", function (sender, enable)
@@ -1221,10 +1230,10 @@ mutator_plus.toggle = function()
 		end
 
 		if mod:get("beta") then
-			mod:chat_broadcast("Running Linesman BETA Version 4.7.11")
+			mod:chat_broadcast("Running Linesman BETA Version 4.8.0")
 			mod:chat_broadcast("这是Linesman BETA！")
 		else 
-			mod:chat_broadcast("Version 4.7.11")
+			mod:chat_broadcast("Version 4.8.0")
 		end 
 	else
 		mutator_plus.stop()

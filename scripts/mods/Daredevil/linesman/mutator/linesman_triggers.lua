@@ -340,8 +340,8 @@ local mod = get_mod("Daredevil")
 		end)
 	else
 		]]
-		BossSettings.default.boss_events.event_lookup.event_boss = {"boss_event_chaos_troll", "boss_event_chaos_spawn", "boss_event_storm_fiend", "boss_event_rat_ogre"}
-		BossSettings.default_light.boss_events.event_lookup.event_boss = {"boss_event_chaos_troll", "boss_event_chaos_spawn", "boss_event_storm_fiend", "boss_event_rat_ogre"}
+		BossSettings.default.boss_events.event_lookup.event_boss = {"boss_event_chaos_troll", "boss_event_chaos_spawn", "boss_event_rat_ogre"}
+		BossSettings.default_light.boss_events.event_lookup.event_boss = {"boss_event_chaos_troll", "boss_event_chaos_spawn", "boss_event_rat_ogre"}
 		
 		BossSettings.default.boss_events.events = {"event_boss", "event_patrol"}
 		BossSettings.default_light.boss_events.events = {"event_boss", "event_patrol"}

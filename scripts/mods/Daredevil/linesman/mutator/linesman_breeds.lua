@@ -102,9 +102,8 @@ mod.deepcopy = function(orig, copies)
 end
 
 Breeds.skaven_dummy_clan_rat = mod.deepcopy(Breeds.skaven_ratling_gunner)
---[[
-Breeds.skaven_dummy_clan_rat.size_variation_range = { 2, 2 }
-]]
+Breeds.skaven_dummy_clan_rat.size_variation_range = { 1.5, 1.5 }
+Breeds.skaven_dummy_clan_rat.player_locomotion_constrain_radius = 1.4
 Breeds.skaven_dummy_clan_rat.walk_speed = 12
 Breeds.skaven_dummy_clan_rat.run_speed = 12
 Breeds.skaven_dummy_clan_rat.boss = true -- No WHC/Shade cheese fight this big man fair and square
@@ -123,7 +122,7 @@ BreedActions.skaven_dummy_clan_rat.shoot_ratling_gun = {
     },
 }
 
-GrudgeMarkedNames.skaven = { "Bob the Builder" }
+GrudgeMarkedNames.skaven = { "King BOB" }
 
 Breeds.skaven_dummy_slave = mod.deepcopy(Breeds.chaos_troll)
 Breeds.skaven_dummy_slave.height = 4.35

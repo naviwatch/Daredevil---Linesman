@@ -779,7 +779,6 @@ GenericTerrorEvents.ohmygodareyoufr = {
 -- Wave functions
 -- ========================
 local persistent_data = mod:persistent_table("horde_spawner")
-persistent_data.bob_counter = persistent_data.bob_counter or 0
 persistent_data.special_attack_wave_cooldown = persistent_data.special_attack_wave_cooldown or 0
 
 local spawn_trash_wave = function()
@@ -815,80 +814,86 @@ end
 
 -- Special Waves
 local special_attack = function()
-    PRD_special_attack, state = PseudoRandomDistribution.flip_coin(state, sa_chances)
-    if PRD_special_attack then
-        Managers.state.conflict:start_terror_event("special_coordinated")
+    if Managers.time:time("game") < 180 then
+        return
+    end
 
-        if not btmp then
-            if is_chinese then 
-                mod:chat_broadcast("特感波!")
-            else
-                mod:chat_broadcast("SPECIAL WAVE!")
-            end
+    Managers.state.conflict:start_terror_event("special_coordinated")
+
+    --[[
+    if not btmp then
+        if is_chinese then
+            mod:chat_broadcast("特感波!")
+        else
+            mod:chat_broadcast("SPECIAL WAVE!")
         end
-        
-        persistent_data.special_attack_wave_cooldown = Managers.state.conflict.horde_spawner.num_paced_hordes
+    end
+    ]]
 
-        PRD_well_thought_out_waves, wtow = PseudoRandomDistribution.flip_coin(wtow, 0.5)
+    persistent_data.special_attack_wave_cooldown = Managers.state.conflict.horde_spawner.num_paced_hordes
 
-        if PRD_well_thought_out_waves then 
-            if mod:get("debug") then
-                mod:chat_broadcast("Spawning wave of specials")
-            end
+    PRD_well_thought_out_waves, wtow = PseudoRandomDistribution.flip_coin(wtow, 0.5)
 
-            PRD_mix, mix = PseudoRandomDistribution.flip_coin(mix, 0.5)
+    if PRD_well_thought_out_waves then
+        if mod:get("debug") then
+            mod:chat_broadcast("Spawning wave of specials")
+        end
 
-            if PRD_mix then
-                PRD_gas, gas = PseudoRandomDistribution.flip_coin(gas, 0.5)
+        PRD_mix, mix = PseudoRandomDistribution.flip_coin(mix, 0.5)
 
-                if gas then 
-                    Managers.state.conflict:start_terror_event("skaven_gas")
-                else
-                    PRD_wejofi, wejofi = PseudoRandomDistribution.flip_coin(wejofi, 0.5)
+        if PRD_mix then
+            PRD_gas, gas = PseudoRandomDistribution.flip_coin(gas, 0.5)
 
-                    if PRD_wejofi then 
-                        Managers.state.conflict:start_terror_event("fuck_you")
-                    else
-                        Managers.state.conflict:start_terror_event("skaven_mix")
-                    end
-                end
+            if gas then
+                Managers.state.conflict:start_terror_event("skaven_gas")
             else
-                PRD_die, die = PseudoRandomDistribution.flip_coin(die, 0.5)
+                PRD_wejofi, wejofi = PseudoRandomDistribution.flip_coin(wejofi, 0.5)
 
-                if PRD_die then
-                    Managers.state.conflict:start_terror_event("skaven_spam")
+                if PRD_wejofi then
+                    Managers.state.conflict:start_terror_event("fuck_you")
                 else
-                    PRD_denial, denial = PseudoRandomDistribution.flip_coin(denial, 0.5)
-
-                    if PRD_denial then
-                        Managers.state.conflict:start_terror_event("fuck_you")
-                    else
-                        Managers.state.conflict:start_terror_event("chaos_denial")
-                    end
+                    Managers.state.conflict:start_terror_event("skaven_mix")
                 end
             end
         else
-            PRD_scrambler, scram = PseudoRandomDistribution.flip_coin(scram, 0.5)
+            PRD_die, die = PseudoRandomDistribution.flip_coin(die, 0.5)
 
-            if PRD_scrambler then 
-                abcdefg, an242 = PseudoRandomDistribution.flip_coin(an242, 0.5)
-
-                if abcdefg then 
-                    Managers.state.conflict:start_terror_event("spam_ratling")
-                else
-                    Managers.state.conflict:start_terror_event("spam_warpfire")
-                end
+            if PRD_die then
+                Managers.state.conflict:start_terror_event("skaven_spam")
             else
-                which_disabler, wdwegnwe = PseudoRandomDistribution.flip_coin(wdwegnwe, 0.5)
+                PRD_denial, denial = PseudoRandomDistribution.flip_coin(denial, 0.5)
 
-                if which_disabler then 
-                    Managers.state.conflict:start_terror_event("spam_assassin")
+                if PRD_denial then
+                    Managers.state.conflict:start_terror_event("fuck_you")
                 else
-                    Managers.state.conflict:start_terror_event("spam_leech")
+                    Managers.state.conflict:start_terror_event("chaos_denial")
                 end
             end
         end
+    else
+        PRD_scrambler, scram = PseudoRandomDistribution.flip_coin(scram, 0.5)
+
+        if PRD_scrambler then
+            abcdefg, an242 = PseudoRandomDistribution.flip_coin(an242, 0.5)
+
+            if abcdefg then
+                Managers.state.conflict:start_terror_event("spam_ratling")
+            else
+                Managers.state.conflict:start_terror_event("spam_warpfire")
+            end
+        else
+            which_disabler, wdwegnwe = PseudoRandomDistribution.flip_coin(wdwegnwe, 0.5)
+
+            if which_disabler then
+                Managers.state.conflict:start_terror_event("spam_assassin")
+            else
+                Managers.state.conflict:start_terror_event("spam_leech")
+            end
+        end
     end
+end
+mod.trigger_special_coordinated_wave = function()
+    special_attack()
 end
 
 -- Banners
@@ -905,7 +910,6 @@ local custom_wave_c3 = function()
         trash, eot = PseudoRandomDistribution.flip_coin(eot, 1)
         
         local english_messages = {
-            "KILL THAT COW",
             "MOOOOOOOOOOOOOOOOOOOOO"
         }
         local chinese_messages = {
@@ -923,40 +927,6 @@ local custom_wave_c3 = function()
                 mod:chat_broadcast(random_message)
             end
         end 
-    end
-end
-
--- Bob the builder
-local mini_boss = function()
-    local chances = 0.04
-    local english_messages = {
-        "The air tingles with a looming sense of dread.",
-        "Sand seeps into your winds, seeking to tear you asunder.",
-        "Bob is here to fix your HP!",
-        "A wave of heat washes over you as the wind grows thick with soot."
-    }
-    local chinese_messages = {
-        "空气中震颤着迫近的恐惧感。",
-        "流沙渗入伤口，似要将你彻底撕裂。",
-        "热浪翻涌而至，狂风裹挟着煤灰扑面而来。"
-    }
-
-    local language_id = Managers.localizer:language_id()
-    local is_chinese = language_id == "zh"
-    local message_table = is_chinese and chinese_messages or english_messages
-
-    PRD_mini_boss, pmb = PseudoRandomDistribution.flip_coin(pmb, chances)
-
-    if PRD_mini_boss then
-        Managers.state.conflict:start_terror_event("mini_boss_warning")
-
-        if not btmp then
-            local random_message = message_table[math.random(#message_table)]
-            mod:chat_broadcast(random_message)
-        end
-
-        Managers.state.conflict:start_terror_event("bob_the_builder")
-        persistent_data.bob_counter = persistent_data.bob_counter + 1
     end
 end
 
@@ -1026,7 +996,6 @@ mod:hook(HordeSpawner, "horde", function(func, self, horde_type, extra_data, sid
 
     if mutator.active and self.num_paced_hordes then
         if self.num_paced_hordes == 1 then
-            persistent_data.bob_counter = 0
             persistent_data.special_attack_wave_cooldown = 0
         end
 
@@ -1038,16 +1007,12 @@ mod:hook(HordeSpawner, "horde", function(func, self, horde_type, extra_data, sid
 
         if mod.difficulty_level ~= 4 then
             if self.num_paced_hordes >= 15 then -- 5th horde
-                custom_wave_c3()
+            --    custom_wave_c3()
             end
 
-            if self.num_paced_hordes >= 30 and persistent_data.bob_counter <= 2 then -- 10th horde
-                mini_boss()
-            end
-
-            if self.num_paced_hordes == 60 and persistent_data.bob_counter <= 2 then -- 20th horde guarantees bob
+            if self.num_paced_hordes == 60 then -- 20th horde guarantees bob
                 local english_messages = {
-                    "Bob is going to fucking kill you."
+                    "Bob is going to fucking kill you"
                 }
                 local chinese_messages = {
                     "空气中震颤着迫近的恐惧感。",
@@ -1064,7 +1029,6 @@ mod:hook(HordeSpawner, "horde", function(func, self, horde_type, extra_data, sid
                 mod:chat_broadcast(random_message)
 
                 Managers.state.conflict:start_terror_event("bob_the_builder")
-                persistent_data.bob_counter = persistent_data.bob_counter + 1
             end
         else
         --    mod:chat_broadcast("Bob is tired coming after you. Donate Bob coffee.")
@@ -1115,7 +1079,7 @@ mod:hook(HordeSpawner, "find_good_vector_horde_pos", function(func, self, main_t
         if is_chinese then 
             mod:chat_broadcast("巨浪裂空而至，欲将你撕成两半。")
         else
-            mod:chat_broadcast("The waves part to tear you in two.")
+        --    mod:chat_broadcast("The waves part to tear you in two.")
         end
 
         local success, horde_spawners, found_cover_points, epicenter_pos = func(self, main_target_pos, distance,
