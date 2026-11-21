@@ -813,11 +813,18 @@ if boomer then
 end
 
 -- Special Waves
+local COORDINATED_ATTACK_COOLDOWN = 180
+
 local special_attack = function()
-    if Managers.time:time("game") < 180 then
+    local t = Managers.time:time("game")
+    local last_attack = Managers.state.conflict._last_coordinated_special_attack_time
+
+    if t < 180 or (last_attack and t >= last_attack and t < last_attack + COORDINATED_ATTACK_COOLDOWN) then
         return
     end
 
+    Managers.state.conflict._last_coordinated_special_attack_time = t
+--    mod:echo("Coordinated attack!")
     Managers.state.conflict:start_terror_event("special_coordinated")
 
     --[[

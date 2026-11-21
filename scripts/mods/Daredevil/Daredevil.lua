@@ -1233,7 +1233,7 @@ mutator_plus.toggle = function()
 			mod:chat_broadcast("Running Linesman BETA Version 4.8.0")
 			mod:chat_broadcast("这是Linesman BETA！")
 		else 
-			mod:chat_broadcast("Version 4.8.0")
+			mod:chat_broadcast("Version 4.8.3")
 		end 
 	else
 		mutator_plus.stop()

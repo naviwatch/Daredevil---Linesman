@@ -1233,19 +1233,14 @@ HordeCompositionsPacing.chaos_ambush = {
 			},
 			"chaos_warrior",
 			{
-				3,
-				3
+				1,
+				1
 			},
 			"chaos_raider",
 			{
 				3,
 				3
 			},
-			"chaos_raider",
-			{
-				10,
-				10
-			}
 		}
 	},
 }

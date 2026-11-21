@@ -20,10 +20,9 @@ local is_boomer = current_difficulty == DIFFICULTY.BOOMER
 local SPECIAL_CONFIG = {
     base_slots = 7,
     max_of_same = 3,
-    coordinated_attack_cooldown = 0.5,
+    coordinated_attack_cooldown = 0.75,
     default_after_safe_zone = { 20, 45 },
     boomer_after_safe_zone = { 10, 15 },
-    vortex_slot_timeout = 10,
 }
 local TIMER_CONFIG = {
     giga_specials = {
@@ -64,12 +63,12 @@ local SAME_BREED_CONFIG = {
     stagger_time = 4,
 }
 local HORDE_CONFIG = {
-    spawn_chance = 0.05,
+    spawn_chance = 0,
 }
-local SPAWN_DELAY = 180
+local SPAWN_DELAY = 0
 local MINI_BOSS_COOLDOWN = 120
 local FIXED_COOLDOWN_TIMERS = {
-    default = { 0, 10 },
+    default = { 10, 25 },
     baby_override = { 20, 25 },
 }
 local FIXED_COOLDOWN_SLOTS = {
@@ -329,22 +328,7 @@ local function process_slot(self, slot, t, method_data, spawn_queue, slots_to_sp
         end
     end
     
-    local unit_alive = slot.state == "alive" and HEALTH_ALIVE[slot.unit]
-    local release_vortex_slot = false
-
-    if slot.state == "alive" and slot.breed == "chaos_vortex_sorcerer" and unit_alive then
-        if slot.vortex_slot_unit ~= slot.unit then
-            slot.vortex_slot_unit = slot.unit
-            slot.vortex_slot_started_at = t
-        elseif t - slot.vortex_slot_started_at >= SPECIAL_CONFIG.vortex_slot_timeout then
-            release_vortex_slot = true
-        end
-    else
-        slot.vortex_slot_unit = nil
-        slot.vortex_slot_started_at = nil
-    end
-
-    if slot.state == "alive" and (not unit_alive or release_vortex_slot) then
+    if slot.state == "alive" and not HEALTH_ALIVE[slot.unit] then
         local breed_name, health_modifier = SpecialsPacing.select_breed_functions[method_data.select_next_breed](slots, specials_settings, method_data, self._state_data)
         
         breed_name = replace_vortex_sorcerer(breed_name)
@@ -366,8 +350,6 @@ local function process_slot(self, slot, t, method_data, spawn_queue, slots_to_sp
         slot.state = "waiting"
         slot.desc = ""
         slot.health_modifier = health_modifier
-        slot.vortex_slot_unit = nil
-        slot.vortex_slot_started_at = nil
     end
 end
 
@@ -477,7 +459,6 @@ mod:hook_origin(SpecialsPacing, "specials_by_slots", function(self, t, specials_
         local do_coordinated = math.random() <= method_data.chance_of_coordinated_attack
         
         if do_coordinated then
-         --   mod:echo("Coordinated attack!")
             Managers.state.conflict:start_terror_event("boss_check")
         end
     end

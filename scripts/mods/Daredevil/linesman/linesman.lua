@@ -765,6 +765,7 @@ CoordinatedHordeStrikeSettings = {
                         },
                 }
         },
+        --[[
         coordinated_strike = {
                 weight = 1,
                 total_num_allowed = { 9, 9 },
@@ -804,6 +805,7 @@ CoordinatedHordeStrikeSettings = {
                         },
                 }
         },
+        ]]
 }
 
 -- Multiple hordes thing

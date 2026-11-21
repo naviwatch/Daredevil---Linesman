@@ -1152,8 +1152,8 @@ HordeCompositionsPacing.rat_front = {
 			},
 			"chaos_warrior",
 			{
-				2,
-				2
+				1,
+				1
 			},
 			"skaven_storm_vermin",
 			{
@@ -1173,11 +1173,6 @@ HordeCompositionsPacing.rat_back = {
 			{
 				27,
 				32
-			},
-			"chaos_warrior",
-			{
-				1,
-				1
 			},
 			"skaven_plague_monk",
 			{
